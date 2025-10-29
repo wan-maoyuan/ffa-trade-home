@@ -137,6 +137,27 @@
   cursor: pointer;
 }
 
+/* Products Page Styles - 当在产品与服务页面时，所有元素变为黑色 */
+.navbar.products-page .logo-image {
+  filter: brightness(0);
+}
+
+.navbar.products-page .nav-item {
+  color: #000000;
+}
+
+.navbar.products-page .nav-item.active {
+  color: #ffd700;
+}
+
+.navbar.products-page .icon-image {
+  filter: brightness(0) invert(0);
+}
+
+.navbar.products-page .user-name {
+  color: #000000;
+}
+
 /* 响应式设计 */
 @media (max-width: 1440px) {
   .navbar {

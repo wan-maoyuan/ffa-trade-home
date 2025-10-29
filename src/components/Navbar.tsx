@@ -18,7 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
   }
 
   return (
-    <div className="navbar">
+    <div className={`navbar ${currentPage === 'products' ? 'products-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <div className="navbar-logo">
