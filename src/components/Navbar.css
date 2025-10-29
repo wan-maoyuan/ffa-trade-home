@@ -1,0 +1,211 @@
+/* 导航栏样式 */
+.navbar {
+  position: absolute;
+  top: 37px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1356px;
+  height: 51px;
+  z-index: 10;
+}
+
+.navbar-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo {
+  position: absolute;
+  left: 7px;
+  top: -4px;
+  width: 120px;
+  height: 47px;
+}
+
+.logo-backdrop {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(14.5px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.logo-image {
+  position: absolute;
+  height: 354.96%;
+  left: -5.83%;
+  top: -114.71%;
+  width: 115%;
+  max-width: none;
+}
+
+/* Navigation Menu */
+.navbar-menu {
+  position: absolute;
+  left: 50%;
+  top: 15px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 47px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  line-height: normal;
+  font-style: normal;
+  margin: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-item.active {
+  color: #2e56a3;
+  font-size: 18px;
+}
+
+.nav-item:not(.active) {
+  color: #212a37;
+  font-size: 16px;
+}
+
+.nav-item:not(.active):nth-child(3),
+.nav-item:not(.active):nth-child(4) {
+  font-size: 16px;
+}
+
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+/* User Actions */
+.navbar-user {
+  position: absolute;
+  right: 0;
+  top: 9px;
+  width: 151px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.action-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.action-icon:hover {
+  opacity: 0.7;
+}
+
+.action-icon:nth-child(2) {
+  width: 25px;
+  height: 25px;
+}
+
+.action-icon:nth-child(3) {
+  width: 14.192px;
+  height: 15.75px;
+}
+
+.icon-image {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.user-name {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: normal;
+  color: black;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* 响应式设计 */
+@media (max-width: 1440px) {
+  .navbar {
+    width: 100%;
+    max-width: 1356px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    top: 20px;
+    height: auto;
+    padding: 10px 20px;
+  }
+  
+  .navbar-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .navbar-logo {
+    position: static;
+    order: 1;
+  }
+  
+  .navbar-menu {
+    position: static;
+    order: 2;
+    transform: none;
+    gap: 20px;
+  }
+  
+  .navbar-user {
+    position: static;
+    order: 3;
+    justify-content: center;
+  }
+  
+  .nav-item {
+    font-size: 16px !important;
+  }
+  
+  .nav-item.active {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-menu {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 14px !important;
+  }
+  
+  .nav-item.active {
+    font-size: 16px !important;
+  }
+  
+  .user-actions {
+    gap: 15px;
+  }
+}
+
