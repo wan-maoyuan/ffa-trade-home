@@ -1,5 +1,9 @@
 import React from 'react'
 import './Navbar.css'
+import logoFontImage from '../assets/images/logo-font.png'
+import languageIcon from '../assets/images/language-icon.svg'
+import searchIcon from '../assets/images/search-icon.svg'
+import userIcon from '../assets/images/user-icon.svg'
 
 type Page = 'home' | 'products'
 
@@ -22,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
             <img 
               alt="AQUABRIDGE Logo" 
               className="logo-image"
-              src="https://www.figma.com/api/mcp/asset/b6d4c1d9-7392-4cbd-930a-4c1d64f2acaf"
+              src={logoFontImage}
             />
           </div>
         </div>
@@ -52,21 +56,21 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               <img 
                 alt="Language" 
                 className="icon-image"
-                src="https://www.figma.com/api/mcp/asset/9311bb3e-b576-4d8b-83d3-33699ec2e26e"
+                src={languageIcon}
               />
             </div>
             <div className="action-icon">
               <img 
                 alt="Search" 
                 className="icon-image"
-                src="https://www.figma.com/api/mcp/asset/5a8089d2-732b-4b4e-bca2-cce8bbe8bb24"
+                src={searchIcon}
               />
             </div>
             <div className="action-icon">
               <img 
                 alt="User" 
                 className="icon-image"
-                src="https://www.figma.com/api/mcp/asset/c8a500d7-ec8b-40f2-b5c6-1a3b0effc885"
+                src={userIcon}
               />
             </div>
           </div>

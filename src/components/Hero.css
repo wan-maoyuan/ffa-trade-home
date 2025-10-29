@@ -2,7 +2,8 @@
 .hero {
   position: relative;
   width: 100%;
-  height: 810px;
+  height: 100vh;
+  min-height: 810px;
   overflow: hidden;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
@@ -25,30 +26,26 @@
 .background-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(46, 86, 163, 0.2);
+  background: transparent;
 }
 
 /* Gradient Overlay */
 .gradient-overlay {
   position: absolute;
-  top: -1px;
-  left: -2px;
-  width: 1442px;
-  height: 809px;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 /* Decorative Rectangle */
 .decorative-rectangle {
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 0;
-  width: 1440px;
-  height: 807px;
+  width: 100%;
+  height: 100%;
 }
 
 .rectangle-image {
@@ -103,16 +100,17 @@
 /* 响应式设计 */
 @media (max-width: 1440px) {
   .hero {
-    height: 100vh;
-    min-height: 600px;
+    min-height: 100vh;
   }
   
   .gradient-overlay {
     width: 100%;
+    height: 100%;
   }
   
   .decorative-rectangle {
     width: 100%;
+    height: 100%;
   }
   
   .hero-content {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './ProductsServices.css'
 
 // 导入本地图片资源
-import logoImage from '../assets/images/logo.png'
+// import logoImage from '../assets/images/logo.png'
 import decorativeImage from '../assets/images/decorative-image.png'
 import arrowIcon from '../assets/images/arrow-icon.png'
 import routeIcon from '../assets/images/route-icon.png'

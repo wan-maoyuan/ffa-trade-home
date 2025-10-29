@@ -1,5 +1,6 @@
 import React from 'react'
 import './Hero.css'
+import heroBackgroundImage from '../assets/images/hero-background.png'
 
 const Hero: React.FC = () => {
   return (
@@ -9,22 +10,13 @@ const Hero: React.FC = () => {
         <img 
           alt="Hero Background" 
           className="background-image"
-          src="https://www.figma.com/api/mcp/asset/a93d1e68-8d00-4f3f-b416-64f7a37303c8"
+          src={heroBackgroundImage}
         />
         <div className="background-overlay" />
       </div>
 
       {/* Gradient Overlay */}
       <div className="gradient-overlay" />
-
-      {/* Decorative Rectangle */}
-      <div className="decorative-rectangle">
-        <img 
-          alt="Decorative Element" 
-          className="rectangle-image"
-          src="https://www.figma.com/api/mcp/asset/424f04bb-09ef-4c77-8e80-35fac16559d6"
-        />
-      </div>
 
       {/* Main Content */}
       <div className="hero-content">

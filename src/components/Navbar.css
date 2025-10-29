@@ -30,7 +30,7 @@
 .logo-backdrop {
   position: absolute;
   inset: 0;
-  backdrop-filter: blur(14.5px);
+  background: transparent;
   overflow: hidden;
   pointer-events: none;
 }
@@ -64,22 +64,15 @@
   margin: 0;
   cursor: pointer;
   transition: color 0.3s ease;
+  color: white;
+  font-size: 16px;
 }
 
 .nav-item.active {
-  color: #2e56a3;
+  color: #ffd700;
   font-size: 18px;
 }
 
-.nav-item:not(.active) {
-  color: #212a37;
-  font-size: 16px;
-}
-
-.nav-item:not(.active):nth-child(3),
-.nav-item:not(.active):nth-child(4) {
-  font-size: 16px;
-}
 
 .nav-item:hover {
   opacity: 0.8;
@@ -131,6 +124,7 @@
   width: 100%;
   height: 100%;
   max-width: none;
+  filter: brightness(0) invert(1);
 }
 
 .user-name {
