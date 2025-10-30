@@ -1,27 +1,20 @@
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import logoFontImage from '../assets/images/logo-font.png'
 import languageIcon from '../assets/images/language-icon.svg'
 import searchIcon from '../assets/images/search-icon.svg'
 import userIcon from '../assets/images/user-icon.svg'
 
-type Page = 'home' | 'products'
-
-interface NavbarProps {
-  currentPage: Page
-  onPageChange: (page: Page) => void
-}
-
-const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
-  const handleNavClick = (page: Page) => {
-    onPageChange(page)
-  }
+const Navbar: React.FC = () => {
+  const location = useLocation()
+  const isProductsPage = location.pathname === '/product-service' || location.pathname === '/product-service/course'
 
   return (
-    <div className={`navbar ${currentPage === 'products' ? 'products-page' : ''}`}>
+    <div className={`navbar ${isProductsPage ? 'products-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
-        <div className="navbar-logo">
+        <Link to="/" className="navbar-logo">
           <div className="logo-backdrop">
             <img 
               alt="AQUABRIDGE Logo" 
@@ -29,22 +22,22 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
               src={logoFontImage}
             />
           </div>
-        </div>
+        </Link>
 
         {/* Navigation Menu */}
         <div className="navbar-menu">
-          <p 
-            className={`nav-item ${currentPage === 'home' ? 'active' : ''}`}
-            onClick={() => handleNavClick('home')}
+          <Link 
+            to="/"
+            className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}
           >
             首页
-          </p>
-          <p 
-            className={`nav-item ${currentPage === 'products' ? 'active' : ''}`}
-            onClick={() => handleNavClick('products')}
+          </Link>
+          <Link 
+            to="/product-service"
+            className={`nav-item ${isProductsPage ? 'active' : ''}`}
           >
             产品与服务
-          </p>
+          </Link>
           <p className="nav-item">投资者关系</p>
           <p className="nav-item">关于我们</p>
         </div>

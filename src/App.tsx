@@ -1,34 +1,23 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ProductsServices from './components/ProductsServices'
+import Course from './components/Course'
 import './styles/App.css'
 
-type Page = 'home' | 'products'
-
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home')
-
-  const handlePageChange = (page: Page) => {
-    setCurrentPage(page)
-  }
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Hero />
-      case 'products':
-        return <ProductsServices />
-      default:
-        return <Hero />
-    }
-  }
-
   return (
-    <div className="app">
-      <Navbar currentPage={currentPage} onPageChange={handlePageChange} />
-      {renderPage()}
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route path="/product-service" element={<ProductsServices />} />
+          <Route path="/product-service/course" element={<ProductsServices />} />
+          <Route path="/course" element={<Course />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 

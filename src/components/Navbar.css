@@ -25,6 +25,9 @@
   top: -4px;
   width: 120px;
   height: 47px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
 }
 
 .logo-backdrop {
@@ -66,10 +69,12 @@
   transition: color 0.3s ease;
   color: white;
   font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .nav-item.active {
-  color: #ffd700;
+  color: #2e56a3;
   font-size: 18px;
 }
 
@@ -147,7 +152,7 @@
 }
 
 .navbar.products-page .nav-item.active {
-  color: #ffd700;
+  color: #2e56a3;
 }
 
 .navbar.products-page .icon-image {

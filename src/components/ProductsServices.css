@@ -71,6 +71,16 @@
   max-width: 261px; /* 限制最大宽度 */
 }
 
+.category-item-clickable {
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.category-item-clickable:hover {
+  transform: translateY(-5px);
+  opacity: 0.8;
+}
+
 .category-title {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
