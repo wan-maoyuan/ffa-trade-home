@@ -146,7 +146,7 @@
 /* Products Page Styles - 当在产品与服务页面时，所有元素变为黑色 */
 /* 兼容所有 /product-service 相关页面（含后续子路由）为深色风格【Figma原型一致】 */
 .navbar.products-page .logo-image {
-  filter: none;
+  filter: brightness(0) saturate(100%) !important;
 }
 .navbar.products-page .nav-item {
   color: #212a37;

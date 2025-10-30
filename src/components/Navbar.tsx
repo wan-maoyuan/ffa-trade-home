@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
-import logoImage from '../assets/images/logo.png';
-import logoFontImage from '../assets/images/logo-font.png';
+import logoImage from '../assets/images/logo-font.png';
 import languageIcon from '../assets/images/language-icon.svg'
 import searchIcon from '../assets/images/search-icon.svg'
 import userIcon from '../assets/images/user-icon.svg'
@@ -20,7 +19,7 @@ const Navbar: React.FC = () => {
             <img 
               alt="AQUABRIDGE Logo" 
               className="logo-image"
-              src={isProductsPage ? logoImage : logoFontImage}
+              src={logoImage}
             />
           </div>
         </Link>
