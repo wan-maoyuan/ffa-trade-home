@@ -6,6 +6,84 @@
   overflow: hidden;
 }
 
+/* 左侧浮动开关与菜单 */
+.floating-toggle {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 84px;
+  background-color: #2e56a3;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.floating-toggle .chevron {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  border-right: 3px solid #ffffff;
+  border-top: 3px solid #ffffff;
+  transform-origin: center;
+}
+
+.floating-toggle.open .chevron { transform: translate(-50%, -50%) rotate(-135deg); }
+
+.floating-menu {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translate(-120%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: transform 0.25s ease;
+  z-index: 19;
+}
+
+.floating-menu.show {
+  transform: translate(20px, -50%);
+}
+
+.floating-item {
+  width: 128px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ffffff;
+  background-color: #2e56a3;
+  border-radius: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.floating-item.active {
+  color: #2f56a3;
+  background-color: #7b97cf; /* 品牌蓝与白各50%近似混合的非透明色 */
+}
+
+/* 相邻按钮之间的小短横线分割 */
+.floating-item:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 27px;
+  height: 2px;
+  background-color: #ffffff;
+  opacity: 0.9;
+}
+
 .course-panel-title {
   position: absolute;
   font-family: 'Roboto', sans-serif;
@@ -14,10 +92,10 @@
   line-height: normal;
   color: #2e56a3;
   opacity: 0.82;
-  text-align: center;
-  left: 317px;
+  text-align: left;
+  left: 194px;
   top: 281px;
-  transform: translateX(-50%);
+  transform: none;
   width: 700px;
   margin: 0;
   white-space: pre-wrap;
@@ -30,10 +108,10 @@
   font-size: 16px;
   line-height: normal;
   color: #212a37;
-  text-align: center;
-  left: 282px;
+  text-align: left;
+  left: 194px;
   top: 328px;
-  transform: translateX(-50%);
+  transform: none;
   width: 700px;
   margin: 0;
   white-space: pre-wrap;
@@ -45,11 +123,11 @@
   font-size: 12px;
   line-height: normal;
   color: #2e56a3;
-  text-align: right;
-  left: 443px;
+  text-align: left;
+  left: 194px;
   top: 371px;
-  transform: translateX(-100%);
-  width: 254px;
+  transform: none;
+  width: 700px;
   margin: 0;
   white-space: pre-wrap;
 }
@@ -61,7 +139,7 @@
   font-size: 10px;
   line-height: 20px;
   color: #212a37;
-  left: calc(50% - 526px);
+  left: 194px;
   top: 541px;
   width: 405px;
   letter-spacing: 0.2px;
