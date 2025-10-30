@@ -53,7 +53,7 @@
 
 .floating-item {
   width: 128px;
-  height: 48px;
+  height: 96px;
   background: transparent;
   border: none;
   font-family: 'Microsoft YaHei', sans-serif;
@@ -80,7 +80,7 @@
   transform: translateX(-50%);
   width: 27px;
   height: 2px;
-  background-color: #ffffff;
+  background-color: #7b97cf;
   opacity: 0.9;
 }
 
