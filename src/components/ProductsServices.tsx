@@ -37,7 +37,7 @@ const ProductsServices: React.FC = () => {
             <p className="category-title">课程</p>
             <p className="category-description">深度解析期权定价、风险管理等核心知识</p>
           </div>
-          <div className="category-item">
+          <div className="category-item category-item-clickable" onClick={() => navigate('/product-service/tool')}>
             <p className="category-title">工具</p>
             <p className="category-description">专为航运从业者打造，实现科学决策与运营增效</p>
           </div>

@@ -1,17 +1,18 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
-import logoFontImage from '../assets/images/logo-font.png'
+import logoImage from '../assets/images/logo.png';
+import logoFontImage from '../assets/images/logo-font.png';
 import languageIcon from '../assets/images/language-icon.svg'
 import searchIcon from '../assets/images/search-icon.svg'
 import userIcon from '../assets/images/user-icon.svg'
 
 const Navbar: React.FC = () => {
   const location = useLocation()
-  const isProductsPage = location.pathname === '/product-service' || location.pathname === '/product-service/course'
+  const isProductsPage = location.pathname.startsWith('/product-service')
 
   return (
-    <div className={`navbar ${isProductsPage ? 'products-page' : ''}`}>
+    <div className={`navbar${isProductsPage ? ' products-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">
@@ -19,7 +20,7 @@ const Navbar: React.FC = () => {
             <img 
               alt="AQUABRIDGE Logo" 
               className="logo-image"
-              src={logoFontImage}
+              src={isProductsPage ? logoImage : logoFontImage}
             />
           </div>
         </Link>
