@@ -1,0 +1,254 @@
+.strategy-panel {
+  position: relative;
+  min-height: 810px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.strategy-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 810px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.strategy-bg > img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(0px);
+}
+
+.strategy-bg-mask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 120%);
+  z-index: 1;
+}
+
+/* 居中内容区域 */
+.strategy-content {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  z-index: 10;
+}
+
+.strategy-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+  color: #2e56a3;
+  opacity: 0.82;
+  margin: 0 0 11px 0;
+  white-space: pre-wrap;
+}
+
+.strategy-subtitle {
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: normal;
+  color: #212a37;
+  margin: 0 0 16px 0;
+  white-space: pre-wrap;
+}
+
+.strategy-button {
+  background-color: #2e56a3;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  height: 33px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 16px 0;
+  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
+}
+
+.strategy-button:hover {
+  background-color: #234489;
+}
+
+.strategy-button span {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: normal;
+  color: white;
+  margin: 0;
+}
+
+.strategy-desc {
+  width: 672px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 20px;
+  color: rgba(46,86,163,0.87);
+  letter-spacing: 0.2px;
+  text-align: center;
+  margin: 0;
+}
+
+.strategy-chips {
+  position: absolute;
+  left: 62px;
+  top: 509px;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.strategy-evaluation-title {
+  position: absolute;
+  left: 50%;
+  top: 481px;
+  transform: translateX(-50%);
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: normal;
+  color: #949595;
+  text-align: center;
+  letter-spacing: 0.32px;
+  margin: 0;
+  width: 775px;
+  white-space: pre-wrap;
+  z-index: 10;
+}
+
+.chip {
+  height: 25px;
+  padding: 4px 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e56a3;
+  color: #ffffff;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
+}
+
+.strategy-cards {
+  position: absolute;
+  left: 45px;
+  top: 545px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.card-left {
+  position: relative;
+  width: 178px;
+  height: 100px;
+  margin-left: 18px;
+}
+
+.card-left-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.card-left-content {
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2e56a3;
+  text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+}
+
+.card-left-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.card-left-sub {
+  margin-top: 6px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+}
+
+.card-metrics {
+  position: relative;
+  margin-left: 46px;
+  display: grid;
+  grid-template-columns: repeat(6, 145px);
+  gap: 46px;
+}
+
+.metric-card {
+  height: 65px;
+  border-radius: 5px;
+  background: rgba(243,246,253,0.71);
+  box-shadow: 0 3.6px 19.7px rgba(46,86,163,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  text-align: center;
+}
+
+.metric-card .label {
+  margin: 0;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 11px;
+  color: #212a37;
+}
+
+.metric-card .value {
+  margin: 0;
+  font-family: 'DengXian', sans-serif;
+  font-size: 13px;
+  color: rgba(46,86,163,0.87);
+}
+
+@media (max-width: 1200px) {
+  .card-metrics { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .strategy-cards { left: 24px; right: 24px; }
+}
+
+@media (max-width: 768px) {
+  .strategy-content { max-width: 90%; }
+  .strategy-title { font-size: 32px; }
+  .strategy-subtitle { font-size: 14px; }
+  .strategy-desc { width: 100%; font-size: 9px; }
+  .strategy-cards { position: relative; top: 560px; flex-direction: column; align-items: flex-start; }
+  .card-metrics { grid-template-columns: repeat(2, 1fr); gap: 16px; margin-left: 0; }
+}
+
+
+
