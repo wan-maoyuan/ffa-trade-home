@@ -1,40 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './CoursePanel.css'
-import { useNavigate } from 'react-router-dom'
+import SideMenu from './SideMenu'
 
 // 来自 Figma MCP 的临时图片资源（7天有效）。如需长期使用请下载到本地 assets。
 const IMG_SIG_BADGE = 'https://www.figma.com/api/mcp/asset/1786a95c-e501-4def-885a-54adde6f226b'
 
 const SignalPanel: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const navigate = useNavigate()
-
-  const handleToggle = () => setMenuOpen(v => !v)
-
-  const goCourse = () => navigate('/product-service/course')
-  const goTools = () => navigate('/product-service/tool')
-  const goSignals = () => navigate('/product-service/signal')
-  const goStrategy = () => navigate('/product-service/strategy')
-
   return (
     <div className="course-panel" data-node-id="1:1753">
-      {/* 左侧浮动开关与菜单（复用课程页样式） */}
-      <button
-        type="button"
-        className={`floating-toggle ${menuOpen ? 'open' : ''}`}
-        onClick={handleToggle}
-        aria-expanded={menuOpen}
-        aria-label="展开/折叠菜单"
-      >
-        <span className="chevron" />
-      </button>
-
-      <div className={`floating-menu ${menuOpen ? 'show' : ''}`}>
-        <button type="button" className="floating-item" onClick={goCourse}>课程</button>
-        <button type="button" className="floating-item" onClick={goTools}>工具</button>
-        <button type="button" className="floating-item active" onClick={goSignals}>信号</button>
-        <button type="button" className="floating-item" onClick={goStrategy}>策略</button>
-      </div>
+      <SideMenu currentPage="signal" />
 
       <h1 className="course-panel-title">AQUABRIDGE</h1>
       <p className="course-panel-subtitle">一站式衍生品综合服务商</p>

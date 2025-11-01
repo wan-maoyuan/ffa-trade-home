@@ -1,24 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './CoursePanel.css'
 import './StrategyPanel.css'
-import { useNavigate } from 'react-router-dom'
 import strategyBackground from '../assets/images/strategy-background.jpeg'
+import SideMenu from './SideMenu'
 
 // 来自 Figma MCP 的临时图片资源（7天有效）。如需长期使用请下载到本地 assets。
 // const IMG_BG_BLUR = 'https://www.figma.com/api/mcp/asset/4fe6b157-cac1-4fdf-8d93-1fff7e44f6af'
 const IMG_CARD_LEFT = 'https://www.figma.com/api/mcp/asset/a574e5c8-8025-4da1-aeda-26e869afc426'
 
 const StrategyPanel: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const navigate = useNavigate()
-
-  const handleToggle = () => setMenuOpen(v => !v)
-
-  const goCourse = () => navigate('/product-service/course')
-  const goTools = () => navigate('/product-service/tool')
-  const goSignals = () => navigate('/product-service/signal')
-  const goStrategy = () => navigate('/product-service/strategy')
-
   return (
     <div className="strategy-panel" data-node-id="1:1966">
       {/* 背景与渐变遮罩 */}
@@ -27,23 +17,7 @@ const StrategyPanel: React.FC = () => {
         <div className="strategy-bg-mask" />
       </div>
 
-      {/* 左侧浮动开关与菜单（复用课程页样式） */}
-      <button
-        type="button"
-        className={`floating-toggle ${menuOpen ? 'open' : ''}`}
-        onClick={handleToggle}
-        aria-expanded={menuOpen}
-        aria-label="展开/折叠菜单"
-      >
-        <span className="chevron" />
-      </button>
-
-      <div className={`floating-menu ${menuOpen ? 'show' : ''}`}>
-        <button type="button" className="floating-item" onClick={goCourse}>课程</button>
-        <button type="button" className="floating-item" onClick={goTools}>工具</button>
-        <button type="button" className="floating-item" onClick={goSignals}>信号</button>
-        <button type="button" className="floating-item active" onClick={goStrategy}>策略</button>
-      </div>
+      <SideMenu currentPage="strategy" />
 
       {/* 居中内容区域 */}
       <div className="strategy-content">

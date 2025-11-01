@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CoursePanel.css';
+import SideMenu from './SideMenu';
 
 // 轮播图片、折线图等地址，可根据实际换成最新的 Figma 图
 const carouselImgs = [
@@ -23,6 +24,7 @@ const ToolsPanel: React.FC = () => {
   const [cur, setCur] = useState(0);
   return (
     <div style={{position:'relative', background:'#f3f7ff', minHeight:'900px', width:'100%', overflow:'hidden'}}>
+      <SideMenu currentPage="tool" />
       {/* 顶部导航预留 */}
       <div style={{height:72}}></div>
       {/* 横向排列大区块 */}
