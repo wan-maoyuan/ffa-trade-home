@@ -3,7 +3,7 @@
   position: relative;
   width: 100%;
   max-width: 1400px;
-  height: 100%;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,7 +190,470 @@
   line-height: 1.2;
 }
 
-/* 单头寸策略展示页面样式 */
+/* 单头寸策略展示页面样式 - 严格按照 Figma */
+.single-position-chart-figma {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+/* 标题 - 居中 */
+.chart-title-center {
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: normal;
+  color: #949595;
+  text-align: center;
+  letter-spacing: 0.32px;
+  margin: 0;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* 控制区域 */
+.chart-controls-area {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+/* 年份控制 */
+.chart-year-control {
+  position: absolute;
+  left: 145px;
+  top: -17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-year-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  line-height: normal;
+}
+
+.chart-year-select {
+  min-width: 148px;
+  height: 19px;
+  border: 0.432px solid #2e56a3;
+  border-radius: 4.32px;
+  padding: 0 10px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chart-year-select:hover {
+  background: rgba(46, 86, 163, 0.05);
+}
+
+/* 国内运费按钮 */
+.chart-btn-freight {
+  position: absolute;
+  left: 145px;
+  top: 7px;
+  height: 21.6px;
+  padding: 3.456px 15.552px;
+  border: none;
+  border-radius: 4.32px;
+  background-color: #2e56a3;
+  color: white;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 10.368px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
+  transition: background-color 0.3s;
+}
+
+.chart-btn-freight:hover {
+  background-color: #234489;
+}
+
+/* 查询按钮 */
+.chart-btn-query {
+  position: absolute;
+  left: 402px;
+  top: -18px;
+  height: 21.6px;
+  padding: 3.456px 15.552px;
+  border: none;
+  border-radius: 4.32px;
+  background-color: #2e56a3;
+  color: white;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 10.368px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
+  transition: background-color 0.3s;
+}
+
+.chart-btn-query:hover {
+  background-color: #234489;
+}
+
+/* 图表标题 */
+.chart-subtitle {
+  position: absolute;
+  left: 145px;
+  top: 38px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  margin: 0;
+  line-height: normal;
+}
+
+/* 三点菜单图标 */
+.chart-menu-icon {
+  position: absolute;
+  right: 24px;
+  top: 43px;
+  width: 16px;
+  height: 4px;
+  cursor: pointer;
+}
+
+.chart-menu-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 图表区域容器 */
+.chart-area-container {
+  position: relative;
+  width: 100%;
+  padding-top: 80px;
+}
+
+/* 图表网格 */
+.chart-grid {
+  position: relative;
+  width: 1150px;
+  height: 280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 0;
+}
+
+/* Y轴标签 */
+.chart-y-labels {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-size: 8.64px;
+  color: #212a37;
+  opacity: 0.5;
+  text-align: right;
+  padding-right: 8px;
+}
+
+/* 图表绘图区 */
+.chart-plot {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-line {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+/* X轴标签 */
+.chart-x-labels {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-size: 8.64px;
+  color: #212a37;
+  opacity: 0.5;
+}
+
+.chart-x-labels span {
+  white-space: nowrap;
+}
+
+/* 单头寸策略展示页面样式 - 新版本（保留作为备份） */
+.single-position-chart-page-new {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 24px;
+  padding: 0;
+}
+
+/* 左侧控制面板 */
+.chart-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 16px;
+  min-width: 200px;
+}
+
+.chart-control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart-control-select-new {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #2e56a3;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: #2e56a3;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chart-control-select-new:hover {
+  background: rgba(46, 86, 163, 0.05);
+}
+
+.chart-button-vertical {
+  width: 100%;
+  height: 36px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2e56a3;
+  color: white;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(46,86,163,0.25);
+  transition: background-color 0.3s;
+}
+
+.chart-button-vertical:hover {
+  background-color: #234489;
+}
+
+.chart-section-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(46, 86, 163, 0.2);
+  margin: 8px 0;
+}
+
+.chart-section-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 11px;
+  color: #2e56a3;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 右侧主内容区 */
+.chart-right-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.chart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.chart-button-query {
+  height: 32px;
+  padding: 6px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2e56a3;
+  color: white;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(46,86,163,0.25);
+  transition: background-color 0.3s;
+  position: absolute;
+  left: 0;
+}
+
+.chart-button-query:hover {
+  background-color: #234489;
+}
+
+.chart-page-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: normal;
+  color: #949595;
+  text-align: center;
+  letter-spacing: 0.32px;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.chart-menu-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+}
+
+.chart-menu-dots .dot {
+  width: 4px;
+  height: 4px;
+  background: #949595;
+  border-radius: 50%;
+}
+
+.chart-menu-dots:hover .dot {
+  background: #2e56a3;
+}
+
+/* 图表主容器 */
+.chart-main-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  min-height: 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-y-axis-new {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 8px;
+  font-size: 10px;
+  color: #212a37;
+  opacity: 0.5;
+  font-family: 'Source Han Sans CN', sans-serif;
+  z-index: 1;
+}
+
+.chart-plot-area {
+  position: relative;
+  flex: 1;
+  margin-left: 40px;
+  margin-bottom: 30px;
+  min-height: 0;
+}
+
+.chart-line-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+.chart-legend-new {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  gap: 16px;
+  z-index: 2;
+}
+
+.chart-legend-item-new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #212a37;
+  font-family: 'Source Han Sans CN', sans-serif;
+}
+
+.chart-legend-item-new span {
+  opacity: 0.5;
+}
+
+.legend-line {
+  width: 20px;
+  height: 3px;
+  border-radius: 1.5px;
+}
+
+.chart-x-axis-new {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 40px;
+  font-size: 10px;
+  color: #212a37;
+  opacity: 0.5;
+  font-family: 'Source Han Sans CN', sans-serif;
+  padding-top: 8px;
+}
+
+/* 旧版本样式保留（以防需要回退） */
 .single-position-chart-page {
   position: relative;
   padding-top: 10px;
@@ -457,7 +920,7 @@
 .chart-comparison-box {
   position: relative;
   width: 100%;
-  height: 176px;
+  height: 260px;
   background: white;
   border-radius: 4.32px;
   padding: 16px;
@@ -476,6 +939,32 @@
   
   .charts-comparison-container {
     flex-direction: column;
+  }
+  
+  .single-position-chart-page-new {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .chart-left-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: auto;
+    padding: 16px;
+  }
+  
+  .chart-control-item {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .chart-button-vertical {
+    width: auto;
+    min-width: 120px;
+  }
+  
+  .chart-section-divider {
+    display: none;
   }
 }
 
@@ -508,6 +997,42 @@
   .chart-container {
     height: auto;
     min-height: 200px;
+  }
+  
+  .single-position-chart-page-new {
+    flex-direction: column;
+  }
+  
+  .chart-left-panel {
+    flex-direction: column;
+  }
+  
+  .chart-header-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .chart-button-query {
+    position: static;
+    width: 100%;
+  }
+  
+  .chart-page-title {
+    width: 100%;
+  }
+  
+  .chart-menu-dots {
+    position: static;
+  }
+  
+  .chart-main-container {
+    padding: 16px;
+  }
+  
+  .chart-x-axis-new {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 9px;
   }
 }
 
