@@ -38,7 +38,6 @@ const Navbar: React.FC = () => {
           >
             产品与服务
           </Link>
-          <p className="nav-item">投资者关系</p>
           <p className="nav-item">关于我们</p>
         </div>
 
