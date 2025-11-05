@@ -1,0 +1,461 @@
+/* 信号页面通用样式 */
+.signal-page {
+  position: relative;
+  width: 1082px;
+  max-width: calc(100% - 40px);
+  height: 260px;
+  background-color: #2e56a3;
+  border-radius: 22.69px;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.signal-page-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 13.324px;
+  color: white;
+  margin: 0 0 10px;
+  white-space: pre-wrap;
+  height: 13.324px;
+}
+
+.signal-page-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+/* FFA信号页面样式 */
+.ffa-signal-page {
+  position: relative;
+}
+
+/* 日期标签 */
+.signal-date-tags {
+  position: absolute;
+  top: 0;
+  left: 55px;
+  display: flex;
+  gap: 7.26px;
+}
+
+.signal-date-tag {
+  background-color: #acc4f3;
+  border-radius: 4.344px;
+  padding: 0;
+  height: 21.722px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 3.476px 18.855px 0px rgba(46, 86, 163, 0.25);
+}
+
+.signal-date-tag:first-child {
+  width: 87.313px;
+}
+
+.signal-date-tag:last-child {
+  width: 59.531px;
+}
+
+.signal-date-tag p {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 10.427px;
+  color: white;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* 预测值和当前值卡片 */
+.signal-value-cards {
+  position: absolute;
+  top: 36px;
+  left: 55px;
+  display: flex;
+  gap: 31px;
+}
+
+.signal-value-card {
+  background-color: #e8f0fe;
+  border-radius: 4.344px;
+  padding: 10px 57.346px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  box-shadow: 0px 3.476px 18.855px 0px rgba(46, 86, 163, 0.25);
+  width: 471.291px;
+  height: auto;
+  min-height: 45px;
+}
+
+.signal-value-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.427px;
+  color: #212a37;
+  margin: 0;
+}
+
+.signal-value-number {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12.164px;
+  color: rgba(46, 86, 163, 0.87);
+  margin: 0;
+}
+
+/* 交易信息卡片 */
+.signal-trade-info-card {
+  position: absolute;
+  bottom: 0;
+  left: 55px;
+  background-color: white;
+  border-radius: 4.344px;
+  padding: 12px 20px;
+  width: calc(100% - 110px);
+  max-width: 974.332px;
+  box-shadow: 0px 3.476px 18.855px 0px rgba(46, 86, 163, 0.25);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.signal-trade-info-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  flex: 1;
+}
+
+.signal-trade-info-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.427px;
+  color: white;
+  background-color: #acc4f3;
+  margin: 0;
+  text-align: center;
+  padding: 2px 0;
+  width: 100%;
+}
+
+.signal-trade-info-value {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12.164px;
+  color: rgba(46, 86, 163, 0.87);
+  margin: 0;
+  text-align: center;
+}
+
+.signal-trade-info-action {
+  color: rgba(179, 5, 5, 0.87);
+}
+
+/* 单头寸交易信号汇总页面样式 */
+.single-position-signal-page .signal-page-content {
+  flex-direction: row;
+  gap: 47px;
+  padding: 0 55px;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+}
+
+.signal-trade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 298.991px;
+  flex-shrink: 0;
+}
+
+.signal-trade-list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.signal-trade-list-tag {
+  background-color: #acc4f3;
+  border-radius: 2.784px;
+  padding: 1.67px 7.795px;
+  height: 13.919px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2.227px 12.082px 0px rgba(46, 86, 163, 0.25);
+  width: 27.282px;
+}
+
+.signal-trade-list-tag p {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 6.681px;
+  color: white;
+  margin: 0;
+}
+
+.signal-trade-list-date {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 6.681px;
+  color: #2e56a3;
+  margin: 0;
+}
+
+.signal-trade-list-content {
+  background-color: #f3f6fd;
+  border-radius: 5.568px;
+  padding: 8px 20px;
+  box-shadow: 0px 2.227px 11.692px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.signal-trade-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 20px;
+  padding: 4px 0;
+}
+
+.signal-trade-item-code {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 8px;
+  color: #2e56a3;
+  margin: 0;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.signal-trade-item-direction {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 8px;
+  color: #212a37;
+  margin: 0;
+  flex: 1;
+}
+
+.signal-trade-item-long {
+  color: rgba(179, 5, 5, 0.87);
+}
+
+.signal-trade-item-short {
+  color: #266614;
+}
+
+.signal-trade-item-ratio {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 8px;
+  color: #212a37;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.signal-trade-item-ratio-value {
+  color: rgba(179, 5, 5, 0.87);
+}
+
+/* 双头寸交易信号汇总页面样式 */
+.double-position-signal-page .signal-page-content {
+  flex-direction: row;
+  gap: 56px;
+  padding: 0 55px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 30px;
+}
+
+.signal-pair-trade-list-left {
+  flex: 0 0 auto;
+}
+
+.signal-pair-trade-list-right {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  flex: 1;
+}
+
+.signal-pair-trade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 368.839px;
+  flex-shrink: 0;
+}
+
+.signal-pair-trade-list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.signal-pair-trade-list-tag {
+  background-color: #acc4f3;
+  border-radius: 3.434px;
+  padding: 2.061px 9.616px;
+  height: 17.171px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2.747px 14.905px 0px rgba(46, 86, 163, 0.25);
+  width: 55.635px;
+}
+
+.signal-pair-trade-list-tag-active {
+  background-color: #2e56a3;
+}
+
+.signal-pair-trade-list-tag p {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 8.242px;
+  color: white;
+  margin: 0;
+}
+
+.signal-pair-trade-list-date {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 8.242px;
+  color: #2e56a3;
+  margin: 0;
+}
+
+.signal-pair-trade-list-content {
+  background-color: #f3f6fd;
+  border-radius: 6.869px;
+  padding: 10px 25px;
+  box-shadow: 0px 2.747px 14.424px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.signal-pair-trade-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 30px;
+  padding: 4px 0;
+}
+
+.signal-pair-trade-item-pair {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 9px;
+  color: #2e56a3;
+  margin: 0;
+}
+
+.signal-pair-trade-item-direction {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 9px;
+  color: #212a37;
+  margin: 0;
+}
+
+.signal-pair-trade-item-ratio {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 9px;
+  color: #212a37;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .signal-page {
+    height: auto;
+    min-height: 260px;
+    padding: 20px 15px;
+  }
+
+  .signal-page-content {
+    padding: 0 15px;
+  }
+
+  .ffa-signal-page .signal-value-cards {
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+
+  .ffa-signal-page .signal-value-card {
+    width: 100%;
+    max-width: 471px;
+  }
+
+  .ffa-signal-page .signal-trade-info-card {
+    position: relative;
+    left: 0;
+    width: 100%;
+    max-width: 974px;
+  }
+
+  .ffa-signal-page .signal-table-header {
+    position: relative;
+    left: 0;
+    width: 100%;
+    max-width: 974px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .single-position-signal-page .signal-page-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .signal-trade-list {
+    width: 100%;
+  }
+
+  .double-position-signal-page .signal-page-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .signal-pair-trade-list {
+    width: 100%;
+  }
+}
+
