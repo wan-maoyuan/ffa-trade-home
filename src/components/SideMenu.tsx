@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './CoursePanel.css'
 
 interface SideMenuProps {
-  currentPage: 'course' | 'tool' | 'signal' | 'strategy'
+  currentPage: 'signal' | 'strategy'
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ currentPage }) => {
@@ -12,14 +12,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ currentPage }) => {
 
   const handleToggle = () => setMenuOpen(v => !v)
 
-  const goCourse = () => {
-    navigate('/product-service/course')
-    setMenuOpen(false)
-  }
-  const goTools = () => {
-    navigate('/product-service/tool')
-    setMenuOpen(false)
-  }
   const goSignals = () => {
     navigate('/product-service/signal')
     setMenuOpen(false)
@@ -43,20 +35,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ currentPage }) => {
       </button>
 
       <div className={`floating-menu ${menuOpen ? 'show' : ''}`}>
-        <button 
-          type="button" 
-          className={`floating-item ${currentPage === 'course' ? 'active' : ''}`} 
-          onClick={goCourse}
-        >
-          课程
-        </button>
-        <button 
-          type="button" 
-          className={`floating-item ${currentPage === 'tool' ? 'active' : ''}`} 
-          onClick={goTools}
-        >
-          工具
-        </button>
         <button 
           type="button" 
           className={`floating-item ${currentPage === 'signal' ? 'active' : ''}`} 

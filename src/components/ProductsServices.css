@@ -59,7 +59,8 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between; /* 四个模块等距排列 */
+  justify-content: center; /* 两个模块居中排列 */
+  gap: 120px; /* 两个模块之间的间距 */
   width: 100%;
 }
 
@@ -67,8 +68,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1; /* 确保四个模块等宽 */
-  max-width: 261px; /* 限制最大宽度 */
+  flex: 0 0 auto; /* 取消自动扩展，保持内容宽度 */
+  max-width: 300px; /* 适当增加最大宽度 */
+  min-width: 200px; /* 设置最小宽度 */
 }
 
 .category-item-clickable {
@@ -108,19 +110,11 @@
 
 /* 各分类描述文字的不同最大宽度 */
 .category-item:nth-child(1) .category-description {
-  max-width: 224px;
+  max-width: 280px;
 }
 
 .category-item:nth-child(2) .category-description {
-  max-width: 261px;
-}
-
-.category-item:nth-child(3) .category-description {
-  max-width: 231px;
-}
-
-.category-item:nth-child(4) .category-description {
-  max-width: 199px;
+  max-width: 280px;
 }
 
 /* 响应式设计 */
@@ -135,13 +129,17 @@
     width: 85%;
   }
   
+  .category-grid {
+    gap: 80px; /* 中等屏幕时减小间距 */
+  }
+  
   .category-title {
     font-size: 18px;
   }
   
   .category-description {
     font-size: 11px;
-    max-width: 200px;
+    max-width: 250px;
   }
 }
 
@@ -161,6 +159,7 @@
   .category-grid {
     flex-direction: column;
     gap: 40px;
+    justify-content: center;
   }
   
   .category-title {
