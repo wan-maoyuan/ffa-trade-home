@@ -31,23 +31,21 @@ const FFASignalPage: React.FC = () => {
           </div>
         </div>
 
-        {/* 交易信息卡片 */}
-        <div className="signal-trade-info-card">
-          <div className="signal-trade-info-row">
-            <p className="signal-trade-info-label">偏高度</p>
-            <p className="signal-trade-info-value">-6%</p>
+        {/* 交易信息表格 */}
+        <div className="signal-trade-info-table">
+          {/* 表头行 */}
+          <div className="signal-trade-info-table-header">
+            <div className="signal-trade-info-table-header-cell">偏高度</div>
+            <div className="signal-trade-info-table-header-cell">开多入场区间</div>
+            <div className="signal-trade-info-table-header-cell">平多离场区间</div>
+            <div className="signal-trade-info-table-header-cell">操作建议</div>
           </div>
-          <div className="signal-trade-info-row">
-            <p className="signal-trade-info-label">开多入场区间</p>
-            <p className="signal-trade-info-value">&lt;11050</p>
-          </div>
-          <div className="signal-trade-info-row">
-            <p className="signal-trade-info-label">平多离场区间</p>
-            <p className="signal-trade-info-value">&gt;17100</p>
-          </div>
-          <div className="signal-trade-info-row">
-            <p className="signal-trade-info-label">操作建议</p>
-            <p className="signal-trade-info-value signal-trade-info-action">平多</p>
+          {/* 数据行 */}
+          <div className="signal-trade-info-table-row">
+            <div className="signal-trade-info-table-cell">-6%</div>
+            <div className="signal-trade-info-table-cell">&lt;11050</div>
+            <div className="signal-trade-info-table-cell">&gt;17100</div>
+            <div className="signal-trade-info-table-cell signal-trade-info-table-cell-action">平多</div>
           </div>
         </div>
       </div>
