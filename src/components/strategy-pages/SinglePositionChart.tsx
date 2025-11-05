@@ -14,7 +14,7 @@ const SinglePositionChart: React.FC = () => {
         {/* 图表控制区域 */}
         <div className="chart-controls">
           <div className="chart-control-group">
-            <p className="chart-control-label">年份：</p>
+            <span className="chart-control-label">年份：</span>
             <div className="chart-control-select">
               <span>2025</span>
               <svg width="7" height="4" viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,23 +31,9 @@ const SinglePositionChart: React.FC = () => {
 
         {/* 图表容器 */}
         <div className="chart-container">
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <div className="chart-inner">
             {/* Y轴标签 */}
-            <div style={{ 
-              position: 'absolute', 
-              left: '10px', 
-              top: '0', 
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              paddingTop: '10px',
-              paddingBottom: '30px',
-              fontSize: '8.64px',
-              color: '#212a37',
-              opacity: 0.5,
-              fontFamily: 'Source Han Sans CN, sans-serif'
-            }}>
+            <div className="chart-y-axis">
               <div>60</div>
               <div>50</div>
               <div>40</div>
@@ -58,18 +44,7 @@ const SinglePositionChart: React.FC = () => {
             </div>
 
             {/* X轴标签 */}
-            <div style={{ 
-              position: 'absolute', 
-              left: '50px', 
-              right: '10px',
-              bottom: '0', 
-              display: 'flex',
-              justifyContent: 'space-between',
-              fontSize: '8.64px',
-              color: '#212a37',
-              opacity: 0.5,
-              fontFamily: 'Source Han Sans CN, sans-serif'
-            }}>
+            <div className="chart-x-axis">
               <div>2025-01-08</div>
               <div>2025-02-13</div>
               <div>2025-03-13</div>
@@ -82,53 +57,28 @@ const SinglePositionChart: React.FC = () => {
             </div>
 
             {/* 图表线条 */}
-            <div style={{ 
-              position: 'absolute',
-              left: '50px',
-              top: '10px',
-              right: '10px',
-              bottom: '30px'
-            }}>
+            <div className="chart-lines">
               <img 
                 src={IMG_CHART_LINE1} 
                 alt="预测价格线" 
-                style={{ 
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain'
-                }}
+                className="chart-line-image"
               />
               <img 
                 src={IMG_CHART_LINE2} 
                 alt="实际价格线" 
-                style={{ 
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain'
-                }}
+                className="chart-line-image"
               />
             </div>
 
             {/* 图例 */}
-            <div style={{
-              position: 'absolute',
-              top: '10px',
-              right: '20px',
-              display: 'flex',
-              gap: '16px',
-              fontSize: '8.64px',
-              color: '#212a37',
-              fontFamily: 'Source Han Sans CN, sans-serif'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '18px', height: '3.456px', background: '#2e56a3' }}></div>
-                <span style={{ opacity: 0.5 }}>实际价格</span>
+            <div className="chart-legend">
+              <div className="chart-legend-item">
+                <div className="chart-legend-line" style={{ background: '#2e56a3' }}></div>
+                <span>实际价格</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '18px', height: '3.456px', background: '#ff6b6b' }}></div>
-                <span style={{ opacity: 0.5 }}>预测价格</span>
+              <div className="chart-legend-item">
+                <div className="chart-legend-line" style={{ background: '#ff6b6b' }}></div>
+                <span>预测价格</span>
               </div>
             </div>
           </div>
