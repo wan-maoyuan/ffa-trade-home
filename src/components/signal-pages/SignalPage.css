@@ -184,7 +184,7 @@
 /* 单头寸交易信号汇总页面样式 */
 .single-position-signal-page .signal-page-content {
   flex-direction: row;
-  gap: 47px;
+  gap: 56px;
   padding: 0 55px;
   justify-content: center;
   align-items: flex-start;
@@ -215,7 +215,8 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0px 2.227px 12.082px 0px rgba(46, 86, 163, 0.25);
-  width: 27.282px;
+  width: auto;
+  min-width: 27.282px;
 }
 
 .signal-trade-list-tag p {
@@ -304,7 +305,7 @@
   padding: 0 55px;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 30px;
+  padding-top: 26px;
 }
 
 .signal-pair-trade-list-left {
@@ -314,8 +315,8 @@
 .signal-pair-trade-list-right {
   display: flex;
   flex-direction: column;
-  gap: 56px;
-  flex: 1;
+  gap: 25px;
+  flex: 0 0 auto;
 }
 
 .signal-pair-trade-list {
@@ -324,6 +325,10 @@
   gap: 8px;
   width: 368.839px;
   flex-shrink: 0;
+}
+
+.signal-pair-trade-list-right .signal-pair-trade-list {
+  width: 420px;
 }
 
 .signal-pair-trade-list-header {
@@ -368,48 +373,72 @@
 .signal-pair-trade-list-content {
   background-color: #f3f6fd;
   border-radius: 6.869px;
-  padding: 10px 25px;
+  padding: 6.182px 37.09px;
   box-shadow: 0px 2.747px 14.424px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10.303px;
   max-height: 180px;
   overflow-y: auto;
 }
 
+.signal-pair-trade-list-left .signal-pair-trade-list-content {
+  height: 170.339px;
+}
+
+.signal-pair-trade-list-right .signal-pair-trade-list:first-child .signal-pair-trade-list-content {
+  height: 59.069px;
+}
+
+.signal-pair-trade-list-right .signal-pair-trade-list:last-child .signal-pair-trade-list-content {
+  height: 65.938px;
+}
+
 .signal-pair-trade-item {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-height: 30px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 8.929px;
   padding: 4px 0;
+  width: 100%;
 }
 
 .signal-pair-trade-item-pair {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 9px;
+  font-size: 8.242px;
   color: #2e56a3;
   margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 100px;
 }
 
 .signal-pair-trade-item-direction {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 9px;
+  font-size: 8.242px;
   color: #212a37;
   margin: 0;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .signal-pair-trade-item-ratio {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 9px;
+  font-size: 8.242px;
   color: #212a37;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* 响应式设计 */
