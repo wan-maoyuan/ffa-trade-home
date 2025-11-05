@@ -1,14 +1,33 @@
-import React from 'react'
-import './CoursePanel.css'
+import React, { useState, useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
+import type { Swiper as SwiperType } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 import './StrategyPanel.css'
 import strategyBackground from '../assets/images/strategy-background.jpeg'
 import SideMenu from './SideMenu'
-
-// 来自 Figma MCP 的临时图片资源（7天有效）。如需长期使用请下载到本地 assets。
-// const IMG_BG_BLUR = 'https://www.figma.com/api/mcp/asset/4fe6b157-cac1-4fdf-8d93-1fff7e44f6af'
-const IMG_CARD_LEFT = 'https://www.figma.com/api/mcp/asset/a574e5c8-8025-4da1-aeda-26e869afc426'
+import SinglePositionEvaluation from './strategy-pages/SinglePositionEvaluation'
+import SinglePositionChart from './strategy-pages/SinglePositionChart'
+import DoublePositionEvaluation from './strategy-pages/DoublePositionEvaluation'
+import DoublePositionChart from './strategy-pages/DoublePositionChart'
 
 const StrategyPanel: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const swiperRef = useRef<SwiperType | null>(null)
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    setActiveIndex(swiper.activeIndex)
+  }
+
+  const handleButtonClick = (index: number) => {
+    setActiveIndex(index)
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(index)
+    }
+  }
+
   return (
     <div className="strategy-panel" data-node-id="1:1966">
       {/* 背景与渐变遮罩 */}
@@ -31,50 +50,60 @@ const StrategyPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className="strategy-chips">
-        <button type="button" className="chip">做多胜率统计</button>
-        <button type="button" className="chip">盈亏比：0.76：1</button>
-      </div>
+      {/* 轮播图容器 */}
+      <div className="strategy-carousel-container">
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={0}
+          slidesPerView={1}
+          onSlideChange={handleSlideChange}
+          onSwiper={(swiper) => { swiperRef.current = swiper }}
+          className="strategy-swiper"
+        >
+          <SwiperSlide>
+            <SinglePositionEvaluation />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SinglePositionChart />
+          </SwiperSlide>
+          <SwiperSlide>
+            <DoublePositionEvaluation />
+          </SwiperSlide>
+          <SwiperSlide>
+            <DoublePositionChart />
+          </SwiperSlide>
+        </Swiper>
 
-      {/* 单头寸策略评价标题 */}
-      <p className="strategy-evaluation-title">单头寸策略评价</p>
-
-      {/* 左侧卡片与右侧指标卡组 */}
-      <div className="strategy-cards">
-        <div className="card-left">
-          <div className="card-left-bg">
-            <img alt="卡片底图" src={IMG_CARD_LEFT} />
-          </div>
-          <div className="card-left-content">
-            <div className="card-left-title">做  多</div>
-            <div className="card-left-sub">建议交易方向</div>
-          </div>
-        </div>
-        <div className="card-metrics">
-          <div className="metric-card">
-            <p className="label">日期</p>
-            <p className="value">2025-08-07</p>
-          </div>
-          <div className="metric-card">
-            <p className="label">当前值</p>
-            <p className="value">39.6</p>
-          </div>
-          <div className="metric-card">
-            <p className="label">综合价差比</p>
-            <p className="value">20%</p>
-          </div>
-          <div className="metric-card">
-            <p className="label">综合价差比区间</p>
-            <p className="value">15%-30%</p>
-          </div>
-          <div className="metric-card">
-            <p className="label">2025-09-18预测值</p>
-            <p className="value">48</p>
-          </div>
-          <div className="metric-card">
-            <p className="label">在全部交易日期中出现概率</p>
-            <p className="value">9%</p>
-          </div>
+        {/* 圆形按钮控制 */}
+        <div className="strategy-carousel-controls">
+          <button
+            type="button"
+            className={`strategy-control-btn ${activeIndex === 0 ? 'active' : ''}`}
+            onClick={() => handleButtonClick(0)}
+          >
+            1
+          </button>
+          <button
+            type="button"
+            className={`strategy-control-btn ${activeIndex === 1 ? 'active' : ''}`}
+            onClick={() => handleButtonClick(1)}
+          >
+            2
+          </button>
+          <button
+            type="button"
+            className={`strategy-control-btn ${activeIndex === 2 ? 'active' : ''}`}
+            onClick={() => handleButtonClick(2)}
+          >
+            3
+          </button>
+          <button
+            type="button"
+            className={`strategy-control-btn ${activeIndex === 3 ? 'active' : ''}`}
+            onClick={() => handleButtonClick(3)}
+          >
+            4
+          </button>
         </div>
       </div>
     </div>
@@ -82,5 +111,3 @@ const StrategyPanel: React.FC = () => {
 }
 
 export default StrategyPanel
-
-

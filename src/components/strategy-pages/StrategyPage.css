@@ -1,0 +1,423 @@
+/* 策略页面通用样式 */
+.strategy-page {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.strategy-page-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: normal;
+  color: #949595;
+  text-align: center;
+  letter-spacing: 0.32px;
+  margin: 0 0 28px 0;
+  width: 100%;
+  white-space: pre-wrap;
+}
+
+/* 单头寸策略评价页面样式 */
+.single-position-evaluation-page {
+  position: relative;
+}
+
+.single-position-evaluation-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.strategy-chips {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.strategy-chip {
+  height: 25px;
+  padding: 4px 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e56a3;
+  color: #ffffff;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
+  white-space: nowrap;
+}
+
+.strategy-chip:hover {
+  background-color: #234489;
+}
+
+.strategy-cards-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 46px;
+}
+
+.strategy-card-left {
+  position: relative;
+  width: 178px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+}
+
+.strategy-card-left-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.strategy-card-left-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.strategy-card-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(255,255,255,0.5) 100%);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2e56a3;
+  text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+}
+
+.strategy-card-left-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 0 0 6px 0;
+  white-space: pre-wrap;
+}
+
+.strategy-card-left-subtitle {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 6px;
+  line-height: 1.2;
+  margin: 0 0 10px 0;
+  white-space: pre-wrap;
+}
+
+.strategy-card-left-desc {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.strategy-card-icon {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  right: 8px;
+  top: 20px;
+}
+
+.strategy-card-icon svg,
+.strategy-card-icon img {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.25));
+}
+
+.strategy-metrics-grid {
+  display: flex;
+  gap: 46px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.strategy-metric-card {
+  width: 140px;
+  height: 65px;
+  border-radius: 4.545px;
+  background: rgba(243,246,253,0.71);
+  box-shadow: 0 3.636px 19.727px rgba(46,86,163,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  text-align: center;
+  gap: 10px;
+}
+
+.strategy-metric-label {
+  margin: 0;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.909px;
+  color: #212a37;
+  line-height: 1.2;
+  white-space: pre-wrap;
+}
+
+.strategy-metric-value {
+  margin: 0;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12.727px;
+  color: rgba(46,86,163,0.87);
+  line-height: 1.2;
+}
+
+/* 单头寸策略展示页面样式 */
+.single-position-chart-page {
+  position: relative;
+  padding-top: 10px;
+}
+
+.chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.chart-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-control-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.chart-control-select {
+  position: relative;
+  min-width: 148px;
+  height: 19px;
+  border: 0.432px solid #2e56a3;
+  border-radius: 4.32px;
+  padding: 0 8px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chart-button {
+  height: 21.6px;
+  padding: 3.456px 15.552px;
+  border: none;
+  border-radius: 4.32px;
+  background-color: #2e56a3;
+  color: white;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 10.368px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
+  white-space: nowrap;
+}
+
+.chart-button:hover {
+  background-color: #234489;
+}
+
+.chart-section-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  margin: 0 0 16px 0;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 1150px;
+  height: 216px;
+  background: white;
+  border-radius: 4.32px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(243,246,253,0.3);
+  border-radius: 4.32px;
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-size: 8.64px;
+  color: #212a37;
+  opacity: 0.5;
+}
+
+/* 双头寸策略评价页面样式 */
+.double-position-evaluation-page {
+  position: relative;
+}
+
+.double-position-evaluation-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* 双头寸策略展示页面样式 */
+.double-position-chart-page {
+  position: relative;
+  padding-top: 5px;
+}
+
+.double-position-chart-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.charts-comparison-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.chart-comparison-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chart-comparison-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 10.368px;
+  color: #2e56a3;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-comparison-legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-size: 8.64px;
+  color: #212a37;
+  opacity: 0.5;
+}
+
+.chart-legend-line {
+  width: 18px;
+  height: 3.456px;
+  background: #2e56a3;
+}
+
+.chart-comparison-box {
+  position: relative;
+  width: 100%;
+  height: 176px;
+  background: white;
+  border-radius: 4.32px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .strategy-metrics-grid {
+    gap: 20px;
+  }
+  
+  .strategy-metric-card {
+    width: 120px;
+  }
+  
+  .charts-comparison-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .strategy-page {
+    padding: 0 15px;
+  }
+  
+  .strategy-cards-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .strategy-metrics-grid {
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .strategy-metric-card {
+    width: calc(50% - 8px);
+    min-width: 120px;
+  }
+  
+  .chart-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .chart-container {
+    height: auto;
+    min-height: 200px;
+  }
+}
+

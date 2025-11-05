@@ -111,134 +111,77 @@
   margin: 0;
 }
 
-.strategy-chips {
+/* 轮播图容器 */
+.strategy-carousel-container {
   position: absolute;
-  left: 62px;
-  top: 509px;
-  display: flex;
-  gap: 16px;
-  z-index: 10;
-}
-
-.strategy-evaluation-title {
-  position: absolute;
+  width: 100%;
+  max-width: 1440px;
   left: 50%;
-  top: 481px;
   transform: translateX(-50%);
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: normal;
-  color: #949595;
-  text-align: center;
-  letter-spacing: 0.32px;
-  margin: 0;
-  width: 775px;
-  white-space: pre-wrap;
+  top: 481px;
+  height: 280px;
+  padding: 0 20px;
   z-index: 10;
 }
 
-.chip {
-  height: 25px;
-  padding: 4px 18px;
-  border: none;
-  border-radius: 5px;
-  background-color: #2e56a3;
-  color: #ffffff;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
-}
-
-.strategy-cards {
-  position: absolute;
-  left: 45px;
-  top: 545px;
-  display: flex;
-  align-items: center;
-  z-index: 10;
-}
-
-.card-left {
-  position: relative;
-  width: 178px;
-  height: 100px;
-  margin-left: 18px;
-}
-
-.card-left-bg img {
-  position: absolute;
-  inset: 0;
+.strategy-swiper {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 15px;
 }
 
-.card-left-content {
+.strategy-swiper .swiper-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* 圆形按钮控制 */
+.strategy-carousel-controls {
   position: absolute;
-  inset: 0;
-  border-radius: 15px;
+  bottom: -40px;
+  right: calc(50% - 600px);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #2e56a3;
-  text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  gap: 8px;
+  z-index: 10;
 }
 
-.card-left-title {
+.strategy-control-btn {
+  width: 17px;
+  height: 17px;
+  border-radius: 8.5px;
+  border: none;
+  background-color: #dddddd;
+  color: white;
   font-family: 'Microsoft YaHei', sans-serif;
   font-weight: bold;
-  font-size: 20px;
-}
-
-.card-left-sub {
-  margin-top: 6px;
-  font-family: 'Microsoft YaHei', sans-serif;
   font-size: 12px;
-}
-
-.card-metrics {
-  position: relative;
-  margin-left: 46px;
-  display: grid;
-  grid-template-columns: repeat(6, 145px);
-  gap: 46px;
-}
-
-.metric-card {
-  height: 65px;
-  border-radius: 5px;
-  background: rgba(243,246,253,0.71);
-  box-shadow: 0 3.6px 19.7px rgba(46,86,163,0.25);
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 24px;
-  text-align: center;
+  transition: background-color 0.3s;
+  padding: 0;
+  line-height: 1;
 }
 
-.metric-card .label {
-  margin: 0;
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 11px;
-  color: #212a37;
+.strategy-control-btn:hover {
+  background-color: #234489;
 }
 
-.metric-card .value {
-  margin: 0;
-  font-family: 'DengXian', sans-serif;
-  font-size: 13px;
-  color: rgba(46,86,163,0.87);
+.strategy-control-btn.active {
+  background-color: #2e56a3;
 }
 
 @media (max-width: 1200px) {
-  .card-metrics { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .strategy-cards { left: 24px; right: 24px; }
+  .strategy-carousel-container {
+    padding: 0 40px;
+  }
+  
+  .strategy-carousel-controls {
+    right: 40px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -246,8 +189,17 @@
   .strategy-title { font-size: 32px; }
   .strategy-subtitle { font-size: 14px; }
   .strategy-desc { width: 100%; font-size: 9px; }
-  .strategy-cards { position: relative; top: 560px; flex-direction: column; align-items: flex-start; }
-  .card-metrics { grid-template-columns: repeat(2, 1fr); gap: 16px; margin-left: 0; }
+  
+  .strategy-carousel-container {
+    top: 500px;
+    height: auto;
+    min-height: 300px;
+  }
+  
+  .strategy-carousel-controls {
+    right: 20px;
+    bottom: -30px;
+  }
 }
 
 
