@@ -9,28 +9,30 @@
   box-sizing: border-box;
 }
 
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #e6e7e8;
   color: #333;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
 }
 
 #root {
   width: 100%;
-  height: 100vh;
-}
-
-/* 基础布局 */
-.app {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background-color: #e6e7e8;
+  min-height: 100vh;
 }
 
 

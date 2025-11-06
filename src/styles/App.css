@@ -1,9 +1,9 @@
 /* App 组件样式 */
 .app {
-  background-color: #e6e7e8;
   position: relative;
   width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 
