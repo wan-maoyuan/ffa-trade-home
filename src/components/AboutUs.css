@@ -4,6 +4,7 @@
   background-color: #f3f7ff;
   position: relative;
   overflow-x: hidden;
+  padding-bottom: 0;
 }
 
 /* 顶部背景图和标题 */

@@ -75,7 +75,7 @@
 }
 
 .nav-item.active {
-  color: #2e56a3;
+  color: #f6d365;
   font-size: 18px;
 }
 
@@ -170,7 +170,7 @@
   filter: brightness(0) invert(1) !important;
 }
 .navbar:not(.products-page) .nav-item.active {
-  color: #2e56a3 !important;
+  color: #f6d365 !important;
 }
 
 /* 产品与服务及子页面——黑色主题 */
@@ -182,7 +182,7 @@
   filter: none !important;
 }
 .navbar.products-page .nav-item.active {
-  color: #2e56a3 !important;
+  color: #f6d365 !important;
 }
 
 /* 保证 logo 显示原图色，不再做filter影响 */
