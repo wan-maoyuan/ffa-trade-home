@@ -19,12 +19,12 @@
   overflow: hidden;
 }
 
-/* 背景图片容器 - 占中间60%高度 */
+/* 背景图片容器 - 从15%位置开始，高度70%，到85%结束 */
 .background-image-container {
   position: absolute;
-  height: 60%;
+  height: 70%;
   left: 0;
-  top: 10%;
+  top: 15%;
   width: 100%;
   overflow: hidden;
 }
@@ -40,16 +40,17 @@
 .background-image {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 130%; /* 扩大高度以便裁剪上下15% */
   object-fit: cover;
-  object-position: center;
+  object-position: center 35%; /* 向下偏移，裁剪掉上面15% */
+  top: -30%; /* 向上偏移15%，裁剪顶部 */
 }
 
-/* 产品分类区域 - 位于底部30%区域，距离图片4% */
+/* 产品分类区域 - 位于图片下方 */
 .products-categories {
   position: absolute;
   left: 50%;
-  top: 74%; /* 70% (图片结束) + 4% (距离) */
+  top: 88%; /* 85% (图片结束) + 3% (距离) */
   transform: translateX(-50%);
   width: 80%; /* 左右各留10%空间 */
   padding: 0;
@@ -146,12 +147,12 @@
 @media (max-width: 768px) {
   /* 移动端保持相同的百分比布局 */
   .background-image-container {
-    height: 60%;
-    top: 10%;
+    height: 70%;
+    top: 15%;
   }
   
   .products-categories {
-    top: 74%;
+    top: 88%;
     width: 90%;
     padding: 0 10px;
   }
