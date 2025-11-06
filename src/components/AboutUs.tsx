@@ -277,17 +277,101 @@ const AboutUs = () => {
       {/* 衍生品+ */}
       <section className="derivatives-plus">
         <div className="derivatives-plus-content">
-          <h2 className="derivatives-plus-title">衍生品+</h2>
-          <p className="derivatives-plus-description">
-            我们提供商品、货币、物流等多个领域的衍生品+服务，覆盖FFA、燃料油、碳税、利率、汇率等多个衍生品。
-          </p>
-          <div className="derivatives-diagram">
-            <img 
-              src="https://www.figma.com/api/mcp/asset/51ecb8bd-d07a-4c92-abe2-48a078dc3a94" 
-              alt="衍生品+"
-              className="derivatives-image"
-            />
+          <div className="derivatives-plus-header">
+            <div className="derivatives-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.9">
+                  <rect x="6" y="24" width="12" height="18" rx="1.5" fill="white"/>
+                  <rect x="18" y="18" width="12" height="24" rx="1.5" fill="white"/>
+                  <rect x="30" y="12" width="12" height="30" rx="1.5" fill="white"/>
+                </g>
+              </svg>
+            </div>
+            <div className="derivatives-header-text">
+              <h2 className="derivatives-plus-title">衍生品+</h2>
+              <p className="derivatives-plus-subtitle">Derivatives Plus</p>
+            </div>
           </div>
+          <p className="derivatives-plus-description">
+            我们提供商品、货币、物流等多个领域的衍生品+服务，覆盖FFA、燃料油、碳税、利率、 汇率等多个衍生品。
+          </p>
+          
+          <div className="derivatives-diagram">
+            {/* 流程图容器 */}
+            <div className="derivatives-flow-container">
+              {/* 第一层：贸易 */}
+              <div className="flow-row flow-row-1">
+                <div className="flow-card flow-card-primary">贸易</div>
+              </div>
+
+              {/* 连接线 - 第一层到第二层 */}
+              <div className="flow-connections flow-connections-spread">
+                <svg className="connection-svg" viewBox="0 0 600 70" preserveAspectRatio="none">
+                  <line x1="300" y1="5" x2="130" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="300" y1="5" x2="300" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="300" y1="5" x2="470" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                </svg>
+              </div>
+
+              {/* 第二层：商品、货币、物流 */}
+              <div className="flow-row flow-row-2">
+                <div className="flow-card flow-card-primary">商品</div>
+                <div className="flow-card flow-card-primary">货币</div>
+                <div className="flow-card flow-card-primary">物流</div>
+              </div>
+
+              {/* 连接线 - 第二层到第三层 */}
+              <div className="flow-connections flow-connections-complex">
+                <svg className="connection-svg" viewBox="0 0 600 70" preserveAspectRatio="none">
+                  {/* 从货币到利率和汇率 */}
+                  <line x1="130" y1="5" x2="165" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="130" y1="5" x2="235" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  {/* 从物流到运输和仓储 */}
+                  <line x1="470" y1="5" x2="365" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="470" y1="5" x2="435" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                </svg>
+              </div>
+
+              {/* 第三层：利率、汇率、运输、仓储 */}
+              <div className="flow-row flow-row-3">
+                <div className="flow-card flow-card-primary">利率</div>
+                <div className="flow-card flow-card-primary">汇率</div>
+                <div className="flow-card flow-card-primary">运输</div>
+                <div className="flow-card flow-card-primary">仓储</div>
+              </div>
+
+              {/* 连接线 - 第三层到第四层 */}
+              <div className="flow-connections flow-connections-converge">
+                <svg className="connection-svg" viewBox="0 0 600 70" preserveAspectRatio="none">
+                  <line x1="200" y1="5" x2="225" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="300" y1="5" x2="300" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="400" y1="5" x2="375" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                </svg>
+              </div>
+
+              {/* 第四层：燃料油、FFA、碳税 */}
+              <div className="flow-row flow-row-4">
+                <div className="flow-card flow-card-primary">燃料油</div>
+                <div className="flow-card flow-card-highlight">FFA</div>
+                <div className="flow-card flow-card-primary">碳税</div>
+              </div>
+
+              {/* 连接线 - 第四层到第五层 */}
+              <div className="flow-connections flow-connections-merge">
+                <svg className="connection-svg" viewBox="0 0 600 70" preserveAspectRatio="none">
+                  <line x1="220" y1="5" x2="300" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="300" y1="5" x2="300" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                  <line x1="380" y1="5" x2="300" y2="65" stroke="white" strokeWidth="2" opacity="0.6"/>
+                </svg>
+              </div>
+
+              {/* 第五层：衍生品 */}
+              <div className="flow-row flow-row-5">
+                <div className="flow-card flow-card-final">衍生品</div>
+              </div>
+            </div>
+          </div>
+          
           <p className="derivatives-plus-footer">Derivatives Plus</p>
         </div>
       </section>
