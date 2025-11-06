@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './AboutUs.css'
+import backgroundImage from '../assets/images/about-us-background.jpeg'
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState('company-intro')
@@ -44,7 +45,7 @@ const AboutUs = () => {
       {/* 顶部背景图和标题 */}
       <section className="hero-section">
         <img 
-          src="https://www.figma.com/api/mcp/asset/94bb6111-870b-4957-ae8e-5eb20f3569ae" 
+          src={backgroundImage}
           alt="船舶背景"
           className="hero-background"
         />
@@ -100,31 +101,35 @@ const AboutUs = () => {
       {/* 了解我们 */}
       <section id="company-intro" className="about-intro">
         <div className="about-intro-card">
-          <div className="intro-left">
-            <h2 className="intro-title">了解我们</h2>
-            <p className="intro-subtitle">About Us</p>
+          <div className="intro-top">
+            <div className="intro-left">
+              <h2 className="intro-title">了解我们</h2>
+              <p className="intro-subtitle">About Us</p>
+            </div>
+            <div className="intro-right">
+              <p className="intro-description">
+                AquaBridge 是全球领先的一站式衍生品综合服务商，致力于通过创新金融工具赋能大宗商品贸易产业链。公司依托顶尖团队的专业能力和丰富的实战经验，为客户提供涵盖交易、资管、咨询、培训、外包及定制化服务的全方位解决方案，助力企业高效管理风险、优化资源配置。
+              </p>
+            </div>
+          </div>
+          <div className="intro-bottom">
             <p className="intro-label">我们提供</p>
-          </div>
-          <div className="intro-right">
-            <p className="intro-description">
-              AquaBridge 是全球领先的一站式衍生品综合服务商，致力于通过创新金融工具赋能大宗商品贸易产业链。公司依托顶尖团队的专业能力和丰富的实战经验，为客户提供涵盖交易、资管、咨询、培训、外包及定制化服务的全方位解决方案，助力企业高效管理风险、优化资源配置。
-            </p>
-          </div>
-        </div>
-        <div className="intro-services">
-          <div className="service-item">
-            <span className="service-number">01</span>
-            <span className="service-name">信号</span>
-            <p className="service-desc">
-              基于大数据与机器学习，构建高价值信号体系，精准赋能客户日常决策。
-            </p>
-          </div>
-          <div className="service-item">
-            <span className="service-number">02</span>
-            <span className="service-name">策略</span>
-            <p className="service-desc">
-              深耕实战策略开发，覆盖多元场景，驱动交易表现提升。
-            </p>
+            <div className="intro-services">
+              <div className="service-item">
+                <span className="service-number">01</span>
+                <span className="service-name">信号</span>
+                <p className="service-desc">
+                  基于大数据与机器学习，构建高价值信号体系，精准赋能客户日常决策。
+                </p>
+              </div>
+              <div className="service-item">
+                <span className="service-number">02</span>
+                <span className="service-name">策略</span>
+                <p className="service-desc">
+                  深耕实战策略开发，覆盖多元场景，驱动交易表现提升。
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
