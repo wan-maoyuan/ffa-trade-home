@@ -47,7 +47,7 @@ const AboutUs = () => {
         <img 
           src={backgroundImage}
           alt="船舶背景"
-          className="hero-background"
+          className="about-us-background"
         />
         <div className="hero-overlay" />
         <div className="hero-content">
@@ -184,20 +184,94 @@ const AboutUs = () => {
 
       {/* 一站式衍生品综合服务 */}
       <section id="products-services" className="comprehensive-services">
-        <div className="services-header">
-          <h2 className="services-title">一站式衍生品综合服务</h2>
-          <p className="services-description">
-            我们提供一站式衍生品综合服务，涵盖培训、咨询、投研、交易、外包、资管等多个领域。
-          </p>
+        <div className="services-white-card">
+          {/* 图标 - 左上角 使用 Figma 提供的图标 */}
+          <div className="services-icon">
+            <svg width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <path d="M13.5 48.75L13.5 18.75L48.75 18.75L48.75 48.75L43.125 48.75L43.125 56.25L19.375 56.25L19.375 48.75L13.5 48.75Z" fill="white" stroke="white" strokeWidth="1.5"/>
+                <rect x="5.5" y="5.5" width="37" height="37" rx="2" fill="white" stroke="white" strokeWidth="1"/>
+                <path d="M16.25 32.5L16.25 16.25L32.5 16.25L32.5 32.5L29.375 32.5L29.375 37.5L19.375 37.5L19.375 32.5L16.25 32.5Z" fill="#2E56A3"/>
+              </g>
+            </svg>
+          </div>
+          
+          {/* 标题和描述 */}
+          <div className="services-header">
+            <h2 className="services-title">一站式衍生品综合服务</h2>
+            <p className="services-description">
+              我们提供一站式衍生品综合服务，涵盖培训、咨询、投研、交易、外包、资管等多个领域。
+            </p>
+          </div>
+          
+          {/* 服务布局图 */}
+          <div className="services-diagram-wrapper">
+            <div className="services-diagram-container">
+              {/* 虚线边框 - 只包含培训、服务、咨询、投研 */}
+              <div className="services-dashed-border"></div>
+              
+              {/* 虚线框内的服务卡片 */}
+              <div className="service-card service-card-peixun">
+                <span>培训</span>
+              </div>
+              <div className="service-card service-card-fuwu">
+                <span>服务</span>
+              </div>
+              <div className="service-card service-card-zixun">
+                <span>咨询</span>
+              </div>
+              <div className="service-card service-card-touyan">
+                <span>投研</span>
+              </div>
+              
+              {/* 虚线框外的服务卡片 */}
+              <div className="service-card service-card-jiaoyi">
+                <span>交易</span>
+              </div>
+              <div className="service-card-external service-card-waibao">
+                <span>外包</span>
+              </div>
+              <div className="service-card-external service-card-ziguan">
+                <span>资管</span>
+              </div>
+              
+              {/* 连接线和箭头 */}
+              <svg className="services-connections" viewBox="0 0 750 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* 培训 -> 服务 水平箭头 */}
+                <line x1="125" y1="69" x2="175" y2="69" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="175,69 170,67 170,71" fill="#4669B2"/>
+                
+                {/* 服务 <-> 交易 双向箭头 */}
+                <line x1="290" y1="61" x2="340" y2="61" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="340,61 335,59 335,63" fill="#4669B2"/>
+                <line x1="340" y1="77" x2="290" y2="77" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="290,77 295,75 295,79" fill="#4669B2"/>
+                
+                {/* 培训 -> 咨询 垂直箭头 */}
+                <line x1="63" y1="107" x2="63" y2="145" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="63,145 61,140 65,140" fill="#4669B2"/>
+                
+                {/* 服务 -> 投研 垂直箭头 */}
+                <line x1="228" y1="107" x2="228" y2="145" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="228,145 226,140 230,140" fill="#4669B2"/>
+                
+                {/* 咨询 -> 投研 水平箭头 */}
+                <line x1="125" y1="184" x2="175" y2="184" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="175,184 170,182 170,186" fill="#4669B2"/>
+                
+                {/* 交易 -> 外包 斜向箭头 */}
+                <line x1="455" y1="55" x2="535" y2="30" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="535,30 530,32 532,27" fill="#4669B2"/>
+                
+                {/* 交易 -> 资管 斜向箭头 */}
+                <line x1="455" y1="83" x2="535" y2="218" stroke="#4669B2" strokeWidth="2"/>
+                <polygon points="535,218 530,216 532,221" fill="#4669B2"/>
+              </svg>
+            </div>
+            
+            <p className="services-footer">One-Stop Comprehensive Derivatives Services</p>
+          </div>
         </div>
-        <div className="services-diagram">
-          <img 
-            src="https://www.figma.com/api/mcp/asset/cb7ded95-b678-4d5d-8af2-c18c1e1d13b5" 
-            alt="一站式服务"
-            className="services-image"
-          />
-        </div>
-        <p className="services-footer">One-Stop Comprehensive Derivatives Services</p>
       </section>
 
       {/* 衍生品+ */}

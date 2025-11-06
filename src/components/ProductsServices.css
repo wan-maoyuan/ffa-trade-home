@@ -22,7 +22,7 @@
 /* 背景图片容器 - 从15%位置开始，高度70%，到85%结束 */
 .background-image-container {
   position: absolute;
-  height: 70%;
+  height: 60%;
   left: 0;
   top: 15%;
   width: 100%;
@@ -43,14 +43,14 @@
   height: 130%; /* 扩大高度以便裁剪上下15% */
   object-fit: cover;
   object-position: center 35%; /* 向下偏移，裁剪掉上面15% */
-  top: -30%; /* 向上偏移15%，裁剪顶部 */
+  top: -60%; /* 向上偏移15%，裁剪顶部 */
 }
 
 /* 产品分类区域 - 位于图片下方 */
 .products-categories {
   position: absolute;
   left: 50%;
-  top: 88%; /* 85% (图片结束) + 3% (距离) */
+  top: 80%; /* 85% (图片结束) + 3% (距离) */
   transform: translateX(-50%);
   width: 80%; /* 左右各留10%空间 */
   padding: 0;
