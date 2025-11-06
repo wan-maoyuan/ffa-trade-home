@@ -1,0 +1,715 @@
+.about-us {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f3f7ff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 顶部背景图和标题 */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 780px;
+  overflow: hidden;
+}
+
+.hero-background {
+  position: absolute;
+  top: -56px;
+  left: 0;
+  width: 100%;
+  height: 836px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 780px;
+  background: linear-gradient(to bottom, 
+    rgba(46, 86, 163, 0.6) 10.432%, 
+    rgba(46, 86, 163, 0.2) 66.412%, 
+    rgba(94, 120, 157, 0) 100%
+  );
+  backdrop-filter: blur(5px);
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 234px;
+  right: 138px;
+  text-align: right;
+  color: white;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 48px;
+  opacity: 0.82;
+  margin: 0 0 22px 0;
+  letter-spacing: 2.88px;
+}
+
+.hero-subtitle-cn {
+  font-family: 'Source Han Sans CN', sans-serif;
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.96px;
+}
+
+.hero-subtitle-en {
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+  letter-spacing: 0.72px;
+}
+
+/* 左侧浮动快速跳转菜单 */
+.side-menu {
+  position: fixed;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  background: rgba(46, 86, 163, 0.6);
+  border-radius: 0 0 50px 50px;
+  padding: 44px 0;
+  width: 155px;
+}
+
+.side-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 148px;
+  align-items: center;
+}
+
+.side-menu-item {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  width: 121px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.side-menu-item:hover,
+.side-menu-item.active {
+  color: #f6d365;
+}
+
+.side-menu-title {
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+  margin-bottom: 4px;
+  letter-spacing: 1.2px;
+}
+
+.side-menu-subtitle {
+  display: block;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.72px;
+}
+
+/* 了解我们 */
+.about-intro {
+  max-width: 1058px;
+  margin: -68px auto 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.about-intro-card {
+  background: #2e56a3;
+  border-radius: 25px;
+  padding: 35px 40px;
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.intro-left {
+  flex-shrink: 0;
+}
+
+.intro-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: white;
+  margin: 0 0 8px 0;
+  letter-spacing: 1.44px;
+  line-height: 30px;
+}
+
+.intro-subtitle {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  margin: 0 0 32px 0;
+  letter-spacing: 0.96px;
+  line-height: 30px;
+}
+
+.intro-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  letter-spacing: 0.72px;
+  line-height: 30px;
+}
+
+.intro-right {
+  flex: 1;
+}
+
+.intro-description {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  line-height: 20px;
+  margin: 0;
+  letter-spacing: 0.84px;
+}
+
+.intro-services {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  padding: 0 40px;
+}
+
+.service-item {
+  display: grid;
+  grid-template-columns: max-content;
+  grid-template-rows: max-content;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+}
+
+.service-number {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 24px;
+  color: #2e56a3;
+  line-height: 30px;
+  letter-spacing: 1.44px;
+}
+
+.service-name {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 16px;
+  color: #2e56a3;
+  line-height: 30px;
+  letter-spacing: 0.96px;
+  margin-left: 33px;
+}
+
+.service-desc {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 10px;
+  color: #a6c4ff;
+  line-height: 15px;
+  letter-spacing: 0.2px;
+  margin: 5px 0 0 71px;
+  width: 149px;
+  white-space: pre-wrap;
+}
+
+/* 核心团队 */
+.core-team {
+  padding: 80px 20px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  color: #2e56a3;
+  margin: 0 0 14px 0;
+  letter-spacing: 2.16px;
+  line-height: 20px;
+}
+
+.section-subtitle {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #212a37;
+  margin: 0;
+  letter-spacing: 1.2px;
+  line-height: 20px;
+}
+
+.team-member {
+  margin-bottom: 80px;
+}
+
+.member-card {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  max-width: 900px;
+}
+
+.team-member-left .member-card {
+  margin: 0 0 0 auto;
+}
+
+.team-member-right .member-card {
+  margin: 0 auto 0 0;
+  flex-direction: row-reverse;
+}
+
+.member-image-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.team-member-left .member-image-wrapper {
+  width: 348px;
+  height: 383px;
+  background: #2e56a3;
+  border-radius: 0 25px 0 0;
+  overflow: hidden;
+}
+
+.team-member-right .member-image-wrapper {
+  width: 295px;
+  height: 326px;
+  background: #2e56a3;
+  border-radius: 25px 0 0 0;
+  overflow: hidden;
+}
+
+.member-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-info {
+  flex: 1;
+  padding-top: 80px;
+}
+
+.member-name {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  color: #2e56a3;
+  margin: 0 0 16px 0;
+  letter-spacing: 2.16px;
+  line-height: 20px;
+}
+
+.member-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #2e56a3;
+  margin: 0 0 32px 0;
+  letter-spacing: 1.2px;
+  line-height: 20px;
+}
+
+.member-description {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  color: #212a37;
+  line-height: 20px;
+  margin: 0;
+  letter-spacing: 0.84px;
+}
+
+/* 一站式衍生品综合服务 */
+.comprehensive-services {
+  background: #2e56a3;
+  padding: 80px 20px 100px;
+  color: white;
+  text-align: center;
+}
+
+.services-header {
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.services-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0 0 24px 0;
+  letter-spacing: 1.44px;
+  line-height: 20px;
+}
+
+.services-description {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+  letter-spacing: 0.84px;
+}
+
+.services-diagram {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.services-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.services-footer {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 0.84px;
+  line-height: 20px;
+}
+
+/* 衍生品+ */
+.derivatives-plus {
+  background: #2e56a3;
+  padding: 80px 20px 100px;
+  color: white;
+}
+
+.derivatives-plus-content {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.derivatives-plus-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0 0 24px 0;
+  letter-spacing: 1.44px;
+  line-height: 20px;
+}
+
+.derivatives-plus-description {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 0 60px 0;
+  letter-spacing: 0.84px;
+}
+
+.derivatives-diagram {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.derivatives-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.derivatives-plus-footer {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.84px;
+  line-height: 20px;
+}
+
+/* 为什么选择我们 */
+.why-choose {
+  position: relative;
+  padding: 120px 20px;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.why-choose-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.why-choose-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(5px);
+}
+
+.why-choose-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    #f3f7ff 28.944%, 
+    rgba(255, 255, 255, 0.6) 60.222%, 
+    rgba(46, 86, 163, 0.2) 100%
+  );
+  z-index: 1;
+}
+
+.why-choose-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.why-choose-list {
+  list-style: none;
+  padding: 0;
+  margin: 40px 0 0 0;
+}
+
+.why-choose-list li {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #212a37;
+  line-height: 40px;
+  letter-spacing: 0.96px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.why-choose-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #2e56a3;
+  border-radius: 50%;
+}
+
+/* 公司介绍和联系方式 */
+.footer {
+  background: #2e56a3;
+  padding: 40px 20px;
+  color: white;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.footer-section {
+  flex: 1;
+}
+
+.footer-logo {
+  width: 160px;
+  height: 63px;
+  margin-bottom: 20px;
+  position: relative;
+  backdrop-filter: blur(14.5px);
+  overflow: hidden;
+}
+
+.footer-logo-image {
+  width: 115%;
+  height: 354.96%;
+  position: absolute;
+  top: -114.71%;
+  left: -5.83%;
+}
+
+.footer-cta {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.72px;
+  line-height: 20px;
+}
+
+.footer-contact {
+  margin-top: 20px;
+}
+
+.contact-label {
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  color: #d1dfff;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.72px;
+  line-height: 20px;
+}
+
+.contact-info {
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  color: #d1dfff;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.72px;
+  line-height: 20px;
+}
+
+.footer-section-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  margin: 0 0 30px 0;
+  letter-spacing: 0.72px;
+  line-height: 20px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: #d1dfff;
+}
+
+.footer-links li {
+  line-height: 30px;
+  letter-spacing: 0.72px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-links li:hover {
+  color: white;
+}
+
+.footer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-form input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #d1dfff;
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  padding: 8px 0;
+  outline: none;
+  letter-spacing: 0.72px;
+}
+
+.footer-form input::placeholder {
+  color: #d1dfff;
+}
+
+.footer-form input:focus {
+  border-bottom-color: white;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .side-menu {
+    left: 10px;
+    width: 120px;
+  }
+  
+  .about-intro {
+    max-width: 90%;
+  }
+  
+  .member-card {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .team-member-right .member-card {
+    flex-direction: column;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .side-menu {
+    display: none;
+  }
+  
+  .hero-content {
+    bottom: 100px;
+    right: 20px;
+  }
+  
+  .hero-title {
+    font-size: 36px;
+  }
+  
+  .about-intro-card {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .intro-services {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .member-info {
+    padding-top: 20px;
+  }
+  
+  .section-title {
+    font-size: 28px;
+  }
+}
+

@@ -9,9 +9,10 @@ import userIcon from '../assets/images/user-icon.svg'
 const Navbar: React.FC = () => {
   const location = useLocation()
   const isProductsPage = location.pathname.startsWith('/product-service')
+  const isAboutUsPage = location.pathname === '/about-us'
 
   return (
-    <div className={`navbar${isProductsPage ? ' products-page' : ''}`}>
+    <div className={`navbar${isProductsPage || isAboutUsPage ? ' products-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">
@@ -38,7 +39,12 @@ const Navbar: React.FC = () => {
           >
             产品与服务
           </Link>
-          <p className="nav-item">关于我们</p>
+          <Link 
+            to="/about-us"
+            className={`nav-item ${isAboutUsPage ? 'active' : ''}`}
+          >
+            关于我们
+          </Link>
         </div>
 
         {/* User Actions */}
