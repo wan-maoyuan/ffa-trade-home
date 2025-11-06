@@ -657,32 +657,58 @@
 }
 
 .flow-layer-3 {
-  justify-content: space-between;
-  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 105px);
+  gap: 25px;
   margin-bottom: 0;
+  padding: 0;
+  position: relative;
+  justify-content: center;
 }
 
 .flow-layer-4 {
   margin-bottom: 20px;
   position: relative;
   z-index: 3;
+  display: grid;
+  grid-template-columns: 105px 105px 105px 105px;
+  gap: 25px;
+  padding: 0;
+  justify-content: center;
+}
+
+/* 第三层网格定位 */
+.flow-layer-3 .flow-card-pos1 {
+  grid-column: 1;
+}
+
+.flow-layer-3 .flow-card-pos2 {
+  grid-column: 2;
+}
+
+.flow-layer-3 .flow-card-pos3 {
+  grid-column: 3;
+}
+
+.flow-layer-3 .flow-card-pos4 {
+  grid-column: 4;
+}
+
+/* 第四层网格定位 - 对齐到上层 */
+.flow-layer-4 .flow-card-pos2 {
+  grid-column: 2;  /* 对齐汇率 */
+}
+
+.flow-layer-4 .flow-card-pos3 {
+  grid-column: 3;  /* 对齐运输 */
+}
+
+.flow-layer-4 .flow-card-pos4 {
+  grid-column: 4;  /* 对齐仓储 */
 }
 
 .flow-layer-5 {
   margin-top: 30px;
-}
-
-.flow-subgroup {
-  display: flex;
-  gap: 20px;
-}
-
-.flow-subgroup-left {
-  justify-content: flex-start;
-}
-
-.flow-subgroup-right {
-  justify-content: flex-end;
 }
 
 .flow-card {

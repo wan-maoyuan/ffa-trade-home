@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import './AboutUs.css'
 import backgroundImage from '../assets/images/about-us-background.jpeg'
+import guanDaYu from '../assets/images/guan-da-yu.png'
+import zhaoKaiYuan from '../assets/images/zhao-kai-yuan.png'
+import chooseUsBackground from '../assets/images/choose-us-background.jpeg'
+import logoFont from '../assets/images/logo-font.png'
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState('company-intro')
@@ -146,7 +150,7 @@ const AboutUs = () => {
             <div className="member-image-container">
               <div className="member-background-block"></div>
               <img 
-                src="https://www.figma.com/api/mcp/asset/fbd3a450-388b-4558-bd34-c6df2ea22ed0" 
+                src={guanDaYu}
                 alt="管大宇"
                 className="member-image"
               />
@@ -166,7 +170,7 @@ const AboutUs = () => {
             <div className="member-image-container">
               <div className="member-background-block"></div>
               <img 
-                src="https://www.figma.com/api/mcp/asset/19917b85-155f-4d17-8c14-8920235fb2a1" 
+                src={zhaoKaiYuan}
                 alt="赵开元"
                 className="member-image"
               />
@@ -334,21 +338,17 @@ const AboutUs = () => {
                     </marker>
                   </defs>
                   {/* 从货币到利率和汇率 */}
-                  <line x1="350" y1="5" x2="245" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
-                  <line x1="350" y1="5" x2="360" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
+                  <line x1="350" y1="5" x2="235" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
+                  <line x1="350" y1="5" x2="315" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
                 </svg>
               </div>
 
               {/* 第三层：利率、汇率、运输、仓储 */}
               <div className="flow-layer flow-layer-3">
-                <div className="flow-subgroup flow-subgroup-left">
-                  <div className="flow-card">利率</div>
-                  <div className="flow-card">汇率</div>
-                </div>
-                <div className="flow-subgroup flow-subgroup-right">
-                  <div className="flow-card">运输</div>
-                  <div className="flow-card">仓储</div>
-                </div>
+                <div className="flow-card flow-card-pos1">利率</div>
+                <div className="flow-card flow-card-pos2">汇率</div>
+                <div className="flow-card flow-card-pos3">运输</div>
+                <div className="flow-card flow-card-pos4">仓储</div>
               </div>
 
               {/* 箭头层 3 */}
@@ -359,18 +359,20 @@ const AboutUs = () => {
                       <polygon points="0 0, 8 4, 0 8" fill="white" opacity="0.8"/>
                     </marker>
                   </defs>
-                  {/* 从运输到燃料油、FFA、碳税 */}
-                  <line x1="470" y1="5" x2="280" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
-                  <line x1="470" y1="5" x2="350" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
-                  <line x1="470" y1="5" x2="420" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
+                  {/* 从运输（第3列）到燃料油（第2列） */}
+                  <line x1="415" y1="5" x2="290" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
+                  {/* 从运输（第3列）到FFA（第3列） */}
+                  <line x1="415" y1="5" x2="415" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
+                  {/* 从运输（第3列）到碳税（第4列） */}
+                  <line x1="415" y1="5" x2="540" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
                 </svg>
               </div>
 
               {/* 第四层：燃料油、FFA、碳税 */}
               <div className="flow-layer flow-layer-4">
-                <div className="flow-card">燃料油</div>
-                <div className="flow-card flow-card-highlight">FFA</div>
-                <div className="flow-card">碳税</div>
+                <div className="flow-card flow-card-pos2">燃料油</div>
+                <div className="flow-card flow-card-highlight flow-card-pos3">FFA</div>
+                <div className="flow-card flow-card-pos4">碳税</div>
               </div>
 
               {/* 弧形包围线 */}
@@ -400,7 +402,7 @@ const AboutUs = () => {
       <section id="choose-us" className="why-choose">
         <div className="why-choose-background">
           <img 
-            src="https://www.figma.com/api/mcp/asset/ae62eeed-99ee-4557-9b26-946e71306e59" 
+            src={chooseUsBackground}
             alt="背景"
             className="why-choose-bg-image"
           />
@@ -428,7 +430,8 @@ const AboutUs = () => {
           <div className="footer-section">
             <div className="footer-logo">
               <img 
-                src="https://www.figma.com/api/mcp/asset/0cd12cc7-1914-43a5-8107-ee37b1177ba8" 
+                // src="https://www.figma.com/api/mcp/asset/0cd12cc7-1914-43a5-8107-ee37b1177ba8" 
+                src={logoFont}
                 alt="AQUABRIDGE"
                 className="footer-logo-image"
               />
