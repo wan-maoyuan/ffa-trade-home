@@ -143,9 +143,10 @@ const AboutUs = () => {
         
         <div className="team-member team-member-left">
           <div className="member-card">
-            <div className="member-image-wrapper">
+            <div className="member-image-container">
+              <div className="member-background-block"></div>
               <img 
-                src="https://www.figma.com/api/mcp/asset/ae62eeed-99ee-4557-9b26-946e71306e59" 
+                src="https://www.figma.com/api/mcp/asset/fbd3a450-388b-4558-bd34-c6df2ea22ed0" 
                 alt="管大宇"
                 className="member-image"
               />
@@ -154,10 +155,7 @@ const AboutUs = () => {
               <h3 className="member-name">管大宇</h3>
               <p className="member-title">恒力衍生品学院院长</p>
               <p className="member-description">
-                毕业于中国科技大学少年班。
-                国内顶级期权实战专家，曾在全球金融市场创造8年300倍的收益率，培养出了多位稳定盈利的优秀期权交易员。
-                国内期权服务实体产业的开创者，累计实现大宗商品含权贸易额超过600亿元，将中国大宗商品产业带进权现结合时代。
-                多家交易所和金融机构特邀讲师，参与国内多个期权合约的设计。
+                毕业于中国科技大学少年班。国内顶级期权实战专家，曾在全球金融市场创造8年300倍的收益率，培养出了 多位稳定盈利的优秀期权交易员。国内期权服务实体产业的开创者，累计实现大宗商品含权贸易额超过600亿元， 将中国大宗商品产业带进权现结合时代。多家交易所和金融机构特邀讲师，参与国内多个期权合约的设计。
               </p>
             </div>
           </div>
@@ -165,9 +163,10 @@ const AboutUs = () => {
 
         <div className="team-member team-member-right">
           <div className="member-card">
-            <div className="member-image-wrapper">
+            <div className="member-image-container">
+              <div className="member-background-block"></div>
               <img 
-                src="https://www.figma.com/api/mcp/asset/6697a77e-4bf6-4488-8a62-79eea696e44b" 
+                src="https://www.figma.com/api/mcp/asset/19917b85-155f-4d17-8c14-8920235fb2a1" 
                 alt="赵开元"
                 className="member-image"
               />
@@ -176,9 +175,7 @@ const AboutUs = () => {
               <h3 className="member-name">赵开元</h3>
               <p className="member-title">资深大宗商品航运、贸易专家</p>
               <p className="member-description">
-                毕业于大连海事大学和长江商学院。
-                资深大宗商品航运、贸易专家。曾完成价值超过10亿美金的散货船新造船项目及项目融资。
-                也曾为国内外头部粮食贸易商提供长期运费服务。曾任波罗的海交易所北美唯一报价会员 JFD 亚洲区负责人。
+                毕业于大连海事大学和长江商学院。资深大宗商品航运、贸易专家。曾完成价值超过10亿美金的散货船新造船项目 及项目融资。也曾为国内外头部粮食贸易商提供长期运费服务。曾任波罗的海交易所北美唯一报价会员 JFD 亚洲区负责人。
               </p>
             </div>
           </div>

@@ -252,13 +252,13 @@
 /* 核心团队 */
 .core-team {
   padding: 80px 20px 100px;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .section-title {
@@ -282,55 +282,79 @@
 }
 
 .team-member {
-  margin-bottom: 80px;
+  margin-bottom: 54px;
+  position: relative;
 }
 
 .member-card {
   display: flex;
-  gap: 40px;
+  gap: 48px;
   align-items: flex-start;
-  max-width: 900px;
+  max-width: 1035px;
 }
 
 .team-member-left .member-card {
-  margin: 0 0 0 auto;
+  margin: 0 0 0 179px;
 }
 
 .team-member-right .member-card {
-  margin: 0 auto 0 0;
+  margin: 0 0 0 179px;
   flex-direction: row-reverse;
+  gap: 40px;
 }
 
-.member-image-wrapper {
+.member-image-container {
   position: relative;
   flex-shrink: 0;
 }
 
-.team-member-left .member-image-wrapper {
+.team-member-left .member-image-container {
   width: 348px;
   height: 383px;
-  background: #2e56a3;
-  border-radius: 0 25px 0 0;
-  overflow: hidden;
 }
 
-.team-member-right .member-image-wrapper {
+.team-member-right .member-image-container {
   width: 295px;
   height: 326px;
+}
+
+.member-background-block {
+  position: absolute;
   background: #2e56a3;
+}
+
+.team-member-left .member-background-block {
+  width: 424px;
+  height: 272px;
+  bottom: 0;
+  left: -85px;
+  border-radius: 0 25px 0 0;
+}
+
+.team-member-right .member-background-block {
+  width: 424px;
+  height: 272px;
+  bottom: 0;
+  right: -129px;
   border-radius: 25px 0 0 0;
-  overflow: hidden;
 }
 
 .member-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: relative;
+  z-index: 1;
 }
 
 .member-info {
   flex: 1;
-  padding-top: 80px;
+  padding-top: 82px;
+  max-width: 576px;
+}
+
+.team-member-right .member-info {
+  padding-top: 118px;
 }
 
 .member-name {
@@ -338,7 +362,7 @@
   font-weight: bold;
   font-size: 36px;
   color: #2e56a3;
-  margin: 0 0 16px 0;
+  margin: 0 0 50px 0;
   letter-spacing: 2.16px;
   line-height: 20px;
 }
@@ -348,9 +372,13 @@
   font-weight: bold;
   font-size: 20px;
   color: #2e56a3;
-  margin: 0 0 32px 0;
+  margin: 0 0 63px 0;
   letter-spacing: 1.2px;
   line-height: 20px;
+}
+
+.team-member-right .member-title {
+  margin: 0 0 46px 0;
 }
 
 .member-description {
@@ -361,6 +389,7 @@
   line-height: 20px;
   margin: 0;
   letter-spacing: 0.84px;
+  max-width: 565px;
 }
 
 /* 一站式衍生品综合服务 */
