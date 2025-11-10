@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
   const location = useLocation()
   const isProductsPage = location.pathname.startsWith('/product-service')
   const isAboutUsPage = location.pathname === '/about-us'
+  const showUserActions = false
 
   return (
     <div className={`navbar${isProductsPage || isAboutUsPage ? ' products-page' : ''}`}>
@@ -47,33 +48,35 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* User Actions */}
-        <div className="navbar-user">
-          <div className="user-actions">
-            <div className="action-icon">
-              <img 
-                alt="Language" 
-                className="icon-image"
-                src={languageIcon}
-              />
+        {/* User Actions - 暂时隐藏 */}
+        {showUserActions && (
+          <div className="navbar-user">
+            <div className="user-actions">
+              <div className="action-icon">
+                <img 
+                  alt="Language" 
+                  className="icon-image"
+                  src={languageIcon}
+                />
+              </div>
+              <div className="action-icon">
+                <img 
+                  alt="Search" 
+                  className="icon-image"
+                  src={searchIcon}
+                />
+              </div>
+              <div className="action-icon">
+                <img 
+                  alt="User" 
+                  className="icon-image"
+                  src={userIcon}
+                />
+              </div>
             </div>
-            <div className="action-icon">
-              <img 
-                alt="Search" 
-                className="icon-image"
-                src={searchIcon}
-              />
-            </div>
-            <div className="action-icon">
-              <img 
-                alt="User" 
-                className="icon-image"
-                src={userIcon}
-              />
-            </div>
+            <p className="user-name">Nikki</p>
           </div>
-          <p className="user-name">Nikki</p>
-        </div>
+        )}
       </div>
     </div>
   )
