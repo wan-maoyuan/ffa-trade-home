@@ -992,6 +992,70 @@
   border-bottom-color: white;
 }
 
+.footer-form textarea {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #d1dfff;
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  padding: 10px 12px;
+  letter-spacing: 0.72px;
+  resize: none;
+  min-height: 86px;
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.footer-form textarea::placeholder {
+  color: #d1dfff;
+}
+
+.footer-form textarea:focus {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.footer-form button {
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 24px;
+  color: white;
+  font-family: 'DengXian', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.78px;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-form button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.footer-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.footer-form-message {
+  margin: 4px 0 0;
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.72px;
+}
+
+.footer-form-message.success {
+  color: #9fe7d3;
+}
+
+.footer-form-message.error {
+  color: #ffb3b3;
+}
+
 /* 响应式设计 */
 @media (max-width: 1200px) {
   .side-menu {

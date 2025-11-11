@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react'
 import './AboutUs.css'
 import backgroundImage from '../assets/images/about-us-background.jpeg'
 import guanDaYu from '../assets/images/guan-da-yu.png'
@@ -8,6 +8,18 @@ import logoFont from '../assets/images/logo-font.png'
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState('company-intro')
+  const [contactForm, setContactForm] = useState({
+    company: '',
+    message: '',
+    name: '',
+    email: '',
+    phone: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error'
+    message: string
+  } | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +53,88 @@ const AboutUs = () => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  const handleInputChange =
+    (field: keyof typeof contactForm) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value } = event.target
+    setContactForm((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+    if (submitStatus) {
+      setSubmitStatus(null)
+    }
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (isSubmitting) {
+      return
+    }
+
+    const trimmedForm = Object.entries(contactForm).reduce((acc, [key, value]) => {
+      acc[key as keyof typeof contactForm] = value.trim()
+      return acc
+    }, { ...contactForm })
+
+    const hasEmptyField = Object.values(trimmedForm).some((value) => !value)
+
+    if (hasEmptyField) {
+      setSubmitStatus({
+        type: 'error',
+        message: '请填写完整信息后再提交。'
+      })
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const params = new URLSearchParams({
+        name: trimmedForm.name,
+        phone: trimmedForm.phone,
+        email: trimmedForm.email,
+        company: trimmedForm.company,
+        message: trimmedForm.message
+      })
+
+      const response = await fetch(
+        `http://153.35.96.86:10014/api/home/home/contact?${params.toString()}`,
+        {
+          method: 'POST',
+          headers: {
+            accept: 'application/json'
+          }
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('网络请求失败')
+      }
+
+      setSubmitStatus({
+        type: 'success',
+        message: '提交成功，我们会尽快与您联系。'
+      })
+      setContactForm({
+        company: '',
+        message: '',
+        name: '',
+        email: '',
+        phone: ''
+      })
+    } catch (error) {
+      console.error('提交失败', error)
+      setSubmitStatus({
+        type: 'error',
+        message: '提交失败，请稍后重试或直接联系我们。'
+      })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -441,7 +535,7 @@ const AboutUs = () => {
               <p className="contact-label">我们的联系方式：</p>
               <p className="contact-info">ffa@aquabridge.ai</p>
               <p className="contact-info">Terry Zhao +86 1360105560</p>
-              <p className="contact-info">Cathy Guan xxx</p>
+              {/* <p className="contact-info">Cathy Guan xxx</p> */}
             </div>
           </div>
 
@@ -457,13 +551,50 @@ const AboutUs = () => {
 
           <div className="footer-section">
             <h3 className="footer-section-title">您的信息</h3>
-            <div className="footer-form">
-              <input type="text" placeholder="公司：" />
-              <input type="text" placeholder="业务和诉求：" />
-              <input type="text" placeholder="联系人：" />
-              <input type="email" placeholder="邮件：" />
-              <input type="tel" placeholder="电话：" />
-            </div>
+            <form className="footer-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="公司："
+                value={contactForm.company}
+                onChange={handleInputChange('company')}
+                autoComplete="organization"
+              />
+              <textarea
+                placeholder="业务和诉求："
+                value={contactForm.message}
+                onChange={handleInputChange('message')}
+                rows={3}
+              />
+              <input
+                type="text"
+                placeholder="联系人："
+                value={contactForm.name}
+                onChange={handleInputChange('name')}
+                autoComplete="name"
+              />
+              <input
+                type="email"
+                placeholder="邮件："
+                value={contactForm.email}
+                onChange={handleInputChange('email')}
+                autoComplete="email"
+              />
+              <input
+                type="tel"
+                placeholder="电话："
+                value={contactForm.phone}
+                onChange={handleInputChange('phone')}
+                autoComplete="tel"
+              />
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? '提交中…' : '提交信息'}
+              </button>
+              {submitStatus && (
+                <p className={`footer-form-message ${submitStatus.type}`}>
+                  {submitStatus.message}
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </footer>
