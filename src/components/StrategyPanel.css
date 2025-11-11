@@ -100,14 +100,16 @@
 }
 
 .strategy-carousel-container {
+  position: relative;
   width: 100%;
-  max-width: 860px;
-  padding: clamp(18px, 3.2vw, 30px);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(46, 86, 163, 0.1);
-  box-shadow: 0 16px 32px rgba(27, 46, 89, 0.12);
-  backdrop-filter: blur(6px);
+  max-width: 1100px;
+  padding: clamp(22px, 3.6vw, 34px) clamp(22px, 3.6vw, 38px) clamp(40px, 4vw, 52px);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(46, 86, 163, 0.12);
+  box-shadow: 0 22px 44px rgba(27, 46, 89, 0.16);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -119,16 +121,16 @@
 .strategy-swiper .swiper-slide {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .strategy-carousel-controls {
   position: absolute;
-  bottom: 12px;
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .strategy-control-btn {
@@ -181,7 +183,9 @@
   }
 
   .strategy-carousel-container {
-    padding: 20px 18px 42px;
+    max-width: 100%;
+    padding: 22px 18px 46px;
+    border-radius: 22px;
   }
 }
 
@@ -202,7 +206,8 @@
   }
 
   .strategy-carousel-container {
-    padding: 18px 16px 38px;
+    padding: 20px 16px 42px;
+    border-radius: 20px;
   }
 
   .strategy-control-btn {

@@ -21,13 +21,12 @@
 .strategy-page {
   position: relative;
   width: 100%;
-  max-width: 1400px;
-  min-height: 420px;
+  max-width: 1020px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 12px;
 }
 
 .strategy-page-title {
@@ -38,7 +37,7 @@
   color: #949595;
   text-align: center;
   letter-spacing: 0.32px;
-  margin: 0 0 28px 0;
+  margin: 0 0 20px 0;
   width: 100%;
   white-space: pre-wrap;
 }
@@ -59,7 +58,7 @@
 .strategy-chips {
   display: flex;
   gap: 16px;
-  margin-bottom: 36px;
+  margin-bottom: 28px;
 }
 
 .strategy-chip {
@@ -90,11 +89,11 @@
   position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 28px 32px;
-  border-radius: 28px;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 28px;
+  padding: 26px 28px;
+  border-radius: 24px;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 24px 46px rgba(27, 44, 88, 0.15);
 }
@@ -107,8 +106,8 @@
 
 .strategy-card-left {
   position: relative;
-  width: 230px;
-  height: 140px;
+  width: 280px;
+  height: 164px;
   flex-shrink: 0;
   border-radius: 18px;
   overflow: hidden;
@@ -152,7 +151,7 @@
 .strategy-card-left-title {
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-weight: 800;
-  font-size: 32px;
+  font-size: 36px;
   letter-spacing: 0.22em;
   color: #ffffff;
   text-shadow:
@@ -164,7 +163,7 @@
 .strategy-card-left-desc {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.92);
   margin: 0;
@@ -241,9 +240,10 @@
 
 .strategy-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 18px;
   flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-content: start;
 }
 
 .strategy-metric-card {
@@ -282,7 +282,7 @@
   margin: 0;
   font-family: 'DengXian', sans-serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 22px;
   color: rgba(34, 64, 132, 0.95);
   line-height: 1.2;
 }
@@ -824,11 +824,8 @@
 /* 响应式设计 */
 @media (max-width: 1200px) {
   .strategy-metrics-grid {
-    gap: 20px;
-  }
-  
-  .strategy-metric-card {
-    width: 120px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
   }
 
   .strategy-cards-container-wide {
@@ -877,12 +874,13 @@
 
 @media (max-width: 768px) {
   .strategy-page {
-    padding: 0 15px;
+    padding: 0 10px;
   }
-  
+
   .strategy-cards-container {
     flex-direction: column;
     gap: 20px;
+    padding: 22px 22px;
   }
 
   .strategy-cards-container-wide {
@@ -902,13 +900,14 @@
   }
   
   .strategy-metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 16px;
-    width: 100%;
   }
   
-  .strategy-metric-card {
-    width: calc(50% - 8px);
-    min-width: 120px;
+  .strategy-card-left {
+    width: 100%;
+    height: auto;
+    min-height: 160px;
   }
   
   .chart-controls {
