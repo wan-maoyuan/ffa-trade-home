@@ -42,35 +42,42 @@
 
 .hero-content {
   position: absolute;
-  bottom: 210px;
-  right: min(10vw, 140px);
-  text-align: right;
+  bottom: clamp(180px, 24vh, 240px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
   color: rgba(255, 255, 255, 0.95);
   z-index: 1;
+  padding: 0 24px;
 }
 
 .hero-title {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: clamp(40px, 5vw, 52px);
-  opacity: 0.9;
-  margin: 0 0 18px 0;
+  font-size: clamp(48px, 7vw, 84px);
+  opacity: 0.92;
+  margin: 0;
   letter-spacing: 0.12em;
 }
 
 .hero-subtitle-cn {
   font-family: 'Source Han Sans CN', sans-serif;
-  font-size: 16px;
-  margin: 0 0 8px 0;
-  letter-spacing: 0.96px;
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 0.12em;
 }
 
 .hero-subtitle-en {
   font-family: 'DengXian', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   margin: 0;
-  opacity: 0.9;
-  letter-spacing: 0.72px;
+  opacity: 0.88;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* 左侧浮动快速跳转菜单 */
@@ -1120,12 +1127,14 @@
   }
   
   .hero-content {
-    bottom: 100px;
-    right: 20px;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 16px;
   }
   
   .hero-title {
-    font-size: 36px;
+    font-size: 42px;
   }
   
   .intro-top {

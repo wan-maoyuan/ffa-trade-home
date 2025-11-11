@@ -1,84 +1,102 @@
 .signal-panel {
   position: relative;
-  background-color: #f3f7ff;
   min-height: 100vh;
   width: 100%;
-  overflow: hidden;
-  padding-bottom: 120px;
-}
-
-/* 顶部标题和按钮 */
-.signal-header {
-  position: relative;
-  width: 100%;
-  padding: 152px 0 0;
+  padding: 110px 18px 120px;
+  background: linear-gradient(180deg, #f5f8ff 0%, #e6edff 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 48px;
 }
 
-.signal-title-section {
-  text-align: center;
-  width: 700px;
+.signal-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.55), transparent 50%);
+  pointer-events: none;
 }
 
-.signal-title {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-  color: #2e56a3;
-  opacity: 0.82;
-  margin: 0;
-  white-space: pre-wrap;
+.signal-hero {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  padding: clamp(36px, 6vw, 52px) clamp(28px, 5vw, 56px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(46, 86, 163, 0.08);
+  box-shadow: 0 24px 48px rgba(31, 55, 105, 0.12);
+  backdrop-filter: blur(10px);
+  z-index: 1;
 }
 
-.signal-subtitle {
-  font-family: 'Source Han Sans CN', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: normal;
-  color: #212a37;
-  margin: 8px 0 0;
-  white-space: pre-wrap;
-}
-
-.signal-button {
-  background-color: #2e56a3;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 8px;
-  height: 33px;
-  width: 100px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.signal-hero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  color: #1b2f56;
 }
 
-.signal-button:hover {
-  background-color: #234489;
+.signal-eyebrow {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(43, 70, 130, 0.6);
 }
 
-.signal-button span {
+.signal-hero-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: clamp(30px, 4.2vw, 44px);
+  letter-spacing: 0.08em;
+  margin: 0;
+  color: #1c376a;
+}
+
+.signal-hero-text {
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: normal;
-  color: white;
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: 0.03em;
+  margin: 0;
+  max-width: 620px;
+  color: rgba(28, 55, 106, 0.78);
+}
+
+.signal-hero-detail {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+  max-width: 640px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  color: rgba(28, 55, 106, 0.74);
+}
+
+.signal-hero-detail p {
   margin: 0;
 }
 
-/* 轮播图容器 */
 .signal-carousel-container {
   position: relative;
   width: 100%;
-  max-width: 1440px;
-  margin: 80px auto 0;
-  height: 260px;
-  padding: 0 20px;
+  max-width: 980px;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(46, 86, 163, 0.1);
+  box-shadow: 0 22px 48px rgba(27, 46, 89, 0.12);
+  backdrop-filter: blur(8px);
+  z-index: 1;
 }
 
 .signal-swiper {
@@ -87,94 +105,104 @@
 }
 
 .signal-swiper .swiper-slide {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 圆形按钮控制 */
 .signal-carousel-controls {
   position: absolute;
-  bottom: -40px;
-  right: calc(50% - 541px);
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 7.261px;
-  z-index: 10;
+  gap: 8px;
 }
 
 .signal-control-btn {
-  width: 17px;
-  height: 17px;
-  border-radius: 7.715px;
-  border: none;
-  background-color: #dddddd;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(46, 86, 163, 0.2);
+  background: rgba(46, 86, 163, 0.07);
   color: #2e56a3;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
-  font-size: 10.891px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
-  padding: 0;
-  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.signal-control-btn:hover {
+  border-color: rgba(46, 86, 163, 0.35);
+  background: rgba(46, 86, 163, 0.14);
 }
 
 .signal-control-btn.active {
-  background-color: #f3f7ff;
+  background: #2e56a3;
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 16px rgba(46, 86, 163, 0.22);
 }
 
-/* 底部文字描述 */
-.signal-description {
-  position: relative;
-  width: 775px;
-  margin: 100px auto 0;
+.signal-summary {
+  max-width: 940px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: start;
+  color: rgba(28, 55, 106, 0.78);
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10px;
-  line-height: 20px;
-  color: #2e56a3;
-  text-align: left;
-  letter-spacing: 0.2px;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  z-index: 1;
 }
 
-@media (max-width: 768px) {
-  .signal-header {
-    padding: 100px 20px 0;
+.signal-summary p {
+  margin: 0;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(46, 86, 163, 0.1);
+  box-shadow: 0 12px 28px rgba(27, 46, 89, 0.1);
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 900px) {
+  .signal-panel {
+    padding: 100px 16px 100px;
+    gap: 40px;
   }
 
-  .signal-title-section {
-    width: 100%;
-    max-width: 700px;
-  }
-
-  .signal-title {
-    font-size: 32px;
-  }
-
-  .signal-subtitle {
-    font-size: 14px;
+  .signal-hero {
+    padding: 40px 28px;
+    border-radius: 24px;
   }
 
   .signal-carousel-container {
-    margin: 40px auto 0;
-    height: auto;
-    min-height: 260px;
+    padding: 24px 18px 44px;
   }
 
-  .signal-carousel-controls {
-    right: 20px;
-    bottom: -35px;
+  .signal-summary {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .signal-hero-text {
+    font-size: 14px;
   }
 
-  .signal-description {
-    width: 90%;
-    max-width: 775px;
-    margin: 80px auto 0;
-    padding: 0 20px;
+  .signal-hero-detail {
+    font-size: 13px;
+  }
+
+  .signal-summary {
+    grid-template-columns: 1fr;
   }
 }
 

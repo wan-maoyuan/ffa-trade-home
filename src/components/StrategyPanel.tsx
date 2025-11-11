@@ -38,15 +38,22 @@ const StrategyPanel: React.FC = () => {
 
       <SideMenu currentPage="strategy" />
 
-      {/* 居中内容区域 */}
-      <div className="strategy-content">
-        <h1 className="strategy-title">AQUABRIDGE</h1>
-        <p className="strategy-subtitle">一站式衍生品综合服务商</p>
-        <button type="button" className="strategy-button">
-          <span>策略服务入口</span>
-        </button>
-        <div className="strategy-desc">
-          在策略服务方面，我们根据精准捕捉到的价格波动信号，为用户量身定制做多或做空策略建议。结合对航运市场长期的研究和经验积累，以及当前市场形势的判断，为用户提供切实可行的操作方向，助力用户抓住市场机会。并且，基于对基差变化的深度分析，我们帮助用户更全面地理解市场趋势，综合考虑各种因素，为用户制定出更贴合市场实际的投资策略，让用户在复杂多变的航运市场中，能够做出明智决策，从而实现收益最大化。
+      {/* 顶部信息区域 */}
+      <div className="strategy-hero">
+        <div className="strategy-hero-content">
+          <span className="strategy-eyebrow">Strategic Advisory</span>
+          <h1 className="strategy-hero-title">航运衍生品策略赋能</h1>
+          <p className="strategy-hero-text">
+            结合对航运供需、运价周期与金融衍生品的深度洞察，我们为企业构建一体化的策略框架，实现风险对冲、收益放大与资本效率提升的平衡。
+          </p>
+          <div className="strategy-hero-detail">
+            <p>
+              我们将信号洞察转化为可执行的策略，配合专业团队的定制化陪伴，帮助您在复杂多变的市场中保持敏捷与稳健。
+            </p>
+            <p>
+              通过动态评估仓位组合、仿真回测和风险情景分析，策略建议始终与业务节奏相匹配，助力团队建立长期可持续的衍生品体系。
+            </p>
+          </div>
         </div>
       </div>
 

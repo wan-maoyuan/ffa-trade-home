@@ -30,15 +30,23 @@ const SignalPanel: React.FC = () => {
     <div className="signal-panel">
       <SideMenu currentPage="signal" />
 
-      {/* 顶部标题和按钮 */}
-      <div className="signal-header">
-        <div className="signal-title-section">
-          <h1 className="signal-title">AQUABRIDGE</h1>
-          <p className="signal-subtitle">一站式衍生品综合服务商</p>
+      {/* 顶部信息区域 */}
+      <div className="signal-hero">
+        <div className="signal-hero-content">
+          <span className="signal-eyebrow">Market Signals</span>
+          <h1 className="signal-hero-title">航运衍生品信号洞察</h1>
+          <p className="signal-hero-text">
+            聚焦全球航运市场的价差、基差与运价指标，通过数据建模与实时监测，帮助您的团队更快捕捉行情变化，建立前瞻性的交易视角。
+          </p>
+          <div className="signal-hero-detail">
+            <p>
+              我们以多维度数据为基础，持续追踪航运市场的结构性变化，甄别各类价格驱动因素，形成透明、可解释的信号体系，让决策者能够更早洞察趋势。
+            </p>
+            <p>
+              无论是短期波动还是中长期周期，我们提供的指标与解读都可协助团队制定行动计划，兼顾风险控制与收益捕捉。
+            </p>
+          </div>
         </div>
-        <button type="button" className="signal-button">
-          <span>信号服务入口</span>
-        </button>
       </div>
 
       {/* 轮播图容器 */}
@@ -89,8 +97,13 @@ const SignalPanel: React.FC = () => {
       </div>
 
       {/* 底部文字描述 */}
-      <div className="signal-description">
-        我们专注于航运市场信号的捕捉。依托海量且全面的航运市场数据，凭借先进的数据分析技术和专业模型，精准识别价格波动信号。这些信号犹如市场的"风向标"，能敏锐反映价格即将发生的变动趋势，无论是上涨还是下跌的先兆，都能及时被我们捕捉到，为用户提前感知市场变化提供关键指引。同时，我们深度剖析基差变化，基差波动往往蕴含着市场供需关系的微妙转变，通过对其细致分析，能进一步洞察市场潜在趋势，为用户把握市场动态提供更丰富的信号参考。
+      <div className="signal-summary">
+        <p>
+          信号面板为各类航线、运价指数和点价周期提供统一视图，帮助管理者在单一界面上对比各类指标的强弱变化，快速定位潜在机会区间。
+        </p>
+        <p>
+          数据解释与策略提示均以可视化形式呈现，便于团队同步洞察、协同讨论与执行。
+        </p>
       </div>
     </div>
   )

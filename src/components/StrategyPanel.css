@@ -1,127 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap');
+
 .strategy-panel {
   position: relative;
-  min-height: 810px;
+  min-height: 100vh;
   width: 100%;
-  height: 100%;
+  padding: 110px 18px 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
   overflow: hidden;
 }
 
 .strategy-bg {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 810px;
+  inset: 0;
   overflow: hidden;
   z-index: 0;
 }
 
 .strategy-bg > img {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(0px);
+  transform: scale(1.06);
+  filter: saturate(118%) contrast(104%);
 }
 
 .strategy-bg-mask {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 120%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(233, 240, 255, 0.84) 45%, rgba(229, 238, 255, 0.72) 100%);
+  backdrop-filter: blur(4px);
+}
+
+.strategy-hero {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  padding: clamp(36px, 6vw, 52px) clamp(28px, 5vw, 56px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(46, 86, 163, 0.08);
+  box-shadow: 0 24px 48px rgba(31, 55, 105, 0.12);
+  backdrop-filter: blur(10px);
   z-index: 1;
 }
 
-/* 居中内容区域 */
-.strategy-content {
-  position: absolute;
-  left: 50%;
-  top: 15%;
-  transform: translateX(-50%);
+.strategy-hero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: 700px;
   text-align: center;
-  z-index: 10;
+  gap: 14px;
+  color: #1c376a;
 }
 
-.strategy-title {
+.strategy-eyebrow {
   font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-  color: #2e56a3;
-  opacity: 0.82;
-  margin: 0 0 11px 0;
-  white-space: pre-wrap;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(43, 70, 130, 0.6);
 }
 
-.strategy-subtitle {
-  font-family: 'Source Han Sans CN', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: normal;
-  color: #212a37;
-  margin: 0 0 16px 0;
-  white-space: pre-wrap;
-}
-
-.strategy-button {
-  background-color: #2e56a3;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 8px;
-  height: 33px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 16px 0;
-  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
-}
-
-.strategy-button:hover {
-  background-color: #234489;
-}
-
-.strategy-button span {
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: normal;
-  color: white;
+.strategy-hero-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: clamp(30px, 4.2vw, 44px);
+  letter-spacing: 0.08em;
   margin: 0;
 }
 
-.strategy-desc {
-  width: 672px;
+.strategy-hero-text {
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10px;
-  line-height: 20px;
-  color: rgba(46,86,163,0.87);
-  letter-spacing: 0.2px;
-  text-align: center;
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: 0.03em;
+  margin: 0;
+  max-width: 660px;
+  color: rgba(28, 55, 106, 0.78);
+}
+
+.strategy-hero-detail {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+  max-width: 680px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  color: rgba(28, 55, 106, 0.74);
+}
+
+.strategy-hero-detail p {
   margin: 0;
 }
 
-/* 轮播图容器 */
 .strategy-carousel-container {
-  position: absolute;
+  position: relative;
   width: 100%;
-  max-width: 1440px;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 381px;
-  height: 450px;
-  padding: 0 20px;
-  z-index: 10;
+  max-width: 1000px;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(46, 86, 163, 0.1);
+  box-shadow: 0 22px 48px rgba(27, 46, 89, 0.12);
+  backdrop-filter: blur(8px);
+  z-index: 1;
 }
 
 .strategy-swiper {
@@ -130,78 +120,72 @@
 }
 
 .strategy-swiper .swiper-slide {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
-/* 圆形按钮控制 */
 .strategy-carousel-controls {
   position: absolute;
-  top: 8px;
-  right: 24px;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 8px;
-  z-index: 20;
 }
 
 .strategy-control-btn {
-  width: 17px;
-  height: 17px;
-  border-radius: 8.5px;
-  border: none;
-  background-color: #dddddd;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(46, 86, 163, 0.2);
+  background: rgba(46, 86, 163, 0.07);
+  color: #2e56a3;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
-  padding: 0;
-  line-height: 1;
+  transition: all 0.3s ease;
 }
 
 .strategy-control-btn:hover {
-  background-color: #234489;
+  border-color: rgba(46, 86, 163, 0.35);
+  background: rgba(46, 86, 163, 0.14);
 }
 
 .strategy-control-btn.active {
-  background-color: #2e56a3;
+  background: #2e56a3;
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 16px rgba(46, 86, 163, 0.22);
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
+  .strategy-panel {
+    padding: 100px 16px 100px;
+    gap: 40px;
+  }
+
+  .strategy-hero {
+    padding: 40px 28px;
+    border-radius: 24px;
+  }
+
   .strategy-carousel-container {
-    padding: 0 40px;
-  }
-  
-  .strategy-carousel-controls {
-    top: 8px;
-    right: 40px;
+    padding: 24px 18px 44px;
   }
 }
 
-@media (max-width: 768px) {
-  .strategy-content { max-width: 90%; }
-  .strategy-title { font-size: 32px; }
-  .strategy-subtitle { font-size: 14px; }
-  .strategy-desc { width: 100%; font-size: 9px; }
-  
+@media (max-width: 600px) {
+  .strategy-hero-text,
+  .strategy-hero-detail {
+    font-size: 13px;
+  }
+
   .strategy-carousel-container {
-    top: 500px;
-    height: auto;
-    min-height: 300px;
-  }
-  
-  .strategy-carousel-controls {
-    top: 8px;
-    right: 20px;
+    padding: 22px 16px 42px;
   }
 }
-
-
-

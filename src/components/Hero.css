@@ -1,177 +1,198 @@
-/* Hero区域样式 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
 .hero {
   position: relative;
-  width: 100%;
-  height: 100vh;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(120px, 22vh, 200px) clamp(32px, 8vw, 140px);
+  color: #ffffff;
+  background: #061434;
   overflow: hidden;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-/* Background */
-.hero-background {
-  position: fixed;
-  top: 30%;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
+.hero-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   z-index: 0;
 }
 
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-media-image {
   width: 100%;
   height: 100%;
-  min-height: 135vh;
   object-fit: cover;
-  object-position: center center;
+  transform: scale(1.08);
+  filter: saturate(120%) contrast(108%);
 }
 
-.background-overlay {
+.hero-media::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background: transparent;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 55%);
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
-/* Gradient Overlay */
-.gradient-overlay {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(3, 14, 36, 0.88) 12%, rgba(13, 32, 76, 0.55) 58%, rgba(22, 48, 95, 0.2) 100%);
   z-index: 1;
 }
 
-/* Decorative Rectangle */
-.decorative-rectangle {
+.hero-gradient {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(6, 20, 52, 0.92) 0%, rgba(6, 20, 52, 0.4) 50%, rgba(6, 20, 52, 0.05) 100%);
+  z-index: 1;
+  mix-blend-mode: multiply;
 }
 
-.rectangle-image {
-  display: block;
-  max-width: none;
-  width: 100%;
-  height: 100%;
-}
-
-/* Main Content */
 .hero-content {
   position: relative;
-  left: 50%;
-  top: 324px;
-  transform: translateX(-50%);
-  width: 700px;
+  z-index: 2;
+  max-width: 680px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 1;
+  gap: 24px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(219, 231, 255, 0.78);
 }
 
 .hero-title {
   font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 96px;
-  line-height: normal;
-  color: white;
-  text-align: center;
+  font-weight: 700;
+  font-size: clamp(52px, 8vw, 96px);
+  letter-spacing: 0.08em;
   margin: 0;
-  height: 79px;
-  width: 100%;
-  white-space: pre-wrap;
-  font-variation-settings: 'wdth' 100;
+  color: #ffffff;
 }
 
 .hero-subtitle {
   font-family: 'Source Han Sans CN', sans-serif;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: normal;
-  color: white;
-  text-align: center;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   margin: 0;
-  height: 32px;
-  width: 700px;
-  white-space: pre-wrap;
-  font-style: normal;
-  position: absolute;
-  top: 137px; /* 461px - 324px */
+  color: rgba(219, 231, 255, 0.9);
 }
 
-/* 响应式设计 */
-@media (max-width: 1440px) {
+.hero-description {
+  font-family: 'DengXian', sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: rgba(228, 235, 252, 0.88);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 28px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.hero-button-primary {
+  background: linear-gradient(135deg, #f9d976 0%, #f39f86 100%);
+  color: #082043;
+  box-shadow: 0 14px 28px rgba(243, 185, 120, 0.35);
+}
+
+.hero-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(243, 185, 120, 0.4);
+}
+
+.hero-button-secondary {
+  background: transparent;
+  border-color: rgba(219, 231, 255, 0.35);
+  color: rgba(219, 231, 255, 0.9);
+}
+
+.hero-button-secondary:hover {
+  border-color: rgba(219, 231, 255, 0.65);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
   .hero {
-    min-height: 100vh;
+    padding: clamp(80px, 18vh, 160px) clamp(24px, 6vw, 80px);
   }
-  
-  .gradient-overlay {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .decorative-rectangle {
-    width: 100%;
-    height: 100%;
-  }
-  
+
   .hero-content {
-    width: 90%;
-    max-width: 700px;
-  }
-  
-  .hero-subtitle {
-    width: 100%;
+    max-width: 560px;
   }
 }
 
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 64px;
-    height: auto;
+  .hero {
+    padding: 120px 24px 100px;
+    align-items: flex-end;
   }
-  
-  .hero-subtitle {
-    font-size: 20px;
-    top: 120px;
-  }
-  
+
   .hero-content {
-    top: 50%;
-    transform: translate(-50%, -50%);
+    max-width: 100%;
+    gap: 18px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.26em;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-button {
+    width: 100%;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 100px 20px 90px;
+  }
+
   .hero-title {
-    font-size: 48px;
+    font-size: clamp(44px, 12vw, 54px);
   }
-  
+
   .hero-subtitle {
-    font-size: 18px;
-    top: 100px;
-  }
-  
-  .hero-content {
-    width: 95%;
-    padding: 0 20px;
+    font-size: 16px;
+    letter-spacing: 0.08em;
   }
 }
 
-@media (max-width: 320px) {
-  .hero-title {
-    font-size: 36px;
-  }
-  
-  .hero-subtitle {
-    font-size: 16px;
-    top: 80px;
-  }
-}
