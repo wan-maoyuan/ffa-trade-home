@@ -408,20 +408,72 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
   .signal-page {
-    padding: 24px 18px 32px;
+    padding: 22px 16px 28px;
+    gap: 16px;
   }
 
   .signal-page-content {
     gap: 16px;
   }
 
+  .signal-date-tags {
+    width: 100%;
+    justify-content: center;
+  }
+
   .signal-value-cards {
     flex-direction: column;
+    gap: 12px;
+  }
+
+  .signal-trade-info-table {
+    overflow-x: auto;
+    border-radius: 18px;
+  }
+
+  .signal-trade-info-table-header,
+  .signal-trade-info-table-row {
+    min-width: 520px;
   }
 
   .single-position-signal-page .signal-page-content,
   .double-position-signal-page .signal-page-content {
     grid-template-columns: 1fr;
+  }
+
+  .signal-trade-item {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .signal-page {
+    padding: 20px 14px 26px;
+  }
+
+  .signal-page-title {
+    font-size: 13px;
+  }
+
+  .signal-trade-item-code,
+  .signal-trade-item-direction,
+  .signal-trade-item-ratio,
+  .signal-pair-trade-item-pair,
+  .signal-pair-trade-item-direction,
+  .signal-pair-trade-item-ratio {
+    font-size: 11px;
+  }
+
+  .signal-trade-list,
+  .signal-pair-trade-list,
+  .signal-pair-trade-list-left {
+    padding: 16px 16px;
+  }
+
+  .signal-pair-trade-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 }
 

@@ -1127,14 +1127,15 @@
   }
   
   .hero-content {
-    bottom: 120px;
+    top: 46%;
     left: 50%;
-    transform: translateX(-50%);
-    padding: 0 16px;
+    transform: translate(-50%, -50%);
+    gap: 16px;
+    padding: 0 18px;
   }
   
   .hero-title {
-    font-size: 42px;
+    font-size: 38px;
   }
   
   .intro-top {
@@ -1153,6 +1154,45 @@
   
   .section-title {
     font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    top: 44%;
+    padding: 0 14px;
+    gap: 14px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-subtitle-cn {
+    font-size: 17px;
+  }
+
+  .hero-subtitle-en {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+  }
+
+  .about-intro {
+    margin: -48px auto 60px;
+    padding: 0 16px;
+  }
+
+  .intro-description {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .intro-services {
+    gap: 16px;
+  }
+
+  .service-item {
+    width: 100%;
   }
 }
 

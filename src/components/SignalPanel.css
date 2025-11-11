@@ -205,3 +205,22 @@
   }
 }
 
+@media (max-width: 480px) {
+  .signal-hero {
+    padding: 26px 18px;
+  }
+
+  .signal-hero-title {
+    font-size: 24px;
+    letter-spacing: 0.06em;
+  }
+
+  .signal-carousel-container {
+    padding: 16px 14px 36px;
+  }
+
+  .signal-summary p {
+    flex: 1 1 100%;
+  }
+}
+

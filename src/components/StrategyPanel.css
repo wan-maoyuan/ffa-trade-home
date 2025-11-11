@@ -160,6 +160,31 @@
   box-shadow: 0 6px 12px rgba(46, 86, 163, 0.2);
 }
 
+@media (max-width: 768px) {
+  .strategy-panel {
+    padding: 78px 18px 84px;
+    gap: 26px;
+  }
+
+  .strategy-hero {
+    padding: 30px 22px;
+    text-align: center;
+  }
+
+  .strategy-hero-content {
+    gap: 14px;
+  }
+
+  .strategy-hero-text,
+  .strategy-hero-detail {
+    font-size: 12px;
+  }
+
+  .strategy-carousel-container {
+    padding: 20px 18px 42px;
+  }
+}
+
 @media (max-width: 720px) {
   .strategy-panel {
     padding: 70px 14px 80px;
@@ -184,5 +209,15 @@
     width: 18px;
     height: 18px;
     font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .strategy-hero-title {
+    font-size: 24px;
+  }
+
+  .strategy-carousel-container {
+    padding: 18px 16px 38px;
   }
 }

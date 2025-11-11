@@ -227,7 +227,8 @@
     position: static;
     order: 2;
     transform: none;
-    gap: 20px;
+    gap: 18px;
+    flex-wrap: wrap;
   }
   
   .navbar-user {
@@ -248,6 +249,7 @@
 @media (max-width: 480px) {
   .navbar-menu {
     gap: 15px;
+    justify-content: center;
   }
   
   .nav-item {

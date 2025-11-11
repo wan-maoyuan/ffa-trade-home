@@ -152,27 +152,30 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 120px 24px 100px;
-    align-items: flex-end;
+    padding: 112px 20px 96px;
+    align-items: center;
   }
 
   .hero-content {
-    max-width: 100%;
-    gap: 18px;
+    max-width: 520px;
+    gap: 16px;
+    text-align: center;
+    align-items: center;
   }
 
   .hero-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.26em;
+    font-size: 11px;
+    letter-spacing: 0.24em;
   }
 
   .hero-description {
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.8;
   }
 
   .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .hero-button {
