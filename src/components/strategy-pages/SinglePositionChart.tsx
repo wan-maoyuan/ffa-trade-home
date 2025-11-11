@@ -1,78 +1,159 @@
 import React from 'react'
 import './StrategyPage.css'
+import strategyBackground from '../../assets/images/strategy-background.jpeg'
 
-// 来自 Figma MCP 的图表图片资源（7天有效期）
-const IMG_CHART_LINE1 = 'https://www.figma.com/api/mcp/asset/27fd4dc5-f512-4aa6-ab1a-ed912d81a4df'
-const IMG_CHART_LINE2 = 'https://www.figma.com/api/mcp/asset/f748ce66-1cca-4667-a509-9e152acc6c79'
-const IMG_MENU_ICON = 'https://www.figma.com/api/mcp/asset/7454cc4a-4e2e-441b-9f10-1c1eb36d599d'
+const yTicks = [60, 50, 40, 30, 20, 10, 0]
+const xTicks = [
+  '2025-01-08',
+  '2025-02-13',
+  '2025-03-13',
+  '2025-04-10',
+  '2025-05-09',
+  '2025-06-20',
+  '2025-07-24',
+  '2025-08-21',
+  '2025-09-18'
+]
+
+const actualSeries = [22, 20, 24, 30, 32, 33, 34, 37, 39]
+const predictedSeries = [25, 27, 30, 34, 36, 38, 41, 43, 45]
+
+const SVG_WIDTH = 720
+const SVG_HEIGHT = 260
+const TOP_PADDING = 10
+const BOTTOM_PADDING = 34
+const MAX_VALUE = 60
+
+const mapX = (index: number, total: number) => {
+  if (total <= 1) return 0
+  return (index / (total - 1)) * SVG_WIDTH
+}
+
+const mapY = (value: number) => {
+  const usableHeight = SVG_HEIGHT - TOP_PADDING - BOTTOM_PADDING
+  return TOP_PADDING + ((MAX_VALUE - value) / MAX_VALUE) * usableHeight
+}
+
+const buildPath = (values: number[]) =>
+  values
+    .map((value, index, arr) => {
+      const x = mapX(index, arr.length).toFixed(2)
+      const y = mapY(value).toFixed(2)
+      return `${index === 0 ? 'M' : 'L'}${x},${y}`
+    })
+    .join(' ')
 
 const SinglePositionChart: React.FC = () => {
+  const actualPath = buildPath(actualSeries)
+  const predictedPath = buildPath(predictedSeries)
+  const gridPositions = yTicks.map((tick) => mapY(tick))
+  const actualMarkers = actualSeries.map((value, index, arr) => ({
+    x: mapX(index, arr.length),
+    y: mapY(value)
+  }))
+
   return (
-    <div className="strategy-page single-position-chart-figma">
-      {/* 标题 */}
-      <p className="chart-title-center">单头寸策略展示</p>
-
-      {/* 控制区域 */}
-      <div className="chart-controls-area">
-        {/* 年份选择 */}
-        <div className="chart-year-control">
-          <span className="chart-year-label">年份：</span>
-          <div className="chart-year-select">
-            <span>2025</span>
-            <svg width="7" height="4" viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '8px' }}>
-              <path d="M3.5 4L0 0H7L3.5 4Z" fill="#2e56a3"/>
-            </svg>
-          </div>
+    <div className="strategy-page single-position-chart-page">
+      <div className="chart-shell">
+        <div className="chart-shell-background">
+          <img src={strategyBackground} alt="远洋货轮背景" />
+          <div className="chart-shell-mask" />
         </div>
 
-        {/* 国内运费按钮 */}
-        <button type="button" className="chart-btn-freight">国内运费</button>
-
-        {/* 查询按钮 */}
-        <button type="button" className="chart-btn-query">查询</button>
-
-        {/* 图表标题 */}
-        <p className="chart-subtitle">实际价格VS预测价格</p>
-
-        {/* 三点菜单 */}
-        <div className="chart-menu-icon">
-          <img src={IMG_MENU_ICON} alt="菜单" />
-        </div>
-      </div>
-
-      {/* 图表区域 */}
-      <div className="chart-area-container">
-        {/* 图表网格 */}
-        <div className="chart-grid">
-          {/* Y轴标签 */}
-          <div className="chart-y-labels">
-            <span>60</span>
-            <span>50</span>
-            <span>40</span>
-            <span>30</span>
-            <span>20</span>
-            <span>10</span>
-            <span>0</span>
+        <div className="chart-shell-content">
+          <div className="chart-shell-header">
+            <div className="chart-shell-title">单头寸策略展示</div>
           </div>
 
-          {/* 图表绘图区 */}
-          <div className="chart-plot">
-            {/* 折线图 */}
-            <img src={IMG_CHART_LINE1} alt="折线图1" className="chart-line" />
-            <img src={IMG_CHART_LINE2} alt="折线图2" className="chart-line" />
-          </div>
+          <div className="chart-shell-body">
+            <div className="chart-control-column">
+              <label className="chart-field">
+                <span className="chart-field-label">年份</span>
+                <div className="chart-field-select">
+                  <span>2025</span>
+                  <svg
+                    width="8"
+                    height="5"
+                    viewBox="0 0 8 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M4 5L0 0H8L4 5Z" fill="#2e56a3" />
+                  </svg>
+                </div>
+              </label>
+              <button type="button" className="chart-control-button">
+                国内运费
+              </button>
+              <button type="button" className="chart-control-secondary">
+                查询
+              </button>
+              <span className="chart-control-caption">实际价格 VS 预测价格</span>
+            </div>
 
-          {/* X轴标签 */}
-          <div className="chart-x-labels">
-            <span>2025-01-08</span>
-            <span>2025-02-13</span>
-            <span>2025-03-13</span>
-            <span>2025-04-10</span>
-            <span>2025-05-09</span>
-            <span>2025-06-20</span>
-            <span>2025-07-24</span>
-            <span>2025-08-21</span>
-            <span>2025-09-18</span>
+            <div className="chart-main">
+              <div className="chart-legend">
+                <div className="chart-legend-item">
+                  <span className="chart-legend-bullet chart-legend-bullet-primary" />
+                  实际价格
+                </div>
+              <div className="chart-legend-item chart-legend-item-outline">
+                <span className="chart-legend-bullet-outline" />
+                预测价格
+                </div>
+              </div>
+
+              <div className="chart-main-plot">
+                <svg
+                  className="chart-canvas"
+                  viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <linearGradient id="chartAreaFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(46, 86, 163, 0.28)" />
+                      <stop offset="100%" stopColor="rgba(46, 86, 163, 0)" />
+                    </linearGradient>
+                  </defs>
+
+                  {gridPositions.map((y, index) => (
+                    <line
+                      key={`grid-${index}`}
+                      x1="0"
+                      y1={y}
+                      x2={SVG_WIDTH}
+                      y2={y}
+                      className="chart-grid-line"
+                    />
+                  ))}
+
+                  <path d={actualPath} className="chart-line-primary" />
+                  <path d={`${actualPath} L${SVG_WIDTH},${SVG_HEIGHT}`} fill="url(#chartAreaFill)" />
+                  <path d={predictedPath} className="chart-line-secondary" />
+
+                  {actualMarkers.map((point, index) => (
+                    <circle
+                      key={`marker-${index}`}
+                      cx={point.x}
+                      cy={point.y}
+                      r={4}
+                      className="chart-marker"
+                    />
+                  ))}
+                </svg>
+
+                <div className="chart-axis chart-axis-y">
+                  {yTicks.map((tick) => (
+                    <span key={`y-${tick}`}>{tick}</span>
+                  ))}
+                </div>
+                <div className="chart-axis chart-axis-x">
+                  {xTicks.map((tick) => (
+                    <span key={tick}>{tick}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

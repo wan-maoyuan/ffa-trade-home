@@ -1,3 +1,22 @@
+.chart-legend-bullet-secondary {
+  background: #f6887d;
+  box-shadow: 0 4px 12px rgba(246, 136, 125, 0.28);
+}
+
+.chart-legend-bullet-outline {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #2e56a3;
+  background: #ffffff;
+  box-shadow:
+    0 10px 24px rgba(46, 86, 163, 0.18),
+    inset 0 0 0 3px rgba(46, 86, 163, 0.12);
+}
+
+.chart-legend-item-outline {
+  gap: 10px;
+}
 /* 策略页面通用样式 */
 .strategy-page {
   position: relative;
@@ -58,6 +77,11 @@
   white-space: nowrap;
 }
 
+.strategy-chip-strong {
+  background: linear-gradient(135deg, #2e56a3, #1f3c82);
+  box-shadow: 0 12px 24px rgba(34, 70, 148, 0.26);
+}
+
 .strategy-chip:hover {
   background-color: #234489;
 }
@@ -67,778 +91,648 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 46px;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 28px 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 46px rgba(27, 44, 88, 0.15);
+}
+
+.strategy-cards-container-wide {
+  align-items: stretch;
+  padding: 32px 36px;
+  gap: 32px;
 }
 
 .strategy-card-left {
   position: relative;
-  width: 178px;
-  height: 100px;
+  width: 230px;
+  height: 140px;
   flex-shrink: 0;
-  border-radius: 15px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  background: radial-gradient(132% 132% at 0% 0%, #24408f 0%, #2e56a3 42%, #1a3877 100%);
+  box-shadow:
+    0 20px 45px rgba(30, 60, 125, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -18px 38px rgba(12, 30, 72, 0.42);
 }
 
-.strategy-card-left-bg {
+.strategy-card-glow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(76% 76% at 20% 18%, rgba(89, 147, 255, 0.55) 0%, rgba(89, 147, 255, 0) 68%);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+.strategy-card-left::after {
+  content: '';
   position: absolute;
   inset: 0;
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-.strategy-card-left-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 15px;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 48%),
+    linear-gradient(210deg, rgba(20, 45, 102, 0.68) 12%, rgba(15, 37, 86, 0) 60%);
+  pointer-events: none;
 }
 
 .strategy-card-left-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(255,255,255,0.5) 100%);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
   align-items: center;
-  justify-content: center;
-  color: #2e56a3;
-  text-shadow: 0 4px 4px rgba(0,0,0,0.25);
+  padding: 20px;
 }
 
 .strategy-card-left-title {
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 1.2;
-  margin: 0 0 6px 0;
-  white-space: pre-wrap;
-}
-
-.strategy-card-left-subtitle {
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-weight: bold;
-  font-size: 6px;
-  line-height: 1.2;
-  margin: 0 0 10px 0;
-  white-space: pre-wrap;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: 0.22em;
+  color: #ffffff;
+  text-shadow:
+    0 12px 24px rgba(8, 20, 52, 0.48),
+    0 0 12px rgba(153, 194, 255, 0.5);
+  margin: 0;
 }
 
 .strategy-card-left-desc {
-  font-family: 'Microsoft YaHei', sans-serif;
+  font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 12px;
-  line-height: 1.2;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
   margin: 0;
-  white-space: pre-wrap;
+  white-space: nowrap;
 }
 
-.strategy-card-icon {
+.strategy-card-left-badge {
   position: absolute;
-  width: 60px;
-  height: 60px;
-  right: 8px;
-  top: 20px;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.86);
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(16px);
 }
 
-.strategy-card-icon svg,
-.strategy-card-icon img {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.25));
+.strategy-dual-card-left {
+  position: relative;
+  width: 260px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #3d63bd 0%, #1f3d83 100%);
+  box-shadow: 0 26px 48px rgba(25, 43, 84, 0.3);
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.strategy-card-left-overlay.dual {
+  grid-template-columns: auto;
+  gap: 16px;
+  padding: 0;
+  text-align: center;
+}
+
+.strategy-card-left-icon {
+  display: flex;
+  justify-content: center;
+}
+
+.strategy-card-left-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.strategy-card-left-title.dual-title {
+  font-size: 26px;
+  letter-spacing: 0.18em;
+}
+
+.strategy-card-left-desc.dual-desc {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+.strategy-card-left-glow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(120% 100% at 10% 10%, rgba(124, 168, 255, 0.65) 0%, rgba(124, 168, 255, 0) 60%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
 }
 
 .strategy-metrics-grid {
-  display: flex;
-  gap: 46px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
   flex: 1;
 }
 
 .strategy-metric-card {
-  width: 140px;
-  height: 65px;
-  border-radius: 4.545px;
-  background: rgba(243,246,253,0.71);
-  box-shadow: 0 3.636px 19.727px rgba(46,86,163,0.25);
+  position: relative;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(180deg, rgba(243, 246, 253, 0.92) 0%, rgba(224, 233, 255, 0.82) 100%);
+  box-shadow:
+    0 14px 28px rgba(46, 86, 163, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 24px;
-  text-align: center;
-  gap: 10px;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.strategy-metric-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  pointer-events: none;
 }
 
 .strategy-metric-label {
   margin: 0;
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10.909px;
-  color: #212a37;
-  line-height: 1.2;
-  white-space: pre-wrap;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgba(28, 55, 106, 0.68);
+  letter-spacing: 0.04em;
 }
 
 .strategy-metric-value {
   margin: 0;
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 12.727px;
-  color: rgba(46,86,163,0.87);
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(34, 64, 132, 0.95);
   line-height: 1.2;
 }
 
-/* 单头寸策略展示页面样式 - 严格按照 Figma */
-.single-position-chart-figma {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-/* 标题 - 居中 */
-.chart-title-center {
-  position: absolute;
-  left: 50%;
-  top: -18px;
-  transform: translateX(-50%);
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: normal;
-  color: #949595;
-  text-align: center;
-  letter-spacing: 0.32px;
-  margin: 0;
-  white-space: nowrap;
-  z-index: 10;
-}
-
-/* 控制区域 */
-.chart-controls-area {
-  position: relative;
-  width: 100%;
-  height: 80px;
-}
-
-/* 年份控制 */
-.chart-year-control {
-  position: absolute;
-  left: 145px;
-  top: -17px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.chart-year-label {
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  line-height: normal;
-}
-
-.chart-year-select {
-  min-width: 148px;
-  height: 19px;
-  border: 0.432px solid #2e56a3;
-  border-radius: 4.32px;
-  padding: 0 10px;
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  background: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.chart-year-select:hover {
-  background: rgba(46, 86, 163, 0.05);
-}
-
-/* 国内运费按钮 */
-.chart-btn-freight {
-  position: absolute;
-  left: 145px;
-  top: 7px;
-  height: 21.6px;
-  padding: 3.456px 15.552px;
-  border: none;
-  border-radius: 4.32px;
-  background-color: #2e56a3;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 10.368px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
-  transition: background-color 0.3s;
-}
-
-.chart-btn-freight:hover {
-  background-color: #234489;
-}
-
-/* 查询按钮 */
-.chart-btn-query {
-  position: absolute;
-  left: 402px;
-  top: -18px;
-  height: 21.6px;
-  padding: 3.456px 15.552px;
-  border: none;
-  border-radius: 4.32px;
-  background-color: #2e56a3;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 10.368px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
-  transition: background-color 0.3s;
-}
-
-.chart-btn-query:hover {
-  background-color: #234489;
-}
-
-/* 图表标题 */
-.chart-subtitle {
-  position: absolute;
-  left: 145px;
-  top: 38px;
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  margin: 0;
-  line-height: normal;
-}
-
-/* 三点菜单图标 */
-.chart-menu-icon {
-  position: absolute;
-  right: 24px;
-  top: 43px;
-  width: 16px;
-  height: 4px;
-  cursor: pointer;
-}
-
-.chart-menu-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* 图表区域容器 */
-.chart-area-container {
-  position: relative;
-  width: 100%;
-  padding-top: 80px;
-}
-
-/* 图表网格 */
-.chart-grid {
-  position: relative;
-  width: 1150px;
-  height: 280px;
-  margin: 0 auto;
+.dual-metrics-grid {
+  flex: 1;
   display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: 1fr auto;
-  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
 }
 
-/* Y轴标签 */
-.chart-y-labels {
-  grid-column: 1;
-  grid-row: 1;
+.dual-metric-card {
+  border-radius: 18px;
+  padding: 18px 20px;
+  background: linear-gradient(180deg, rgba(243, 246, 253, 0.9) 0%, rgba(223, 232, 255, 0.82) 100%);
+  box-shadow:
+    0 18px 32px rgba(33, 54, 109, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  font-family: 'Source Han Sans CN', sans-serif;
-  font-size: 8.64px;
-  color: #212a37;
-  opacity: 0.5;
-  text-align: right;
-  padding-right: 8px;
+  gap: 10px;
 }
 
-/* 图表绘图区 */
-.chart-plot {
-  grid-column: 2;
-  grid-row: 1;
-  position: relative;
+.dual-metric-label {
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  color: rgba(28, 55, 106, 0.62);
+  letter-spacing: 0.03em;
+}
+
+.dual-metric-value {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: rgba(33, 52, 103, 0.92);
+}
+
+.dual-outcome-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
   width: 100%;
-  height: 100%;
+  margin-top: 28px;
 }
 
-.chart-line {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-}
-
-/* X轴标签 */
-.chart-x-labels {
-  grid-column: 2;
-  grid-row: 2;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-  font-family: 'Source Han Sans CN', sans-serif;
-  font-size: 8.64px;
-  color: #212a37;
-  opacity: 0.5;
-}
-
-.chart-x-labels span {
-  white-space: nowrap;
-}
-
-/* 单头寸策略展示页面样式 - 新版本（保留作为备份） */
-.single-position-chart-page-new {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  gap: 24px;
-  padding: 0;
-}
-
-/* 左侧控制面板 */
-.chart-left-panel {
+.dual-outcome-column {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.dual-outcome-badge {
+  align-self: flex-start;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(46, 86, 163, 0.82);
+  background: rgba(46, 86, 163, 0.12);
+  border: 1px solid rgba(46, 86, 163, 0.16);
+}
+
+.dual-outcome-badge.negative {
+  color: rgba(180, 32, 32, 0.78);
+  background: rgba(180, 32, 32, 0.1);
+  border-color: rgba(180, 32, 32, 0.16);
+}
+
+.dual-outcome-card {
+  border-radius: 20px;
+  padding: 20px 24px;
+  background: linear-gradient(180deg, rgba(234, 243, 255, 0.86) 0%, rgba(220, 231, 255, 0.72) 100%);
+  box-shadow:
+    0 18px 34px rgba(33, 54, 109, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  display: grid;
   gap: 16px;
-  padding: 20px 16px;
-  min-width: 200px;
 }
 
-.chart-control-item {
+.negative .dual-outcome-card {
+  background: linear-gradient(180deg, rgba(255, 237, 237, 0.82) 0%, rgba(255, 231, 231, 0.72) 100%);
+  box-shadow:
+    0 14px 30px rgba(180, 32, 32, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.dual-outcome-card-item {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
 
-.chart-control-select-new {
-  width: 100%;
-  height: 32px;
-  border: 1px solid #2e56a3;
-  border-radius: 4px;
-  padding: 0 12px;
+.dual-outcome-label {
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  color: #2e56a3;
-  background: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-size: 14px;
+  color: rgba(28, 55, 106, 0.7);
 }
 
-.chart-control-select-new:hover {
-  background: rgba(46, 86, 163, 0.05);
-}
-
-.chart-button-vertical {
-  width: 100%;
-  height: 36px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #2e56a3;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(46,86,163,0.25);
-  transition: background-color 0.3s;
-}
-
-.chart-button-vertical:hover {
-  background-color: #234489;
-}
-
-.chart-section-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(46, 86, 163, 0.2);
-  margin: 8px 0;
-}
-
-.chart-section-label {
+.dual-outcome-value {
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 11px;
-  color: #2e56a3;
-  margin: 0;
-  line-height: 1.4;
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(33, 52, 103, 0.92);
 }
 
-/* 右侧主内容区 */
-.chart-right-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.chart-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.chart-button-query {
-  height: 32px;
-  padding: 6px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #2e56a3;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(46,86,163,0.25);
-  transition: background-color 0.3s;
-  position: absolute;
-  left: 0;
-}
-
-.chart-button-query:hover {
-  background-color: #234489;
-}
-
-.chart-page-title {
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: normal;
-  color: #949595;
-  text-align: center;
-  letter-spacing: 0.32px;
-  margin: 0 auto;
-  white-space: nowrap;
-}
-
-.chart-menu-dots {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  cursor: pointer;
-  padding: 8px;
-  position: absolute;
-  right: 0;
-}
-
-.chart-menu-dots .dot {
-  width: 4px;
-  height: 4px;
-  background: #949595;
-  border-radius: 50%;
-}
-
-.chart-menu-dots:hover .dot {
-  background: #2e56a3;
-}
-
-/* 图表主容器 */
-.chart-main-container {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  min-height: 0;
-}
-
-.chart-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.chart-y-axis-new {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: calc(100% - 40px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 8px;
-  font-size: 10px;
-  color: #212a37;
-  opacity: 0.5;
-  font-family: 'Source Han Sans CN', sans-serif;
-  z-index: 1;
-}
-
-.chart-plot-area {
-  position: relative;
-  flex: 1;
-  margin-left: 40px;
-  margin-bottom: 30px;
-  min-height: 0;
-}
-
-.chart-line-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-}
-
-.chart-legend-new {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  display: flex;
-  gap: 16px;
-  z-index: 2;
-}
-
-.chart-legend-item-new {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: #212a37;
-  font-family: 'Source Han Sans CN', sans-serif;
-}
-
-.chart-legend-item-new span {
-  opacity: 0.5;
-}
-
-.legend-line {
-  width: 20px;
-  height: 3px;
-  border-radius: 1.5px;
-}
-
-.chart-x-axis-new {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 40px;
-  font-size: 10px;
-  color: #212a37;
-  opacity: 0.5;
-  font-family: 'Source Han Sans CN', sans-serif;
-  padding-top: 8px;
-}
-
-/* 旧版本样式保留（以防需要回退） */
+/* 单头寸策略展示页面样式 - 严格按照 Figma */
 .single-position-chart-page {
   position: relative;
-  padding-top: 10px;
+  width: 100%;
 }
 
-.single-position-chart-content {
+.chart-shell {
   position: relative;
   width: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(214, 224, 255, 0.72));
+  box-shadow: 0 28px 48px rgba(26, 44, 92, 0.18);
+}
+
+.chart-shell-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.chart-shell-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  filter: blur(8px) saturate(0.95);
+}
+
+.chart-shell-mask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.78) 38%, rgba(255, 255, 255, 0.68) 100%);
+}
+
+.chart-shell-content {
+  position: relative;
+  z-index: 1;
+  padding: 36px 40px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
 
-.chart-controls {
+.chart-shell-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
+  justify-content: center;
+  position: relative;
 }
 
-.chart-control-group {
+.chart-shell-title {
+  flex: 1;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 0.24em;
+  color: rgba(30, 52, 88, 0.82);
+  text-align: center;
+}
+
+.chart-shell-actions,
+.chart-ellipsis-btn,
+.chart-shell-pagination,
+.chart-shell-dot {
+  display: none;
+}
+
+.chart-shell-body {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 28px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 233, 255, 0.46) 100%);
+  padding: 20px 24px;
+}
+
+.chart-control-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 180px;
+}
+
+.chart-field {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.chart-control-label {
+.chart-field-label {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  margin: 0;
-  white-space: nowrap;
-  line-height: 1;
+  font-size: 12px;
+  color: rgba(46, 86, 163, 0.68);
+  letter-spacing: 0.08em;
 }
 
-.chart-control-select {
-  position: relative;
-  min-width: 148px;
-  height: 19px;
-  border: 0.432px solid #2e56a3;
-  border-radius: 4.32px;
-  padding: 0 10px;
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  background: white;
-  cursor: pointer;
+.chart-field-select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.chart-control-select:hover {
-  background: rgba(46, 86, 163, 0.05);
-}
-
-.chart-button {
-  height: 21.6px;
-  padding: 3.456px 15.552px;
-  border: none;
-  border-radius: 4.32px;
-  background-color: #2e56a3;
-  color: white;
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-size: 10.368px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3.456px 18.749px rgba(46,86,163,0.25);
-  white-space: nowrap;
-  transition: background-color 0.3s;
-}
-
-.chart-button:hover {
-  background-color: #234489;
-}
-
-.chart-section-title {
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(46, 86, 163, 0.18);
+  box-shadow: 0 10px 18px rgba(46, 86, 163, 0.12);
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
-  font-size: 10.368px;
-  color: #2e56a3;
-  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: rgba(46, 86, 163, 0.84);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.chart-container {
+.chart-field-select:hover {
+  box-shadow: 0 16px 28px rgba(46, 86, 163, 0.18);
+  transform: translateY(-1px);
+}
+
+.chart-control-button,
+.chart-control-secondary {
+  height: 34px;
+  border-radius: 999px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-control-button {
+  border: none;
+  background: linear-gradient(135deg, #2e56a3, #234489);
+  color: #ffffff;
+  box-shadow: 0 16px 28px rgba(34, 70, 148, 0.28);
+}
+
+.chart-control-secondary {
+  border: 1px solid rgba(46, 86, 163, 0.3);
+  background: rgba(255, 255, 255, 0.82);
+  color: rgba(46, 86, 163, 0.86);
+  box-shadow: 0 8px 20px rgba(46, 86, 163, 0.1);
+}
+
+.chart-control-button:hover,
+.chart-control-secondary:hover {
+  transform: translateY(-1px);
+}
+
+.chart-control-caption {
+  font-family: 'DengXian', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(46, 86, 163, 0.6);
+}
+
+.chart-main {
   position: relative;
-  width: 100%;
-  max-width: 1150px;
-  height: 216px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 4.32px;
-  padding: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.chart-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.chart-y-axis {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: calc(100% - 30px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 10px;
-  font-size: 8.64px;
-  color: #212a37;
-  opacity: 0.5;
-  font-family: 'Source Han Sans CN', sans-serif;
-}
-
-.chart-x-axis {
-  position: absolute;
-  left: 50px;
-  right: 10px;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  font-size: 8.64px;
-  color: #212a37;
-  opacity: 0.5;
-  font-family: 'Source Han Sans CN', sans-serif;
-}
-
-.chart-lines {
-  position: absolute;
-  left: 50px;
-  top: 10px;
-  right: 10px;
-  bottom: 30px;
-}
-
-.chart-line-image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
+  flex: 1;
+  padding: 26px 32px 52px 76px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 22px 40px rgba(27, 44, 88, 0.16);
 }
 
 .chart-legend {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  right: 36px;
+  top: 20px;
   display: flex;
-  gap: 16px;
-  font-size: 8.64px;
-  color: #212a37;
-  font-family: 'Source Han Sans CN', sans-serif;
+  gap: 18px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 13px;
+  color: rgba(33, 48, 82, 0.82);
 }
 
 .chart-legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
-.chart-legend-item span {
-  opacity: 0.5;
+.chart-legend-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(46, 86, 163, 0.18);
 }
 
-.chart-legend-line {
-  width: 18px;
-  height: 3.456px;
+.chart-legend-bullet-primary {
+  background: #2e56a3;
 }
 
-.chart-placeholder {
+.chart-legend-bullet-secondary {
+  background: #f26b6b;
+}
+
+.chart-main-plot {
+  position: relative;
+  height: 280px;
+}
+
+.chart-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.chart-grid-line {
+  stroke: rgba(46, 86, 163, 0.12);
+  stroke-width: 1;
+  stroke-dasharray: 3 6;
+}
+
+.chart-line-primary {
+  fill: none;
+  stroke: #274fa7;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-line-secondary {
+  fill: none;
+  stroke: rgba(245, 102, 96, 0.86);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-marker {
+  fill: #ffffff;
+  stroke: #274fa7;
+  stroke-width: 1.6;
+  box-shadow: 0 6px 14px rgba(46, 86, 163, 0.25);
+}
+
+.chart-axis {
+  position: absolute;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(243,246,253,0.3);
-  border-radius: 4.32px;
   font-family: 'Source Han Sans CN', sans-serif;
-  font-size: 8.64px;
-  color: #212a37;
-  opacity: 0.5;
+  font-size: 11px;
+  color: rgba(33, 48, 82, 0.6);
+}
+
+.chart-axis-y {
+  flex-direction: column;
+  justify-content: space-between;
+  left: -60px;
+  top: 0;
+  bottom: 34px;
+  text-align: right;
+  gap: 0;
+}
+
+.chart-axis-x {
+  justify-content: space-between;
+  left: 0;
+  right: 0;
+  bottom: -32px;
+}
+
+.chart-axis-x span {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .chart-shell-content {
+    padding: 36px 32px;
+  }
+
+  .chart-shell-body {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .chart-control-column {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+  }
+
+  .chart-control-caption {
+    width: 100%;
+    text-align: left;
+  }
+
+  .chart-main {
+    padding: 28px 24px 52px 68px;
+  }
+
+  .chart-axis-y {
+    left: -48px;
+  }
+}
+
+@media (max-width: 720px) {
+  .chart-shell-content {
+    padding: 28px 24px;
+  }
+
+  .chart-shell-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chart-shell-actions {
+    position: static;
+  }
+
+  .chart-shell-title {
+    letter-spacing: 0.16em;
+  }
+
+  .chart-shell-body {
+    gap: 20px;
+  }
+
+  .chart-control-column {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-main {
+    padding: 24px 18px 48px 56px;
+  }
+
+  .chart-main-plot {
+    height: 240px;
+  }
+
+  .chart-axis-y {
+    left: -42px;
+  }
+
+  .chart-axis-x {
+    bottom: -26px;
+  }
 }
 
 /* 双头寸策略评价页面样式 */
@@ -936,6 +830,19 @@
   .strategy-metric-card {
     width: 120px;
   }
+
+  .strategy-cards-container-wide {
+    flex-direction: column;
+  }
+
+  .strategy-dual-card-left {
+    width: 100%;
+  }
+
+  .dual-metrics-grid {
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
   
   .charts-comparison-container {
     flex-direction: column;
@@ -976,6 +883,22 @@
   .strategy-cards-container {
     flex-direction: column;
     gap: 20px;
+  }
+
+  .strategy-cards-container-wide {
+    padding: 24px;
+  }
+
+  .strategy-dual-card-left {
+    width: 100%;
+  }
+
+  .dual-metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .dual-outcome-section {
+    gap: 16px;
   }
   
   .strategy-metrics-grid {
