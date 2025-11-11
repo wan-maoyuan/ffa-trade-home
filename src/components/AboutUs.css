@@ -75,21 +75,25 @@
 /* 左侧浮动快速跳转菜单 */
 .side-menu {
   position: fixed;
-  left: 17px;
-  top: 50%;
+  left: 20px;
+  top: clamp(110px, 50vh, calc(100vh - 160px));
   transform: translateY(-50%);
   z-index: 1000;
   background: rgba(46, 86, 163, 0.6);
-  border-radius: 0 0 50px 50px;
-  padding: 44px 0;
-  width: 155px;
+  border-radius: 20px;
+  padding: 36px 0;
+  width: 150px;
+  max-height: calc(100vh - 160px);
+  overflow: hidden;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
 }
 
 .side-menu-items {
   display: flex;
   flex-direction: column;
-  gap: 148px;
+  gap: 110px;
   align-items: center;
+  padding: 0 18px;
 }
 
 .side-menu-item {
@@ -870,7 +874,7 @@
 /* 公司介绍和联系方式 */
 .footer {
   background: #2e56a3;
-  padding: 40px 20px;
+  padding: 60px 20px 70px;
   color: white;
 }
 
@@ -878,12 +882,19 @@
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  gap: 80px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 100px;
+  flex-wrap: wrap;
 }
 
 .footer-section {
   flex: 1;
+  min-width: 260px;
+}
+
+.footer-section-info {
+  max-width: 320px;
 }
 
 .footer-logo {
@@ -907,7 +918,7 @@
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
   font-size: 12px;
-  text-align: center;
+  text-align: left;
   margin: 0 0 20px 0;
   letter-spacing: 0.72px;
   line-height: 20px;
@@ -939,37 +950,26 @@
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
   font-size: 12px;
-  text-align: center;
-  margin: 0 0 30px 0;
+  text-align: left;
+  margin: 0 0 22px 0;
   letter-spacing: 0.72px;
   line-height: 20px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-family: 'DengXian', sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  color: #d1dfff;
-}
-
-.footer-links li {
-  line-height: 30px;
-  letter-spacing: 0.72px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.footer-links li:hover {
-  color: white;
 }
 
 .footer-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+}
+
+.footer-section-form {
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 28px 30px 32px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
 }
 
 .footer-form input {
@@ -1028,6 +1028,7 @@
   letter-spacing: 0.78px;
   cursor: pointer;
   transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
 }
 
 .footer-form button:hover:not(:disabled) {
@@ -1057,6 +1058,21 @@
 }
 
 /* 响应式设计 */
+@media (max-height: 760px) {
+  .side-menu {
+    top: 120px;
+    bottom: 24px;
+    transform: none;
+    max-height: calc(100vh - 144px);
+    overflow-y: auto;
+    padding: 28px 0;
+  }
+
+  .side-menu-items {
+    gap: 70px;
+  }
+}
+
 @media (max-width: 1200px) {
   .side-menu {
     left: 10px;

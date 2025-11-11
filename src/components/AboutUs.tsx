@@ -521,7 +521,7 @@ const AboutUs = () => {
       {/* 公司介绍和联系方式 */}
       <footer id="contact-us" className="footer">
         <div className="footer-content">
-          <div className="footer-section">
+          <div className="footer-section footer-section-info">
             <div className="footer-logo">
               <img 
                 // src="https://www.figma.com/api/mcp/asset/0cd12cc7-1914-43a5-8107-ee37b1177ba8" 
@@ -539,17 +539,7 @@ const AboutUs = () => {
             </div>
           </div>
 
-          <div className="footer-section">
-            <h3 className="footer-section-title">快速链接</h3>
-            <ul className="footer-links">
-              <li>首页</li>
-              <li>产品与服务</li>
-              <li>投资者关系</li>
-              <li>关于我们</li>
-            </ul>
-          </div>
-
-          <div className="footer-section">
+          <div className="footer-section footer-section-form">
             <h3 className="footer-section-title">您的信息</h3>
             <form className="footer-form" onSubmit={handleSubmit}>
               <input
