@@ -1,10 +1,106 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './StrategyPage.css'
 
 // 来自 Figma MCP 的图表图片资源（7天有效期）
 const IMG_CHART1 = 'https://www.figma.com/api/mcp/asset/4e649ae9-c471-486e-85c2-8f172f1f4e8f'
 const IMG_CHART2 = 'https://www.figma.com/api/mcp/asset/4ee4dcfa-51ca-44eb-9059-054b8174e5ca'
 const IMG_CHART3 = 'https://www.figma.com/api/mcp/asset/5cd3e836-1c1d-4a61-96b5-7b0df7c114c8'
+
+// 创建占位符图表的SVG
+const ChartPlaceholder: React.FC<{ color?: string }> = ({ color = '#2e56a3' }) => (
+  <svg width="100%" height="100%" viewBox="0 0 200 180" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+        <stop offset="100%" stopColor={color} stopOpacity="0.05" />
+      </linearGradient>
+    </defs>
+    {/* 网格线 */}
+    {[0, 25, 50, 75, 100].map((y) => (
+      <line
+        key={y}
+        x1="10"
+        y1={10 + y * 1.6}
+        x2="190"
+        y2={10 + y * 1.6}
+        stroke="#e0e0e0"
+        strokeWidth="0.5"
+      />
+    ))}
+    {/* 示例折线 */}
+    <path
+      d="M 20 150 Q 60 120 100 100 T 180 60"
+      fill="none"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M 20 150 Q 60 120 100 100 T 180 60 L 180 170 L 20 170 Z"
+      fill="url(#chartGradient)"
+    />
+    {/* 数据点 */}
+    {[
+      { x: 20, y: 150 },
+      { x: 60, y: 120 },
+      { x: 100, y: 100 },
+      { x: 140, y: 75 },
+      { x: 180, y: 60 }
+    ].map((point, i) => (
+      <circle
+        key={i}
+        cx={point.x}
+        cy={point.y}
+        r="3"
+        fill={color}
+        stroke="#fff"
+        strokeWidth="1"
+      />
+    ))}
+  </svg>
+)
+
+const ChartImage: React.FC<{ src: string; alt: string; placeholder: React.ReactNode }> = ({
+  src,
+  alt,
+  placeholder
+}) => {
+  const [imageError, setImageError] = useState(false)
+
+  const handleError = () => {
+    setImageError(true)
+  }
+
+  if (imageError) {
+    return (
+      <div style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#fafafa'
+      }}>
+        {placeholder}
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={handleError}
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain'
+      }}
+    />
+  )
+}
 
 const DoublePositionChart: React.FC = () => {
   return (
@@ -13,10 +109,10 @@ const DoublePositionChart: React.FC = () => {
       
       <div className="double-position-chart-content">
         {/* 策略标签 */}
-        <div className="strategy-chips">
-          <button type="button" className="strategy-chip">对比</button>
-          <button type="button" className="strategy-chip" style={{ marginLeft: '458px' }}>基差展示</button>
-          <button type="button" className="strategy-chip" style={{ marginLeft: '362px' }}>基差比例</button>
+        <div className="strategy-chips" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-start' }}>
+          <button type="button" className="strategy-chip strategy-chip-strong">对比</button>
+          <button type="button" className="strategy-chip">基差展示</button>
+          <button type="button" className="strategy-chip">基差比例</button>
         </div>
 
         {/* 三个图表对比容器 */}
@@ -80,15 +176,10 @@ const DoublePositionChart: React.FC = () => {
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <img 
+                  <ChartImage 
                     src={IMG_CHART1} 
-                    alt="5TC图表" 
-                    style={{ 
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain'
-                    }}
+                    alt="5TC图表"
+                    placeholder={<ChartPlaceholder color="#2e56a3" />}
                   />
                 </div>
               </div>
@@ -148,15 +239,10 @@ const DoublePositionChart: React.FC = () => {
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <img 
+                  <ChartImage 
                     src={IMG_CHART2} 
-                    alt="基差图表" 
-                    style={{ 
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain'
-                    }}
+                    alt="基差图表"
+                    placeholder={<ChartPlaceholder color="#ff6b6b" />}
                   />
                 </div>
               </div>
@@ -222,15 +308,10 @@ const DoublePositionChart: React.FC = () => {
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <img 
+                  <ChartImage 
                     src={IMG_CHART3} 
-                    alt="基差比例图表" 
-                    style={{ 
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain'
-                    }}
+                    alt="基差比例图表"
+                    placeholder={<ChartPlaceholder color="#66bb6a" />}
                   />
                 </div>
               </div>
