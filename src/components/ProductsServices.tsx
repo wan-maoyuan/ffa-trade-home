@@ -5,7 +5,7 @@ import backgroundImage from '../assets/images/product-background.jpeg'
 import SignalPanel from './SignalPanel'
 import StrategyPanel from './StrategyPanel'
 import RealtimeSignalPage from './signal-pages/RealtimeSignalPage'
-import P4TCDecisionPage from './strategy-pages/P4TCDecisionPage'
+import DecisionPageWrapper from './strategy-pages/DecisionPageWrapper'
 
 const ProductsServices: React.FC = () => {
   const navigate = useNavigate()
@@ -90,7 +90,7 @@ const ProductsServices: React.FC = () => {
   )
 
   const renderDecision = () => (
-    <P4TCDecisionPage />
+    <DecisionPageWrapper />
   )
 
   return (

@@ -1,0 +1,181 @@
+.decision-page-wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 84px 16px 96px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(233, 240, 255, 0.82) 48%, rgba(229, 238, 255, 0.68) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.decision-page-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(174, 196, 243, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decision-page-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(46, 86, 163, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decision-page-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  z-index: 1;
+}
+
+/* 返回按钮 */
+.decision-page-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(46, 86, 163, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  color: #2e56a3;
+  box-shadow: 0 2px 8px rgba(46, 86, 163, 0.1);
+  align-self: flex-start;
+}
+
+.decision-page-back-button:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(46, 86, 163, 0.3);
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.15);
+  transform: translateX(-2px);
+}
+
+.decision-page-back-icon {
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.decision-page-back-button:hover .decision-page-back-icon {
+  transform: translateX(-2px);
+}
+
+.decision-page-back-text {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* 策略标签切换 */
+.decision-page-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.1);
+  border: 1px solid rgba(46, 86, 163, 0.1);
+}
+
+.decision-page-tab {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(46, 86, 163, 0.7);
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.decision-page-tab:hover {
+  background: rgba(46, 86, 163, 0.08);
+  color: rgba(46, 86, 163, 0.9);
+}
+
+.decision-page-tab.active {
+  background: linear-gradient(135deg, #2e56a3, #234489);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.25);
+}
+
+.decision-page-tab.active:hover {
+  background: linear-gradient(135deg, #234489, #1f3c82);
+  box-shadow: 0 6px 16px rgba(46, 86, 163, 0.3);
+}
+
+.decision-page-content {
+  position: relative;
+  width: 100%;
+}
+
+/* 隐藏子页面的返回按钮、标题和SideMenu，因为已经在包装组件中处理 */
+.decision-page-content .p4tc-decision-panel,
+.decision-page-content .p5-decision-panel {
+  padding: 0;
+  background: transparent;
+  min-height: auto;
+}
+
+.decision-page-content .p4tc-decision-panel::before,
+.decision-page-content .p4tc-decision-panel::after,
+.decision-page-content .p5-decision-panel::before,
+.decision-page-content .p5-decision-panel::after {
+  display: none;
+}
+
+.decision-page-content .p4tc-decision-container,
+.decision-page-content .p5-decision-container {
+  max-width: 100%;
+}
+
+.decision-page-content .p4tc-decision-back-button,
+.decision-page-content .p5-decision-back-button {
+  display: none;
+}
+
+.decision-page-content .p4tc-decision-page-title,
+.decision-page-content .p5-decision-page-title {
+  display: none;
+}
+
+/* 隐藏子页面的SideMenu - 使用更具体的选择器 */
+.decision-page-content .p4tc-decision-panel > *:first-child:not(.p4tc-decision-container),
+.decision-page-content .p5-decision-panel > *:first-child:not(.p5-decision-container) {
+  display: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .decision-page-wrapper {
+    padding: 70px 14px 80px;
+  }
+
+  .decision-page-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .decision-page-tab {
+    width: 100%;
+  }
+}
+
