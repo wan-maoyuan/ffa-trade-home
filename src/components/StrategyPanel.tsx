@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -14,6 +15,7 @@ import DoublePositionEvaluation from './strategy-pages/DoublePositionEvaluation'
 import DoublePositionChart from './strategy-pages/DoublePositionChart'
 
 const StrategyPanel: React.FC = () => {
+  const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
 
@@ -26,6 +28,10 @@ const StrategyPanel: React.FC = () => {
     if (swiperRef.current) {
       swiperRef.current.slideTo(index)
     }
+  }
+
+  const handleStrategyDecisionClick = () => {
+    navigate('/product-service/strategy/decision')
   }
 
   return (
@@ -48,6 +54,13 @@ const StrategyPanel: React.FC = () => {
             在策略服务方面，我们根据精准捕捉到的价格波动信号，为用户量身定制做多或做空策略建议。结合对航运市场长期的研究和经验积累，以及当前市场形势的判断，为用户提供切实可行的操作方向，助力用户抓住市场机会。并且，基于对基差变化的深度分析，我们帮助用户更全面地理解市场趋势，综合考虑各种因素，为用户制定出更贴合市场实际的投资策略，让用户在复杂多变的航运市场中，能够做出明智决策，从而实现收益最大化。
             </p>
           </div>
+          <button 
+            className="strategy-entry-button" 
+            onClick={handleStrategyDecisionClick}
+            type="button"
+          >
+            策略入口
+          </button>
         </div>
       </div>
 

@@ -5,11 +5,12 @@ import backgroundImage from '../assets/images/product-background.jpeg'
 import SignalPanel from './SignalPanel'
 import StrategyPanel from './StrategyPanel'
 import RealtimeSignalPage from './signal-pages/RealtimeSignalPage'
+import P4TCDecisionPage from './strategy-pages/P4TCDecisionPage'
 
 const ProductsServices: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [activeTab, setActiveTab] = useState<'none' | 'signal' | 'strategy' | 'realtime'>('none')
+  const [activeTab, setActiveTab] = useState<'none' | 'signal' | 'strategy' | 'realtime' | 'decision'>('none')
 
   const handleSignalClick = () => {
     navigate('/product-service/signal')
@@ -23,6 +24,8 @@ const ProductsServices: React.FC = () => {
       setActiveTab('realtime')
     } else if (location.pathname === '/product-service/signal') {
       setActiveTab('signal')
+    } else if (location.pathname === '/product-service/strategy/decision') {
+      setActiveTab('decision')
     } else if (location.pathname === '/product-service/strategy') {
       setActiveTab('strategy')
     } else {
@@ -86,11 +89,16 @@ const ProductsServices: React.FC = () => {
     <RealtimeSignalPage />
   )
 
+  const renderDecision = () => (
+    <P4TCDecisionPage />
+  )
+
   return (
     <div className="products-services-page">
       {activeTab === 'realtime' && renderRealtime()}
       {activeTab === 'signal' && renderSignal()}
       {activeTab === 'strategy' && renderStrategy()}
+      {activeTab === 'decision' && renderDecision()}
       {activeTab === 'none' && renderDefault()}
     </div>
   )
