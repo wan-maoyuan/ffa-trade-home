@@ -1,0 +1,66 @@
+# 依赖目录（容器内会重新安装）
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 版本控制
+.git
+.gitignore
+.gitattributes
+
+# IDE 和编辑器配置
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 开发文档（保留 README.md）
+*.md
+!README.md
+
+# 测试相关
+coverage
+.nyc_output
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__
+__mocks__
+
+# 环境变量和配置（开发环境）
+.env.local
+.env.development
+.env.test
+
+# 临时文件和缓存
+*.tmp
+*.temp
+.cache
+.temp
+.vite
+
+# 日志文件
+*.log
+logs
+
+# 构建脚本（当前 Dockerfile 不需要，如果后续改为容器内构建则移除此项）
+build.sh
+start.sh
+
+# Docker 相关（.dockerignore 本身不需要复制）
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# 开发用的图片和资源（pic 目录）
+pic
+
+# TypeScript 配置（如果不在容器内构建）
+tsconfig.json
+tsconfig.node.json
+
