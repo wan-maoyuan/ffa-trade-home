@@ -3,6 +3,7 @@ import './AboutUs.css'
 import backgroundImage from '../assets/images/about-us-background.jpeg'
 import guanDaYu from '../assets/images/guan-da-yu.png'
 import zhaoKaiYuan from '../assets/images/zhao-kai-yuan.png'
+import liSheng from '../assets/images/li-sheng.png'
 import chooseUsBackground from '../assets/images/choose-us-background.jpeg'
 import logoFont from '../assets/images/logo-font.png'
 import servicesDiagram from '../assets/images/services-diagram.png'
@@ -275,6 +276,26 @@ const AboutUs = () => {
               <p className="member-title">资深大宗商品航运、贸易专家</p>
               <p className="member-description">
                 毕业于大连海事大学和长江商学院。资深大宗商品航运、贸易专家。曾完成价值超过10亿美金的散货船新造船项目 及项目融资。也曾为国内外头部粮食贸易商提供长期运费服务。曾任波罗的海交易所北美唯一报价会员 JFD 亚洲区负责人。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="team-member team-member-left">
+          <div className="member-card">
+            <div className="member-image-container">
+              <div className="member-background-block"></div>
+              <img 
+                src={liSheng}
+                alt="李昇"
+                className="member-image"
+              />
+            </div>
+            <div className="member-info">
+              <h3 className="member-name">李昇</h3>
+              <p className="member-title">无锡青科协理事会监事、人工智能专委会副主任</p>
+              <p className="member-description">
+                毕业于莫斯科国立大学（与Skoltech、MIT联合培养），江苏省青联委员、无锡市青联科技届别秘书长。国产远洋气象导航技术的破局者，主攻国产远洋气象导航核心技术，打破国外30年技术垄断，市场占有率第一。个人曾获行业最高奖项"中国气象服务协会科学技术一等奖"以及"数字中国人工智能赛道全国三等奖"等多项荣誉，拥有10余项发明专利，相关技术入选江苏省重点推广新技术目录，推动了人工智能技术在气象与航运领域的融创共进。
               </p>
             </div>
           </div>

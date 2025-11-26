@@ -364,6 +364,7 @@
   object-fit: cover;
   position: relative;
   z-index: 1;
+  border-radius: 28px;
 }
 
 .member-info {
