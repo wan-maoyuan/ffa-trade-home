@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
 import './RealtimeSignalPage.css'
 
-interface ContractData {
+// FFA信号数据结构
+interface FFAContractData {
   contract_name: string
   predicted_value: string
   current_value: string
@@ -15,24 +16,43 @@ interface ContractData {
   days?: string
 }
 
-interface ApiResponse {
-  code: number
-  msg: string
-  data: {
-    date: string
-    count: number
-    records: Array<{
-      contracts: Record<string, ContractData>
-      swap_date: string
-    }>
+// 欧线信号数据结构
+interface EuropeanLineData {
+  price_signals: {
+    predicted_value: string
+    current_value: string
+    deviation: string
   }
+  trading_ranges: {
+    short_entry_range: string
+    short_exit_range: string
+  }
+  operation_suggestion: string
+  closing_price_date: string
 }
+
+// 统一的数据格式
+interface UnifiedContractData {
+  contract_name: string
+  predicted_value: string
+  current_value: string
+  deviation: string
+  entry_range: string
+  exit_range: string
+  operation_suggestion: string
+  month?: string
+  days?: string
+  date?: string // 用于欧线的收盘价日期
+}
+
+type SignalType = 'ffa' | 'european_line'
 
 const RealtimeSignalPage: React.FC = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [contracts, setContracts] = useState<Record<string, ContractData>>({})
+  const [signalType, setSignalType] = useState<SignalType>('ffa')
+  const [contracts, setContracts] = useState<Record<string, UnifiedContractData>>({})
   const [selectedContract, setSelectedContract] = useState<string>('')
   const [swapDate, setSwapDate] = useState<string>('')
   const [contractNames, setContractNames] = useState<string[]>([])
@@ -46,26 +66,83 @@ const RealtimeSignalPage: React.FC = () => {
       try {
         setLoading(true)
         setError(null)
-        const response = await fetch('https://aqua.navgreen.cn/api/strategy/price/signal/ffa')
+        
+        const apiUrl = signalType === 'ffa' 
+          ? 'https://aqua.navgreen.cn/api/strategy/price/signal/ffa'
+          : 'https://aqua.navgreen.cn/api/strategy/price/signal/european_line'
+        
+        const response = await fetch(apiUrl)
         
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
-        const result: ApiResponse = await response.json()
+        const result = await response.json()
         
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
-          const contractData = record.contracts || {}
-          const names = Object.keys(contractData)
           
-          setContracts(contractData)
-          setContractNames(names)
-          setSwapDate(record.swap_date || result.data.date || '')
-          
-          // 默认选择第一个合约
-          if (names.length > 0) {
-            setSelectedContract(names[0])
+          if (signalType === 'ffa') {
+            // 处理FFA信号数据
+            const contractData: Record<string, UnifiedContractData> = {}
+            const ffaContracts = record.contracts || {}
+            
+            Object.keys(ffaContracts).forEach((key) => {
+              const contract = ffaContracts[key] as FFAContractData
+              if (contract.contract_name && contract.predicted_value) {
+                contractData[key] = {
+                  contract_name: contract.contract_name,
+                  predicted_value: contract.predicted_value,
+                  current_value: contract.current_value,
+                  deviation: contract.deviation,
+                  entry_range: contract.entry_range,
+                  exit_range: contract.exit_range,
+                  operation_suggestion: contract.operation_suggestion,
+                  month: contract.month,
+                  days: contract.days
+                }
+              }
+            })
+            
+            const names = Object.keys(contractData).filter(name => name !== 'raw_table_data')
+            setContracts(contractData)
+            setContractNames(names)
+            setSwapDate(record.swap_date || result.data.date || '')
+            
+            if (names.length > 0) {
+              setSelectedContract(names[0])
+            }
+          } else {
+            // 处理欧线信号数据
+            const contractData: Record<string, UnifiedContractData> = {}
+            const europeanContracts = record.contracts || {}
+            
+            // 查找european_line_analysis
+            const europeanLineAnalysis = europeanContracts.european_line_analysis as any
+            if (europeanLineAnalysis && europeanLineAnalysis.price_signals) {
+              const data = europeanLineAnalysis as {
+                price_signals: EuropeanLineData['price_signals']
+                trading_ranges: EuropeanLineData['trading_ranges']
+                operation_suggestion: string
+                closing_price_date: string
+              }
+              
+              contractData['欧线'] = {
+                contract_name: '欧线',
+                predicted_value: data.price_signals.predicted_value,
+                current_value: data.price_signals.current_value,
+                deviation: data.price_signals.deviation,
+                entry_range: data.trading_ranges.short_entry_range,
+                exit_range: data.trading_ranges.short_exit_range,
+                operation_suggestion: data.operation_suggestion,
+                date: data.closing_price_date
+              }
+              
+              setContracts(contractData)
+              setContractNames(['欧线'])
+              setSwapDate(data.closing_price_date || result.data.date || '')
+              setSelectedContract('欧线')
+            }
           }
         } else {
           throw new Error('数据格式错误')
@@ -84,7 +161,7 @@ const RealtimeSignalPage: React.FC = () => {
     const interval = setInterval(fetchSignalData, 30000)
     
     return () => clearInterval(interval)
-  }, [])
+  }, [signalType])
 
   const selectedData = contracts[selectedContract] || null
 
@@ -100,14 +177,29 @@ const RealtimeSignalPage: React.FC = () => {
     
     // 根据操作建议判断操作类型
     const operation = operationSuggestion || ''
-    const isPureShort = operation === '平空/空仓' || operation === '空仓'
+    const isPureShort = operation === '平空/空仓' || operation === '空仓' || operation === '平空'
     const isHoldLongAndShort = operation.includes('持有多单/空仓') || operation.includes('多单/空仓')
     
-    // 特殊情况：P4TC+1 的操作建议是"平空/空仓"
+    // 特殊情况1：欧线信号 - 操作建议是"平空"
+    // API数据：short_entry_range='>2312', short_exit_range='<1834'
+    // 图片显示：开空入场区间='>2312', 平空离场区间='<1834'
+    // 这是标准的开空平空模式，直接使用
+    if (operation === '平空' && isShortEntry && isShortExit) {
+      return {
+        entryType: 'short',
+        exitType: 'short',
+        entryLabel: '开空入场区间',
+        exitLabel: '平空离场区间',
+        entryValue: entryRange,
+        exitValue: exitRange
+      }
+    }
+    
+    // 特殊情况2：P4TC+1 的操作建议是"平空/空仓"
     // API数据：entry_range='<17500', exit_range='>21650'
     // 图片显示：开空入场区间='>21650', 平多离场区间='<17500'
     // 说明对于"平空/空仓"的情况，需要交换entry_range和exit_range
-    if (isPureShort) {
+    if (isPureShort && isLongEntry && isLongExit) {
       // 纯粹的平空/空仓操作：entry_range和exit_range的含义需要交换
       // entry_range实际是平多离场区间，exit_range实际是开空入场区间
       return {
@@ -221,7 +313,27 @@ const RealtimeSignalPage: React.FC = () => {
 
         <div className="realtime-signal-page">
           {/* 页面标题 */}
-          <p className="realtime-signal-page-title">FFA信号</p>
+          <p className="realtime-signal-page-title">
+            {signalType === 'ffa' ? 'FFA信号' : '欧线信号'}
+          </p>
+
+          {/* 信号类型选择 */}
+          <div className="realtime-signal-type-selector">
+            <button
+              type="button"
+              className={`realtime-signal-type-button ${signalType === 'ffa' ? 'active' : ''}`}
+              onClick={() => setSignalType('ffa')}
+            >
+              FFA信号
+            </button>
+            <button
+              type="button"
+              className={`realtime-signal-type-button ${signalType === 'european_line' ? 'active' : ''}`}
+              onClick={() => setSignalType('european_line')}
+            >
+              欧线
+            </button>
+          </div>
 
           {/* 合约选择区域 - 前置到顶部 */}
           {!loading && !error && contractNames.length > 0 && (
@@ -248,7 +360,9 @@ const RealtimeSignalPage: React.FC = () => {
               </div>
               {swapDate && (
                 <div className="realtime-signal-date">
-                  <span className="realtime-signal-date-label">掉期日期：</span>
+                  <span className="realtime-signal-date-label">
+                    {signalType === 'ffa' ? '掉期日期：' : '收盘价日期：'}
+                  </span>
                   <span className="realtime-signal-date-value">{swapDate}</span>
                 </div>
               )}
