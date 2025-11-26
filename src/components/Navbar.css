@@ -62,23 +62,21 @@
 
 .nav-item {
   font-family: 'DengXian', sans-serif;
-  font-weight: bold;
+  font-weight: 600;
   line-height: normal;
   font-style: normal;
   margin: 0;
   cursor: pointer;
-  transition: color 0.3s ease;
-  color: #212a37;
+  transition: all 0.3s ease;
   font-size: 16px;
   text-decoration: none;
   display: inline-block;
 }
 
 .nav-item.active {
-  color: #f6d365;
   font-size: 18px;
+  font-weight: bold;
 }
-
 
 .nav-item:hover {
   opacity: 0.8;
@@ -144,38 +142,77 @@
   cursor: pointer;
 }
 
-/* Products Page Styles - 当在产品与服务页面时，所有元素变为黑色 */
-/* 兼容所有 /product-service 相关页面（含后续子路由）为深色风格【Figma原型一致】 */
-.navbar.products-page .logo-image {
+/* Products Landing Page Styles - landing页面（深色背景）使用白色字体 */
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .logo-image {
+  filter: brightness(0) invert(1) !important;
+}
+
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .nav-item:not(.active) {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .nav-item:not(.active):hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+  opacity: 1;
+}
+
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .nav-item.active {
+  color: #f6d365 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 3px rgba(246, 211, 101, 0.4);
+}
+
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .user-name {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.products-page:not(.products-sub-page):not(.about-us-page) .icon-image {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Products Sub Pages Styles - 子页面（浅色背景）使用黑色字体 */
+.navbar.products-page.products-sub-page:not(.about-us-page) .logo-image {
   filter: brightness(0) saturate(100%) !important;
 }
 
-/* 产品与服务页面——使用黑色字体，在白色背景下更清晰 */
-.navbar.products-page:not(.about-us-page) .nav-item:not(.active) {
+.navbar.products-page.products-sub-page:not(.about-us-page) .nav-item:not(.active) {
   color: #212a37 !important;
-  font-weight: 600;
+  font-size: 16px !important;
+  font-weight: 600 !important;
   text-shadow: none;
 }
 
-.navbar.products-page:not(.about-us-page) .nav-item:not(.active):hover {
+.navbar.products-page.products-sub-page:not(.about-us-page) .nav-item:not(.active):hover {
   color: #212a37 !important;
   opacity: 0.7;
 }
 
-.navbar.products-page:not(.about-us-page) .nav-item.active {
+.navbar.products-page.products-sub-page:not(.about-us-page) .nav-item.active {
   color: #f6d365 !important;
-  font-weight: bold;
+  font-size: 18px !important;
+  font-weight: bold !important;
   text-shadow: none;
 }
 
-.navbar.products-page:not(.about-us-page) .user-name {
+.navbar.products-page.products-sub-page:not(.about-us-page) .user-name {
   color: #212a37 !important;
   text-shadow: none;
+}
+
+.navbar.products-page.products-sub-page:not(.about-us-page) .icon-image {
+  filter: brightness(0) invert(0) !important;
 }
 
 /* 关于我们页面——使用白色字体，在深色背景下更清晰 */
 .navbar.about-us-page .nav-item:not(.active) {
   color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -186,6 +223,8 @@
 
 .navbar.about-us-page .nav-item.active {
   color: #f6d365 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
   text-shadow: 0 1px 3px rgba(246, 211, 101, 0.4);
 }
 
@@ -193,32 +232,39 @@
   color: rgba(255, 255, 255, 0.85) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-.navbar.products-page .icon-image {
-  filter: brightness(0) invert(0);
+
+/* 首页（/）——白色主题（仅当不是产品页面也不是关于我们页面时） */
+.navbar:not(.products-page):not(.about-us-page) .nav-item:not(.active) {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* 首页（/）——白色主题 */
-.navbar:not(.products-page) .nav-item,
-.navbar:not(.products-page) .user-name {
-  color: #fff !important;
+.navbar:not(.products-page):not(.about-us-page) .nav-item:not(.active):hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+  opacity: 1;
 }
-.navbar:not(.products-page) .icon-image {
-  filter: brightness(0) invert(1) !important;
-}
-.navbar:not(.products-page) .nav-item.active {
+
+.navbar:not(.products-page):not(.about-us-page) .nav-item.active {
   color: #f6d365 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 3px rgba(246, 211, 101, 0.4);
+}
+
+.navbar:not(.products-page):not(.about-us-page) .user-name {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar:not(.products-page):not(.about-us-page) .icon-image {
+  filter: brightness(0) invert(1) !important;
 }
 
 /* 保证 logo 显示原图色，不再做filter影响 */
 .logo-image {
   filter: none !important;
-}
-
-/* 临时让 logo 最白效果（已统一不使用滤镜） */
-
-.navbar:not(.products-page) .user-name {
-  color: #fff !important;
-  text-shadow: 0 0 6px rgba(30, 44, 80, 0.18);
 }
 
 /* 响应式设计 */

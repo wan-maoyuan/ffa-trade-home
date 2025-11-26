@@ -9,11 +9,13 @@ import userIcon from '../assets/images/user-icon.svg'
 const Navbar: React.FC = () => {
   const location = useLocation()
   const isProductsPage = location.pathname.startsWith('/product-service')
+  const isProductsLandingPage = location.pathname === '/product-service'
+  const isProductsSubPage = isProductsPage && !isProductsLandingPage
   const isAboutUsPage = location.pathname === '/about-us'
   const showUserActions = false
 
   return (
-    <div className={`navbar${isProductsPage ? ' products-page' : ''}${isAboutUsPage ? ' about-us-page' : ''}`}>
+    <div className={`navbar${isProductsPage ? ' products-page' : ''}${isProductsSubPage ? ' products-sub-page' : ''}${isAboutUsPage ? ' about-us-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">
