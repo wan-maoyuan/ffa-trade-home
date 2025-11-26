@@ -1,0 +1,552 @@
+.realtime-signal-panel {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 84px 16px 92px;
+  background: linear-gradient(180deg, #f6f8ff 0%, #e8eeff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.realtime-signal-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.45), transparent 48%);
+  pointer-events: none;
+}
+
+.realtime-signal-container {
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  z-index: 1;
+}
+
+/* 返回按钮 */
+.realtime-signal-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(46, 86, 163, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  color: #2e56a3;
+  box-shadow: 0 2px 8px rgba(46, 86, 163, 0.1);
+  align-self: flex-start;
+}
+
+.realtime-signal-back-button:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(46, 86, 163, 0.3);
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.15);
+  transform: translateX(-2px);
+}
+
+.realtime-signal-back-button:active {
+  transform: translateX(0);
+}
+
+.realtime-signal-back-icon {
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.realtime-signal-back-button:hover .realtime-signal-back-icon {
+  transform: translateX(-2px);
+}
+
+.realtime-signal-back-text {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.realtime-signal-page {
+  position: relative;
+  width: 100%;
+  background-color: #2e56a3;
+  border-radius: 24px;
+  padding: 28px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 28px 52px rgba(27, 46, 91, 0.18);
+}
+
+.realtime-signal-page-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: white;
+  margin: 0;
+  text-align: center;
+}
+
+.realtime-signal-page-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+}
+
+/* 合约选择器区域 - 前置到顶部 */
+.realtime-signal-contract-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 8px;
+}
+
+.realtime-signal-contract-tags {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.realtime-signal-contract-tag {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+.realtime-signal-contract-tag:not(.active) {
+  background-color: rgba(172, 196, 243, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.realtime-signal-contract-tag:hover:not(.active) {
+  background-color: rgba(172, 196, 243, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.2);
+}
+
+.realtime-signal-contract-tag.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  color: #2e56a3;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    0 0 0 2px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.realtime-signal-contract-tag.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  border-radius: 2px;
+}
+
+.realtime-signal-contract-name {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.realtime-signal-contract-month {
+  font-size: 11px;
+  opacity: 0.8;
+  padding-left: 6px;
+  border-left: 1px solid rgba(46, 86, 163, 0.2);
+  margin-left: 6px;
+}
+
+.realtime-signal-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.realtime-signal-date-label {
+  font-weight: 600;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+
+.realtime-signal-date-value {
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.realtime-signal-value-cards {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.realtime-signal-value-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 
+    0px 4px 20px rgba(46, 86, 163, 0.15),
+    0px 1px 4px rgba(0, 0, 0, 0.08);
+  flex: 1 1 280px;
+  min-height: 90px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(46, 86, 163, 0.08);
+}
+
+.realtime-signal-value-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0px 6px 24px rgba(46, 86, 163, 0.2),
+    0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.realtime-signal-value-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.realtime-signal-value-icon {
+  font-size: 14px;
+  color: #2e56a3;
+  font-weight: bold;
+}
+
+.realtime-signal-value-label {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: #212a37;
+  margin: 0;
+}
+
+.realtime-signal-value-number {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #2e56a3;
+  margin: 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.realtime-signal-trade-info-table {
+  background-color: white;
+  border-radius: 12px;
+  width: 100%;
+  box-shadow: 
+    0px 4px 20px rgba(46, 86, 163, 0.15),
+    0px 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(46, 86, 163, 0.1);
+}
+
+.realtime-signal-trade-info-table-header {
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(135deg, #acc4f3 0%, #8fb3f0 100%);
+  width: 100%;
+}
+
+.realtime-signal-trade-info-table-header-cell {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  padding: 10px 12px;
+  flex: 1;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.realtime-signal-trade-info-table-header-cell:last-child {
+  border-right: none;
+}
+
+.realtime-signal-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+  cursor: help;
+  transition: all 0.2s ease;
+  margin-left: 2px;
+}
+
+.realtime-signal-info-icon:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.realtime-signal-trade-info-table-row {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  width: 100%;
+}
+
+.realtime-signal-trade-info-table-cell {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(46, 86, 163, 0.9);
+  text-align: center;
+  padding: 14px 12px;
+  flex: 1;
+  border-right: 1px solid rgba(46, 86, 163, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.realtime-signal-trade-info-table-cell:last-child {
+  border-right: none;
+}
+
+.realtime-signal-trade-info-table-cell-action {
+  background: linear-gradient(135deg, rgba(173, 196, 243, 0.25) 0%, rgba(173, 196, 243, 0.35) 100%);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  position: relative;
+}
+
+.realtime-signal-trade-info-table-cell-action.action-orange {
+  color: #ff6b35;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 107, 53, 0.25) 100%);
+}
+
+.realtime-signal-trade-info-table-cell-action.action-green {
+  color: #266614;
+  background: linear-gradient(135deg, rgba(38, 102, 20, 0.15) 0%, rgba(38, 102, 20, 0.25) 100%);
+}
+
+.realtime-signal-loading,
+.realtime-signal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  color: rgba(46, 86, 163, 0.87);
+  text-align: center;
+}
+
+.realtime-signal-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(46, 86, 163, 0.1);
+  border-top-color: #2e56a3;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.realtime-signal-error {
+  color: rgba(179, 5, 5, 0.87);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .realtime-signal-panel {
+    padding: 70px 14px 80px;
+  }
+
+  .realtime-signal-back-button {
+    padding: 8px 16px;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .realtime-signal-back-icon {
+    font-size: 16px;
+  }
+
+  .realtime-signal-page {
+    padding: 22px 16px 28px;
+    gap: 16px;
+  }
+
+  .realtime-signal-page-content {
+    gap: 16px;
+  }
+
+  .realtime-signal-contract-selector {
+    padding: 16px 0;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .realtime-signal-contract-tags {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .realtime-signal-contract-tag {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .realtime-signal-date {
+    font-size: 12px;
+  }
+
+  .realtime-signal-value-cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .realtime-signal-value-card {
+    padding: 20px 24px;
+    min-height: 80px;
+  }
+
+  .realtime-signal-value-number {
+    font-size: 24px;
+  }
+
+  .realtime-signal-trade-info-table {
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+
+  .realtime-signal-trade-info-table-header,
+  .realtime-signal-trade-info-table-row {
+    min-width: 520px;
+  }
+}
+
+@media (max-width: 520px) {
+  .realtime-signal-panel {
+    padding: 60px 12px 70px;
+  }
+
+  .realtime-signal-back-button {
+    padding: 8px 14px;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .realtime-signal-back-icon {
+    font-size: 14px;
+  }
+
+  .realtime-signal-page {
+    padding: 20px 14px 26px;
+  }
+
+  .realtime-signal-page-title {
+    font-size: 13px;
+  }
+
+  .realtime-signal-contract-selector {
+    padding: 14px 0;
+    gap: 10px;
+  }
+
+  .realtime-signal-contract-tag {
+    padding: 7px 12px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .realtime-signal-contract-month {
+    font-size: 10px;
+    padding-left: 4px;
+    margin-left: 4px;
+  }
+
+  .realtime-signal-date {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .realtime-signal-value-card {
+    padding: 16px 20px;
+    min-height: 70px;
+  }
+
+  .realtime-signal-value-header {
+    gap: 4px;
+  }
+
+  .realtime-signal-value-icon {
+    font-size: 12px;
+  }
+
+  .realtime-signal-value-label {
+    font-size: 11px;
+  }
+
+  .realtime-signal-value-number {
+    font-size: 22px;
+  }
+
+  .realtime-signal-trade-info-table-header-cell,
+  .realtime-signal-trade-info-table-cell {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+}
+

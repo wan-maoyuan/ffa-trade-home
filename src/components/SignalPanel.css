@@ -84,6 +84,33 @@
   margin: 0;
 }
 
+.signal-entry-button {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #2e56a3 0%, #1c376a 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(46, 86, 163, 0.3);
+  transition: all 0.3s ease;
+}
+
+.signal-entry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(46, 86, 163, 0.4);
+  background: linear-gradient(135deg, #3567c7 0%, #224489 100%);
+}
+
+.signal-entry-button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(46, 86, 163, 0.3);
+}
+
 .signal-carousel-container {
   position: relative;
   width: 100%;

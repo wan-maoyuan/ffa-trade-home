@@ -4,11 +4,12 @@ import './ProductsServices.css'
 import backgroundImage from '../assets/images/product-background.jpeg'
 import SignalPanel from './SignalPanel'
 import StrategyPanel from './StrategyPanel'
+import RealtimeSignalPage from './signal-pages/RealtimeSignalPage'
 
 const ProductsServices: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [activeTab, setActiveTab] = useState<'none' | 'signal' | 'strategy'>('none')
+  const [activeTab, setActiveTab] = useState<'none' | 'signal' | 'strategy' | 'realtime'>('none')
 
   const handleSignalClick = () => {
     navigate('/product-service/signal')
@@ -18,7 +19,9 @@ const ProductsServices: React.FC = () => {
   }
 
   useEffect(() => {
-    if (location.pathname === '/product-service/signal') {
+    if (location.pathname === '/product-service/signal/realtime') {
+      setActiveTab('realtime')
+    } else if (location.pathname === '/product-service/signal') {
       setActiveTab('signal')
     } else if (location.pathname === '/product-service/strategy') {
       setActiveTab('strategy')
@@ -79,8 +82,13 @@ const ProductsServices: React.FC = () => {
     <StrategyPanel />
   )
 
+  const renderRealtime = () => (
+    <RealtimeSignalPage />
+  )
+
   return (
     <div className="products-services-page">
+      {activeTab === 'realtime' && renderRealtime()}
       {activeTab === 'signal' && renderSignal()}
       {activeTab === 'strategy' && renderStrategy()}
       {activeTab === 'none' && renderDefault()}

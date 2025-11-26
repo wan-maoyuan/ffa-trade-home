@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -12,6 +13,7 @@ import SinglePositionSignalPage from './signal-pages/SinglePositionSignalPage'
 import DoublePositionSignalPage from './signal-pages/DoublePositionSignalPage'
 
 const SignalPanel: React.FC = () => {
+  const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
 
@@ -24,6 +26,10 @@ const SignalPanel: React.FC = () => {
     if (swiperRef.current) {
       swiperRef.current.slideTo(index)
     }
+  }
+
+  const handleRealtimeSignalClick = () => {
+    navigate('/product-service/signal/realtime')
   }
 
   return (
@@ -40,6 +46,13 @@ const SignalPanel: React.FC = () => {
           我们以多维度数据为基础，持续追踪航运市场的结构性变化，甄别各类价格驱动因素，形成透明、可解释的信号体系，让决策者能够更早洞察趋势。
           无论是短期波动还是中长期周期，我们提供的指标与解读都可协助团队制定行动计划，兼顾风险控制与收益捕捉。
           </div>
+          <button 
+            className="signal-entry-button" 
+            onClick={handleRealtimeSignalClick}
+            type="button"
+          >
+            信号入口
+          </button>
         </div>
       </div>
 
