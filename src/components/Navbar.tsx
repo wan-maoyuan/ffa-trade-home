@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   const showUserActions = false
 
   return (
-    <div className={`navbar${isProductsPage || isAboutUsPage ? ' products-page' : ''}`}>
+    <div className={`navbar${isProductsPage ? ' products-page' : ''}${isAboutUsPage ? ' about-us-page' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">

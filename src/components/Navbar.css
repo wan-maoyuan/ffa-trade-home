@@ -84,6 +84,7 @@
   opacity: 0.8;
 }
 
+
 /* User Actions */
 .navbar-user {
   position: absolute;
@@ -148,17 +149,52 @@
 .navbar.products-page .logo-image {
   filter: brightness(0) saturate(100%) !important;
 }
-.navbar.products-page .nav-item {
-  color: #212a37;
+
+/* 产品与服务页面——使用黑色字体，在白色背景下更清晰 */
+.navbar.products-page:not(.about-us-page) .nav-item:not(.active) {
+  color: #212a37 !important;
+  font-weight: 600;
+  text-shadow: none;
 }
-.navbar.products-page .nav-item.active {
-  color: #212a37;
+
+.navbar.products-page:not(.about-us-page) .nav-item:not(.active):hover {
+  color: #212a37 !important;
+  opacity: 0.7;
+}
+
+.navbar.products-page:not(.about-us-page) .nav-item.active {
+  color: #f6d365 !important;
+  font-weight: bold;
+  text-shadow: none;
+}
+
+.navbar.products-page:not(.about-us-page) .user-name {
+  color: #212a37 !important;
+  text-shadow: none;
+}
+
+/* 关于我们页面——使用白色字体，在深色背景下更清晰 */
+.navbar.about-us-page .nav-item:not(.active) {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.about-us-page .nav-item:not(.active):hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+  opacity: 1;
+}
+
+.navbar.about-us-page .nav-item.active {
+  color: #f6d365 !important;
+  text-shadow: 0 1px 3px rgba(246, 211, 101, 0.4);
+}
+
+.navbar.about-us-page .user-name {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 .navbar.products-page .icon-image {
   filter: brightness(0) invert(0);
-}
-.navbar.products-page .user-name {
-  color: #212a37;
 }
 
 /* 首页（/）——白色主题 */
@@ -170,18 +206,6 @@
   filter: brightness(0) invert(1) !important;
 }
 .navbar:not(.products-page) .nav-item.active {
-  color: #f6d365 !important;
-}
-
-/* 产品与服务及子页面——黑色主题 */
-.navbar.products-page .nav-item,
-.navbar.products-page .user-name {
-  color: #212a37 !important;
-}
-.navbar.products-page .icon-image {
-  filter: none !important;
-}
-.navbar.products-page .nav-item.active {
   color: #f6d365 !important;
 }
 

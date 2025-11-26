@@ -7,6 +7,7 @@ import liSheng from '../assets/images/li-sheng.png'
 import chooseUsBackground from '../assets/images/choose-us-background.jpeg'
 import logoFont from '../assets/images/logo-font.png'
 import servicesDiagram from '../assets/images/services-diagram.png'
+import derivativesDiagram from '../assets/images/derivatives-diagram.png'
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState('company-intro')
@@ -212,25 +213,6 @@ const AboutUs = () => {
               </p>
             </div>
           </div>
-          <div className="intro-bottom">
-            <p className="intro-label">我们提供</p>
-            <div className="intro-services">
-              <div className="service-item">
-                <span className="service-number">01</span>
-                <span className="service-name">信号</span>
-                <p className="service-desc">
-                  基于大数据与机器学习，构建高价值信号体系，精准赋能客户日常决策。
-                </p>
-              </div>
-              <div className="service-item">
-                <span className="service-number">02</span>
-                <span className="service-name">策略</span>
-                <p className="service-desc">
-                  深耕实战策略开发，覆盖多元场景，驱动交易表现提升。
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -336,100 +318,12 @@ const AboutUs = () => {
           </p>
           
           <div className="derivatives-diagram">
-            {/* 流程图容器 */}
-            <div className="derivatives-flow-wrapper">
-              {/* 第一层：贸易 */}
-              <div className="flow-layer flow-layer-1">
-                <div className="flow-card">贸易</div>
-              </div>
-
-              {/* 箭头层 1 */}
-              <div className="arrow-layer arrow-layer-1">
-                <svg className="arrow-svg" viewBox="0 0 700 60" preserveAspectRatio="xMidYMid meet">
-                  <defs>
-                    <marker id="arrowhead1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                      <polygon points="0 0, 8 4, 0 8" fill="white" opacity="0.8"/>
-                    </marker>
-                  </defs>
-                  <line x1="350" y1="5" x2="180" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead1)"/>
-                  <line x1="350" y1="5" x2="350" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead1)"/>
-                  <line x1="350" y1="5" x2="520" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead1)"/>
-                </svg>
-              </div>
-
-              {/* 第二层：商品、货币、物流 */}
-              <div className="flow-layer flow-layer-2">
-                <div className="flow-card">商品</div>
-                <div className="flow-card">货币</div>
-                <div className="flow-card">物流</div>
-              </div>
-
-              {/* 箭头层 2 */}
-              <div className="arrow-layer arrow-layer-2">
-                <svg className="arrow-svg" viewBox="0 0 700 60" preserveAspectRatio="xMidYMid meet">
-                  <defs>
-                    <marker id="arrowhead2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                      <polygon points="0 0, 8 4, 0 8" fill="white" opacity="0.8"/>
-                    </marker>
-                  </defs>
-                  {/* 从货币到利率和汇率 */}
-                  <line x1="350" y1="5" x2="235" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
-                  <line x1="350" y1="5" x2="315" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead2)"/>
-                </svg>
-              </div>
-
-              {/* 第三层：利率、汇率、运输、仓储 */}
-              <div className="flow-layer flow-layer-3">
-                <div className="flow-card flow-card-pos1">利率</div>
-                <div className="flow-card flow-card-pos2">汇率</div>
-                <div className="flow-card flow-card-pos3">运输</div>
-                <div className="flow-card flow-card-pos4">仓储</div>
-              </div>
-
-              {/* 箭头层 3 */}
-              <div className="arrow-layer arrow-layer-3">
-                <svg className="arrow-svg" viewBox="0 0 700 60" preserveAspectRatio="xMidYMid meet">
-                  <defs>
-                    <marker id="arrowhead3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                      <polygon points="0 0, 8 4, 0 8" fill="white" opacity="0.8"/>
-                    </marker>
-                  </defs>
-                  {/* 从运输（第3列）到燃料油（第2列） */}
-                  <line x1="415" y1="5" x2="290" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
-                  {/* 从运输（第3列）到FFA（第3列） */}
-                  <line x1="415" y1="5" x2="415" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
-                  {/* 从运输（第3列）到碳税（第4列） */}
-                  <line x1="415" y1="5" x2="540" y2="55" stroke="white" strokeWidth="2" opacity="0.8" markerEnd="url(#arrowhead3)"/>
-                </svg>
-              </div>
-
-              {/* 第四层：燃料油、FFA、碳税 */}
-              <div className="flow-layer flow-layer-4">
-                <div className="flow-card flow-card-pos2">燃料油</div>
-                <div className="flow-card flow-card-highlight flow-card-pos3">FFA</div>
-                <div className="flow-card flow-card-pos4">碳税</div>
-              </div>
-
-              {/* 弧形包围线 */}
-              <div className="curved-border-wrapper">
-                <svg className="curved-border-svg" viewBox="0 0 500 80" preserveAspectRatio="xMidYMid meet">
-                  <path d="M 50 10 Q 50 5, 55 5 L 445 5 Q 450 5, 450 10 L 450 70 Q 450 75, 445 75 L 55 75 Q 50 75, 50 70 Z" 
-                        fill="none" 
-                        stroke="white" 
-                        strokeWidth="2" 
-                        strokeDasharray="8,4" 
-                        opacity="0.6"/>
-                </svg>
-              </div>
-
-              {/* 第五层：衍生品 */}
-              <div className="flow-layer flow-layer-5">
-                <div className="flow-card flow-card-outline">衍生品</div>
-              </div>
-            </div>
+            <img 
+              src={derivativesDiagram}
+              alt="衍生品+流程图"
+              className="derivatives-diagram-image"
+            />
           </div>
-          
-          <p className="derivatives-plus-footer">Derivatives Plus</p>
         </div>
       </section>
 
@@ -474,8 +368,9 @@ const AboutUs = () => {
             <p className="footer-cta">联系我们，开启您的衍生品+战略</p>
             <div className="footer-contact">
               <p className="contact-label">我们的联系方式：</p>
-              <p className="contact-info">ffa@aquabridge.ai</p>
-              <p className="contact-info">Terry Zhao +86 1360105560</p>
+              <p className="contact-info">service@aquabridge.ai</p>
+              <p className="contact-info">Shane Lee +86 15152627161</p>
+              <p className="contact-info">Terry Zhao +86 1360105560/+65 87312888</p>
               {/* <p className="contact-info">Cathy Guan xxx</p> */}
             </div>
           </div>
