@@ -1,52 +1,91 @@
-/* 字体导入 */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Han+Sans+CN:wght@400;700&display=swap');
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Han+Sans+CN:wght@400;500;700&display=swap');
 
-/* 重置样式 */
+/* CSS Variables */
+:root {
+  /* Colors */
+  --primary-color: #f6d365;
+  --primary-gradient: linear-gradient(135deg, #f9d976 0%, #f39f86 100%);
+  --secondary-color: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.85);
+  --text-tertiary: rgba(255, 255, 255, 0.6);
+  --bg-dark: #061434;
+  --bg-darker: #030e24;
+  
+  /* Spacing */
+  --container-padding: clamp(20px, 5vw, 80px);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
-  margin: 0;
-  padding: 0;
   width: 100%;
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Source Han Sans CN', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #333;
+  color: var(--text-primary);
+  background-color: var(--bg-dark);
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
   width: 100%;
   min-height: 100vh;
+  line-height: 1.6;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Selection */
+::selection {
+  background: rgba(246, 211, 101, 0.3);
+  color: #fff;
+}
+
+/* Responsive Typography */
 @media (max-width: 768px) {
   body {
     font-size: 14px;
-    background-color: #f6f8ff;
   }
 }
 
-@media (max-width: 480px) {
-  html,
-  body {
-    font-size: 13px;
-  }
-}
 
 
 
