@@ -45,7 +45,33 @@ interface UnifiedContractData {
   date?: string // 用于欧线的收盘价日期
 }
 
+// 14天后交易机会汇总数据结构
+interface TradingOpportunity14d {
+  project_id: string
+  trading_direction: string | null // '做多' | '做空'
+  profit_loss_ratio: string | null // 'X:1' 格式
+}
+
+interface TradingOpportunity14dData {
+  date: string
+  trading_opportunities: TradingOpportunity14d[]
+}
+
+// 42天后交易机会汇总数据结构
+interface TradingOpportunity42d {
+  project_id: string
+  trading_direction: string | null // '做多' | '做空'
+  profit_loss_ratio: string | null // 数字字符串，需要格式化为 'X:1'
+}
+
+interface TradingOpportunity42dData {
+  date: string
+  spot_opportunities: TradingOpportunity42d[]
+  futures_opportunities: TradingOpportunity42d[]
+}
+
 type SignalType = 'ffa' | 'european_line'
+type OpportunityPeriod = '14d' | '42d'
 
 const RealtimeSignalPage: React.FC = () => {
   const navigate = useNavigate()
@@ -56,6 +82,13 @@ const RealtimeSignalPage: React.FC = () => {
   const [selectedContract, setSelectedContract] = useState<string>('')
   const [swapDate, setSwapDate] = useState<string>('')
   const [contractNames, setContractNames] = useState<string[]>([])
+  const [tradingOpportunity14d, setTradingOpportunity14d] = useState<TradingOpportunity14dData | null>(null)
+  const [loading14d, setLoading14d] = useState(true)
+  const [error14d, setError14d] = useState<string | null>(null)
+  const [tradingOpportunity42d, setTradingOpportunity42d] = useState<TradingOpportunity42dData | null>(null)
+  const [loading42d, setLoading42d] = useState(true)
+  const [error42d, setError42d] = useState<string | null>(null)
+  const [opportunityPeriod, setOpportunityPeriod] = useState<OpportunityPeriod>('14d')
 
   const handleBackClick = () => {
     navigate('/product-service/signal')
@@ -162,6 +195,154 @@ const RealtimeSignalPage: React.FC = () => {
     
     return () => clearInterval(interval)
   }, [signalType])
+
+  // 获取14天后交易机会汇总数据
+  useEffect(() => {
+    const fetch14dData = async () => {
+      try {
+        setLoading14d(true)
+        setError14d(null)
+        
+        const response = await fetch('https://aqua.navgreen.cn/api/strategy/unilateral_trading_opportunity_14d_data')
+        
+        if (!response.ok) {
+          throw new Error('网络请求失败')
+        }
+
+        const result = await response.json()
+        
+        if (result.code === 200 && result.data.records && result.data.records.length > 0) {
+          const record = result.data.records[0]
+          const analysis = record.contracts?.trading_opportunity_14d_analysis
+          
+          if (analysis && analysis.trading_opportunities) {
+            // 过滤掉trading_direction和profit_loss_ratio都为null的项
+            const validOpportunities = analysis.trading_opportunities.filter(
+              (item: TradingOpportunity14d) => 
+                item.trading_direction !== null || item.profit_loss_ratio !== null
+            )
+            
+            setTradingOpportunity14d({
+              date: result.data.date || record.swap_date || '',
+              trading_opportunities: validOpportunities.length > 0 
+                ? validOpportunities 
+                : analysis.trading_opportunities // 如果都过滤掉了，使用原始数据
+            })
+          } else {
+            setTradingOpportunity14d({
+              date: result.data.date || record.swap_date || '',
+              trading_opportunities: []
+            })
+          }
+        } else {
+          throw new Error('数据格式错误')
+        }
+      } catch (err) {
+        setError14d(err instanceof Error ? err.message : '加载数据失败')
+        console.error('获取14天汇总数据失败:', err)
+      } finally {
+        setLoading14d(false)
+      }
+    }
+
+    fetch14dData()
+    
+    // 每30秒刷新一次数据
+    const interval = setInterval(fetch14dData, 30000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
+  // 获取42天后交易机会汇总数据
+  useEffect(() => {
+    const fetch42dData = async () => {
+      try {
+        setLoading42d(true)
+        setError42d(null)
+        
+        const response = await fetch('https://aqua.navgreen.cn/api/strategy/unilateral_trading_opportunity_42d_data')
+        
+        if (!response.ok) {
+          throw new Error('网络请求失败')
+        }
+
+        const result = await response.json()
+        
+        if (result.code === 200 && result.data.records && result.data.records.length > 0) {
+          const record = result.data.records[0]
+          const analysis = record.contracts?.trading_opportunity_42d_analysis
+          
+          if (analysis) {
+            // 合并所有机会数据（spot_opportunities 和 futures_opportunities）
+            const allOpportunities = [
+              ...(analysis.spot_opportunities || []),
+              ...(analysis.futures_opportunities || [])
+            ]
+            
+            // 根据project_id去重，保留第一次出现的数据
+            const seenIds = new Set<string>()
+            const uniqueOpportunities: TradingOpportunity42d[] = []
+            
+            allOpportunities.forEach((item: TradingOpportunity42d) => {
+              if (item.project_id && !seenIds.has(item.project_id)) {
+                seenIds.add(item.project_id)
+                uniqueOpportunities.push(item)
+              }
+            })
+            
+            // 根据项目ID是否包含"+1"来分类
+            // 包含"+1"的为期货，其他为现货
+            const spotOpportunities: TradingOpportunity42d[] = []
+            const futuresOpportunities: TradingOpportunity42d[] = []
+            
+            uniqueOpportunities.forEach((item: TradingOpportunity42d) => {
+              if (item.project_id && item.project_id.includes('+1')) {
+                // 期货：包含"+1"的项目
+                futuresOpportunities.push(item)
+              } else {
+                // 现货：不包含"+1"的项目
+                spotOpportunities.push(item)
+              }
+            })
+            
+            setTradingOpportunity42d({
+              date: result.data.date || record.swap_date || '',
+              spot_opportunities: spotOpportunities,
+              futures_opportunities: futuresOpportunities
+            })
+          } else {
+            setTradingOpportunity42d({
+              date: result.data.date || record.swap_date || '',
+              spot_opportunities: [],
+              futures_opportunities: []
+            })
+          }
+        } else {
+          throw new Error('数据格式错误')
+        }
+      } catch (err) {
+        setError42d(err instanceof Error ? err.message : '加载数据失败')
+        console.error('获取42天汇总数据失败:', err)
+      } finally {
+        setLoading42d(false)
+      }
+    }
+
+    fetch42dData()
+    
+    // 每30秒刷新一次数据
+    const interval = setInterval(fetch42dData, 30000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
+  // 格式化盈亏比为 X:1 格式
+  const formatProfitLossRatio = (ratio: string | null): string => {
+    if (!ratio) return '-'
+    const num = parseFloat(ratio)
+    if (isNaN(num)) return ratio
+    return `${num}:1`
+  }
 
   const selectedData = contracts[selectedContract] || null
 
@@ -445,6 +626,195 @@ const RealtimeSignalPage: React.FC = () => {
                 <p>暂无数据</p>
               </div>
             )}
+
+            {/* 交易机会汇总 */}
+            <div className="realtime-signal-opportunity-summary">
+              <div className="realtime-signal-opportunity-header">
+                <div className="realtime-signal-opportunity-title-wrapper">
+                  <h3 className="realtime-signal-opportunity-title">
+                    {opportunityPeriod === '14d' ? '14天后' : '42天后'}单边交易机会汇总
+                  </h3>
+                  {(opportunityPeriod === '14d' ? tradingOpportunity14d?.date : tradingOpportunity42d?.date) && (
+                    <span className="realtime-signal-opportunity-date">
+                      {opportunityPeriod === '14d' ? tradingOpportunity14d?.date : tradingOpportunity42d?.date}
+                    </span>
+                  )}
+                </div>
+                {/* 标签切换 */}
+                <div className="realtime-signal-opportunity-tabs">
+                  <button
+                    type="button"
+                    className={`realtime-signal-opportunity-tab ${opportunityPeriod === '14d' ? 'active' : ''}`}
+                    onClick={() => setOpportunityPeriod('14d')}
+                  >
+                    14天
+                  </button>
+                  <button
+                    type="button"
+                    className={`realtime-signal-opportunity-tab ${opportunityPeriod === '42d' ? 'active' : ''}`}
+                    onClick={() => setOpportunityPeriod('42d')}
+                  >
+                    42天
+                  </button>
+                </div>
+              </div>
+              
+              {/* 14天数据展示 */}
+              {opportunityPeriod === '14d' && (
+                <>
+                  {loading14d ? (
+                    <div className="realtime-signal-opportunity-loading">
+                      <div className="realtime-signal-loading-spinner"></div>
+                      <p>加载中...</p>
+                    </div>
+                  ) : error14d ? (
+                    <div className="realtime-signal-opportunity-error">
+                      <p>{error14d}</p>
+                    </div>
+                  ) : tradingOpportunity14d && tradingOpportunity14d.trading_opportunities.length > 0 ? (
+                    <div className="realtime-signal-opportunity-table-container">
+                      <div className="realtime-signal-opportunity-table">
+                        <div className="realtime-signal-opportunity-table-header">
+                          <div className="realtime-signal-opportunity-table-header-cell">现货</div>
+                          <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                          <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                        </div>
+                        {tradingOpportunity14d.trading_opportunities.map((item, index) => {
+                          const isLong = item.trading_direction === '做多'
+                          const isShort = item.trading_direction === '做空'
+                          
+                          return (
+                            <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                              <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                {item.project_id}
+                              </div>
+                              <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
+                                isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                              }`}>
+                                {item.trading_direction || '-'}
+                              </div>
+                              <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                {item.profit_loss_ratio || '-'}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="realtime-signal-opportunity-empty">
+                      <p>暂无数据</p>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* 42天数据展示 */}
+              {opportunityPeriod === '42d' && (
+                <>
+                  {loading42d ? (
+                    <div className="realtime-signal-opportunity-loading">
+                      <div className="realtime-signal-loading-spinner"></div>
+                      <p>加载中...</p>
+                    </div>
+                  ) : error42d ? (
+                    <div className="realtime-signal-opportunity-error">
+                      <p>{error42d}</p>
+                    </div>
+                  ) : tradingOpportunity42d && (
+                    tradingOpportunity42d.spot_opportunities.length > 0 || tradingOpportunity42d.futures_opportunities.length > 0
+                  ) ? (
+                    <div className="realtime-signal-opportunity-42d-content">
+                      {/* 现货部分 */}
+                      {tradingOpportunity42d.spot_opportunities.length > 0 && (
+                        <div className="realtime-signal-opportunity-section">
+                          <div className="realtime-signal-opportunity-section-header">
+                            <h4 className="realtime-signal-opportunity-section-title">现货</h4>
+                            {tradingOpportunity42d.date && (
+                              <span className="realtime-signal-opportunity-section-date">{tradingOpportunity42d.date}</span>
+                            )}
+                          </div>
+                          <div className="realtime-signal-opportunity-table-container">
+                            <div className="realtime-signal-opportunity-table">
+                              <div className="realtime-signal-opportunity-table-header">
+                                <div className="realtime-signal-opportunity-table-header-cell">现货</div>
+                                <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                                <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                              </div>
+                              {tradingOpportunity42d.spot_opportunities.map((item, index) => {
+                                const isLong = item.trading_direction === '做多'
+                                const isShort = item.trading_direction === '做空'
+                                
+                                return (
+                                  <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                      {item.project_id}
+                                    </div>
+                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
+                                      isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                    }`}>
+                                      {item.trading_direction || '-'}
+                                    </div>
+                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                      {formatProfitLossRatio(item.profit_loss_ratio)}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 期货部分 */}
+                      {tradingOpportunity42d.futures_opportunities.length > 0 && (
+                        <div className="realtime-signal-opportunity-section">
+                          <div className="realtime-signal-opportunity-section-header">
+                            <h4 className="realtime-signal-opportunity-section-title">期货</h4>
+                            {tradingOpportunity42d.date && (
+                              <span className="realtime-signal-opportunity-section-date">{tradingOpportunity42d.date}</span>
+                            )}
+                          </div>
+                          <div className="realtime-signal-opportunity-table-container">
+                            <div className="realtime-signal-opportunity-table">
+                              <div className="realtime-signal-opportunity-table-header">
+                                <div className="realtime-signal-opportunity-table-header-cell">期货</div>
+                                <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                                <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                              </div>
+                              {tradingOpportunity42d.futures_opportunities.map((item, index) => {
+                                const isLong = item.trading_direction === '做多'
+                                const isShort = item.trading_direction === '做空'
+                                
+                                return (
+                                  <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                      {item.project_id}
+                                    </div>
+                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
+                                      isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                    }`}>
+                                      {item.trading_direction || '-'}
+                                    </div>
+                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                      {formatProfitLossRatio(item.profit_loss_ratio)}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="realtime-signal-opportunity-empty">
+                      <p>暂无数据</p>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

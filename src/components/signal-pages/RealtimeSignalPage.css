@@ -605,3 +605,553 @@
   }
 }
 
+/* 交易机会汇总样式（14天/42天通用） */
+.realtime-signal-opportunity-summary {
+  margin-top: 28px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.98) 100%);
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: 
+    0px 8px 32px rgba(46, 86, 163, 0.1),
+    0px 4px 12px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(46, 86, 163, 0.12);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.realtime-signal-opportunity-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2e56a3 0%, #4a6fa5 50%, #2e56a3 100%);
+  opacity: 0.6;
+}
+
+.realtime-signal-opportunity-summary:hover {
+  box-shadow: 
+    0px 12px 40px rgba(46, 86, 163, 0.15),
+    0px 6px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  border-color: rgba(46, 86, 163, 0.18);
+}
+
+.realtime-signal-opportunity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid rgba(46, 86, 163, 0.12);
+  position: relative;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.realtime-signal-opportunity-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #2e56a3 0%, transparent 100%);
+}
+
+.realtime-signal-opportunity-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.realtime-signal-opportunity-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #1c376a;
+  margin: 0;
+  letter-spacing: 0.8px;
+  background: linear-gradient(135deg, #1c376a 0%, #2e56a3 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  padding-left: 12px;
+}
+
+.realtime-signal-opportunity-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
+  border-radius: 2px;
+}
+
+.realtime-signal-opportunity-date {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #4a6fa5;
+  letter-spacing: 0.4px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(46, 86, 163, 0.1) 0%, rgba(46, 86, 163, 0.08) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(46, 86, 163, 0.18);
+  box-shadow: 0 2px 6px rgba(46, 86, 163, 0.08);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.realtime-signal-opportunity-date:hover {
+  background: linear-gradient(135deg, rgba(46, 86, 163, 0.15) 0%, rgba(46, 86, 163, 0.12) 100%);
+  border-color: rgba(46, 86, 163, 0.25);
+  transform: translateY(-1px);
+}
+
+/* 标签切换样式 */
+.realtime-signal-opportunity-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(46, 86, 163, 0.15);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.realtime-signal-opportunity-tab {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #4a6fa5;
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.realtime-signal-opportunity-tab:hover {
+  color: #2e56a3;
+  background: rgba(46, 86, 163, 0.08);
+}
+
+.realtime-signal-opportunity-tab.active {
+  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
+  color: white;
+  box-shadow: 
+    0 2px 8px rgba(46, 86, 163, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.realtime-signal-opportunity-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  border-radius: 1px;
+}
+
+.realtime-signal-opportunity-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.realtime-signal-opportunity-table {
+  width: 100%;
+  min-width: 400px;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 16px rgba(46, 86, 163, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(46, 86, 163, 0.12);
+}
+
+.realtime-signal-opportunity-table-header {
+  display: flex;
+  background: linear-gradient(135deg, #5a7fc4 0%, #4a6fa5 50%, #3d5f8f 100%);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.realtime-signal-opportunity-table-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+}
+
+.realtime-signal-opportunity-table-header-cell {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: white;
+  text-align: center;
+  padding: 16px 18px;
+  flex: 1;
+  letter-spacing: 0.5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.realtime-signal-opportunity-table-header-cell:last-child {
+  border-right: none;
+}
+
+.realtime-signal-opportunity-table-row {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid rgba(46, 86, 163, 0.08);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.realtime-signal-opportunity-table-row:nth-child(even) {
+  background: rgba(248, 250, 255, 0.5);
+}
+
+.realtime-signal-opportunity-table-row:last-child {
+  border-bottom: none;
+}
+
+.realtime-signal-opportunity-table-row:hover {
+  background: linear-gradient(90deg, rgba(46, 86, 163, 0.04) 0%, rgba(46, 86, 163, 0.06) 100%);
+  transform: translateX(2px);
+  box-shadow: -2px 0 8px rgba(46, 86, 163, 0.1);
+  z-index: 1;
+}
+
+.realtime-signal-opportunity-table-cell {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  padding: 18px 16px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(46, 86, 163, 0.08);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.realtime-signal-opportunity-table-cell:last-child {
+  border-right: none;
+}
+
+.realtime-signal-opportunity-table-cell-code {
+  font-weight: 700;
+  color: #2e56a3;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.realtime-signal-opportunity-table-cell-direction {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin: 4px 8px;
+  transition: all 0.2s ease;
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-long {
+  color: #c62828;
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.15) 0%, rgba(198, 40, 40, 0.2) 100%);
+  border: 1.5px solid rgba(211, 47, 47, 0.3);
+  box-shadow: 
+    0 2px 8px rgba(211, 47, 47, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-long:hover {
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.2) 0%, rgba(198, 40, 40, 0.25) 100%);
+  border-color: rgba(211, 47, 47, 0.4);
+  transform: scale(1.05);
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-short {
+  color: #1b5e20;
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.15) 0%, rgba(27, 94, 32, 0.2) 100%);
+  border: 1.5px solid rgba(46, 125, 50, 0.3);
+  box-shadow: 
+    0 2px 8px rgba(46, 125, 50, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-short:hover {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.2) 0%, rgba(27, 94, 32, 0.25) 100%);
+  border-color: rgba(46, 125, 50, 0.4);
+  transform: scale(1.05);
+}
+
+.realtime-signal-opportunity-table-cell-ratio {
+  font-weight: 700;
+  color: #1c376a;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+}
+
+.realtime-signal-opportunity-table-cell-ratio::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: linear-gradient(135deg, rgba(46, 86, 163, 0.3) 0%, rgba(46, 86, 163, 0.1) 100%);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.realtime-signal-opportunity-table-row:hover .realtime-signal-opportunity-table-cell-ratio::before {
+  opacity: 1;
+}
+
+.realtime-signal-opportunity-loading,
+.realtime-signal-opportunity-error,
+.realtime-signal-opportunity-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  color: rgba(46, 86, 163, 0.7);
+  text-align: center;
+}
+
+.realtime-signal-opportunity-error {
+  color: rgba(179, 5, 5, 0.87);
+}
+
+/* 42天数据 - 现货和期货分类样式 */
+.realtime-signal-opportunity-42d-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.realtime-signal-opportunity-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.realtime-signal-opportunity-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(46, 86, 163, 0.08) 0%, rgba(46, 86, 163, 0.05) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(46, 86, 163, 0.12);
+  position: relative;
+}
+
+.realtime-signal-opportunity-section-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
+  border-radius: 2px 0 0 2px;
+}
+
+.realtime-signal-opportunity-section-title {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #1c376a;
+  margin: 0;
+  letter-spacing: 0.5px;
+  padding-left: 8px;
+}
+
+.realtime-signal-opportunity-section-date {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #4a6fa5;
+  letter-spacing: 0.3px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(46, 86, 163, 0.15);
+  white-space: nowrap;
+}
+
+/* 响应式设计 - 交易机会汇总 */
+@media (max-width: 768px) {
+  .realtime-signal-opportunity-summary {
+    padding: 20px 20px;
+    margin-top: 20px;
+  }
+
+  .realtime-signal-opportunity-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .realtime-signal-opportunity-title-wrapper {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .realtime-signal-opportunity-title {
+    font-size: 15px;
+  }
+
+  .realtime-signal-opportunity-date {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .realtime-signal-opportunity-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .realtime-signal-opportunity-tab {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .realtime-signal-opportunity-table {
+    min-width: 360px;
+  }
+
+  .realtime-signal-opportunity-table-header-cell,
+  .realtime-signal-opportunity-table-cell {
+    font-size: 12px;
+    padding: 12px 10px;
+  }
+
+  .realtime-signal-opportunity-table-cell-code {
+    font-size: 14px;
+  }
+
+  .realtime-signal-opportunity-table-cell-direction {
+    font-size: 13px;
+    padding: 6px 12px;
+    margin: 3px 6px;
+  }
+
+  .realtime-signal-opportunity-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .realtime-signal-opportunity-42d-content {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .realtime-signal-opportunity-summary {
+    padding: 16px 14px;
+    margin-top: 16px;
+  }
+
+  .realtime-signal-opportunity-title {
+    font-size: 14px;
+  }
+
+  .realtime-signal-opportunity-date {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .realtime-signal-opportunity-tab {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+
+  .realtime-signal-opportunity-table {
+    min-width: 320px;
+  }
+
+  .realtime-signal-opportunity-table-header-cell,
+  .realtime-signal-opportunity-table-cell {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+
+  .realtime-signal-opportunity-table-cell-code {
+    font-size: 13px;
+  }
+
+  .realtime-signal-opportunity-table-cell-direction {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 2px 4px;
+  }
+
+  .realtime-signal-opportunity-table-cell-ratio {
+    font-size: 12px;
+  }
+
+  .realtime-signal-opportunity-section-title {
+    font-size: 14px;
+  }
+
+  .realtime-signal-opportunity-section-date {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
