@@ -8,9 +8,11 @@ import P3A_42dDecisionPage from './P3A_42dDecisionPage'
 import P3A_14dDecisionPage from './P3A_14dDecisionPage'
 import P6_42dDecisionPage from './P6_42dDecisionPage'
 import P6_14dDecisionPage from './P6_14dDecisionPage'
+import C3_42dDecisionPage from './C3_42dDecisionPage'
+import C5_42dDecisionPage from './C5_42dDecisionPage'
 import './DecisionPageWrapper.css'
 
-type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6'
+type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6' | 'c3' | 'c5'
 type P5SubStrategyType = '42d' | '14d'
 type P3ASubStrategyType = '42d' | '14d'
 type P6SubStrategyType = '42d' | '14d'
@@ -87,6 +89,20 @@ const DecisionPageWrapper: React.FC = () => {
             onClick={() => handleMainStrategyChange('p6')}
           >
             P6的现货应用决策
+          </button>
+          <button
+            type="button"
+            className={`decision-page-tab ${activeMainStrategy === 'c3' ? 'active' : ''}`}
+            onClick={() => handleMainStrategyChange('c3')}
+          >
+            C3现货应用决策
+          </button>
+          <button
+            type="button"
+            className={`decision-page-tab ${activeMainStrategy === 'c5' ? 'active' : ''}`}
+            onClick={() => handleMainStrategyChange('c5')}
+          >
+            C5现货应用决策
           </button>
         </div>
 
@@ -166,10 +182,16 @@ const DecisionPageWrapper: React.FC = () => {
             ) : (
               <P3A_14dDecisionPage />
             )
-          ) : activeP6SubStrategy === '42d' ? (
-            <P6_42dDecisionPage />
+          ) : activeMainStrategy === 'p6' ? (
+            activeP6SubStrategy === '42d' ? (
+              <P6_42dDecisionPage />
+            ) : (
+              <P6_14dDecisionPage />
+            )
+          ) : activeMainStrategy === 'c3' ? (
+            <C3_42dDecisionPage />
           ) : (
-            <P6_14dDecisionPage />
+            <C5_42dDecisionPage />
           )}
         </div>
       </div>

@@ -178,7 +178,9 @@
 .decision-page-content .p3a-42d-decision-panel,
 .decision-page-content .p3a-14d-decision-panel,
 .decision-page-content .p6-42d-decision-panel,
-.decision-page-content .p6-14d-decision-panel {
+.decision-page-content .p6-14d-decision-panel,
+.decision-page-content .c3-42d-decision-panel,
+.decision-page-content .c5-42d-decision-panel {
   padding: 0;
   background: transparent;
   min-height: auto;
@@ -197,7 +199,11 @@
 .decision-page-content .p6-42d-decision-panel::before,
 .decision-page-content .p6-42d-decision-panel::after,
 .decision-page-content .p6-14d-decision-panel::before,
-.decision-page-content .p6-14d-decision-panel::after {
+.decision-page-content .p6-14d-decision-panel::after,
+.decision-page-content .c3-42d-decision-panel::before,
+.decision-page-content .c3-42d-decision-panel::after,
+.decision-page-content .c5-42d-decision-panel::before,
+.decision-page-content .c5-42d-decision-panel::after {
   display: none;
 }
 
@@ -207,7 +213,9 @@
 .decision-page-content .p3a-42d-decision-container,
 .decision-page-content .p3a-14d-decision-container,
 .decision-page-content .p6-42d-decision-container,
-.decision-page-content .p6-14d-decision-container {
+.decision-page-content .p6-14d-decision-container,
+.decision-page-content .c3-42d-decision-container,
+.decision-page-content .c5-42d-decision-container {
   max-width: 100%;
 }
 
@@ -217,7 +225,9 @@
 .decision-page-content .p3a-42d-decision-back-button,
 .decision-page-content .p3a-14d-decision-back-button,
 .decision-page-content .p6-42d-decision-back-button,
-.decision-page-content .p6-14d-decision-back-button {
+.decision-page-content .p6-14d-decision-back-button,
+.decision-page-content .c3-42d-decision-back-button,
+.decision-page-content .c5-42d-decision-back-button {
   display: none;
 }
 
@@ -227,7 +237,9 @@
 .decision-page-content .p3a-42d-decision-page-title,
 .decision-page-content .p3a-14d-decision-page-title,
 .decision-page-content .p6-42d-decision-page-title,
-.decision-page-content .p6-14d-decision-page-title {
+.decision-page-content .p6-14d-decision-page-title,
+.decision-page-content .c3-42d-decision-page-title,
+.decision-page-content .c5-42d-decision-page-title {
   display: none;
 }
 
@@ -238,7 +250,9 @@
 .decision-page-content .p3a-42d-decision-panel > *:first-child:not(.p3a-42d-decision-container),
 .decision-page-content .p3a-14d-decision-panel > *:first-child:not(.p3a-14d-decision-container),
 .decision-page-content .p6-42d-decision-panel > *:first-child:not(.p6-42d-decision-container),
-.decision-page-content .p6-14d-decision-panel > *:first-child:not(.p6-14d-decision-container) {
+.decision-page-content .p6-14d-decision-panel > *:first-child:not(.p6-14d-decision-container),
+.decision-page-content .c3-42d-decision-panel > *:first-child:not(.c3-42d-decision-container),
+.decision-page-content .c5-42d-decision-panel > *:first-child:not(.c5-42d-decision-container) {
   display: none;
 }
 
