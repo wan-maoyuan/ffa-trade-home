@@ -106,7 +106,7 @@ const DoublePositionChart: React.FC = () => {
   return (
     <div className="strategy-page double-position-chart-page">
       <p className="strategy-page-title">双头寸策略展示</p>
-      
+
       <div className="double-position-chart-content">
         {/* 策略标签 */}
         <div className="strategy-chips" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-start' }}>
@@ -126,10 +126,10 @@ const DoublePositionChart: React.FC = () => {
             <div className="chart-comparison-box">
               <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                 {/* Y轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '5px', 
-                  top: '0', 
+                <div style={{
+                  position: 'absolute',
+                  left: '5px',
+                  top: '0',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -151,11 +151,11 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* X轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '45px', 
+                <div style={{
+                  position: 'absolute',
+                  left: '45px',
                   right: '5px',
-                  bottom: '0', 
+                  bottom: '0',
                   display: 'flex',
                   justifyContent: 'space-between',
                   fontSize: '8.64px',
@@ -169,15 +169,15 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* 图表线条 */}
-                <div style={{ 
+                <div style={{
                   position: 'absolute',
                   left: '45px',
                   top: '5px',
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <ChartImage 
-                    src={IMG_CHART1} 
+                  <ChartImage
+                    src={IMG_CHART1}
                     alt="5TC图表"
                     placeholder={<ChartPlaceholder color="#2e56a3" />}
                   />
@@ -195,10 +195,10 @@ const DoublePositionChart: React.FC = () => {
             <div className="chart-comparison-box">
               <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                 {/* Y轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '5px', 
-                  top: '0', 
+                <div style={{
+                  position: 'absolute',
+                  left: '5px',
+                  top: '0',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -214,11 +214,11 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* X轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '45px', 
+                <div style={{
+                  position: 'absolute',
+                  left: '45px',
                   right: '5px',
-                  bottom: '0', 
+                  bottom: '0',
                   display: 'flex',
                   justifyContent: 'space-between',
                   fontSize: '8.64px',
@@ -232,15 +232,15 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* 图表线条 */}
-                <div style={{ 
+                <div style={{
                   position: 'absolute',
                   left: '45px',
                   top: '5px',
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <ChartImage 
-                    src={IMG_CHART2} 
+                  <ChartImage
+                    src={IMG_CHART2}
                     alt="基差图表"
                     placeholder={<ChartPlaceholder color="#ff6b6b" />}
                   />
@@ -258,10 +258,10 @@ const DoublePositionChart: React.FC = () => {
             <div className="chart-comparison-box">
               <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                 {/* Y轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '5px', 
-                  top: '0', 
+                <div style={{
+                  position: 'absolute',
+                  left: '5px',
+                  top: '0',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -283,11 +283,11 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* X轴标签 */}
-                <div style={{ 
-                  position: 'absolute', 
-                  left: '45px', 
+                <div style={{
+                  position: 'absolute',
+                  left: '45px',
                   right: '5px',
-                  bottom: '0', 
+                  bottom: '0',
                   display: 'flex',
                   justifyContent: 'space-between',
                   fontSize: '8.64px',
@@ -301,15 +301,15 @@ const DoublePositionChart: React.FC = () => {
                 </div>
 
                 {/* 图表线条 */}
-                <div style={{ 
+                <div style={{
                   position: 'absolute',
                   left: '45px',
                   top: '5px',
                   right: '5px',
                   bottom: '20px'
                 }}>
-                  <ChartImage 
-                    src={IMG_CHART3} 
+                  <ChartImage
+                    src={IMG_CHART3}
                     alt="基差比例图表"
                     placeholder={<ChartPlaceholder color="#66bb6a" />}
                   />

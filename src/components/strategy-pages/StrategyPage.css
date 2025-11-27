@@ -17,6 +17,7 @@
 .chart-legend-item-outline {
   gap: 10px;
 }
+
 /* 策略页面通用样式 */
 .strategy-page {
   position: relative;
@@ -72,7 +73,7 @@
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 21.7px rgba(46,86,163,0.25);
+  box-shadow: 0 4px 21.7px rgba(46, 86, 163, 0.25);
   white-space: nowrap;
 }
 
@@ -818,7 +819,7 @@
   background: white;
   border-radius: 4.32px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 响应式设计 */
@@ -840,33 +841,33 @@
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-  
+
   .charts-comparison-container {
     flex-direction: column;
   }
-  
+
   .single-position-chart-page-new {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .chart-left-panel {
     flex-direction: row;
     flex-wrap: wrap;
     min-width: auto;
     padding: 16px;
   }
-  
+
   .chart-control-item {
     flex: 1;
     min-width: 150px;
   }
-  
+
   .chart-button-vertical {
     width: auto;
     min-width: 120px;
   }
-  
+
   .chart-section-divider {
     display: none;
   }
@@ -898,63 +899,62 @@
   .dual-outcome-section {
     gap: 16px;
   }
-  
+
   .strategy-metrics-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 16px;
   }
-  
+
   .strategy-card-left {
     width: 100%;
     height: auto;
     min-height: 160px;
   }
-  
+
   .chart-controls {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .chart-container {
     height: auto;
     min-height: 200px;
   }
-  
+
   .single-position-chart-page-new {
     flex-direction: column;
   }
-  
+
   .chart-left-panel {
     flex-direction: column;
   }
-  
+
   .chart-header-row {
     flex-wrap: wrap;
     gap: 12px;
   }
-  
+
   .chart-button-query {
     position: static;
     width: 100%;
   }
-  
+
   .chart-page-title {
     width: 100%;
   }
-  
+
   .chart-menu-dots {
     position: static;
   }
-  
+
   .chart-main-container {
     padding: 16px;
   }
-  
+
   .chart-x-axis-new {
     flex-wrap: wrap;
     gap: 8px;
     font-size: 9px;
   }
 }
-
