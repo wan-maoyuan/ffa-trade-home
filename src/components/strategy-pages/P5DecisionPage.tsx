@@ -330,11 +330,19 @@ const P5DecisionPage: React.FC = () => {
             
             // 解析P5盈亏比数据
             // 查找"P5盈亏比"行
+            // Row 28: ['P5盈亏比']
+            // Row 29: ['2025-11-25', '18425', '16239', '-12%'] - 数据行
+            // Row 30: ['日期', '当前价格/元每吨', '评估价格/元每吨', '价差比'] - 标题行
+            // Row 32: ['76%', '19%', '24%', '9%'] - 数据行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值）
+            // Row 33: ['42天后盈利比例', '收益均值', '42天后亏损比例', '亏损均值/元每吨'] - 标题行
+            // Row 36: ['49%', '24%', '27%'] - 最大收益时间数据
+            // Row 37: ['-7%', '-23%'] - 最大风险均值、最大风险极值
+            // Row 41: ['62%', '15%', '24%'] - 最大风险时间数据
             let p5ProfitLossData: P5ProfitLossRatio | null = null
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0 && row[0] === 'P5盈亏比') {
-                // 下一行应该是数据行：["2025-11-25","18425","16239","-12%"]
+                // Row 29: 数据行（日期、当前价格、评估价格、价差比）
                 if (i + 1 < rawTableData.length) {
                   const dataRow = rawTableData[i + 1]
                   if (Array.isArray(dataRow) && dataRow.length >= 4) {
@@ -343,7 +351,7 @@ const P5DecisionPage: React.FC = () => {
                     const p5EvaluatedPrice = parseFloat(String(dataRow[2] || '0').replace(/,/g, '')) || 0
                     const p5PriceDiffRatio = String(dataRow[3] || '')
                     
-                    // 继续查找后续数据
+                    // 初始化变量
                     let profitabilityRatio = 0
                     let averageReturns = 0
                     let lossRatio = 0
@@ -353,40 +361,66 @@ const P5DecisionPage: React.FC = () => {
                     let maxRiskExtreme = 0
                     let maxRiskTiming = { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 }
                     
-                    // 查找"42天后盈利比例"等数据
-                    for (let j = i + 2; j < rawTableData.length && j < i + 20; j++) {
+                    // 查找后续数据（从i+2开始，跳过标题行）
+                    // Row 30: 标题行（日期、当前价格/元每吨、评估价格/元每吨、价差比）
+                    // Row 32: 数据行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值）
+                    // Row 33: 标题行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值/元每吨）
+                    for (let j = i + 2; j < rawTableData.length && j < i + 15; j++) {
                       const checkRow = rawTableData[j]
                       if (Array.isArray(checkRow) && checkRow.length > 0) {
-                        if (checkRow[0] === '42天后盈利比例' && j + 1 < rawTableData.length) {
-                          const profitRow = rawTableData[j + 1]
-                          if (Array.isArray(profitRow) && profitRow.length >= 4) {
-                            profitabilityRatio = parseFloat(String(profitRow[0] || '0').replace('%', '')) || 0
-                            averageReturns = parseFloat(String(profitRow[1] || '0').replace('%', '')) || 0
-                            lossRatio = parseFloat(String(profitRow[2] || '0').replace('%', '')) || 0
-                            averageLoss = parseFloat(String(profitRow[3] || '0').replace('%', '')) || 0
+                        // Row 32: 数据行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值）
+                        // 检查是否是数据行（4个百分比值），且下一行是标题行
+                        if (checkRow.length === 4 && 
+                            String(checkRow[0] || '').includes('%') && 
+                            String(checkRow[1] || '').includes('%') &&
+                            String(checkRow[2] || '').includes('%') &&
+                            String(checkRow[3] || '').includes('%') &&
+                            j + 1 < rawTableData.length) {
+                          const nextRow = rawTableData[j + 1]
+                          if (Array.isArray(nextRow) && nextRow.length > 0 && 
+                              String(nextRow[0] || '').includes('42天后盈利比例')) {
+                            profitabilityRatio = parseFloat(String(checkRow[0] || '0').replace('%', '')) || 0
+                            averageReturns = parseFloat(String(checkRow[1] || '0').replace('%', '')) || 0
+                            lossRatio = parseFloat(String(checkRow[2] || '0').replace('%', '')) || 0
+                            averageLoss = parseFloat(String(checkRow[3] || '0').replace('%', '')) || 0
                           }
                         }
-                        if ((checkRow[0] === '0～14天' || String(checkRow[0] || '').includes('0～14天')) && j + 1 < rawTableData.length) {
-                          const timingRow = rawTableData[j + 1]
-                          if (Array.isArray(timingRow) && timingRow.length >= 3) {
-                            maxReturnsTiming['0-14_days'] = parseFloat(String(timingRow[0] || '0').replace('%', '')) || 0
-                            maxReturnsTiming['15-28_days'] = parseFloat(String(timingRow[1] || '0').replace('%', '')) || 0
-                            maxReturnsTiming['29-42_days'] = parseFloat(String(timingRow[2] || '0').replace('%', '')) || 0
+                        // Row 6: ['最大收益时间在各时间段的出现概率'] - 标题
+                        // Row 7: ['0～14天', '15天～28天', '29天～42天'] - 标题行
+                        // Row 8: ['49%', '24%', '27%'] - 数据行
+                        if (checkRow[0] === '最大收益时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
+                          const timingDataRow = rawTableData[j + 2]
+                          if (Array.isArray(timingDataRow) && timingDataRow.length >= 3 &&
+                              String(timingDataRow[0] || '').includes('%')) {
+                            maxReturnsTiming['0-14_days'] = parseFloat(String(timingDataRow[0] || '0').replace('%', '')) || 0
+                            maxReturnsTiming['15-28_days'] = parseFloat(String(timingDataRow[1] || '0').replace('%', '')) || 0
+                            maxReturnsTiming['29-42_days'] = parseFloat(String(timingDataRow[2] || '0').replace('%', '')) || 0
                           }
                         }
-                        if (checkRow[0] === '最大风险均值/元每吨' && j + 1 < rawTableData.length) {
-                          const riskRow = rawTableData[j + 1]
-                          if (Array.isArray(riskRow) && riskRow.length >= 2) {
-                            maxRiskAverage = parseFloat(String(riskRow[0] || '0').replace('%', '')) || 0
-                            maxRiskExtreme = parseFloat(String(riskRow[1] || '0').replace('%', '')) || 0
+                        // Row 37: ['-7%', '-23%'] - 数据行（最大风险均值、最大风险极值）
+                        // Row 38: ['最大风险均值/元每吨', '最大风险极值/元每吨'] - 标题行
+                        // 检查是否是数据行（2个百分比值），且下一行是标题行
+                        if (checkRow.length === 2 && 
+                            String(checkRow[0] || '').includes('%') && 
+                            String(checkRow[1] || '').includes('%') &&
+                            j + 1 < rawTableData.length) {
+                          const nextRow = rawTableData[j + 1]
+                          if (Array.isArray(nextRow) && nextRow.length > 0 && 
+                              String(nextRow[0] || '').includes('最大风险均值')) {
+                            maxRiskAverage = parseFloat(String(checkRow[0] || '0').replace('%', '')) || 0
+                            maxRiskExtreme = parseFloat(String(checkRow[1] || '0').replace('%', '')) || 0
                           }
                         }
+                        // Row 11: ['最大风险时间在各时间段的出现概率'] - 标题
+                        // Row 12: ['0～14天', '15天～28天', '29天～42天'] - 标题行
+                        // Row 13: ['62%', '15%', '24%'] - 数据行
                         if (checkRow[0] === '最大风险时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
-                          const riskTimingRow = rawTableData[j + 2]
-                          if (Array.isArray(riskTimingRow) && riskTimingRow.length >= 3) {
-                            maxRiskTiming['0-14_days'] = parseFloat(String(riskTimingRow[0] || '0').replace('%', '')) || 0
-                            maxRiskTiming['15-28_days'] = parseFloat(String(riskTimingRow[1] || '0').replace('%', '')) || 0
-                            maxRiskTiming['29-42_days'] = parseFloat(String(riskTimingRow[2] || '0').replace('%', '')) || 0
+                          const riskTimingDataRow = rawTableData[j + 2]
+                          if (Array.isArray(riskTimingDataRow) && riskTimingDataRow.length >= 3 &&
+                              String(riskTimingDataRow[0] || '').includes('%')) {
+                            maxRiskTiming['0-14_days'] = parseFloat(String(riskTimingDataRow[0] || '0').replace('%', '')) || 0
+                            maxRiskTiming['15-28_days'] = parseFloat(String(riskTimingDataRow[1] || '0').replace('%', '')) || 0
+                            maxRiskTiming['29-42_days'] = parseFloat(String(riskTimingDataRow[2] || '0').replace('%', '')) || 0
                           }
                         }
                       }
@@ -413,6 +447,11 @@ const P5DecisionPage: React.FC = () => {
             }
             
             // 解析P5TC六周后预测模型评价数据
+            // Row 42: ['P5TC六周后预测模型评价']
+            // Row 43: ['2025-11-14', '16903', '2025-12-26', '1106', '18008', '7%'] - 数据行
+            // Row 44: ['日期', '当前价格/元每吨', '预测42天后价差/元每吨', '预测42天后价格/元每吨', '价差比'] - 标题行
+            // Row 45: ['区间', '历史判断正确率', '历史预测实际值/元每吨', '历史预测拟合值/元每吨'] - 表格标题
+            // Row 46-51: 表格数据行
             let modelEvalDate = date || result.data.date
             let modelEvalCurrentPrice = currentValue
             let modelEvalForecastDiff = 0
@@ -425,6 +464,7 @@ const P5DecisionPage: React.FC = () => {
               if (Array.isArray(row) && row.length > 0) {
                 // 查找"P5TC六周后预测模型评价"
                 if (row[0] === 'P5TC六周后预测模型评价' && i + 1 < rawTableData.length) {
+                  // Row 43: 数据行
                   const dataRow = rawTableData[i + 1]
                   if (Array.isArray(dataRow) && dataRow.length >= 6) {
                     modelEvalDate = String(dataRow[0] || '')
@@ -433,33 +473,52 @@ const P5DecisionPage: React.FC = () => {
                     modelEvalForecastPrice = parseFloat(String(dataRow[4] || '0').replace(/,/g, '')) || 0
                     modelEvalPriceDiffRatio = String(dataRow[5] || '')
                   }
-                  // 查找评价表格数据（从"区间"行开始）
-                  for (let j = i + 3; j < rawTableData.length; j++) {
+                  // 查找评价表格数据（从Row 46开始，跳过Row 44和Row 45标题行）
+                  // Row 45: ['区间', '历史判断正确率', '历史预测实际值/元每吨', '历史预测拟合值/元每吨'] - 表格标题
+                  // Row 46-51: 表格数据行
+                  for (let j = i + 4; j < rawTableData.length; j++) {
                     const evalRow = rawTableData[j]
                     if (Array.isArray(evalRow) && evalRow.length >= 4) {
-                      // 检查是否是区间数据行（第一列是区间，第二列是百分比）
                       const firstCol = String(evalRow[0] || '')
                       const secondCol = String(evalRow[1] || '')
-                      // 如果第一列包含数字或区间符号，第二列是百分比，则认为是数据行
-                      if ((firstCol.includes('<') || firstCol.includes('-') || firstCol.match(/^\d+$/)) && secondCol.includes('%')) {
+                      
+                      // 检查是否是表格数据行
+                      // 格式1: ['<-5000', '100.00%', '-5304', '-6110'] - 4列，单列区间
+                      // 格式2: ['-5000', '-2500', '95.65%', '-4006', '-3705'] - 5列，两列区间
+                      // 格式3: ['>=5000', '100.00%', '8085', '6203'] - 4列，单列区间
+                      
+                      // 判断是否是数据行：
+                      // 1. 第一列包含区间符号（<, >, =）或纯数字
+                      // 2. 第二列是百分比（单列区间）或第三列是百分比（两列区间）
+                      const hasIntervalSymbol = firstCol.includes('<') || firstCol.includes('>') || firstCol.includes('=')
+                      const isNumber = firstCol.match(/^-?\d+$/) || firstCol.match(/^-?\d+\.\d+$/)
+                      const secondIsPercent = secondCol.includes('%')
+                      const thirdIsPercent = evalRow.length >= 3 && String(evalRow[2] || '').includes('%')
+                      
+                      const isDataRow = (hasIntervalSymbol || isNumber) && (secondIsPercent || thirdIsPercent)
+                      
+                      if (isDataRow) {
                         let rangeStr = firstCol
-                        // 如果是两列区间（如"-5000"和"-2500"），需要合并
-                        if (evalRow.length >= 5 && !secondCol.includes('%')) {
+                        let accuracyRate = 0
+                        let actualValue = 0
+                        let fitValue = 0
+                        
+                        // 如果是两列区间格式（5列，第二列是数字，第三列是百分比）
+                        if (evalRow.length >= 5 && !secondIsPercent && thirdIsPercent &&
+                            (secondCol.match(/^-?\d+$/) || secondCol.match(/^-?\d+\.\d+$/))) {
                           rangeStr = `${firstCol} ~ ${secondCol}`
-                          // 重新解析
-                          const accuracyRate = parseFloat(String(evalRow[2] || '0').replace('%', '')) || 0
-                          const actualValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
-                          const fitValue = parseFloat(String(evalRow[4] || '0').replace(/,/g, '')) || 0
-                          evaluationRanges.push({
-                            range: rangeStr,
-                            historical_accuracy_rate: accuracyRate,
-                            historical_actual_value: actualValue,
-                            historical_fit_value: fitValue
-                          })
-                        } else {
-                          const accuracyRate = parseFloat(secondCol.replace('%', '')) || 0
-                          const actualValue = parseFloat(String(evalRow[2] || '0').replace(/,/g, '')) || 0
-                          const fitValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
+                          accuracyRate = parseFloat(String(evalRow[2] || '0').replace('%', '')) || 0
+                          actualValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
+                          fitValue = parseFloat(String(evalRow[4] || '0').replace(/,/g, '')) || 0
+                        } else if (secondIsPercent) {
+                          // 单列区间格式（4列，第二列是百分比）
+                          accuracyRate = parseFloat(secondCol.replace('%', '')) || 0
+                          actualValue = parseFloat(String(evalRow[2] || '0').replace(/,/g, '')) || 0
+                          fitValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
+                        }
+                        
+                        // 只有当所有值都解析成功时才添加
+                        if (rangeStr && accuracyRate !== 0) {
                           evaluationRanges.push({
                             range: rangeStr,
                             historical_accuracy_rate: accuracyRate,
