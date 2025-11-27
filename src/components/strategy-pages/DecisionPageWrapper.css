@@ -174,7 +174,11 @@
 /* 隐藏子页面的返回按钮、标题和SideMenu，因为已经在包装组件中处理 */
 .decision-page-content .p4tc-decision-panel,
 .decision-page-content .p5-decision-panel,
-.decision-page-content .p5-14d-decision-panel {
+.decision-page-content .p5-14d-decision-panel,
+.decision-page-content .p3a-42d-decision-panel,
+.decision-page-content .p3a-14d-decision-panel,
+.decision-page-content .p6-42d-decision-panel,
+.decision-page-content .p6-14d-decision-panel {
   padding: 0;
   background: transparent;
   min-height: auto;
@@ -185,32 +189,56 @@
 .decision-page-content .p5-decision-panel::before,
 .decision-page-content .p5-decision-panel::after,
 .decision-page-content .p5-14d-decision-panel::before,
-.decision-page-content .p5-14d-decision-panel::after {
+.decision-page-content .p5-14d-decision-panel::after,
+.decision-page-content .p3a-42d-decision-panel::before,
+.decision-page-content .p3a-42d-decision-panel::after,
+.decision-page-content .p3a-14d-decision-panel::before,
+.decision-page-content .p3a-14d-decision-panel::after,
+.decision-page-content .p6-42d-decision-panel::before,
+.decision-page-content .p6-42d-decision-panel::after,
+.decision-page-content .p6-14d-decision-panel::before,
+.decision-page-content .p6-14d-decision-panel::after {
   display: none;
 }
 
 .decision-page-content .p4tc-decision-container,
 .decision-page-content .p5-decision-container,
-.decision-page-content .p5-14d-decision-container {
+.decision-page-content .p5-14d-decision-container,
+.decision-page-content .p3a-42d-decision-container,
+.decision-page-content .p3a-14d-decision-container,
+.decision-page-content .p6-42d-decision-container,
+.decision-page-content .p6-14d-decision-container {
   max-width: 100%;
 }
 
 .decision-page-content .p4tc-decision-back-button,
 .decision-page-content .p5-decision-back-button,
-.decision-page-content .p5-14d-decision-back-button {
+.decision-page-content .p5-14d-decision-back-button,
+.decision-page-content .p3a-42d-decision-back-button,
+.decision-page-content .p3a-14d-decision-back-button,
+.decision-page-content .p6-42d-decision-back-button,
+.decision-page-content .p6-14d-decision-back-button {
   display: none;
 }
 
 .decision-page-content .p4tc-decision-page-title,
 .decision-page-content .p5-decision-page-title,
-.decision-page-content .p5-14d-decision-page-title {
+.decision-page-content .p5-14d-decision-page-title,
+.decision-page-content .p3a-42d-decision-page-title,
+.decision-page-content .p3a-14d-decision-page-title,
+.decision-page-content .p6-42d-decision-page-title,
+.decision-page-content .p6-14d-decision-page-title {
   display: none;
 }
 
 /* 隐藏子页面的SideMenu - 使用更具体的选择器 */
 .decision-page-content .p4tc-decision-panel > *:first-child:not(.p4tc-decision-container),
 .decision-page-content .p5-decision-panel > *:first-child:not(.p5-decision-container),
-.decision-page-content .p5-14d-decision-panel > *:first-child:not(.p5-14d-decision-container) {
+.decision-page-content .p5-14d-decision-panel > *:first-child:not(.p5-14d-decision-container),
+.decision-page-content .p3a-42d-decision-panel > *:first-child:not(.p3a-42d-decision-container),
+.decision-page-content .p3a-14d-decision-panel > *:first-child:not(.p3a-14d-decision-container),
+.decision-page-content .p6-42d-decision-panel > *:first-child:not(.p6-42d-decision-container),
+.decision-page-content .p6-14d-decision-panel > *:first-child:not(.p6-14d-decision-container) {
   display: none;
 }
 
