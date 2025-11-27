@@ -3,16 +3,27 @@ import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
 import P4TCDecisionPage from './P4TCDecisionPage'
 import P5DecisionPage from './P5DecisionPage'
+import P5_14dDecisionPage from './P5_14dDecisionPage'
 import './DecisionPageWrapper.css'
 
-type StrategyType = 'p4tc' | 'p5'
+type MainStrategyType = 'p4tc' | 'p5'
+type P5SubStrategyType = '42d' | '14d'
 
 const DecisionPageWrapper: React.FC = () => {
   const navigate = useNavigate()
-  const [activeStrategy, setActiveStrategy] = useState<StrategyType>('p4tc')
+  const [activeMainStrategy, setActiveMainStrategy] = useState<MainStrategyType>('p4tc')
+  const [activeP5SubStrategy, setActiveP5SubStrategy] = useState<P5SubStrategyType>('42d')
 
   const handleBackClick = () => {
     navigate('/product-service/strategy')
+  }
+
+  const handleMainStrategyChange = (strategy: MainStrategyType) => {
+    setActiveMainStrategy(strategy)
+    // 切换到P5时，默认选择42天后
+    if (strategy === 'p5') {
+      setActiveP5SubStrategy('42d')
+    }
   }
 
   return (
@@ -31,30 +42,52 @@ const DecisionPageWrapper: React.FC = () => {
           <span className="decision-page-back-text">返回</span>
         </button>
 
-        {/* 策略标签切换 */}
+        {/* 主策略标签切换 */}
         <div className="decision-page-tabs">
           <button
             type="button"
-            className={`decision-page-tab ${activeStrategy === 'p4tc' ? 'active' : ''}`}
-            onClick={() => setActiveStrategy('p4tc')}
+            className={`decision-page-tab ${activeMainStrategy === 'p4tc' ? 'active' : ''}`}
+            onClick={() => handleMainStrategyChange('p4tc')}
           >
             P4TC现货应用决策
           </button>
           <button
             type="button"
-            className={`decision-page-tab ${activeStrategy === 'p5' ? 'active' : ''}`}
-            onClick={() => setActiveStrategy('p5')}
+            className={`decision-page-tab ${activeMainStrategy === 'p5' ? 'active' : ''}`}
+            onClick={() => handleMainStrategyChange('p5')}
           >
-            P5现货应用决策（42天后）
+            P5的现货应用决策
           </button>
         </div>
 
+        {/* P5子标签切换（仅在P5选中时显示） */}
+        {activeMainStrategy === 'p5' && (
+          <div className="decision-page-sub-tabs">
+            <button
+              type="button"
+              className={`decision-page-sub-tab ${activeP5SubStrategy === '42d' ? 'active' : ''}`}
+              onClick={() => setActiveP5SubStrategy('42d')}
+            >
+              42天后
+            </button>
+            <button
+              type="button"
+              className={`decision-page-sub-tab ${activeP5SubStrategy === '14d' ? 'active' : ''}`}
+              onClick={() => setActiveP5SubStrategy('14d')}
+            >
+              14天后
+            </button>
+          </div>
+        )}
+
         {/* 根据选中的策略显示对应页面 */}
         <div className="decision-page-content">
-          {activeStrategy === 'p4tc' ? (
+          {activeMainStrategy === 'p4tc' ? (
             <P4TCDecisionPage />
-          ) : (
+          ) : activeP5SubStrategy === '42d' ? (
             <P5DecisionPage />
+          ) : (
+            <P5_14dDecisionPage />
           )}
         </div>
       </div>
