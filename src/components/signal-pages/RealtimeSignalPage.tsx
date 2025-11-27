@@ -70,6 +70,20 @@ interface TradingOpportunity42dData {
   futures_opportunities: TradingOpportunity42d[]
 }
 
+// 双边交易机会汇总数据结构
+interface BilateralTradingOpportunity {
+  asset_pair: string // 资产对，如 "P3A VS P4TC+1M"
+  combined_direction: string // 组合方向，如 "P3A做空 P4TC+1M做多"
+  profit_loss_ratio: string // 盈亏比，如 "9.99"
+}
+
+interface BilateralTradingOpportunityData {
+  date: string
+  spot_vs_futures: BilateralTradingOpportunity[] // 现货VS期货
+  spot_vs_spot: BilateralTradingOpportunity[] // 现货VS现货
+  futures_vs_futures: BilateralTradingOpportunity[] // 期货VS期货
+}
+
 type SignalType = 'ffa' | 'european_line'
 type OpportunityPeriod = '14d' | '42d'
 
@@ -89,6 +103,9 @@ const RealtimeSignalPage: React.FC = () => {
   const [loading42d, setLoading42d] = useState(true)
   const [error42d, setError42d] = useState<string | null>(null)
   const [opportunityPeriod, setOpportunityPeriod] = useState<OpportunityPeriod>('14d')
+  const [bilateralOpportunity, setBilateralOpportunity] = useState<BilateralTradingOpportunityData | null>(null)
+  const [loadingBilateral, setLoadingBilateral] = useState(true)
+  const [errorBilateral, setErrorBilateral] = useState<string | null>(null)
 
   const handleBackClick = () => {
     navigate('/product-service/signal')
@@ -336,12 +353,83 @@ const RealtimeSignalPage: React.FC = () => {
     return () => clearInterval(interval)
   }, [])
 
+  // 获取双边交易机会汇总数据
+  useEffect(() => {
+    const fetchBilateralData = async () => {
+      try {
+        setLoadingBilateral(true)
+        setErrorBilateral(null)
+        
+        const response = await fetch('https://aqua.navgreen.cn/api/strategy/bilateral_trading_opportunity_data')
+        
+        if (!response.ok) {
+          throw new Error('网络请求失败')
+        }
+
+        const result = await response.json()
+        
+        if (result.code === 200 && result.data.records && result.data.records.length > 0) {
+          const record = result.data.records[0]
+          const analysis = record.contracts?.bilateral_trading_opportunity_analysis
+          
+          if (analysis) {
+            setBilateralOpportunity({
+              date: result.data.date || record.swap_date || '',
+              spot_vs_futures: analysis.spot_vs_futures?.opportunities || [],
+              spot_vs_spot: analysis.spot_vs_spot?.opportunities || [],
+              futures_vs_futures: analysis.futures_vs_futures?.opportunities || []
+            })
+          } else {
+            setBilateralOpportunity({
+              date: result.data.date || record.swap_date || '',
+              spot_vs_futures: [],
+              spot_vs_spot: [],
+              futures_vs_futures: []
+            })
+          }
+        } else {
+          throw new Error('数据格式错误')
+        }
+      } catch (err) {
+        setErrorBilateral(err instanceof Error ? err.message : '加载数据失败')
+        console.error('获取双边交易机会数据失败:', err)
+      } finally {
+        setLoadingBilateral(false)
+      }
+    }
+
+    fetchBilateralData()
+    
+    // 每30秒刷新一次数据
+    const interval = setInterval(fetchBilateralData, 30000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
   // 格式化盈亏比为 X:1 格式
   const formatProfitLossRatio = (ratio: string | null): string => {
     if (!ratio) return '-'
     const num = parseFloat(ratio)
     if (isNaN(num)) return ratio
     return `${num}:1`
+  }
+
+  // 解析交易方向，返回包含做多和做空的部分
+  const parseTradingDirection = (direction: string) => {
+    if (!direction) return { parts: [] }
+    
+    // 分割方向字符串，例如 "P3A做空 P4TC+1M做多"
+    const parts = direction.split(/\s+/).map(part => {
+      const isLong = part.includes('做多')
+      const isShort = part.includes('做空')
+      return {
+        text: part,
+        isLong,
+        isShort
+      }
+    })
+    
+    return { parts }
   }
 
   const selectedData = contracts[selectedContract] || null
@@ -813,6 +901,180 @@ const RealtimeSignalPage: React.FC = () => {
                     </div>
                   )}
                 </>
+              )}
+            </div>
+
+            {/* 双边交易机会汇总 */}
+            <div className="realtime-signal-bilateral-summary">
+              <div className="realtime-signal-bilateral-header">
+                <div className="realtime-signal-bilateral-title-wrapper">
+                  <h3 className="realtime-signal-bilateral-title">基差交易机会汇总</h3>
+                  {bilateralOpportunity?.date && (
+                    <span className="realtime-signal-bilateral-date">{bilateralOpportunity.date}</span>
+                  )}
+                </div>
+              </div>
+              
+              {loadingBilateral ? (
+                <div className="realtime-signal-bilateral-loading">
+                  <div className="realtime-signal-loading-spinner"></div>
+                  <p>加载中...</p>
+                </div>
+              ) : errorBilateral ? (
+                <div className="realtime-signal-bilateral-error">
+                  <p>{errorBilateral}</p>
+                </div>
+              ) : bilateralOpportunity && (
+                bilateralOpportunity.spot_vs_futures.length > 0 ||
+                bilateralOpportunity.spot_vs_spot.length > 0 ||
+                bilateralOpportunity.futures_vs_futures.length > 0
+              ) ? (
+                <div className="realtime-signal-bilateral-content">
+                  {/* 现货VS期货 */}
+                  {bilateralOpportunity.spot_vs_futures.length > 0 && (
+                    <div className="realtime-signal-bilateral-section">
+                      <div className="realtime-signal-bilateral-section-header">
+                        <h4 className="realtime-signal-bilateral-section-title">现货VS期货</h4>
+                        {bilateralOpportunity.date && (
+                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
+                        )}
+                      </div>
+                      <div className="realtime-signal-bilateral-table-container">
+                        <div className="realtime-signal-bilateral-table">
+                          <div className="realtime-signal-bilateral-table-header">
+                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                          </div>
+                          {bilateralOpportunity.spot_vs_futures.map((item, index) => {
+                            const { parts } = parseTradingDirection(item.combined_direction)
+                            return (
+                              <div key={index} className="realtime-signal-bilateral-table-row">
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                  {item.asset_pair}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                  {parts.map((part, partIndex) => (
+                                    <span
+                                      key={partIndex}
+                                      className={`realtime-signal-bilateral-direction-part ${
+                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                      }`}
+                                    >
+                                      {part.text}
+                                      {partIndex < parts.length - 1 && ' '}
+                                    </span>
+                                  ))}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                  {formatProfitLossRatio(item.profit_loss_ratio)}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 现货VS现货 */}
+                  {bilateralOpportunity.spot_vs_spot.length > 0 && (
+                    <div className="realtime-signal-bilateral-section">
+                      <div className="realtime-signal-bilateral-section-header">
+                        <h4 className="realtime-signal-bilateral-section-title">现货VS现货</h4>
+                        {bilateralOpportunity.date && (
+                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
+                        )}
+                      </div>
+                      <div className="realtime-signal-bilateral-table-container">
+                        <div className="realtime-signal-bilateral-table">
+                          <div className="realtime-signal-bilateral-table-header">
+                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                          </div>
+                          {bilateralOpportunity.spot_vs_spot.map((item, index) => {
+                            const { parts } = parseTradingDirection(item.combined_direction)
+                            return (
+                              <div key={index} className="realtime-signal-bilateral-table-row">
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                  {item.asset_pair}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                  {parts.map((part, partIndex) => (
+                                    <span
+                                      key={partIndex}
+                                      className={`realtime-signal-bilateral-direction-part ${
+                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                      }`}
+                                    >
+                                      {part.text}
+                                      {partIndex < parts.length - 1 && ' '}
+                                    </span>
+                                  ))}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                  {formatProfitLossRatio(item.profit_loss_ratio)}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 期货VS期货 */}
+                  {bilateralOpportunity.futures_vs_futures.length > 0 && (
+                    <div className="realtime-signal-bilateral-section">
+                      <div className="realtime-signal-bilateral-section-header">
+                        <h4 className="realtime-signal-bilateral-section-title">期货VS期货</h4>
+                        {bilateralOpportunity.date && (
+                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
+                        )}
+                      </div>
+                      <div className="realtime-signal-bilateral-table-container">
+                        <div className="realtime-signal-bilateral-table">
+                          <div className="realtime-signal-bilateral-table-header">
+                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                          </div>
+                          {bilateralOpportunity.futures_vs_futures.map((item, index) => {
+                            const { parts } = parseTradingDirection(item.combined_direction)
+                            return (
+                              <div key={index} className="realtime-signal-bilateral-table-row">
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                  {item.asset_pair}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                  {parts.map((part, partIndex) => (
+                                    <span
+                                      key={partIndex}
+                                      className={`realtime-signal-bilateral-direction-part ${
+                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                      }`}
+                                    >
+                                      {part.text}
+                                      {partIndex < parts.length - 1 && ' '}
+                                    </span>
+                                  ))}
+                                </div>
+                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                  {formatProfitLossRatio(item.profit_loss_ratio)}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="realtime-signal-bilateral-empty">
+                  <p>暂无数据</p>
+                </div>
               )}
             </div>
           </div>
