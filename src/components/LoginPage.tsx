@@ -9,12 +9,48 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Mock login logic
-        console.log('Logging in with:', email, password)
-        navigate('/')
+        setError('')
+        setLoading(true)
+
+        try {
+            const response = await fetch('https://aqua.navgreen.cn/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+
+            const data = await response.json()
+
+            if (data.code === 200) {
+                // Login successful
+                localStorage.setItem('token', data.data.token)
+                localStorage.setItem('user', JSON.stringify(data.data))
+
+                // Dispatch custom event to notify Navbar
+                window.dispatchEvent(new Event('loginStateChange'))
+
+                navigate('/')
+            } else {
+                // Login failed
+                setError(data.msg || '登录失败，请检查邮箱和密码')
+            }
+        } catch (err) {
+            setError('网络错误，请稍后重试')
+            console.error('Login error:', err)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -63,8 +99,10 @@ const LoginPage: React.FC = () => {
                         <a href="#" className="forgot-password">忘记密码？</a>
                     </div>
 
-                    <button type="submit" className="login-button">
-                        登录
+                    {error && <div className="login-error">{error}</div>}
+
+                    <button type="submit" className="login-button" disabled={loading}>
+                        {loading ? '登录中...' : '登录'}
                     </button>
                 </form>
 
