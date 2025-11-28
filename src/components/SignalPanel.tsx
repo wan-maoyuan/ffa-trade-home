@@ -42,12 +42,10 @@ const SignalPanel: React.FC = () => {
           <span className="signal-eyebrow">Market Signals</span>
           <h1 className="signal-hero-title">航运衍生品信号洞察</h1>
           <div className="signal-hero-detail">
-          聚焦全球航运市场的价差、基差与运价指标，通过数据建模与实时监测，帮助您的团队更快捕捉行情变化，建立前瞻性的交易视角。
-          我们以多维度数据为基础，持续追踪航运市场的结构性变化，甄别各类价格驱动因素，形成透明、可解释的信号体系，让决策者能够更早洞察趋势。
-          无论是短期波动还是中长期周期，我们提供的指标与解读都可协助团队制定行动计划，兼顾风险控制与收益捕捉。
+            我们聚焦全球航运市场的核心指标——价差、基差与运价。通过先进的数据建模与实时监测体系，将原本复杂的市场波动转化为清晰可见的交易信号。依托多维度数据追踪，我们致力于甄别价格背后的驱动因素，捕捉市场的结构性变化，为您构建透明、可解释的信号体系。无论是应对短期波动，还是布局中长期周期，我们助您的团队建立前瞻性视角，在风险控制与收益捕捉之间找到最佳平衡。
           </div>
-          <button 
-            className="signal-entry-button" 
+          <button
+            className="signal-entry-button"
             onClick={handleRealtimeSignalClick}
             type="button"
           >

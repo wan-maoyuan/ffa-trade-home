@@ -116,27 +116,27 @@ const RealtimeSignalPage: React.FC = () => {
       try {
         setLoading(true)
         setError(null)
-        
-        const apiUrl = signalType === 'ffa' 
+
+        const apiUrl = signalType === 'ffa'
           ? 'https://aqua.navgreen.cn/api/strategy/price/signal/ffa'
           : 'https://aqua.navgreen.cn/api/strategy/price/signal/european_line'
-        
+
         const response = await fetch(apiUrl)
-        
+
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
         const result = await response.json()
-        
+
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
-          
+
           if (signalType === 'ffa') {
             // 处理FFA信号数据
             const contractData: Record<string, UnifiedContractData> = {}
             const ffaContracts = record.contracts || {}
-            
+
             Object.keys(ffaContracts).forEach((key) => {
               const contract = ffaContracts[key] as FFAContractData
               if (contract.contract_name && contract.predicted_value) {
@@ -153,12 +153,12 @@ const RealtimeSignalPage: React.FC = () => {
                 }
               }
             })
-            
+
             const names = Object.keys(contractData).filter(name => name !== 'raw_table_data')
             setContracts(contractData)
             setContractNames(names)
             setSwapDate(record.swap_date || result.data.date || '')
-            
+
             if (names.length > 0) {
               setSelectedContract(names[0])
             }
@@ -166,7 +166,7 @@ const RealtimeSignalPage: React.FC = () => {
             // 处理欧线信号数据
             const contractData: Record<string, UnifiedContractData> = {}
             const europeanContracts = record.contracts || {}
-            
+
             // 查找european_line_analysis
             const europeanLineAnalysis = europeanContracts.european_line_analysis as any
             if (europeanLineAnalysis && europeanLineAnalysis.price_signals) {
@@ -176,7 +176,7 @@ const RealtimeSignalPage: React.FC = () => {
                 operation_suggestion: string
                 closing_price_date: string
               }
-              
+
               contractData['欧线'] = {
                 contract_name: '欧线',
                 predicted_value: data.price_signals.predicted_value,
@@ -187,7 +187,7 @@ const RealtimeSignalPage: React.FC = () => {
                 operation_suggestion: data.operation_suggestion,
                 date: data.closing_price_date
               }
-              
+
               setContracts(contractData)
               setContractNames(['欧线'])
               setSwapDate(data.closing_price_date || result.data.date || '')
@@ -206,10 +206,10 @@ const RealtimeSignalPage: React.FC = () => {
     }
 
     fetchSignalData()
-    
+
     // 每30秒刷新一次数据
     const interval = setInterval(fetchSignalData, 30000)
-    
+
     return () => clearInterval(interval)
   }, [signalType])
 
@@ -219,30 +219,30 @@ const RealtimeSignalPage: React.FC = () => {
       try {
         setLoading14d(true)
         setError14d(null)
-        
+
         const response = await fetch('https://aqua.navgreen.cn/api/strategy/unilateral_trading_opportunity_14d_data')
-        
+
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
         const result = await response.json()
-        
+
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           const analysis = record.contracts?.trading_opportunity_14d_analysis
-          
+
           if (analysis && analysis.trading_opportunities) {
             // 过滤掉trading_direction和profit_loss_ratio都为null的项
             const validOpportunities = analysis.trading_opportunities.filter(
-              (item: TradingOpportunity14d) => 
+              (item: TradingOpportunity14d) =>
                 item.trading_direction !== null || item.profit_loss_ratio !== null
             )
-            
+
             setTradingOpportunity14d({
               date: result.data.date || record.swap_date || '',
-              trading_opportunities: validOpportunities.length > 0 
-                ? validOpportunities 
+              trading_opportunities: validOpportunities.length > 0
+                ? validOpportunities
                 : analysis.trading_opportunities // 如果都过滤掉了，使用原始数据
             })
           } else {
@@ -263,10 +263,10 @@ const RealtimeSignalPage: React.FC = () => {
     }
 
     fetch14dData()
-    
+
     // 每30秒刷新一次数据
     const interval = setInterval(fetch14dData, 30000)
-    
+
     return () => clearInterval(interval)
   }, [])
 
@@ -276,42 +276,42 @@ const RealtimeSignalPage: React.FC = () => {
       try {
         setLoading42d(true)
         setError42d(null)
-        
+
         const response = await fetch('https://aqua.navgreen.cn/api/strategy/unilateral_trading_opportunity_42d_data')
-        
+
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
         const result = await response.json()
-        
+
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           const analysis = record.contracts?.trading_opportunity_42d_analysis
-          
+
           if (analysis) {
             // 合并所有机会数据（spot_opportunities 和 futures_opportunities）
             const allOpportunities = [
               ...(analysis.spot_opportunities || []),
               ...(analysis.futures_opportunities || [])
             ]
-            
+
             // 根据project_id去重，保留第一次出现的数据
             const seenIds = new Set<string>()
             const uniqueOpportunities: TradingOpportunity42d[] = []
-            
+
             allOpportunities.forEach((item: TradingOpportunity42d) => {
               if (item.project_id && !seenIds.has(item.project_id)) {
                 seenIds.add(item.project_id)
                 uniqueOpportunities.push(item)
               }
             })
-            
+
             // 根据项目ID是否包含"+1"来分类
             // 包含"+1"的为期货，其他为现货
             const spotOpportunities: TradingOpportunity42d[] = []
             const futuresOpportunities: TradingOpportunity42d[] = []
-            
+
             uniqueOpportunities.forEach((item: TradingOpportunity42d) => {
               if (item.project_id && item.project_id.includes('+1')) {
                 // 期货：包含"+1"的项目
@@ -321,7 +321,7 @@ const RealtimeSignalPage: React.FC = () => {
                 spotOpportunities.push(item)
               }
             })
-            
+
             setTradingOpportunity42d({
               date: result.data.date || record.swap_date || '',
               spot_opportunities: spotOpportunities,
@@ -346,10 +346,10 @@ const RealtimeSignalPage: React.FC = () => {
     }
 
     fetch42dData()
-    
+
     // 每30秒刷新一次数据
     const interval = setInterval(fetch42dData, 30000)
-    
+
     return () => clearInterval(interval)
   }, [])
 
@@ -359,19 +359,19 @@ const RealtimeSignalPage: React.FC = () => {
       try {
         setLoadingBilateral(true)
         setErrorBilateral(null)
-        
+
         const response = await fetch('https://aqua.navgreen.cn/api/strategy/bilateral_trading_opportunity_data')
-        
+
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
         const result = await response.json()
-        
+
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           const analysis = record.contracts?.bilateral_trading_opportunity_analysis
-          
+
           if (analysis) {
             setBilateralOpportunity({
               date: result.data.date || record.swap_date || '',
@@ -399,10 +399,10 @@ const RealtimeSignalPage: React.FC = () => {
     }
 
     fetchBilateralData()
-    
+
     // 每30秒刷新一次数据
     const interval = setInterval(fetchBilateralData, 30000)
-    
+
     return () => clearInterval(interval)
   }, [])
 
@@ -417,7 +417,7 @@ const RealtimeSignalPage: React.FC = () => {
   // 解析交易方向，返回包含做多和做空的部分
   const parseTradingDirection = (direction: string) => {
     if (!direction) return { parts: [] }
-    
+
     // 分割方向字符串，例如 "P3A做空 P4TC+1M做多"
     const parts = direction.split(/\s+/).map(part => {
       const isLong = part.includes('做多')
@@ -428,7 +428,7 @@ const RealtimeSignalPage: React.FC = () => {
         isShort
       }
     })
-    
+
     return { parts }
   }
 
@@ -443,12 +443,12 @@ const RealtimeSignalPage: React.FC = () => {
     const isShortEntry = entryRange.startsWith('>')
     const isLongExit = exitRange.startsWith('>')
     const isShortExit = exitRange.startsWith('<')
-    
+
     // 根据操作建议判断操作类型
     const operation = operationSuggestion || ''
     const isPureShort = operation === '平空/空仓' || operation === '空仓' || operation === '平空'
     const isHoldLongAndShort = operation.includes('持有多单/空仓') || operation.includes('多单/空仓')
-    
+
     // 特殊情况1：欧线信号 - 操作建议是"平空"
     // API数据：short_entry_range='>2312', short_exit_range='<1834'
     // 图片显示：开空入场区间='>2312', 平空离场区间='<1834'
@@ -463,7 +463,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: exitRange
       }
     }
-    
+
     // 特殊情况2：P4TC+1 的操作建议是"平空/空仓"
     // API数据：entry_range='<17500', exit_range='>21650'
     // 图片显示：开空入场区间='>21650', 平多离场区间='<17500'
@@ -480,7 +480,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: entryRange  // 使用entry_range作为平多离场区间
       }
     }
-    
+
     // 常规情况1: entry <xxx 且 exit >xxx -> 开多平多（C5TC+1的情况）
     // API数据：entry_range='<20850', exit_range='>32200'
     // 图片显示：开多入场区间='<20850', 平多离场区间='>32200'
@@ -495,7 +495,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: exitRange
       }
     }
-    
+
     // 情况3: entry >xxx 且 exit <xxx -> 开空平多
     if (isShortEntry && isShortExit) {
       return {
@@ -507,7 +507,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: exitRange
       }
     }
-    
+
     // 情况4: entry >xxx 且 exit >xxx -> 开空平空
     if (isShortEntry && isLongExit) {
       return {
@@ -519,7 +519,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: exitRange
       }
     }
-    
+
     // 情况5: entry <xxx 且 exit <xxx -> 开多平空
     if (isLongEntry && isShortExit) {
       return {
@@ -531,7 +531,7 @@ const RealtimeSignalPage: React.FC = () => {
         exitValue: exitRange
       }
     }
-    
+
     // 默认情况：开多平多
     return {
       entryType: 'long',
@@ -543,16 +543,16 @@ const RealtimeSignalPage: React.FC = () => {
     }
   }
 
-  const tradeDirection = selectedData 
+  const tradeDirection = selectedData
     ? getTradeDirection(selectedData.entry_range, selectedData.exit_range, selectedData.operation_suggestion)
     : {
-        entryType: 'long',
-        exitType: 'long',
-        entryLabel: '开多入场区间',
-        exitLabel: '平多离场区间',
-        entryValue: '',
-        exitValue: ''
-      }
+      entryType: 'long',
+      exitType: 'long',
+      entryLabel: '开多入场区间',
+      exitLabel: '平多离场区间',
+      entryValue: '',
+      exitValue: ''
+    }
 
   // 根据操作建议判断颜色
   const getActionColorClass = (suggestion: string) => {
@@ -567,10 +567,10 @@ const RealtimeSignalPage: React.FC = () => {
   return (
     <div className="realtime-signal-panel">
       <SideMenu currentPage="signal" />
-      
+
       <div className="realtime-signal-container">
         {/* 返回按钮 */}
-        <button 
+        <button
           className="realtime-signal-back-button"
           onClick={handleBackClick}
           type="button"
@@ -582,9 +582,7 @@ const RealtimeSignalPage: React.FC = () => {
 
         <div className="realtime-signal-page">
           {/* 页面标题 */}
-          <p className="realtime-signal-page-title">
-            {signalType === 'ffa' ? 'FFA信号' : '欧线信号'}
-          </p>
+
 
           {/* 信号类型选择 */}
           <div className="realtime-signal-type-selector">
@@ -614,9 +612,8 @@ const RealtimeSignalPage: React.FC = () => {
                     <button
                       key={name}
                       type="button"
-                      className={`realtime-signal-contract-tag ${
-                        selectedContract === name ? 'active' : ''
-                      }`}
+                      className={`realtime-signal-contract-tag ${selectedContract === name ? 'active' : ''
+                        }`}
                       onClick={() => setSelectedContract(name)}
                     >
                       <span className="realtime-signal-contract-name">{name}</span>
@@ -746,7 +743,7 @@ const RealtimeSignalPage: React.FC = () => {
                   </button>
                 </div>
               </div>
-              
+
               {/* 14天数据展示 */}
               {opportunityPeriod === '14d' && (
                 <>
@@ -770,15 +767,14 @@ const RealtimeSignalPage: React.FC = () => {
                         {tradingOpportunity14d.trading_opportunities.map((item, index) => {
                           const isLong = item.trading_direction === '做多'
                           const isShort = item.trading_direction === '做空'
-                          
+
                           return (
                             <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
                               <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
                                 {item.project_id}
                               </div>
-                              <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
-                                isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                              }`}>
+                              <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                }`}>
                                 {item.trading_direction || '-'}
                               </div>
                               <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
@@ -832,15 +828,14 @@ const RealtimeSignalPage: React.FC = () => {
                               {tradingOpportunity42d.spot_opportunities.map((item, index) => {
                                 const isLong = item.trading_direction === '做多'
                                 const isShort = item.trading_direction === '做空'
-                                
+
                                 return (
                                   <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
                                     <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
                                       {item.project_id}
                                     </div>
-                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
-                                      isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                                    }`}>
+                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                      }`}>
                                       {item.trading_direction || '-'}
                                     </div>
                                     <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
@@ -873,15 +868,14 @@ const RealtimeSignalPage: React.FC = () => {
                               {tradingOpportunity42d.futures_opportunities.map((item, index) => {
                                 const isLong = item.trading_direction === '做多'
                                 const isShort = item.trading_direction === '做空'
-                                
+
                                 return (
                                   <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
                                     <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
                                       {item.project_id}
                                     </div>
-                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${
-                                      isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                                    }`}>
+                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                      }`}>
                                       {item.trading_direction || '-'}
                                     </div>
                                     <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
@@ -914,7 +908,7 @@ const RealtimeSignalPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
+
               {loadingBilateral ? (
                 <div className="realtime-signal-bilateral-loading">
                   <div className="realtime-signal-loading-spinner"></div>
@@ -957,9 +951,8 @@ const RealtimeSignalPage: React.FC = () => {
                                   {parts.map((part, partIndex) => (
                                     <span
                                       key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${
-                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                      }`}
+                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                        }`}
                                     >
                                       {part.text}
                                       {partIndex < parts.length - 1 && ' '}
@@ -1004,9 +997,8 @@ const RealtimeSignalPage: React.FC = () => {
                                   {parts.map((part, partIndex) => (
                                     <span
                                       key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${
-                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                      }`}
+                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                        }`}
                                     >
                                       {part.text}
                                       {partIndex < parts.length - 1 && ' '}
@@ -1051,9 +1043,8 @@ const RealtimeSignalPage: React.FC = () => {
                                   {parts.map((part, partIndex) => (
                                     <span
                                       key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${
-                                        part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                      }`}
+                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                        }`}
                                     >
                                       {part.text}
                                       {partIndex < parts.length - 1 && ' '}
