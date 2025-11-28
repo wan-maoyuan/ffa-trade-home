@@ -19,7 +19,7 @@ type P6SubStrategyType = '42d' | '14d'
 
 const DecisionPageWrapper: React.FC = () => {
   const navigate = useNavigate()
-  const [activeMainStrategy, setActiveMainStrategy] = useState<MainStrategyType>('p4tc')
+  const [activeMainStrategy, setActiveMainStrategy] = useState<MainStrategyType>('p5')
   const [activeP5SubStrategy, setActiveP5SubStrategy] = useState<P5SubStrategyType>('42d')
   const [activeP3ASubStrategy, setActiveP3ASubStrategy] = useState<P3ASubStrategyType>('42d')
   const [activeP6SubStrategy, setActiveP6SubStrategy] = useState<P6SubStrategyType>('42d')
@@ -47,10 +47,10 @@ const DecisionPageWrapper: React.FC = () => {
   return (
     <div className="decision-page-wrapper">
       <SideMenu currentPage="strategy" />
-      
+
       <div className="decision-page-container">
         {/* 返回按钮 */}
-        <button 
+        <button
           className="decision-page-back-button"
           onClick={handleBackClick}
           type="button"
@@ -62,47 +62,47 @@ const DecisionPageWrapper: React.FC = () => {
 
         {/* 主策略标签切换 */}
         <div className="decision-page-tabs">
-          <button
+          {/* <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'p4tc' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('p4tc')}
           >
             P4TC现货应用决策
-          </button>
+          </button> */}
           <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'p5' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('p5')}
           >
-            P5的现货应用决策
+            P5现货
           </button>
           <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'p3a' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('p3a')}
           >
-            P3A的现货应用决策
+            P3A现货
           </button>
           <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'p6' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('p6')}
           >
-            P6的现货应用决策
+            P6现货
           </button>
           <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'c3' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('c3')}
           >
-            C3现货应用决策
+            C3现货
           </button>
           <button
             type="button"
             className={`decision-page-tab ${activeMainStrategy === 'c5' ? 'active' : ''}`}
             onClick={() => handleMainStrategyChange('c5')}
           >
-            C5现货应用决策
+            C5现货
           </button>
         </div>
 
