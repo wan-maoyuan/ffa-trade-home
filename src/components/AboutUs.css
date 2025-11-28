@@ -31,12 +31,10 @@
   left: 0;
   width: 100%;
   height: 780px;
-  background: linear-gradient(
-    180deg,
-    rgba(24, 52, 110, 0.75) 0%,
-    rgba(32, 60, 115, 0.32) 48%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(24, 52, 110, 0.75) 0%,
+      rgba(32, 60, 115, 0.32) 48%,
+      rgba(255, 255, 255, 0) 100%);
   backdrop-filter: blur(4px);
 }
 
@@ -575,15 +573,18 @@
 
 /* 第四层网格定位 - 对齐到上层 */
 .flow-layer-4 .flow-card-pos2 {
-  grid-column: 2;  /* 对齐汇率 */
+  grid-column: 2;
+  /* 对齐汇率 */
 }
 
 .flow-layer-4 .flow-card-pos3 {
-  grid-column: 3;  /* 对齐运输 */
+  grid-column: 3;
+  /* 对齐运输 */
 }
 
 .flow-layer-4 .flow-card-pos4 {
-  grid-column: 4;  /* 对齐仓储 */
+  grid-column: 4;
+  /* 对齐仓储 */
 }
 
 .flow-layer-5 {
@@ -706,16 +707,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(248, 250, 255, 0.85) 15%,
-    rgba(240, 245, 255, 0.70) 30%,
-    rgba(220, 230, 255, 0.50) 50%,
-    rgba(180, 200, 240, 0.35) 70%,
-    rgba(100, 140, 220, 0.25) 85%,
-    rgba(46, 86, 163, 0.20) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 255, 0.85) 15%,
+      rgba(240, 245, 255, 0.70) 30%,
+      rgba(220, 230, 255, 0.50) 50%,
+      rgba(180, 200, 240, 0.35) 70%,
+      rgba(100, 140, 220, 0.25) 85%,
+      rgba(46, 86, 163, 0.20) 100%);
   backdrop-filter: blur(2px);
   z-index: 1;
 }
@@ -999,20 +998,20 @@
     left: 10px;
     width: 120px;
   }
-  
+
   .about-intro {
     max-width: 90%;
   }
-  
+
   .member-card {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .team-member-right .member-card {
     flex-direction: column;
   }
-  
+
   .footer-content {
     flex-direction: column;
     gap: 40px;
@@ -1027,7 +1026,7 @@
   .side-menu {
     display: none;
   }
-  
+
   .hero-content {
     top: 46%;
     left: 50%;
@@ -1035,25 +1034,25 @@
     gap: 16px;
     padding: 0 18px;
   }
-  
+
   .hero-title {
     font-size: 38px;
   }
-  
+
   .intro-top {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .intro-services {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .member-info {
     padding-top: 20px;
   }
-  
+
   .section-title {
     font-size: 28px;
   }
@@ -1107,3 +1106,225 @@
   }
 }
 
+/* 我们的服务 */
+.our-services-section {
+  padding: 100px 20px 120px;
+  background: #f3f7ff;
+  position: relative;
+  /* Ensure content doesn't overlap with side menu */
+  padding-left: calc(20px + 160px);
+}
+
+.our-services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.our-services-section .section-header {
+  margin-bottom: 70px;
+}
+
+.services-flow-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.service-column-wrapper {
+  flex: 1;
+  max-width: 340px;
+  display: flex;
+}
+
+.service-column {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px dashed #8ab4f8;
+  /* Thinner, softer blue dashed border */
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.service-column:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(46, 86, 163, 0.08);
+  border-style: solid;
+  border-color: #2e56a3;
+  background: #ffffff;
+}
+
+.service-column-header {
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(46, 86, 163, 0.08);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.header-highlight {
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #2e56a3;
+  letter-spacing: 1.2px;
+}
+
+.header-text {
+  font-family: 'DengXian', sans-serif;
+  font-size: 16px;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.service-list li {
+  font-family: 'DengXian', sans-serif;
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.6;
+  display: flex;
+  align-items: baseline;
+  letter-spacing: 0.02em;
+}
+
+.list-num {
+  font-weight: 600;
+  color: #2e56a3;
+  margin-right: 10px;
+  min-width: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.service-sub-group {
+  margin-bottom: 28px;
+}
+
+.service-sub-group:last-child {
+  margin-bottom: 0;
+}
+
+.sub-group-title {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: baseline;
+  letter-spacing: 0.02em;
+}
+
+.service-sub-list {
+  list-style: none;
+  padding: 0 0 0 24px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-sub-list li {
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+  display: flex;
+  align-items: baseline;
+  letter-spacing: 0.01em;
+}
+
+.list-circle {
+  color: #64b5f6;
+  margin-right: 8px;
+  font-size: 12px;
+  transform: scale(0.9);
+}
+
+/* Arrows */
+.service-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8ab4f8;
+  width: 48px;
+  flex-shrink: 0;
+}
+
+.service-arrow svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.our-services-section:hover .service-arrow svg {
+  opacity: 0.9;
+  color: #2e56a3;
+}
+
+.double-arrow {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.double-arrow svg {
+  width: 32px;
+  height: 20px;
+}
+
+.arrow-right {
+  color: #8ab4f8;
+}
+
+.arrow-left {
+  color: #8ab4f8;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .our-services-section {
+    padding-left: 20px;
+    /* Reset padding on smaller screens where side menu might be hidden or different */
+  }
+}
+
+@media (max-width: 1024px) {
+  .services-flow-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .service-column-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .service-arrow {
+    transform: rotate(90deg);
+    height: 40px;
+    width: auto;
+  }
+
+  .double-arrow {
+    transform: rotate(90deg);
+  }
+}

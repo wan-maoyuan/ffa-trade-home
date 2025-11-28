@@ -33,7 +33,7 @@ const AboutUs = () => {
         'choose-us',
         'contact-us'
       ]
-      
+
       const scrollPosition = window.scrollY + window.innerHeight / 2
 
       for (const sectionId of sections) {
@@ -61,16 +61,16 @@ const AboutUs = () => {
 
   const handleInputChange =
     (field: keyof typeof contactForm) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { value } = event.target
-    setContactForm((prev) => ({
-      ...prev,
-      [field]: value
-    }))
-    if (submitStatus) {
-      setSubmitStatus(null)
-    }
-  }
+      (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { value } = event.target
+        setContactForm((prev) => ({
+          ...prev,
+          [field]: value
+        }))
+        if (submitStatus) {
+          setSubmitStatus(null)
+        }
+      }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -145,7 +145,7 @@ const AboutUs = () => {
     <div className="about-us">
       {/* 顶部背景图和标题 */}
       <section className="hero-section">
-        <img 
+        <img
           src={backgroundImage}
           alt="船舶背景"
           className="about-us-background"
@@ -222,12 +222,12 @@ const AboutUs = () => {
           <h2 className="section-title">核心团队</h2>
           <p className="section-subtitle">Core Team</p>
         </div>
-        
+
         <div className="team-member team-member-left">
           <div className="member-card">
             <div className="member-image-container">
               <div className="member-background-block"></div>
-              <img 
+              <img
                 src={guanDaYu}
                 alt="管大宇"
                 className="member-image"
@@ -247,7 +247,7 @@ const AboutUs = () => {
           <div className="member-card">
             <div className="member-image-container">
               <div className="member-background-block"></div>
-              <img 
+              <img
                 src={zhaoKaiYuan}
                 alt="赵开元"
                 className="member-image"
@@ -267,7 +267,7 @@ const AboutUs = () => {
           <div className="member-card">
             <div className="member-image-container">
               <div className="member-background-block"></div>
-              <img 
+              <img
                 src={liSheng}
                 alt="李昇"
                 className="member-image"
@@ -287,7 +287,7 @@ const AboutUs = () => {
       {/* 一站式衍生品综合服务 */}
       <section id="products-services" className="comprehensive-services">
         <div className="services-white-card">
-          <img 
+          <img
             src={servicesDiagram}
             alt="一站式衍生品综合服务"
             className="services-diagram-image"
@@ -302,9 +302,9 @@ const AboutUs = () => {
             <div className="derivatives-icon">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g opacity="0.9">
-                  <rect x="8" y="26" width="10" height="14" rx="1" fill="white"/>
-                  <rect x="19" y="20" width="10" height="20" rx="1" fill="white"/>
-                  <rect x="30" y="14" width="10" height="26" rx="1" fill="white"/>
+                  <rect x="8" y="26" width="10" height="14" rx="1" fill="white" />
+                  <rect x="19" y="20" width="10" height="20" rx="1" fill="white" />
+                  <rect x="30" y="14" width="10" height="26" rx="1" fill="white" />
                 </g>
               </svg>
             </div>
@@ -312,13 +312,13 @@ const AboutUs = () => {
               <h2 className="derivatives-plus-title">衍生品+</h2>
             </div>
           </div>
-          
+
           <p className="derivatives-plus-description">
             我们提供商品、货币、物流等多个领域的衍生品+服务，覆盖FFA、燃料油、碳税、利率、汇率等多个衍生品。
           </p>
-          
+
           <div className="derivatives-diagram">
-            <img 
+            <img
               src={derivativesDiagram}
               alt="衍生品+流程图"
               className="derivatives-diagram-image"
@@ -327,10 +327,96 @@ const AboutUs = () => {
         </div>
       </section>
 
+      {/* 我们的服务 */}
+      <section className="our-services-section">
+        <div className="our-services-container">
+          <div className="section-header">
+            <h2 className="section-title">我们的服务</h2>
+            <p className="section-subtitle">Our Services</p>
+          </div>
+
+          <div className="services-flow-container">
+            {/* Column 1: 建体系 */}
+            <div className="service-column-wrapper">
+              <div className="service-column">
+                <div className="service-column-header">
+                  <span className="header-highlight">建体系</span>
+                  <span className="header-text">——管理咨询</span>
+                </div>
+                <ul className="service-list">
+                  <li><span className="list-num">1.</span> 建立衍生品业务的SOP</li>
+                  <li><span className="list-num">2.</span> 衍生品头寸管理</li>
+                  <li><span className="list-num">3.</span> 衍生品业务风控</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Arrow 1 */}
+            <div className="service-arrow">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {/* Column 2: 教技能 */}
+            <div className="service-column-wrapper">
+              <div className="service-column">
+                <div className="service-column-header">
+                  <span className="header-highlight">教技能</span>
+                  <span className="header-text">——业务培训</span>
+                </div>
+                <div className="service-sub-group">
+                  <div className="sub-group-title"><span className="list-num">1.</span> 航运基差业务体系</div>
+                  <ul className="service-sub-list">
+                    <li><span className="list-circle">①</span> 基差研究基础</li>
+                    <li><span className="list-circle">②</span> 航运基差管理</li>
+                    <li><span className="list-circle">③</span> 航运基差交易</li>
+                    <li><span className="list-circle">④</span> 航运基差贸易</li>
+                  </ul>
+                </div>
+                <div className="service-sub-group">
+                  <div className="sub-group-title"><span className="list-num">2.</span> 产业期权体系</div>
+                  <ul className="service-sub-list">
+                    <li><span className="list-circle">①</span> 期权交易</li>
+                    <li><span className="list-circle">②</span> 航运含权贸易</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Arrow 2 (Double arrow) */}
+            <div className="service-arrow double-arrow">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-right">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-left">
+                <path d="M19 12H5M5 12L12 5M5 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {/* Column 3: 代运营 */}
+            <div className="service-column-wrapper">
+              <div className="service-column">
+                <div className="service-column-header">
+                  <span className="header-highlight">代运营</span>
+                  <span className="header-text">——服务外包</span>
+                </div>
+                <ul className="service-list">
+                  <li><span className="list-num">1.</span> 业务场景分析</li>
+                  <li><span className="list-num">2.</span> 策略字典建设</li>
+                  <li><span className="list-num">3.</span> 期现权策略设计</li>
+                  <li><span className="list-num">4.</span> 衍生品策略执行跟踪</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 为什么选择我们 */}
       <section id="choose-us" className="why-choose">
         <div className="why-choose-background">
-          <img 
+          <img
             src={chooseUsBackground}
             alt="背景"
             className="why-choose-bg-image"
@@ -358,7 +444,7 @@ const AboutUs = () => {
         <div className="footer-content">
           <div className="footer-section footer-section-info">
             <div className="footer-logo">
-              <img 
+              <img
                 // src="https://www.figma.com/api/mcp/asset/0cd12cc7-1914-43a5-8107-ee37b1177ba8" 
                 src={logoFont}
                 alt="AQUABRIDGE"
