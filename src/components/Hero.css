@@ -11,30 +11,7 @@
 }
 
 /* Background & Media */
-.hero-media {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-}
 
-.hero-media-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.05);
-  filter: saturate(110%) contrast(105%);
-  animation: slowZoom 20s infinite alternate;
-}
-
-.hero-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 60%);
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
 
 .hero-overlay {
   position: absolute;
@@ -193,15 +170,7 @@
   }
 }
 
-@keyframes slowZoom {
-  from {
-    transform: scale(1.05);
-  }
 
-  to {
-    transform: scale(1.15);
-  }
-}
 
 /* Responsive */
 @media (max-width: 1024px) {

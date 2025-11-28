@@ -43,6 +43,39 @@
   white-space: pre-wrap;
 }
 
+.strategy-page-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  z-index: 0;
+  box-shadow: 0 28px 48px rgba(26, 44, 92, 0.18);
+}
+
+.strategy-page-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  filter: blur(4px) saturate(0.95);
+}
+
+.strategy-page-bg-mask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.78) 38%, rgba(255, 255, 255, 0.68) 100%);
+}
+
+.strategy-page-content-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 32px;
+}
+
 /* 单头寸策略评价页面样式 */
 .single-position-evaluation-page {
   position: relative;
@@ -92,8 +125,8 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 28px;
-  padding: 26px 28px;
+  gap: 24px;
+  padding: 20px 24px;
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 24px 46px rgba(27, 44, 88, 0.15);
@@ -430,10 +463,10 @@
 .chart-shell-content {
   position: relative;
   z-index: 1;
-  padding: 36px 40px;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .chart-shell-header {
@@ -552,7 +585,7 @@
 .chart-main {
   position: relative;
   flex: 1;
-  padding: 26px 32px 52px 76px;
+  padding: 24px 28px 48px 64px;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(18px);

@@ -1,17 +1,11 @@
 import { Link } from 'react-router-dom'
 import './Hero.css'
-import heroBackgroundImage from '../assets/images/hero-background.png'
+import DigitalOceanBackground from './DigitalOceanBackground'
 
 const Hero = () => {
   return (
     <section className="hero">
-      <div className="hero-media">
-        <img
-          alt="远洋货轮行进在深蓝海面"
-          className="hero-media-image"
-          src={heroBackgroundImage}
-        />
-      </div>
+      <DigitalOceanBackground />
       <div className="hero-overlay" />
       <div className="hero-gradient" />
 
