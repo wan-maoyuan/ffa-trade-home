@@ -213,40 +213,63 @@
   font-size: 0;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
+
+  /* Hide Side Menu on Mobile */
+  .floating-toggle,
+  .floating-menu {
+    display: none !important;
+  }
+
   .signal-panel {
-    padding: 70px 16px 80px;
+    padding: 80px 16px 60px;
     gap: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .signal-hero {
+    width: 100%;
     padding: 28px 20px;
     border-radius: 20px;
+    box-sizing: border-box;
+    /* Ensure padding doesn't cause overflow */
   }
 
   .signal-hero-title {
     font-size: 26px;
   }
 
-  .signal-hero-text {
-    font-size: 13px;
-  }
-
   .signal-hero-detail {
     font-size: 13px;
+    text-align: justify;
+    /* Improve readability for long text */
   }
 
   .signal-carousel-container {
-    padding: 20px 16px 40px;
+    width: 100%;
+    padding: 20px 12px 40px;
     border-radius: 24px;
+    box-sizing: border-box;
   }
 
   .signal-carousel-controls {
     bottom: 16px;
   }
+
+  .signal-swiper .swiper-slide {
+    padding: 0;
+    /* Remove extra padding on mobile to maximize space */
+  }
 }
 
 @media (max-width: 480px) {
+  .signal-panel {
+    padding-top: 70px;
+    /* Adjust for navbar */
+  }
+
   .signal-hero {
     padding: 24px 16px;
   }
@@ -255,7 +278,9 @@
     font-size: 24px;
   }
 
-  .signal-carousel-container {
-    padding: 16px 12px 36px;
+  .signal-entry-button {
+    width: 100%;
+    /* Full width button on small screens */
+    margin-top: 20px;
   }
 }

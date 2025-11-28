@@ -203,11 +203,15 @@
   .products-landing-content {
     align-items: center;
     text-align: center;
-    gap: 20px;
+    gap: 32px;
   }
 
   .products-grid {
     width: 100%;
+    grid-template-columns: 1fr;
+    /* Force vertical stack */
+    gap: 24px;
+    margin-top: 20px;
   }
 
   .products-title {
@@ -221,11 +225,39 @@
   }
 
   .products-card {
-    padding: 28px 26px 32px;
+    padding: 32px 28px;
+    min-height: 180px;
+    align-items: flex-start;
+    /* Keep text left-aligned inside card even if parent is centered */
+    text-align: left;
+  }
+
+  .products-card-tag {
+    font-size: 11px;
+    margin-bottom: 4px;
   }
 
   .products-card-title {
-    font-size: 22px;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .products-card-description {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .products-card-arrow {
+    width: 48px;
+    /* Larger touch target */
+    height: 48px;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    align-self: flex-end;
+    /* Position arrow at bottom right */
+    margin-top: auto;
   }
 }
 
@@ -240,15 +272,10 @@
   }
 
   .products-grid {
-    gap: 22px;
-    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .products-card {
-    padding: 26px 22px 30px;
-  }
-
-  .products-card-description {
-    font-size: 14px;
+    padding: 28px 24px;
   }
 }

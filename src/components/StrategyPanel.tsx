@@ -51,11 +51,11 @@ const StrategyPanel: React.FC = () => {
           <h1 className="strategy-hero-title">航运衍生品策略赋能</h1>
           <div className="strategy-hero-detail">
             <p>
-            在策略服务方面，我们根据精准捕捉到的价格波动信号，为用户量身定制做多或做空策略建议。结合对航运市场长期的研究和经验积累，以及当前市场形势的判断，为用户提供切实可行的操作方向，助力用户抓住市场机会。并且，基于对基差变化的深度分析，我们帮助用户更全面地理解市场趋势，综合考虑各种因素，为用户制定出更贴合市场实际的投资策略，让用户在复杂多变的航运市场中，能够做出明智决策，从而实现收益最大化。
+              在策略服务方面，我们根据精准捕捉到的价格波动信号，为用户量身定制做多或做空策略建议。结合对航运市场长期的研究和经验积累，以及当前市场形势的判断，为用户提供切实可行的操作方向，助力用户抓住市场机会。并且，基于对基差变化的深度分析，我们帮助用户更全面地理解市场趋势，综合考虑各种因素，为用户制定出更贴合市场实际的投资策略，让用户在复杂多变的航运市场中，能够做出明智决策，从而实现收益最大化。
             </p>
           </div>
-          <button 
-            className="strategy-entry-button" 
+          <button
+            className="strategy-entry-button"
             onClick={handleStrategyDecisionClick}
             type="button"
           >
@@ -78,13 +78,7 @@ const StrategyPanel: React.FC = () => {
             <SinglePositionEvaluation />
           </SwiperSlide>
           <SwiperSlide>
-            <SinglePositionChart />
-          </SwiperSlide>
-          <SwiperSlide>
             <DoublePositionEvaluation />
-          </SwiperSlide>
-          <SwiperSlide>
-            <DoublePositionChart />
           </SwiperSlide>
         </Swiper>
 
@@ -103,20 +97,6 @@ const StrategyPanel: React.FC = () => {
             onClick={() => handleButtonClick(1)}
           >
             2
-          </button>
-          <button
-            type="button"
-            className={`strategy-control-btn ${activeIndex === 2 ? 'active' : ''}`}
-            onClick={() => handleButtonClick(2)}
-          >
-            3
-          </button>
-          <button
-            type="button"
-            className={`strategy-control-btn ${activeIndex === 3 ? 'active' : ''}`}
-            onClick={() => handleButtonClick(3)}
-          >
-            4
           </button>
         </div>
       </div>
