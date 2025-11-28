@@ -1328,3 +1328,156 @@
     transform: rotate(90deg);
   }
 }
+
+/* Responsive Design for About Us */
+@media (max-width: 1200px) {
+  .our-services-section {
+    padding-left: 20px;
+    /* Reset padding on smaller screens where side menu might be hidden or different */
+  }
+}
+
+@media (max-width: 1024px) {
+  .side-menu {
+    display: none;
+    /* Hide side menu on tablet/mobile */
+  }
+
+  .hero-title {
+    font-size: 60px;
+  }
+
+  .about-intro {
+    margin-top: -40px;
+  }
+
+  .intro-top {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .member-card {
+    flex-direction: column;
+    padding: 32px;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-member-right .member-card {
+    flex-direction: column;
+  }
+
+  .member-info {
+    padding-top: 0;
+  }
+
+  .member-description {
+    margin: 0 auto;
+  }
+
+  .services-flow-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .service-arrow {
+    transform: rotate(90deg);
+    height: 40px;
+    width: auto;
+  }
+
+  .double-arrow {
+    transform: rotate(90deg);
+  }
+
+  .derivatives-plus-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .derivatives-plus-description {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 600px;
+  }
+
+  .about-us-background {
+    height: 600px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-subtitle-cn {
+    font-size: 16px;
+  }
+
+  .hero-subtitle-en {
+    font-size: 12px;
+  }
+
+  .about-intro-card {
+    padding: 30px 24px;
+  }
+
+  .intro-services {
+    justify-content: center;
+  }
+
+  .service-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .member-image-container {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 300px;
+    aspect-ratio: 0.8;
+  }
+
+  .member-name {
+    font-size: 28px;
+  }
+
+  .services-white-card {
+    padding: 30px 24px;
+  }
+
+  .derivatives-plus-container {
+    padding: 30px 24px;
+  }
+
+  .why-choose-content {
+    padding: 40px 24px;
+  }
+
+  .why-choose-list {
+    margin-top: 30px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .footer-section {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-contact {
+    align-items: center;
+  }
+
+  .footer-form {
+    max-width: 100%;
+  }
+}
