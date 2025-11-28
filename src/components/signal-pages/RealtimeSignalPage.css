@@ -91,8 +91,52 @@
   text-align: center;
 }
 
-/* 信号类型选择器 */
-.realtime-signal-type-selector {
+/* 主标签切换：单边 vs 双边 */
+.realtime-signal-main-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 0 20px;
+}
+
+.realtime-signal-main-tab {
+  background: transparent;
+  border: none;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.realtime-signal-main-tab:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.realtime-signal-main-tab.active {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.realtime-signal-main-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* 单边子标签切换 */
+.realtime-signal-sub-tabs {
   display: inline-flex;
   background: rgba(0, 0, 0, 0.2);
   padding: 4px;
@@ -101,28 +145,30 @@
   position: relative;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  align-self: center;
 }
 
-.realtime-signal-type-button {
-  padding: 8px 32px;
+.realtime-signal-sub-tab {
+  padding: 8px 24px;
   border: none;
   border-radius: 100px;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
+  white-space: nowrap;
 }
 
-.realtime-signal-type-button:hover {
+.realtime-signal-sub-tab:hover {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.realtime-signal-type-button.active {
+.realtime-signal-sub-tab.active {
   background: #ffffff;
   color: #2e56a3;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -447,21 +493,59 @@
 /* 响应式设计 */
 /* 信号类型选择器响应式 */
 @media (max-width: 768px) {
-  .realtime-signal-type-selector {
-    margin-bottom: 16px;
-    width: auto;
+  .realtime-signal-main-tabs {
+    gap: 16px;
+    margin-bottom: 20px;
   }
 
-  .realtime-signal-type-button {
-    padding: 6px 24px;
+  .realtime-signal-main-tab {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  .realtime-signal-main-tab.active {
+    font-size: 18px;
+  }
+
+  .realtime-signal-sub-tabs {
+    margin-bottom: 20px;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 16px;
+  }
+
+  .realtime-signal-sub-tab {
+    padding: 6px 16px;
     font-size: 13px;
+    border-radius: 16px;
   }
 }
 
 @media (max-width: 520px) {
-  .realtime-signal-type-button {
-    padding: 5px 12px;
-    font-size: 11px;
+  .realtime-signal-main-tabs {
+    gap: 12px;
+  }
+
+  .realtime-signal-main-tab {
+    font-size: 15px;
+    padding: 6px 10px;
+  }
+
+  .realtime-signal-main-tab.active {
+    font-size: 16px;
+  }
+
+  .realtime-signal-sub-tabs {
+    width: 100%;
+    padding: 4px;
+  }
+
+  .realtime-signal-sub-tab {
+    padding: 6px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
   }
 }
 

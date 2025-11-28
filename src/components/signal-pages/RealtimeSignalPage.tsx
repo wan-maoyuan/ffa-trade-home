@@ -85,12 +85,16 @@ interface BilateralTradingOpportunityData {
 }
 
 type SignalType = 'ffa' | 'european_line'
-type OpportunityPeriod = '14d' | '42d'
+
+type MainTab = 'unilateral' | 'bilateral'
+type UnilateralTab = 'ffa' | 'european' | '14d' | '42d'
 
 const RealtimeSignalPage: React.FC = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [mainTab, setMainTab] = useState<MainTab>('unilateral')
+  const [unilateralTab, setUnilateralTab] = useState<UnilateralTab>('ffa')
   const [signalType, setSignalType] = useState<SignalType>('ffa')
   const [contracts, setContracts] = useState<Record<string, UnifiedContractData>>({})
   const [selectedContract, setSelectedContract] = useState<string>('')
@@ -102,7 +106,7 @@ const RealtimeSignalPage: React.FC = () => {
   const [tradingOpportunity42d, setTradingOpportunity42d] = useState<TradingOpportunity42dData | null>(null)
   const [loading42d, setLoading42d] = useState(true)
   const [error42d, setError42d] = useState<string | null>(null)
-  const [opportunityPeriod, setOpportunityPeriod] = useState<OpportunityPeriod>('14d')
+
   const [bilateralOpportunity, setBilateralOpportunity] = useState<BilateralTradingOpportunityData | null>(null)
   const [loadingBilateral, setLoadingBilateral] = useState(true)
   const [errorBilateral, setErrorBilateral] = useState<string | null>(null)
@@ -581,172 +585,197 @@ const RealtimeSignalPage: React.FC = () => {
         </button>
 
         <div className="realtime-signal-page">
-          {/* 页面标题 */}
 
-
-          {/* 信号类型选择 */}
-          <div className="realtime-signal-type-selector">
+          {/* 主标签切换：单边 vs 双边 */}
+          <div className="realtime-signal-main-tabs">
             <button
               type="button"
-              className={`realtime-signal-type-button ${signalType === 'ffa' ? 'active' : ''}`}
-              onClick={() => setSignalType('ffa')}
+              className={`realtime-signal-main-tab ${mainTab === 'unilateral' ? 'active' : ''}`}
+              onClick={() => setMainTab('unilateral')}
             >
-              FFA信号
+              单边价格信号
             </button>
             <button
               type="button"
-              className={`realtime-signal-type-button ${signalType === 'european_line' ? 'active' : ''}`}
-              onClick={() => setSignalType('european_line')}
+              className={`realtime-signal-main-tab ${mainTab === 'bilateral' ? 'active' : ''}`}
+              onClick={() => setMainTab('bilateral')}
             >
-              欧线
+              双边价格信号
             </button>
           </div>
 
-          {/* 合约选择区域 - 前置到顶部 */}
-          {!loading && !error && contractNames.length > 0 && (
-            <div className="realtime-signal-contract-selector">
-              <div className="realtime-signal-contract-tags">
-                {contractNames.map((name) => {
-                  const contract = contracts[name]
-                  return (
-                    <button
-                      key={name}
-                      type="button"
-                      className={`realtime-signal-contract-tag ${selectedContract === name ? 'active' : ''
-                        }`}
-                      onClick={() => setSelectedContract(name)}
-                    >
-                      <span className="realtime-signal-contract-name">{name}</span>
-                      {selectedContract === name && contract?.month && (
-                        <span className="realtime-signal-contract-month">{contract.month}</span>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-              {swapDate && (
-                <div className="realtime-signal-date">
-                  <span className="realtime-signal-date-label">
-                    {signalType === 'ffa' ? '掉期日期：' : '收盘价日期：'}
-                  </span>
-                  <span className="realtime-signal-date-value">{swapDate}</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 主要内容区域 */}
-          <div className="realtime-signal-page-content">
-            {loading ? (
-              <div className="realtime-signal-loading">
-                <div className="realtime-signal-loading-spinner"></div>
-                <p>加载中...</p>
-              </div>
-            ) : error ? (
-              <div className="realtime-signal-error">
-                <p>{error}</p>
-              </div>
-            ) : selectedData ? (
-              <>
-
-                {/* 预测值和当前值卡片 */}
-                <div className="realtime-signal-value-cards">
-                  <div className="realtime-signal-value-card">
-                    <div className="realtime-signal-value-header">
-                      <span className="realtime-signal-value-icon">¥</span>
-                      <p className="realtime-signal-value-label">预测值</p>
-                    </div>
-                    <p className="realtime-signal-value-number">
-                      {Number(selectedData.predicted_value).toLocaleString()}
-                    </p>
-                  </div>
-                  <div className="realtime-signal-value-card">
-                    <div className="realtime-signal-value-header">
-                      <span className="realtime-signal-value-icon">▶</span>
-                      <p className="realtime-signal-value-label">当前值</p>
-                    </div>
-                    <p className="realtime-signal-value-number">
-                      {Number(selectedData.current_value).toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 交易信息表格 */}
-                <div className="realtime-signal-trade-info-table">
-                  {/* 表头行 */}
-                  <div className="realtime-signal-trade-info-table-header">
-                    <div className="realtime-signal-trade-info-table-header-cell">
-                      偏离度
-                      <span className="realtime-signal-info-icon" title="价格偏离预测值的百分比">i</span>
-                    </div>
-                    <div className="realtime-signal-trade-info-table-header-cell">
-                      {tradeDirection.entryLabel}
-                    </div>
-                    <div className="realtime-signal-trade-info-table-header-cell">
-                      {tradeDirection.exitLabel}
-                    </div>
-                    <div className="realtime-signal-trade-info-table-header-cell">
-                      操作建议
-                    </div>
-                  </div>
-                  {/* 数据行 */}
-                  <div className="realtime-signal-trade-info-table-row">
-                    <div className="realtime-signal-trade-info-table-cell">
-                      {selectedData.deviation}
-                    </div>
-                    <div className="realtime-signal-trade-info-table-cell">
-                      {tradeDirection.entryValue || selectedData.entry_range}
-                    </div>
-                    <div className="realtime-signal-trade-info-table-cell">
-                      {tradeDirection.exitValue || selectedData.exit_range}
-                    </div>
-                    <div className={`realtime-signal-trade-info-table-cell realtime-signal-trade-info-table-cell-action ${actionColorClass}`}>
-                      {selectedData.operation_suggestion}
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="realtime-signal-error">
-                <p>暂无数据</p>
-              </div>
-            )}
-
-            {/* 交易机会汇总 */}
-            <div className="realtime-signal-opportunity-summary">
-              <div className="realtime-signal-opportunity-header">
-                <div className="realtime-signal-opportunity-title-wrapper">
-                  <h3 className="realtime-signal-opportunity-title">
-                    {opportunityPeriod === '14d' ? '14天后' : '42天后'}单边交易机会汇总
-                  </h3>
-                  {(opportunityPeriod === '14d' ? tradingOpportunity14d?.date : tradingOpportunity42d?.date) && (
-                    <span className="realtime-signal-opportunity-date">
-                      {opportunityPeriod === '14d' ? tradingOpportunity14d?.date : tradingOpportunity42d?.date}
-                    </span>
-                  )}
-                </div>
-                {/* 标签切换 */}
-                <div className="realtime-signal-opportunity-tabs">
-                  <button
-                    type="button"
-                    className={`realtime-signal-opportunity-tab ${opportunityPeriod === '14d' ? 'active' : ''}`}
-                    onClick={() => setOpportunityPeriod('14d')}
-                  >
-                    14天
-                  </button>
-                  <button
-                    type="button"
-                    className={`realtime-signal-opportunity-tab ${opportunityPeriod === '42d' ? 'active' : ''}`}
-                    onClick={() => setOpportunityPeriod('42d')}
-                  >
-                    42天
-                  </button>
-                </div>
+          {/* 单边价格信号内容 */}
+          {mainTab === 'unilateral' && (
+            <>
+              {/* 单边子标签切换 */}
+              <div className="realtime-signal-sub-tabs">
+                <button
+                  type="button"
+                  className={`realtime-signal-sub-tab ${unilateralTab === 'ffa' ? 'active' : ''}`}
+                  onClick={() => {
+                    setUnilateralTab('ffa')
+                    setSignalType('ffa')
+                  }}
+                >
+                  FFA
+                </button>
+                <button
+                  type="button"
+                  className={`realtime-signal-sub-tab ${unilateralTab === 'european' ? 'active' : ''}`}
+                  onClick={() => {
+                    setUnilateralTab('european')
+                    setSignalType('european_line')
+                  }}
+                >
+                  欧线
+                </button>
+                <button
+                  type="button"
+                  className={`realtime-signal-sub-tab ${unilateralTab === '14d' ? 'active' : ''}`}
+                  onClick={() => setUnilateralTab('14d')}
+                >
+                  14天后交易机会
+                </button>
+                <button
+                  type="button"
+                  className={`realtime-signal-sub-tab ${unilateralTab === '42d' ? 'active' : ''}`}
+                  onClick={() => setUnilateralTab('42d')}
+                >
+                  42天后交易机会
+                </button>
               </div>
 
-              {/* 14天数据展示 */}
-              {opportunityPeriod === '14d' && (
+              {/* FFA 和 欧线 内容 */}
+              {(unilateralTab === 'ffa' || unilateralTab === 'european') && (
                 <>
+                  {/* 合约选择区域 */}
+                  {!loading && !error && contractNames.length > 0 && (
+                    <div className="realtime-signal-contract-selector">
+                      <div className="realtime-signal-contract-tags">
+                        {contractNames.map((name) => {
+                          const contract = contracts[name]
+                          return (
+                            <button
+                              key={name}
+                              type="button"
+                              className={`realtime-signal-contract-tag ${selectedContract === name ? 'active' : ''
+                                }`}
+                              onClick={() => setSelectedContract(name)}
+                            >
+                              <span className="realtime-signal-contract-name">{name}</span>
+                              {selectedContract === name && contract?.month && (
+                                <span className="realtime-signal-contract-month">{contract.month}</span>
+                              )}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      {swapDate && (
+                        <div className="realtime-signal-date">
+                          <span className="realtime-signal-date-label">
+                            {signalType === 'ffa' ? '掉期日期：' : '收盘价日期：'}
+                          </span>
+                          <span className="realtime-signal-date-value">{swapDate}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* 主要内容区域 */}
+                  <div className="realtime-signal-page-content">
+                    {loading ? (
+                      <div className="realtime-signal-loading">
+                        <div className="realtime-signal-loading-spinner"></div>
+                        <p>加载中...</p>
+                      </div>
+                    ) : error ? (
+                      <div className="realtime-signal-error">
+                        <p>{error}</p>
+                      </div>
+                    ) : selectedData ? (
+                      <>
+                        {/* 预测值和当前值卡片 */}
+                        <div className="realtime-signal-value-cards">
+                          <div className="realtime-signal-value-card">
+                            <div className="realtime-signal-value-header">
+                              <span className="realtime-signal-value-icon">¥</span>
+                              <p className="realtime-signal-value-label">预测值</p>
+                            </div>
+                            <p className="realtime-signal-value-number">
+                              {Number(selectedData.predicted_value).toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="realtime-signal-value-card">
+                            <div className="realtime-signal-value-header">
+                              <span className="realtime-signal-value-icon">▶</span>
+                              <p className="realtime-signal-value-label">当前值</p>
+                            </div>
+                            <p className="realtime-signal-value-number">
+                              {Number(selectedData.current_value).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 交易信息表格 */}
+                        <div className="realtime-signal-trade-info-table">
+                          {/* 表头行 */}
+                          <div className="realtime-signal-trade-info-table-header">
+                            <div className="realtime-signal-trade-info-table-header-cell">
+                              偏离度
+                              <span className="realtime-signal-info-icon" title="价格偏离预测值的百分比">i</span>
+                            </div>
+                            <div className="realtime-signal-trade-info-table-header-cell">
+                              {tradeDirection.entryLabel}
+                            </div>
+                            <div className="realtime-signal-trade-info-table-header-cell">
+                              {tradeDirection.exitLabel}
+                            </div>
+                            <div className="realtime-signal-trade-info-table-header-cell">
+                              操作建议
+                            </div>
+                          </div>
+                          {/* 数据行 */}
+                          <div className="realtime-signal-trade-info-table-row">
+                            <div className="realtime-signal-trade-info-table-cell">
+                              {selectedData.deviation}
+                            </div>
+                            <div className="realtime-signal-trade-info-table-cell">
+                              {tradeDirection.entryValue || selectedData.entry_range}
+                            </div>
+                            <div className="realtime-signal-trade-info-table-cell">
+                              {tradeDirection.exitValue || selectedData.exit_range}
+                            </div>
+                            <div className={`realtime-signal-trade-info-table-cell realtime-signal-trade-info-table-cell-action ${actionColorClass}`}>
+                              {selectedData.operation_suggestion}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="realtime-signal-error">
+                        <p>暂无数据</p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* 14天后交易机会 */}
+              {unilateralTab === '14d' && (
+                <div className="realtime-signal-opportunity-summary">
+                  <div className="realtime-signal-opportunity-header">
+                    <div className="realtime-signal-opportunity-title-wrapper">
+                      <h3 className="realtime-signal-opportunity-title">
+                        14天后单边交易机会汇总
+                      </h3>
+                      {tradingOpportunity14d?.date && (
+                        <span className="realtime-signal-opportunity-date">
+                          {tradingOpportunity14d.date}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
                   {loading14d ? (
                     <div className="realtime-signal-opportunity-loading">
                       <div className="realtime-signal-loading-spinner"></div>
@@ -778,7 +807,7 @@ const RealtimeSignalPage: React.FC = () => {
                                 {item.trading_direction || '-'}
                               </div>
                               <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
-                                {item.profit_loss_ratio || '-'}
+                                {formatProfitLossRatio(item.profit_loss_ratio)}
                               </div>
                             </div>
                           )
@@ -790,12 +819,25 @@ const RealtimeSignalPage: React.FC = () => {
                       <p>暂无数据</p>
                     </div>
                   )}
-                </>
+                </div>
               )}
 
-              {/* 42天数据展示 */}
-              {opportunityPeriod === '42d' && (
-                <>
+              {/* 42天后交易机会 */}
+              {unilateralTab === '42d' && (
+                <div className="realtime-signal-opportunity-summary">
+                  <div className="realtime-signal-opportunity-header">
+                    <div className="realtime-signal-opportunity-title-wrapper">
+                      <h3 className="realtime-signal-opportunity-title">
+                        42天后单边交易机会汇总
+                      </h3>
+                      {tradingOpportunity42d?.date && (
+                        <span className="realtime-signal-opportunity-date">
+                          {tradingOpportunity42d.date}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
                   {loading42d ? (
                     <div className="realtime-signal-opportunity-loading">
                       <div className="realtime-signal-loading-spinner"></div>
@@ -814,9 +856,6 @@ const RealtimeSignalPage: React.FC = () => {
                         <div className="realtime-signal-opportunity-section">
                           <div className="realtime-signal-opportunity-section-header">
                             <h4 className="realtime-signal-opportunity-section-title">现货</h4>
-                            {tradingOpportunity42d.date && (
-                              <span className="realtime-signal-opportunity-section-date">{tradingOpportunity42d.date}</span>
-                            )}
                           </div>
                           <div className="realtime-signal-opportunity-table-container">
                             <div className="realtime-signal-opportunity-table">
@@ -854,9 +893,6 @@ const RealtimeSignalPage: React.FC = () => {
                         <div className="realtime-signal-opportunity-section">
                           <div className="realtime-signal-opportunity-section-header">
                             <h4 className="realtime-signal-opportunity-section-title">期货</h4>
-                            {tradingOpportunity42d.date && (
-                              <span className="realtime-signal-opportunity-section-date">{tradingOpportunity42d.date}</span>
-                            )}
                           </div>
                           <div className="realtime-signal-opportunity-table-container">
                             <div className="realtime-signal-opportunity-table">
@@ -894,11 +930,13 @@ const RealtimeSignalPage: React.FC = () => {
                       <p>暂无数据</p>
                     </div>
                   )}
-                </>
+                </div>
               )}
-            </div>
+            </>
+          )}
 
-            {/* 双边交易机会汇总 */}
+          {/* 双边价格信号内容 */}
+          {mainTab === 'bilateral' && (
             <div className="realtime-signal-bilateral-summary">
               <div className="realtime-signal-bilateral-header">
                 <div className="realtime-signal-bilateral-title-wrapper">
@@ -929,9 +967,6 @@ const RealtimeSignalPage: React.FC = () => {
                     <div className="realtime-signal-bilateral-section">
                       <div className="realtime-signal-bilateral-section-header">
                         <h4 className="realtime-signal-bilateral-section-title">现货VS期货</h4>
-                        {bilateralOpportunity.date && (
-                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
-                        )}
                       </div>
                       <div className="realtime-signal-bilateral-table-container">
                         <div className="realtime-signal-bilateral-table">
@@ -975,9 +1010,6 @@ const RealtimeSignalPage: React.FC = () => {
                     <div className="realtime-signal-bilateral-section">
                       <div className="realtime-signal-bilateral-section-header">
                         <h4 className="realtime-signal-bilateral-section-title">现货VS现货</h4>
-                        {bilateralOpportunity.date && (
-                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
-                        )}
                       </div>
                       <div className="realtime-signal-bilateral-table-container">
                         <div className="realtime-signal-bilateral-table">
@@ -1021,9 +1053,6 @@ const RealtimeSignalPage: React.FC = () => {
                     <div className="realtime-signal-bilateral-section">
                       <div className="realtime-signal-bilateral-section-header">
                         <h4 className="realtime-signal-bilateral-section-title">期货VS期货</h4>
-                        {bilateralOpportunity.date && (
-                          <span className="realtime-signal-bilateral-section-date">{bilateralOpportunity.date}</span>
-                        )}
                       </div>
                       <div className="realtime-signal-bilateral-table-container">
                         <div className="realtime-signal-bilateral-table">
@@ -1068,7 +1097,7 @@ const RealtimeSignalPage: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
