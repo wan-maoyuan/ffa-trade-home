@@ -4,22 +4,30 @@
 /* CSS Variables */
 :root {
   /* Colors */
-  --primary-color: #f6d365;
-  --primary-gradient: linear-gradient(135deg, #f9d976 0%, #f39f86 100%);
+  --primary-color: #F6D365;
+  --primary-gradient: linear-gradient(135deg, #F6D365 0%, #FDA085 100%);
+  --accent-color: #64f38c;
   --secondary-color: #ffffff;
+
+  /* Text Colors */
   --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.85);
-  --text-tertiary: rgba(255, 255, 255, 0.6);
-  --bg-dark: #061434;
-  --bg-darker: #030e24;
-  
+  --text-secondary: rgba(255, 255, 255, 0.9);
+  --text-tertiary: rgba(255, 255, 255, 0.65);
+
+  /* Backgrounds */
+  --bg-dark: #050B14;
+  --bg-darker: #020408;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+
   /* Spacing */
-  --container-padding: clamp(20px, 5vw, 80px);
-  
+  --container-padding: clamp(24px, 6vw, 96px);
+
   /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Reset & Base Styles */
@@ -85,8 +93,3 @@ body {
     font-size: 14px;
   }
 }
-
-
-
-
-

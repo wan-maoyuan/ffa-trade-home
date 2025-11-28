@@ -109,13 +109,36 @@
 }
 
 .products-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 28px 48px rgba(12, 28, 64, 0.28);
-  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
 }
 
 .products-card:hover::after {
   opacity: 1;
+}
+
+/* Staggered Animation */
+.products-card {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.products-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.products-card:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.products-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.products-card:nth-child(4) {
+  animation-delay: 0.5s;
 }
 
 .products-card-tag {
@@ -128,11 +151,12 @@
 }
 
 .products-card-title {
-  font-family: 'DengXian', sans-serif;
-  font-weight: 600;
-  font-size: 26px;
-  letter-spacing: 0.08em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.02em;
   color: #ffffff;
+  margin-bottom: 8px;
 }
 
 .products-card-description {
@@ -228,4 +252,3 @@
     font-size: 14px;
   }
 }
-
