@@ -115,6 +115,17 @@ const Navbar: React.FC = () => {
 
               {showUserMenu && (
                 <div className="navbar-user-menu">
+                  {isLoggedIn && JSON.parse(localStorage.getItem('user') || '{}').permission === 99 && (
+                    <div
+                      className="navbar-user-menu-item"
+                      onClick={() => {
+                        setShowUserMenu(false)
+                        navigate('/user-management')
+                      }}
+                    >
+                      用户管理
+                    </div>
+                  )}
                   <div className="navbar-user-menu-item" onClick={handleLogout}>
                     退出登录
                   </div>

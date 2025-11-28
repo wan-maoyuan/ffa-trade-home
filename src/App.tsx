@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import ProductsServices from './components/ProductsServices'
 import AboutUs from './components/AboutUs'
 import LoginPage from './components/LoginPage'
+import UserManagementPage from './components/UserManagementPage'
 import './styles/App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/product-service/strategy/decision" element={<ProductsServices />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/user-management" element={<UserManagementPage />} />
         </Routes>
       </div>
     </BrowserRouter>
