@@ -101,54 +101,32 @@
   width: 100%;
 }
 
-/* User Actions */
-.navbar-user {
+/* Navbar Actions (Login Button) */
+.navbar-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
   z-index: 2;
 }
 
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.action-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.navbar-login-btn {
+  padding: 8px 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: #ffffff;
+  font-family: 'DengXian', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0.8;
+  backdrop-filter: blur(4px);
 }
 
-.action-icon:hover {
-  opacity: 1;
+.navbar-login-btn:hover {
+  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
+  border-color: rgba(46, 86, 163, 0.5);
   transform: translateY(-1px);
-}
-
-.icon-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-}
-
-.user-name {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.user-name:hover {
-  color: #fff;
+  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.3);
 }
 
 /* Page Specific Overrides */

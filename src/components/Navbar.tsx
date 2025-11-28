@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import logoImage from '../assets/images/logo-font.png';
-import languageIcon from '../assets/images/language-icon.svg'
-import searchIcon from '../assets/images/search-icon.svg'
-import userIcon from '../assets/images/user-icon.svg'
 
 const Navbar: React.FC = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const isProductsPage = location.pathname.startsWith('/product-service')
   const isProductsLandingPage = location.pathname === '/product-service'
   const isProductsSubPage = isProductsPage && !isProductsLandingPage
   const isAboutUsPage = location.pathname === '/about-us'
-  const showUserActions = false
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -73,35 +70,15 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* User Actions - 暂时隐藏 */}
-        {showUserActions && (
-          <div className="navbar-user">
-            <div className="user-actions">
-              <div className="action-icon">
-                <img
-                  alt="Language"
-                  className="icon-image"
-                  src={languageIcon}
-                />
-              </div>
-              <div className="action-icon">
-                <img
-                  alt="Search"
-                  className="icon-image"
-                  src={searchIcon}
-                />
-              </div>
-              <div className="action-icon">
-                <img
-                  alt="User"
-                  className="icon-image"
-                  src={userIcon}
-                />
-              </div>
-            </div>
-            <p className="user-name">Nikki</p>
-          </div>
-        )}
+        {/* Right Side Actions */}
+        <div className="navbar-actions">
+          <button
+            className="navbar-login-btn"
+            onClick={() => navigate('/login')}
+          >
+            登录
+          </button>
+        </div>
       </div>
     </div>
   )

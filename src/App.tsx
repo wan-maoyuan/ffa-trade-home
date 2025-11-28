@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ProductsServices from './components/ProductsServices'
 import AboutUs from './components/AboutUs'
+import LoginPage from './components/LoginPage'
 import './styles/App.css'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/product-service/strategy" element={<ProductsServices />} />
           <Route path="/product-service/strategy/decision" element={<ProductsServices />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </BrowserRouter>
