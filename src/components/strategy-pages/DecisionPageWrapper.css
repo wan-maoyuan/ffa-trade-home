@@ -1,4 +1,7 @@
 .decision-page-wrapper {
+  --bg-dark: #0f172a;
+  /* Explicitly define dark background */
+
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -36,8 +39,12 @@
 .decision-page-container {
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1020px;
+  /* Aligned with Strategy Page */
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* 返回按钮 */
@@ -46,40 +53,27 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  /* Reduced padding */
-  margin-bottom: 20px;
-  background: var(--glass-bg);
-  /* Dark glass */
-  border: var(--glass-border);
+  background: rgba(255, 255, 255, 0.1);
+  /* Glass style */
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'DengXian', sans-serif;
   font-size: 13px;
-  /* Reduced size */
   color: rgba(255, 255, 255, 0.9);
-  /* White text */
-  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(4px);
   align-self: flex-start;
-  backdrop-filter: var(--glass-backdrop);
 }
 
 .decision-page-back-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateX(-2px);
 }
 
 .decision-page-back-icon {
   font-size: 16px;
-  /* Reduced size */
   font-weight: bold;
-  transition: transform 0.3s ease;
-}
-
-.decision-page-back-button:hover .decision-page-back-icon {
-  transform: translateX(-2px);
 }
 
 .decision-page-back-text {
@@ -90,27 +84,21 @@
 /* 策略标签切换 */
 .decision-page-tabs {
   display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
   padding: 6px;
-  /* Reduced padding */
   border-radius: 12px;
-  box-shadow: var(--glass-shadow);
-  border: var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
 }
 
 .decision-page-tab {
   flex: 1;
   padding: 10px 20px;
-  /* Reduced padding */
   border: none;
   border-radius: 8px;
   background: transparent;
   color: rgba(255, 255, 255, 0.6);
-  /* Light text */
   font-family: 'DengXian', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -131,11 +119,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.decision-page-tab.active:hover {
-  background: linear-gradient(135deg, #234489, #1f3c82);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
 .decision-page-content {
   position: relative;
   width: 100%;
@@ -145,24 +128,21 @@
 .decision-page-sub-tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 20px;
   background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
   padding: 6px;
   border-radius: 10px;
-  box-shadow: var(--glass-shadow);
-  border: var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
+  align-self: flex-start;
+  /* Align left */
 }
 
 .decision-page-sub-tab {
-  flex: 1;
-  padding: 10px 20px;
+  padding: 8px 24px;
   border: none;
   border-radius: 8px;
   background: transparent;
   color: rgba(255, 255, 255, 0.6);
-  /* Light text */
   font-family: 'DengXian', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -183,12 +163,7 @@
   box-shadow: 0 3px 10px rgba(46, 86, 163, 0.2);
 }
 
-.decision-page-sub-tab.active:hover {
-  background: linear-gradient(135deg, #2e56a3, #234489);
-  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.25);
-}
-
-/* 隐藏子页面的返回按钮、标题和SideMenu，因为已经在包装组件中处理 */
+/* 隐藏子页面的返回按钮、标题和SideMenu */
 .decision-page-content .p4tc-decision-panel,
 .decision-page-content .p5-decision-panel,
 .decision-page-content .p5-14d-decision-panel,
@@ -260,7 +235,7 @@
   display: none;
 }
 
-/* 隐藏子页面的SideMenu - 使用更具体的选择器 */
+/* 隐藏子页面的SideMenu */
 .decision-page-content .p4tc-decision-panel>*:first-child:not(.p4tc-decision-container),
 .decision-page-content .p5-decision-panel>*:first-child:not(.p5-decision-container),
 .decision-page-content .p5-14d-decision-panel>*:first-child:not(.p5-14d-decision-container),
@@ -291,6 +266,7 @@
   .decision-page-sub-tabs {
     flex-direction: column;
     gap: 6px;
+    width: 100%;
   }
 
   .decision-page-sub-tab {

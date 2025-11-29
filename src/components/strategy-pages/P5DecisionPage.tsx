@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
+import './StrategyPageOptimization.css'
 import './P5DecisionPage.css'
 
 interface TradingRecommendation {
@@ -170,22 +171,22 @@ const P5DecisionPage: React.FC = () => {
         setLoading(true)
         setError(null)
         const response = await fetch('https://aqua.navgreen.cn/api/strategy/p5_42d/decision')
-        
+
         if (!response.ok) {
           throw new Error('网络请求失败')
         }
 
         const result: ApiResponse = await response.json()
-        
+
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           // P5的数据结构：数据在contracts.raw_table_data.data中
           const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
           const p5Analysis = record.raw_data?.contracts?.p5_analysis
-          
+
           // 根据P5的实际数据结构解析数据
           let parsedData: P5Analysis | null = null
-          
+
           if (rawTableData && Array.isArray(rawTableData)) {
             // 解析基础信息
             // Row 2: ["做空胜率统计","盈亏比：","2.39：1"]
@@ -193,7 +194,7 @@ const P5DecisionPage: React.FC = () => {
             // Row 4: ["日期","当期值","综合价差比"]
             // Row 5: ["建议交易方向","-15% - 0%","17444","27%"]
             // Row 6: ["综合价差比区间","2026-01-06预测值","在全部交易日期中出现概率"]
-            
+
             let profitLossRatio = 2.39
             let recommendedDirection = '做空'
             let date = ''
@@ -202,7 +203,7 @@ const P5DecisionPage: React.FC = () => {
             let overallPriceDiffRange = ''
             let forecastValue = 0
             let probability = 0
-            
+
             // 解析盈亏比
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
@@ -229,7 +230,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 解析正收益数据
             // Row 7: ["正收益"]
             // Row 8: ["66%","22%"]
@@ -241,7 +242,7 @@ const P5DecisionPage: React.FC = () => {
             let maxPositiveReturnsMaximum = 0
             let maxPositiveReturnsAvgTime = 0
             let positiveTimingDistribution = { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 }
-            
+
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
@@ -286,14 +287,14 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 解析负收益数据
             let finalNegativeReturnsPercentage = 0
             let finalNegativeReturnsAverage = 0
             let negativeDistribution = { '0-15%': 0, '15.01-30%': 0, '30-60%': 0, '<60%': 0 }
             let minNegativeReturnsAverage = 0
             let minNegativeReturnsMinimum = 0
-            
+
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
@@ -327,7 +328,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 解析P5盈亏比数据
             // 查找"P5盈亏比"行
             // Row 28: ['P5盈亏比']
@@ -350,7 +351,7 @@ const P5DecisionPage: React.FC = () => {
                     const p5CurrentPrice = parseFloat(String(dataRow[1] || '0').replace(/,/g, '')) || 0
                     const p5EvaluatedPrice = parseFloat(String(dataRow[2] || '0').replace(/,/g, '')) || 0
                     const p5PriceDiffRatio = String(dataRow[3] || '')
-                    
+
                     // 初始化变量
                     let profitabilityRatio = 0
                     let averageReturns = 0
@@ -360,7 +361,7 @@ const P5DecisionPage: React.FC = () => {
                     let maxRiskAverage = 0
                     let maxRiskExtreme = 0
                     let maxRiskTiming = { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 }
-                    
+
                     // 查找后续数据（从i+2开始，跳过标题行）
                     // Row 30: 标题行（日期、当前价格/元每吨、评估价格/元每吨、价差比）
                     // Row 32: 数据行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值）
@@ -370,15 +371,15 @@ const P5DecisionPage: React.FC = () => {
                       if (Array.isArray(checkRow) && checkRow.length > 0) {
                         // Row 32: 数据行（42天后盈利比例、收益均值、42天后亏损比例、亏损均值）
                         // 检查是否是数据行（4个百分比值），且下一行是标题行
-                        if (checkRow.length === 4 && 
-                            String(checkRow[0] || '').includes('%') && 
-                            String(checkRow[1] || '').includes('%') &&
-                            String(checkRow[2] || '').includes('%') &&
-                            String(checkRow[3] || '').includes('%') &&
-                            j + 1 < rawTableData.length) {
+                        if (checkRow.length === 4 &&
+                          String(checkRow[0] || '').includes('%') &&
+                          String(checkRow[1] || '').includes('%') &&
+                          String(checkRow[2] || '').includes('%') &&
+                          String(checkRow[3] || '').includes('%') &&
+                          j + 1 < rawTableData.length) {
                           const nextRow = rawTableData[j + 1]
-                          if (Array.isArray(nextRow) && nextRow.length > 0 && 
-                              String(nextRow[0] || '').includes('42天后盈利比例')) {
+                          if (Array.isArray(nextRow) && nextRow.length > 0 &&
+                            String(nextRow[0] || '').includes('42天后盈利比例')) {
                             profitabilityRatio = parseFloat(String(checkRow[0] || '0').replace('%', '')) || 0
                             averageReturns = parseFloat(String(checkRow[1] || '0').replace('%', '')) || 0
                             lossRatio = parseFloat(String(checkRow[2] || '0').replace('%', '')) || 0
@@ -391,7 +392,7 @@ const P5DecisionPage: React.FC = () => {
                         if (checkRow[0] === '最大收益时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
                           const timingDataRow = rawTableData[j + 2]
                           if (Array.isArray(timingDataRow) && timingDataRow.length >= 3 &&
-                              String(timingDataRow[0] || '').includes('%')) {
+                            String(timingDataRow[0] || '').includes('%')) {
                             maxReturnsTiming['0-14_days'] = parseFloat(String(timingDataRow[0] || '0').replace('%', '')) || 0
                             maxReturnsTiming['15-28_days'] = parseFloat(String(timingDataRow[1] || '0').replace('%', '')) || 0
                             maxReturnsTiming['29-42_days'] = parseFloat(String(timingDataRow[2] || '0').replace('%', '')) || 0
@@ -400,13 +401,13 @@ const P5DecisionPage: React.FC = () => {
                         // Row 37: ['-7%', '-23%'] - 数据行（最大风险均值、最大风险极值）
                         // Row 38: ['最大风险均值/元每吨', '最大风险极值/元每吨'] - 标题行
                         // 检查是否是数据行（2个百分比值），且下一行是标题行
-                        if (checkRow.length === 2 && 
-                            String(checkRow[0] || '').includes('%') && 
-                            String(checkRow[1] || '').includes('%') &&
-                            j + 1 < rawTableData.length) {
+                        if (checkRow.length === 2 &&
+                          String(checkRow[0] || '').includes('%') &&
+                          String(checkRow[1] || '').includes('%') &&
+                          j + 1 < rawTableData.length) {
                           const nextRow = rawTableData[j + 1]
-                          if (Array.isArray(nextRow) && nextRow.length > 0 && 
-                              String(nextRow[0] || '').includes('最大风险均值')) {
+                          if (Array.isArray(nextRow) && nextRow.length > 0 &&
+                            String(nextRow[0] || '').includes('最大风险均值')) {
                             maxRiskAverage = parseFloat(String(checkRow[0] || '0').replace('%', '')) || 0
                             maxRiskExtreme = parseFloat(String(checkRow[1] || '0').replace('%', '')) || 0
                           }
@@ -417,7 +418,7 @@ const P5DecisionPage: React.FC = () => {
                         if (checkRow[0] === '最大风险时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
                           const riskTimingDataRow = rawTableData[j + 2]
                           if (Array.isArray(riskTimingDataRow) && riskTimingDataRow.length >= 3 &&
-                              String(riskTimingDataRow[0] || '').includes('%')) {
+                            String(riskTimingDataRow[0] || '').includes('%')) {
                             maxRiskTiming['0-14_days'] = parseFloat(String(riskTimingDataRow[0] || '0').replace('%', '')) || 0
                             maxRiskTiming['15-28_days'] = parseFloat(String(riskTimingDataRow[1] || '0').replace('%', '')) || 0
                             maxRiskTiming['29-42_days'] = parseFloat(String(riskTimingDataRow[2] || '0').replace('%', '')) || 0
@@ -425,7 +426,7 @@ const P5DecisionPage: React.FC = () => {
                         }
                       }
                     }
-                    
+
                     p5ProfitLossData = {
                       date: p5Date,
                       current_price: p5CurrentPrice,
@@ -445,7 +446,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 解析P5TC六周后预测模型评价数据
             // Row 42: ['P5TC六周后预测模型评价']
             // Row 43: ['2025-11-14', '16903', '2025-12-26', '1106', '18008', '7%'] - 数据行
@@ -458,7 +459,7 @@ const P5DecisionPage: React.FC = () => {
             let modelEvalForecastPrice = forecastValue
             let modelEvalPriceDiffRatio = overallPriceDiffRatio
             let evaluationRanges: EvaluationRange[] = []
-            
+
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
@@ -481,12 +482,12 @@ const P5DecisionPage: React.FC = () => {
                     if (Array.isArray(evalRow) && evalRow.length >= 4) {
                       const firstCol = String(evalRow[0] || '')
                       const secondCol = String(evalRow[1] || '')
-                      
+
                       // 检查是否是表格数据行
                       // 格式1: ['<-5000', '100.00%', '-5304', '-6110'] - 4列，单列区间
                       // 格式2: ['-5000', '-2500', '95.65%', '-4006', '-3705'] - 5列，两列区间
                       // 格式3: ['>=5000', '100.00%', '8085', '6203'] - 4列，单列区间
-                      
+
                       // 判断是否是数据行：
                       // 1. 第一列包含区间符号（<, >, =）或纯数字
                       // 2. 第二列是百分比（单列区间）或第三列是百分比（两列区间）
@@ -494,18 +495,18 @@ const P5DecisionPage: React.FC = () => {
                       const isNumber = firstCol.match(/^-?\d+$/) || firstCol.match(/^-?\d+\.\d+$/)
                       const secondIsPercent = secondCol.includes('%')
                       const thirdIsPercent = evalRow.length >= 3 && String(evalRow[2] || '').includes('%')
-                      
+
                       const isDataRow = (hasIntervalSymbol || isNumber) && (secondIsPercent || thirdIsPercent)
-                      
+
                       if (isDataRow) {
                         let rangeStr = firstCol
                         let accuracyRate = 0
                         let actualValue = 0
                         let fitValue = 0
-                        
+
                         // 如果是两列区间格式（5列，第二列是数字，第三列是百分比）
                         if (evalRow.length >= 5 && !secondIsPercent && thirdIsPercent &&
-                            (secondCol.match(/^-?\d+$/) || secondCol.match(/^-?\d+\.\d+$/))) {
+                          (secondCol.match(/^-?\d+$/) || secondCol.match(/^-?\d+\.\d+$/))) {
                           rangeStr = `${firstCol} ~ ${secondCol}`
                           accuracyRate = parseFloat(String(evalRow[2] || '0').replace('%', '')) || 0
                           actualValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
@@ -516,7 +517,7 @@ const P5DecisionPage: React.FC = () => {
                           actualValue = parseFloat(String(evalRow[2] || '0').replace(/,/g, '')) || 0
                           fitValue = parseFloat(String(evalRow[3] || '0').replace(/,/g, '')) || 0
                         }
-                        
+
                         // 只有当所有值都解析成功时才添加
                         if (rangeStr && accuracyRate !== 0) {
                           evaluationRanges.push({
@@ -533,7 +534,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 构造解析后的数据
             parsedData = {
               trading_recommendation: {
@@ -592,7 +593,7 @@ const P5DecisionPage: React.FC = () => {
                 evaluation_ranges: evaluationRanges
               }
             }
-            
+
             setCorrectedStats({
               max_positive_returns_average: maxPositiveReturnsAverage,
               max_positive_returns_maximum: maxPositiveReturnsMaximum,
@@ -602,7 +603,7 @@ const P5DecisionPage: React.FC = () => {
               min_negative_returns_minimum: minNegativeReturnsMinimum
             })
           }
-          
+
           if (p5Analysis) {
             setAnalysis(p5Analysis)
           } else if (parsedData) {
@@ -659,7 +660,7 @@ const P5DecisionPage: React.FC = () => {
           } else {
             throw new Error('数据格式错误')
           }
-          
+
           setSwapDate(record.metadata?.swap_date || record.swap_date || result.data.date || '')
         } else {
           throw new Error('数据格式错误')
@@ -673,237 +674,240 @@ const P5DecisionPage: React.FC = () => {
     }
 
     fetchDecisionData()
-    
+
     // 每30秒刷新一次数据
     const interval = setInterval(fetchDecisionData, 30000)
-    
+
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="p5-decision-panel">
-      <SideMenu currentPage="strategy" />
-      
-      <div className="p5-decision-container">
-        {/* 返回按钮 */}
-        <button 
-          className="p5-decision-back-button"
-          onClick={handleBackClick}
-          type="button"
-          aria-label="返回上一级"
-        >
-          <span className="p5-decision-back-icon">←</span>
-          <span className="p5-decision-back-text">返回</span>
-        </button>
+    <div className="strategy-page">
 
-        <div className="p5-decision-page">
-          {/* 页面标题 */}
-          <p className="p5-decision-page-title">P5现货应用决策（42天后）</p>
+      <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
+        <p className="strategy-page-title">P5现货应用决策（42天后）</p>
 
-          {loading ? (
-            <div className="p5-decision-loading">
-              <div className="p5-decision-loading-spinner"></div>
-              <p>加载中...</p>
+        {loading ? (
+          <div className="p5-decision-loading">
+            <div className="p5-decision-loading-spinner"></div>
+            <p>加载中...</p>
+          </div>
+        ) : error ? (
+          <div className="p5-decision-error">
+            <p>{error}</p>
+          </div>
+        ) : analysis ? (
+          <div className="strategy-page-content">
+            {/* 头部标签 */}
+            <div className="strategy-tags">
+              <div className="strategy-tag">
+                <p>做空胜率统计</p>
+              </div>
+              <div className="strategy-tag">
+                <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
+              </div>
             </div>
-          ) : error ? (
-            <div className="p5-decision-error">
-              <p>{error}</p>
-            </div>
-          ) : analysis ? (
-            <>
-              {/* 做空胜率统计 */}
-              <div className="p5-decision-header">
-                <div className="p5-decision-chips">
-                  <button type="button" className="p5-decision-chip">做空胜率统计</button>
-                  <button type="button" className="p5-decision-chip">
-                    盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1
-                  </button>
+
+            {/* 主要内容区域 */}
+            <div className="strategy-content-card">
+              <div className="strategy-layout-grid">
+                {/* 左侧策略卡片 */}
+                <div className="strategy-direction-card">
+                  <div className="strategy-direction-badge">空头策略</div>
+                  <div className="strategy-direction-title">
+                    {analysis.trading_recommendation.recommended_direction}
+                  </div>
+                  <div className="strategy-direction-subtitle">建议交易方向</div>
+                </div>
+
+                {/* 右侧指标网格 */}
+                <div className="strategy-metrics-grid">
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">日期</p>
+                    <p className="strategy-metric-value">{analysis.current_forecast.date}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">当期值</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.current_value.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">综合价差比</p>
+                    <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_ratio}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">综合价差比区间</p>
+                    <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_range}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">2026-01-06预测值</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.forecast_value.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">在全部交易日期中出现概率</p>
+                    <p className="strategy-metric-value">{analysis.current_forecast.probability}%</p>
+                  </div>
                 </div>
               </div>
 
-              {/* 主要内容区域 */}
-              <div className="p5-decision-content">
-                {/* 左侧策略卡片和右侧指标网格 */}
-                <div className="p5-decision-cards-container">
-                  {/* 左侧策略卡片 */}
-                  <div className="p5-decision-card-left">
-                    <span className="p5-decision-card-badge">空头策略</span>
-                    <div className="p5-decision-card-glow" />
-                    <div className="p5-decision-card-overlay">
-                      <div className="p5-decision-card-title">
-                        {analysis.trading_recommendation.recommended_direction}
-                      </div>
-                      <div className="p5-decision-card-desc">建议交易方向</div>
+              {/* 正收益和负收益部分 - 使用新的网格布局 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
+                {/* 正收益 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <h3 style={{
+                    color: '#4ade80',
+                    fontSize: '16px',
+                    marginBottom: '16px',
+                    fontFamily: 'DengXian',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
+                    正收益
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                      <p className="strategy-metric-label">最终正收益占比</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                    </div>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                      <p className="strategy-metric-label">最终正收益平均值</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average}%</p>
                     </div>
                   </div>
 
-                  {/* 右侧指标网格 */}
-                  <div className="p5-decision-metrics-grid">
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">日期</p>
-                      <p className="p5-decision-metric-value">{analysis.current_forecast.date}</p>
-                    </div>
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">当期值</p>
-                      <p className="p5-decision-metric-value">
-                        {analysis.current_forecast.current_value.toLocaleString()}
-                      </p>
-                    </div>
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">综合价差比</p>
-                      <p className="p5-decision-metric-value">{analysis.current_forecast.overall_price_difference_ratio}</p>
-                    </div>
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">综合价差比区间</p>
-                      <p className="p5-decision-metric-value">{analysis.current_forecast.overall_price_difference_range}</p>
-                    </div>
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">2026-01-06预测值</p>
-                      <p className="p5-decision-metric-value">
-                        {analysis.current_forecast.forecast_value.toLocaleString()}
-                      </p>
-                    </div>
-                    <div className="p5-decision-metric-card">
-                      <p className="p5-decision-metric-label">在全部交易日期中出现概率</p>
-                      <p className="p5-decision-metric-value">{analysis.current_forecast.probability}%</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 正收益和负收益部分 */}
-                <div className="p5-decision-returns-section">
-                  <div className="p5-decision-returns-column positive">
-                    <h3 className="p5-decision-returns-column-title">正收益</h3>
-                    <div className="p5-decision-returns-header">
-                      <div className="p5-decision-returns-bar positive-bar">
-                        <span className="p5-decision-returns-value">{analysis.positive_returns.final_positive_returns_percentage}%</span>
-                        <span className="p5-decision-returns-label">最终正收益占比</span>
-                      </div>
-                      <div className="p5-decision-returns-bar average-bar">
-                        <span className="p5-decision-returns-value">{analysis.positive_returns.final_positive_returns_average}%</span>
-                        <span className="p5-decision-returns-label">最终正收益平均值</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* 分布情况 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
+                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
+                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    <div className="p5-decision-returns-card">
-                      <p className="p5-decision-returns-card-title">分布情况</p>
-                      <div className="p5-decision-returns-table">
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">正收益比例0~15%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.positive_returns.distribution['0-15%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">正收益比例15.01~30%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.positive_returns.distribution['15.01-30%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">正收益比例30~60%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.positive_returns.distribution['30-60%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">正收益比例大于60%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.positive_returns.distribution['>60%']}%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p5-decision-returns-card">
-                      <p className="p5-decision-returns-card-title">收益统计</p>
-                      <div className="p5-decision-returns-table">
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">最大正收益平均值</span>
-                          <span className="p5-decision-returns-table-value">
+                    {/* 收益统计 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
                           </span>
                         </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">最大正收益最大值</span>
-                          <span className="p5-decision-returns-table-value">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
                           </span>
                         </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">最大正收益出现时间平均值</span>
-                          <span className="p5-decision-returns-table-value">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="p5-decision-returns-card">
-                      <p className="p5-decision-returns-card-title">最大正收益平均出现天数</p>
-                      <div className="p5-decision-returns-table">
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">0~14天内</span>
-                          <span className="p5-decision-returns-table-value">
+                    {/* 时间分布 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
                           </span>
                         </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">15~28天内</span>
-                          <span className="p5-decision-returns-table-value">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
                           </span>
                         </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">29~42天内</span>
-                          <span className="p5-decision-returns-table-value">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* 负收益部分 */}
-                  <div className="p5-decision-returns-column negative">
-                    <h3 className="p5-decision-returns-column-title">负收益</h3>
-                    <div className="p5-decision-returns-header">
-                      <div className="p5-decision-returns-bar negative-bar">
-                        <span className="p5-decision-returns-value">{analysis.negative_returns.final_negative_returns_percentage}%</span>
-                        <span className="p5-decision-returns-label">最终负收益比例</span>
-                      </div>
-                      <div className="p5-decision-returns-bar average-bar">
-                        <span className="p5-decision-returns-value">{analysis.negative_returns.final_negative_returns_average}%</span>
-                        <span className="p5-decision-returns-label">最终负收益平均值</span>
+                {/* 负收益 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <h3 style={{
+                    color: '#f87171',
+                    fontSize: '16px',
+                    marginBottom: '16px',
+                    fontFamily: 'DengXian',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171' }}></span>
+                    负收益
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                      <p className="strategy-metric-label">最终负收益占比</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                    </div>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                      <p className="strategy-metric-label">最终负收益平均值</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average}%</p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* 分布情况 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {Object.entries(analysis.negative_returns.distribution).map(([range, value]) => (
+                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
+                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    <div className="p5-decision-returns-card">
-                      <p className="p5-decision-returns-card-title">分布情况</p>
-                      <div className="p5-decision-returns-table">
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">负收益比例0~15%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.negative_returns.distribution['0-15%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">负收益比例15.01~30%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.negative_returns.distribution['15.01-30%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">负收益比例30~60%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.negative_returns.distribution['30-60%']}%</span>
-                        </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">负收益比例小于60%</span>
-                          <span className="p5-decision-returns-table-value">{analysis.negative_returns.distribution['<60%']}%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p5-decision-returns-card">
-                      <p className="p5-decision-returns-card-title">收益统计</p>
-                      <div className="p5-decision-returns-table">
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">最小负收益平均值</span>
-                          <span className="p5-decision-returns-table-value">
+                    {/* 收益统计 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.min_negative_returns_average || analysis.negative_returns.statistics.min_negative_returns_average}%
                           </span>
                         </div>
-                        <div className="p5-decision-returns-table-row">
-                          <span className="p5-decision-returns-table-label">最小负收益最小值</span>
-                          <span className="p5-decision-returns-table-value">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益最小值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
                             {correctedStats?.min_negative_returns_minimum || analysis.negative_returns.statistics.min_negative_returns_minimum}%
                           </span>
                         </div>
@@ -911,148 +915,178 @@ const P5DecisionPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* P5盈亏比部分 */}
-                {analysis.p5_profit_loss_ratio && (
-                  <div className="p5-decision-profit-loss-section">
-                    <p className="p5-decision-profit-loss-title">P5盈亏比</p>
-                    <div className="p5-decision-profit-loss-summary">
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">日期</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.date}</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">当前价格/元每吨</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.current_price.toLocaleString()}</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">评估价格/元每吨</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.evaluated_price.toLocaleString()}</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">价差比</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.price_difference_ratio}</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">42天后盈利比例</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.profitability_ratio_after_42days}%</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">收益均值</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.average_returns}%</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">42天后亏损比例</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.loss_ratio_after_42days}%</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-card">
-                        <p className="p5-decision-profit-loss-label">亏损均值/元每吨</p>
-                        <p className="p5-decision-profit-loss-value">{analysis.p5_profit_loss_ratio.average_loss}%</p>
-                      </div>
+            {/* P5盈亏比部分 */}
+            {analysis.p5_profit_loss_ratio && (
+              <div className="strategy-content-card" style={{ marginTop: '20px' }}>
+                <p className="strategy-page-title" style={{ fontSize: '18px', textAlign: 'left', marginBottom: '16px' }}>P5盈亏比</p>
+
+                {/* 基础指标网格 */}
+                <div className="strategy-metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '24px' }}>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">日期</p>
+                    <p className="strategy-metric-value">{analysis.p5_profit_loss_ratio.date}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">当前价格/元每吨</p>
+                    <p className="strategy-metric-value">{analysis.p5_profit_loss_ratio.current_price.toLocaleString()}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">评估价格/元每吨</p>
+                    <p className="strategy-metric-value">{analysis.p5_profit_loss_ratio.evaluated_price.toLocaleString()}</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">价差比</p>
+                    <p className="strategy-metric-value" style={{ color: parseFloat(analysis.p5_profit_loss_ratio.price_difference_ratio) >= 0 ? '#4ade80' : '#f87171' }}>
+                      {analysis.p5_profit_loss_ratio.price_difference_ratio}
+                    </p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">42天后盈利比例</p>
+                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.p5_profit_loss_ratio.profitability_ratio_after_42days}%</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">收益均值</p>
+                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.p5_profit_loss_ratio.average_returns}%</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">42天后亏损比例</p>
+                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.p5_profit_loss_ratio.loss_ratio_after_42days}%</p>
+                  </div>
+                  <div className="strategy-metric-item">
+                    <p className="strategy-metric-label">亏损均值/元每吨</p>
+                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.p5_profit_loss_ratio.average_loss}</p>
+                  </div>
+                </div>
+
+                {/* 最大收益时间分布表格 */}
+                <div style={{ marginBottom: '24px', border: '1px solid rgba(74, 222, 128, 0.2)', borderRadius: '12px', overflow: 'hidden' }}>
+                  <div style={{ background: 'rgba(74, 222, 128, 0.1)', padding: '10px', textAlign: 'center', borderBottom: '1px solid rgba(74, 222, 128, 0.1)' }}>
+                    <span style={{ color: '#4ade80', fontSize: '13px', fontWeight: 'bold', fontFamily: 'DengXian' }}>最大收益时间在各时间段的出现概率</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>0~14天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</p>
                     </div>
-
-                    <div className="p5-decision-profit-loss-timing">
-                      <div className="p5-decision-profit-loss-timing-card">
-                        <p className="p5-decision-profit-loss-timing-title">最大收益时间在各时间段的出现概率</p>
-                        <div className="p5-decision-profit-loss-timing-grid">
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">0~14天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</span>
-                          </div>
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">15天~28天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</span>
-                          </div>
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">29天~42天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p5-decision-profit-loss-timing-card">
-                        <p className="p5-decision-profit-loss-timing-title">最大风险时间在各时间段的出现概率</p>
-                        <div className="p5-decision-profit-loss-timing-grid">
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">0~14天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</span>
-                          </div>
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">15天~28天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</span>
-                          </div>
-                          <div className="p5-decision-profit-loss-timing-item">
-                            <span className="p5-decision-profit-loss-timing-label">29天~42天</span>
-                            <span className="p5-decision-profit-loss-timing-value">{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</span>
-                          </div>
-                        </div>
-                      </div>
+                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>15~28天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</p>
                     </div>
-
-                    <div className="p5-decision-profit-loss-risk">
-                      <div className="p5-decision-profit-loss-risk-card">
-                        <p className="p5-decision-profit-loss-risk-label">最大风险均值/元每吨</p>
-                        <p className="p5-decision-profit-loss-risk-value">{analysis.p5_profit_loss_ratio.max_risk_average}%</p>
-                      </div>
-                      <div className="p5-decision-profit-loss-risk-card">
-                        <p className="p5-decision-profit-loss-risk-label">最大风险极值/元每吨</p>
-                        <p className="p5-decision-profit-loss-risk-value">{analysis.p5_profit_loss_ratio.max_risk_extreme}%</p>
-                      </div>
+                    <div style={{ padding: '12px', textAlign: 'center' }}>
+                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>29~42天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</p>
                     </div>
                   </div>
-                )}
+                </div>
 
-                {/* P5TC六周后预测模型评价 */}
-                <div className="p5-decision-model-section">
-                  <p className="p5-decision-model-title">P5TC六周后预测模型评价</p>
-                  <div className="p5-decision-model-summary">
-                    <div className="p5-decision-model-summary-card">
-                      <p className="p5-decision-model-summary-label">日期</p>
-                      <p className="p5-decision-model-summary-value">{analysis.model_evaluation.date}</p>
-                    </div>
-                    <div className="p5-decision-model-summary-card">
-                      <p className="p5-decision-model-summary-label">当前价格/元每吨</p>
-                      <p className="p5-decision-model-summary-value">{analysis.model_evaluation.current_price.toLocaleString()}</p>
-                    </div>
-                    <div className="p5-decision-model-summary-card">
-                      <p className="p5-decision-model-summary-label">预测42天后价差/元每吨</p>
-                      <p className="p5-decision-model-summary-value">{analysis.model_evaluation.forecast_42day_price_difference.toLocaleString()}</p>
-                    </div>
-                    <div className="p5-decision-model-summary-card">
-                      <p className="p5-decision-model-summary-label">预测42天后价格/元每吨</p>
-                      <p className="p5-decision-model-summary-value">{analysis.model_evaluation.forecast_42day_price.toLocaleString()}</p>
-                    </div>
-                    <div className="p5-decision-model-summary-card">
-                      <p className="p5-decision-model-summary-label">价差比</p>
-                      <p className="p5-decision-model-summary-value">{analysis.model_evaluation.price_difference_ratio}</p>
-                    </div>
+                {/* 风险统计 */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f87171', margin: '0 0 8px 0', fontFamily: 'Roboto' }}>
+                      {analysis.p5_profit_loss_ratio.max_risk_average}%
+                    </p>
+                    <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>最大风险均值/元每吨</p>
                   </div>
+                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f87171', margin: '0 0 8px 0', fontFamily: 'Roboto' }}>
+                      {analysis.p5_profit_loss_ratio.max_risk_extreme}%
+                    </p>
+                    <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>最大风险极值/元每吨</p>
+                  </div>
+                </div>
 
-                  {/* 评价表格 */}
-                  <div className="p5-decision-model-table">
-                    <div className="p5-decision-model-table-header">
-                      <div className="p5-decision-model-table-header-cell">区间</div>
-                      <div className="p5-decision-model-table-header-cell">历史判断正确率</div>
-                      <div className="p5-decision-model-table-header-cell">历史预测实际值/元每吨</div>
-                      <div className="p5-decision-model-table-header-cell">历史预测拟合值/元每吨</div>
+                {/* 最大风险时间分布表格 */}
+                <div style={{ border: '1px solid rgba(248, 113, 113, 0.2)', borderRadius: '12px', overflow: 'hidden' }}>
+                  <div style={{ background: 'rgba(248, 113, 113, 0.1)', padding: '10px', textAlign: 'center', borderBottom: '1px solid rgba(248, 113, 113, 0.1)' }}>
+                    <span style={{ color: '#f87171', fontSize: '13px', fontWeight: 'bold', fontFamily: 'DengXian' }}>最大风险时间在各时间段的出现概率</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>0~14天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</p>
                     </div>
-                    {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
-                      <div key={index} className="p5-decision-model-table-row">
-                        <div className="p5-decision-model-table-cell">{range.range}</div>
-                        <div className="p5-decision-model-table-cell">{range.historical_accuracy_rate.toFixed(2)}%</div>
-                        <div className="p5-decision-model-table-cell">{range.historical_actual_value.toLocaleString()}</div>
-                        <div className="p5-decision-model-table-cell">{range.historical_fit_value.toLocaleString()}</div>
-                      </div>
-                    ))}
+                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>15~28天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</p>
+                    </div>
+                    <div style={{ padding: '12px', textAlign: 'center' }}>
+                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>29~42天</p>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </>
-          ) : (
-            <div className="p5-decision-error">
-              <p>暂无数据</p>
+            )}
+
+            {/* P5TC六周后预测模型评价 */}
+            <div className="strategy-content-card" style={{ marginTop: '20px' }}>
+              <p className="strategy-page-title" style={{ fontSize: '18px', textAlign: 'left', marginBottom: '16px' }}>P5TC六周后预测模型评价</p>
+              <div className="strategy-metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '20px' }}>
+                <div className="strategy-metric-item">
+                  <p className="strategy-metric-label">日期</p>
+                  <p className="strategy-metric-value">{analysis.model_evaluation.date}</p>
+                </div>
+                <div className="strategy-metric-item">
+                  <p className="strategy-metric-label">当前价格/元每吨</p>
+                  <p className="strategy-metric-value">{analysis.model_evaluation.current_price.toLocaleString()}</p>
+                </div>
+                <div className="strategy-metric-item">
+                  <p className="strategy-metric-label">预测42天后价差/元每吨</p>
+                  <p className="strategy-metric-value">{analysis.model_evaluation.forecast_42day_price_difference.toLocaleString()}</p>
+                </div>
+                <div className="strategy-metric-item">
+                  <p className="strategy-metric-label">预测42天后价格/元每吨</p>
+                  <p className="strategy-metric-value">{analysis.model_evaluation.forecast_42day_price.toLocaleString()}</p>
+                </div>
+                <div className="strategy-metric-item">
+                  <p className="strategy-metric-label">价差比</p>
+                  <p className="strategy-metric-value">{analysis.model_evaluation.price_difference_ratio}</p>
+                </div>
+              </div>
+
+              {/* 评价表格 */}
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                border: '1px solid rgba(255, 255, 255, 0.05)'
+              }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                  padding: '12px 16px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                }}>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+                </div>
+                {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
+                  <div key={index} style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                    padding: '12px 16px',
+                    borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
+                  }}>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="p5-decision-error">
+            <p>暂无数据</p>
+          </div>
+        )}
       </div>
     </div>
   )

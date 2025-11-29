@@ -1,6 +1,5 @@
 import React from 'react'
-import './StrategyPage.css'
-import strategyCarouselBg from '../../assets/images/strategy-carousel-bg.png'
+import './StrategyPageOptimization.css'
 
 const DualPositionIcon: React.FC = () => (
   <svg width="92" height="82" viewBox="0 0 92 82" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,80 +79,42 @@ const DualPositionIcon: React.FC = () => (
 const DoublePositionEvaluation: React.FC = () => {
   return (
     <div className="strategy-page double-position-evaluation-page">
+      <p className="strategy-page-title">双头寸策略评价</p>
 
-
-      <div className="strategy-page-content-wrapper">
-        <p className="strategy-page-title">双头寸策略评价</p>
-
-        <div className="double-position-evaluation-content">
-          <div className="strategy-chips">
-            <button type="button" className="strategy-chip strategy-chip-strong">
-              基差缩小胜率统计
-            </button>
-            <button type="button" className="strategy-chip">盈亏比：31.68：1</button>
+      <div className="strategy-page-content">
+        <div className="strategy-tags">
+          <div className="strategy-tag">
+            <p>基差缩小胜率统计</p>
           </div>
+          <div className="strategy-tag">
+            <p>盈亏比：31.68：1</p>
+          </div>
+        </div>
 
-          <div className="strategy-cards-container strategy-cards-container-wide">
-            <div className="strategy-dual-card-left">
-              <span className="strategy-card-left-badge">Pair Strategy</span>
-              <div className="strategy-card-left-overlay dual">
-                <div className="strategy-card-left-icon">
-                  <DualPositionIcon />
-                </div>
-                <div className="strategy-card-left-text">
-                  <div className="strategy-card-left-title dual-title">基差缩小</div>
-                  <div className="strategy-card-left-desc dual-desc">建议双头寸策略方向</div>
-                </div>
-              </div>
-              <div className="strategy-card-left-glow" />
+        <div className="strategy-content-card">
+          <div className="strategy-layout-grid">
+            <div className="strategy-direction-card">
+              <div className="strategy-direction-badge">Pair Strategy</div>
+              <div className="strategy-direction-title" style={{ fontSize: '24px' }}>基差缩小</div>
+              <div className="strategy-direction-subtitle">建议双头寸策略方向</div>
             </div>
 
-            <div className="dual-metrics-grid">
+            <div className="strategy-metrics-grid">
               {[
                 { label: '日期', value: '2025-08-07' },
                 { label: 'C5TC+1当前值', value: '26550' },
                 { label: 'PATC+1当前值', value: '13885' },
                 { label: '基差', value: '12665' },
                 { label: '基差区间', value: '11843 ~ 15168' },
-                { label: '触发次数（从策略多空标中统计）', value: '7' },
+                { label: '触发次数', value: '7' },
                 { label: '历史平均基差', value: '6388' },
                 { label: '去年同策略胜率', value: '6.5%' }
               ].map((item) => (
-                <div key={item.label} className="dual-metric-card">
-                  <span className="dual-metric-label">{item.label}</span>
-                  <span className="dual-metric-value">{item.value}</span>
+                <div key={item.label} className="strategy-metric-item">
+                  <p className="strategy-metric-label">{item.label}</p>
+                  <p className="strategy-metric-value">{item.value}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="dual-outcome-section">
-            <div className="dual-outcome-column">
-              <span className="dual-outcome-badge positive">正收益</span>
-              <div className="dual-outcome-card">
-                <div className="dual-outcome-card-item">
-                  <span className="dual-outcome-label">最差正收益占比</span>
-                  <span className="dual-outcome-value">85%</span>
-                </div>
-                <div className="dual-outcome-card-item">
-                  <span className="dual-outcome-label">最差正收益平均值</span>
-                  <span className="dual-outcome-value">6680</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="dual-outcome-column negative">
-              <span className="dual-outcome-badge negative">负收益</span>
-              <div className="dual-outcome-card">
-                <div className="dual-outcome-card-item">
-                  <span className="dual-outcome-label">最差负收益占比</span>
-                  <span className="dual-outcome-value">15%</span>
-                </div>
-                <div className="dual-outcome-card-item">
-                  <span className="dual-outcome-label">最差负收益平均值</span>
-                  <span className="dual-outcome-value">1200</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
