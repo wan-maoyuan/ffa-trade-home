@@ -922,9 +922,7 @@ const P5DecisionPage: React.FC = () => {
             {analysis.p5_profit_loss_ratio && (
               <div className="strategy-content-card" style={{ marginTop: '20px' }}>
                 <p className="strategy-page-title" style={{ fontSize: '18px', textAlign: 'left', marginBottom: '16px' }}>P5盈亏比</p>
-
-                {/* 基础指标网格 */}
-                <div className="strategy-metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '24px' }}>
+                <div className="strategy-metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '20px' }}>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">日期</p>
                     <p className="strategy-metric-value">{analysis.p5_profit_loss_ratio.date}</p>
@@ -939,82 +937,87 @@ const P5DecisionPage: React.FC = () => {
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">价差比</p>
-                    <p className="strategy-metric-value" style={{ color: parseFloat(analysis.p5_profit_loss_ratio.price_difference_ratio) >= 0 ? '#4ade80' : '#f87171' }}>
-                      {analysis.p5_profit_loss_ratio.price_difference_ratio}
-                    </p>
-                  </div>
-                  <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">42天后盈利比例</p>
-                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.p5_profit_loss_ratio.profitability_ratio_after_42days}%</p>
-                  </div>
-                  <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">收益均值</p>
-                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.p5_profit_loss_ratio.average_returns}%</p>
-                  </div>
-                  <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">42天后亏损比例</p>
-                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.p5_profit_loss_ratio.loss_ratio_after_42days}%</p>
-                  </div>
-                  <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">亏损均值/元每吨</p>
-                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.p5_profit_loss_ratio.average_loss}</p>
+                    <p className="strategy-metric-value">{analysis.p5_profit_loss_ratio.price_difference_ratio}</p>
                   </div>
                 </div>
 
-                {/* 最大收益时间分布表格 */}
-                <div style={{ marginBottom: '24px', border: '1px solid rgba(74, 222, 128, 0.2)', borderRadius: '12px', overflow: 'hidden' }}>
-                  <div style={{ background: 'rgba(74, 222, 128, 0.1)', padding: '10px', textAlign: 'center', borderBottom: '1px solid rgba(74, 222, 128, 0.1)' }}>
-                    <span style={{ color: '#4ade80', fontSize: '13px', fontWeight: 'bold', fontFamily: 'DengXian' }}>最大收益时间在各时间段的出现概率</span>
+                {/* 盈亏比例统计 */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                  <div style={{ background: 'rgba(74, 222, 128, 0.05)', borderRadius: '12px', padding: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>42天后盈利比例</span>
+                      <span style={{ color: '#4ade80', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.profitability_ratio_after_42days}%</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>收益均值</span>
+                      <span style={{ color: '#4ade80', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.average_returns}%</span>
+                    </div>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>0~14天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</p>
+                  <div style={{ background: 'rgba(248, 113, 113, 0.05)', borderRadius: '12px', padding: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>42天后亏损比例</span>
+                      <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.loss_ratio_after_42days}%</span>
                     </div>
-                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>15~28天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</p>
-                    </div>
-                    <div style={{ padding: '12px', textAlign: 'center' }}>
-                      <p style={{ fontSize: '12px', color: '#4ade80', marginBottom: '4px' }}>29~42天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>亏损均值</span>
+                      <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.average_loss}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* 风险统计 */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
-                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f87171', margin: '0 0 8px 0', fontFamily: 'Roboto' }}>
-                      {analysis.p5_profit_loss_ratio.max_risk_average}%
-                    </p>
-                    <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>最大风险均值/元每吨</p>
+                {/* 详细分布统计 */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                  {/* 最大收益时间分布 */}
+                  <div>
+                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大收益时间在各时间段的出现概率</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天</span>
+                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天</span>
+                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天</span>
+                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</span>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#f87171', margin: '0 0 8px 0', fontFamily: 'Roboto' }}>
-                      {analysis.p5_profit_loss_ratio.max_risk_extreme}%
-                    </p>
-                    <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>最大风险极值/元每吨</p>
-                  </div>
-                </div>
 
-                {/* 最大风险时间分布表格 */}
-                <div style={{ border: '1px solid rgba(248, 113, 113, 0.2)', borderRadius: '12px', overflow: 'hidden' }}>
-                  <div style={{ background: 'rgba(248, 113, 113, 0.1)', padding: '10px', textAlign: 'center', borderBottom: '1px solid rgba(248, 113, 113, 0.1)' }}>
-                    <span style={{ color: '#f87171', fontSize: '13px', fontWeight: 'bold', fontFamily: 'DengXian' }}>最大风险时间在各时间段的出现概率</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>0~14天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</p>
+                  {/* 风险统计 */}
+                  <div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>风险统计</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大风险均值</span>
+                          <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_risk_average}%</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大风险极值</span>
+                          <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_risk_extreme}%</span>
+                        </div>
+                      </div>
                     </div>
-                    <div style={{ padding: '12px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>15~28天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</p>
-                    </div>
-                    <div style={{ padding: '12px', textAlign: 'center' }}>
-                      <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '4px' }}>29~42天</p>
-                      <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#fff', margin: 0 }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</p>
+
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大风险时间在各时间段的出现概率</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p5_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
