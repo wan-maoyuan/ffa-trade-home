@@ -80,10 +80,7 @@ const DualPositionIcon: React.FC = () => (
 const DoublePositionEvaluation: React.FC = () => {
   return (
     <div className="strategy-page double-position-evaluation-page">
-      <div className="strategy-page-bg">
-        <img src={strategyCarouselBg} alt="背景" />
-        <div className="strategy-page-bg-mask" />
-      </div>
+
 
       <div className="strategy-page-content-wrapper">
         <p className="strategy-page-title">双头寸策略评价</p>

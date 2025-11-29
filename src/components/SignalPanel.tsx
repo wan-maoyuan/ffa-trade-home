@@ -7,6 +7,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import './SignalPanel.css'
+import strategyBackground from '../assets/images/strategy-background.jpeg'
 import SideMenu from './SideMenu'
 import FFASignalPage from './signal-pages/FFASignalPage'
 import SinglePositionSignalPage from './signal-pages/SinglePositionSignalPage'
@@ -34,6 +35,12 @@ const SignalPanel: React.FC = () => {
 
   return (
     <div className="signal-panel">
+      {/* 背景与渐变遮罩 */}
+      <div className="signal-bg">
+        <img alt="信号背景" src={strategyBackground} />
+        <div className="signal-bg-mask" />
+      </div>
+
       <SideMenu currentPage="signal" />
 
       {/* 顶部信息区域 */}

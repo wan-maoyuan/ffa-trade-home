@@ -36,16 +36,19 @@
 .login-container {
     position: relative;
     width: 100%;
-    max-width: 420px;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
+    max-width: 400px;
+    /* Reduced width */
+    padding: 32px;
+    /* Reduced padding */
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
+    /* Reduced gap */
     z-index: 1;
 }
 
@@ -96,12 +99,14 @@
 }
 
 .form-group input {
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 14px;
+    /* Reduced padding */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: #ffffff;
-    font-size: 15px;
+    font-size: 14px;
+    /* Reduced size */
     transition: all 0.3s ease;
     outline: none;
 }

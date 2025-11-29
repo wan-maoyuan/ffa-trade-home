@@ -3,31 +3,34 @@
   min-height: 100vh;
   width: 100%;
   padding: 84px 16px 96px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(233, 240, 255, 0.82) 48%, rgba(229, 238, 255, 0.68) 100%);
+  background: var(--bg-dark);
+  /* Dark theme */
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
 }
 
-.decision-page-wrapper::before {
-  content: '';
+.decision-page-bg {
   position: absolute;
   inset: 0;
-  background: 
-    radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
-    radial-gradient(circle at 85% 90%, rgba(174, 196, 243, 0.15) 0%, transparent 50%);
-  pointer-events: none;
+  overflow: hidden;
   z-index: 0;
 }
 
-.decision-page-wrapper::after {
-  content: '';
+.decision-page-bg>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  filter: saturate(110%) contrast(105%) brightness(0.6);
+}
+
+.decision-page-bg-mask {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(46, 86, 163, 0.02) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
+  background: linear-gradient(180deg, rgba(5, 11, 20, 0.95) 0%, rgba(5, 11, 20, 0.85) 50%, rgba(5, 11, 20, 0.75) 100%);
+  backdrop-filter: blur(8px);
 }
 
 .decision-page-container {
@@ -42,29 +45,35 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 8px 16px;
+  /* Reduced padding */
   margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(46, 86, 163, 0.15);
+  background: var(--glass-bg);
+  /* Dark glass */
+  border: var(--glass-border);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'DengXian', sans-serif;
-  font-size: 14px;
-  color: #2e56a3;
-  box-shadow: 0 2px 8px rgba(46, 86, 163, 0.1);
+  font-size: 13px;
+  /* Reduced size */
+  color: rgba(255, 255, 255, 0.9);
+  /* White text */
+  box-shadow: var(--glass-shadow);
   align-self: flex-start;
+  backdrop-filter: var(--glass-backdrop);
 }
 
 .decision-page-back-button:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(46, 86, 163, 0.3);
-  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: translateX(-2px);
 }
 
 .decision-page-back-icon {
-  font-size: 18px;
+  font-size: 16px;
+  /* Reduced size */
   font-weight: bold;
   transition: transform 0.3s ease;
 }
@@ -83,20 +92,25 @@
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
+  padding: 6px;
+  /* Reduced padding */
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.1);
-  border: 1px solid rgba(46, 86, 163, 0.1);
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
 }
 
 .decision-page-tab {
   flex: 1;
-  padding: 12px 24px;
+  padding: 10px 20px;
+  /* Reduced padding */
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: rgba(46, 86, 163, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   font-family: 'DengXian', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -107,19 +121,19 @@
 }
 
 .decision-page-tab:hover {
-  background: rgba(46, 86, 163, 0.08);
-  color: rgba(46, 86, 163, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .decision-page-tab.active {
   background: linear-gradient(135deg, #2e56a3, #234489);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(46, 86, 163, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .decision-page-tab.active:hover {
   background: linear-gradient(135deg, #234489, #1f3c82);
-  box-shadow: 0 6px 16px rgba(46, 86, 163, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .decision-page-content {
@@ -132,11 +146,13 @@
   display: flex;
   gap: 8px;
   margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
   padding: 6px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(46, 86, 163, 0.08);
-  border: 1px solid rgba(46, 86, 163, 0.08);
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
 }
 
 .decision-page-sub-tab {
@@ -145,7 +161,8 @@
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: rgba(46, 86, 163, 0.65);
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   font-family: 'DengXian', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -156,8 +173,8 @@
 }
 
 .decision-page-sub-tab:hover {
-  background: rgba(46, 86, 163, 0.06);
-  color: rgba(46, 86, 163, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .decision-page-sub-tab.active {
@@ -244,15 +261,15 @@
 }
 
 /* 隐藏子页面的SideMenu - 使用更具体的选择器 */
-.decision-page-content .p4tc-decision-panel > *:first-child:not(.p4tc-decision-container),
-.decision-page-content .p5-decision-panel > *:first-child:not(.p5-decision-container),
-.decision-page-content .p5-14d-decision-panel > *:first-child:not(.p5-14d-decision-container),
-.decision-page-content .p3a-42d-decision-panel > *:first-child:not(.p3a-42d-decision-container),
-.decision-page-content .p3a-14d-decision-panel > *:first-child:not(.p3a-14d-decision-container),
-.decision-page-content .p6-42d-decision-panel > *:first-child:not(.p6-42d-decision-container),
-.decision-page-content .p6-14d-decision-panel > *:first-child:not(.p6-14d-decision-container),
-.decision-page-content .c3-42d-decision-panel > *:first-child:not(.c3-42d-decision-container),
-.decision-page-content .c5-42d-decision-panel > *:first-child:not(.c5-42d-decision-container) {
+.decision-page-content .p4tc-decision-panel>*:first-child:not(.p4tc-decision-container),
+.decision-page-content .p5-decision-panel>*:first-child:not(.p5-decision-container),
+.decision-page-content .p5-14d-decision-panel>*:first-child:not(.p5-14d-decision-container),
+.decision-page-content .p3a-42d-decision-panel>*:first-child:not(.p3a-42d-decision-container),
+.decision-page-content .p3a-14d-decision-panel>*:first-child:not(.p3a-14d-decision-container),
+.decision-page-content .p6-42d-decision-panel>*:first-child:not(.p6-42d-decision-container),
+.decision-page-content .p6-14d-decision-panel>*:first-child:not(.p6-14d-decision-container),
+.decision-page-content .c3-42d-decision-panel>*:first-child:not(.c3-42d-decision-container),
+.decision-page-content .c5-42d-decision-panel>*:first-child:not(.c5-42d-decision-container) {
   display: none;
 }
 
@@ -280,4 +297,3 @@
     width: 100%;
   }
 }
-

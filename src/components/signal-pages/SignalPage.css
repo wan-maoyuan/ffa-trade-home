@@ -3,14 +3,19 @@
   position: relative;
   width: 100%;
   max-width: 1020px;
-  background: linear-gradient(135deg, #2e56a3 0%, #1c376a 100%);
+  background: var(--glass-bg);
+  /* Dark glass */
   border-radius: 24px;
-  padding: 32px 40px 40px;
+  padding: 16px 32px 32px;
+  /* Reduced padding */
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  /* Reduced gap */
   margin: 0 auto;
-  box-shadow: 0 20px 50px rgba(27, 46, 91, 0.25);
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-backdrop);
   overflow: hidden;
 }
 
@@ -28,14 +33,16 @@
 }
 
 .signal-page-title {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
+  font-family: 'DengXian', sans-serif;
+  font-weight: bold;
   font-size: 16px;
-  letter-spacing: 0.1em;
+  line-height: normal;
   color: rgba(255, 255, 255, 0.9);
-  margin: 0;
   text-align: center;
-  text-transform: uppercase;
+  letter-spacing: 0.32px;
+  margin: 0 0 20px 0;
+  width: 100%;
+  white-space: pre-wrap;
   position: relative;
   z-index: 1;
 }
@@ -46,7 +53,8 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 24px;
+  gap: 20px;
+  /* Unified gap */
   z-index: 1;
 }
 
@@ -96,16 +104,21 @@
 }
 
 .signal-value-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
   border-radius: 16px;
-  padding: 24px 32px;
+  padding: 20px 28px;
+  /* Reduced padding */
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
   flex: 1 1 280px;
-  min-height: 90px;
+  min-height: 80px;
+  /* Reduced height */
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
@@ -118,25 +131,30 @@
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   margin: 0;
 }
 
 .signal-value-number {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
-  font-size: 28px;
-  color: #1e293b;
+  font-size: 26px;
+  /* Reduced size */
+  color: #ffffff;
+  /* White text */
   margin: 0;
   letter-spacing: -0.02em;
 }
 
 /* 交易信息表格 */
 .signal-trade-info-table {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.02);
+  /* Dark glass */
   border-radius: 16px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -152,20 +170,23 @@
 .signal-trade-info-table-header {
   display: flex;
   flex-direction: row;
-  background-color: #f1f5f9;
+  background-color: rgba(255, 255, 255, 0.05);
+  /* Darker header */
   width: 100%;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .signal-trade-info-table-header-cell {
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   text-align: center;
-  padding: 14px 16px;
+  padding: 12px 16px;
+  /* Reduced padding */
   flex: 1;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .signal-trade-info-table-header-cell:last-child {
@@ -176,19 +197,22 @@
 .signal-trade-info-table-row {
   display: flex;
   flex-direction: row;
-  background-color: white;
+  background-color: transparent;
   width: 100%;
 }
 
 .signal-trade-info-table-cell {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: 15px;
-  color: #334155;
+  font-size: 14px;
+  /* Reduced size */
+  color: rgba(255, 255, 255, 0.9);
+  /* White text */
   text-align: center;
-  padding: 16px 16px;
+  padding: 14px 16px;
+  /* Reduced padding */
   flex: 1;
-  border-right: 1px solid #f1f5f9;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,16 +238,22 @@
 .signal-trade-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: rgba(255, 255, 255, 0.95);
+  gap: 12px;
+  /* Reduced gap */
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
   border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  /* Reduced padding */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
   transition: transform 0.3s ease;
 }
 
 .signal-trade-list:hover {
   transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .signal-trade-list-header {
@@ -234,7 +264,8 @@
 }
 
 .signal-trade-list-tag {
-  background-color: #e0e7ff;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 4px 10px;
   display: flex;
@@ -248,7 +279,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 12px;
-  color: #3730a3;
+  color: #ffffff;
+  /* White text */
   margin: 0;
 }
 
@@ -256,18 +288,21 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   margin: 0;
 }
 
 .signal-trade-list-content {
-  background-color: #f8fafc;
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Darker inner bg */
   border-radius: 12px;
   padding: 16px 20px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  /* Reduced gap */
 }
 
 .signal-trade-item {
@@ -281,7 +316,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 13px;
-  color: #334155;
+  color: #ffffff;
+  /* White text */
   margin: 0;
   width: 50px;
   flex-shrink: 0;
@@ -291,25 +327,29 @@
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.8);
+  /* Light text */
   margin: 0;
   flex: 1;
   min-width: 0;
 }
 
 .signal-trade-item-long {
-  color: #ef4444;
+  color: #ff4d4f;
+  /* Brighter red for dark theme */
 }
 
 .signal-trade-item-short {
-  color: #16a34a;
+  color: #4ade80;
+  /* Brighter green for dark theme */
 }
 
 .signal-trade-item-ratio {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   margin: 0;
   display: flex;
   align-items: center;
@@ -333,11 +373,16 @@
 .signal-pair-trade-list-left {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: rgba(255, 255, 255, 0.95);
+  gap: 12px;
+  /* Reduced gap */
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
   border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  /* Reduced padding */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
 }
 
 .signal-pair-trade-list-right {
@@ -349,16 +394,22 @@
 .signal-pair-trade-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: rgba(255, 255, 255, 0.95);
+  gap: 12px;
+  /* Reduced gap */
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
   border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  /* Reduced padding */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
   transition: transform 0.3s ease;
 }
 
 .signal-pair-trade-list:hover {
   transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .signal-pair-trade-list-header {
@@ -369,7 +420,8 @@
 }
 
 .signal-pair-trade-list-tag {
-  background-color: #e0e7ff;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 4px 12px;
   display: flex;
@@ -379,7 +431,9 @@
 }
 
 .signal-pair-trade-list-tag-active {
-  background-color: #3730a3;
+  background-color: rgba(46, 86, 163, 0.6);
+  /* Active dark blue */
+  border-color: rgba(46, 86, 163, 0.8);
 }
 
 .signal-pair-trade-list-tag-active p {
@@ -390,7 +444,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 12px;
-  color: #3730a3;
+  color: #ffffff;
+  /* White text */
   margin: 0;
 }
 
@@ -398,18 +453,21 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   margin: 0;
 }
 
 .signal-pair-trade-list-content {
-  background-color: #f8fafc;
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Darker inner bg */
   border-radius: 12px;
   padding: 16px 20px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  /* Reduced gap */
 }
 
 .signal-pair-trade-item {
@@ -425,7 +483,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 13px;
-  color: #334155;
+  color: #ffffff;
+  /* White text */
   margin: 0;
   flex-shrink: 0;
   white-space: normal;
@@ -436,7 +495,8 @@
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.8);
+  /* Light text */
   margin: 0;
   flex: 1;
   min-width: 0;
@@ -446,7 +506,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   margin: 0;
   display: flex;
   align-items: center;

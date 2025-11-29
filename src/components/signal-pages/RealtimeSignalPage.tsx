@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
+import strategyBackground from '../../assets/images/strategy-background.jpeg'
 import './RealtimeSignalPage.css'
 
 // FFA信号数据结构
@@ -570,6 +571,10 @@ const RealtimeSignalPage: React.FC = () => {
 
   return (
     <div className="realtime-signal-panel">
+      <div className="realtime-signal-bg">
+        <img alt="背景" src={strategyBackground} />
+        <div className="realtime-signal-bg-mask" />
+      </div>
       <SideMenu currentPage="signal" />
 
       <div className="realtime-signal-container">

@@ -23,11 +23,20 @@
   position: relative;
   width: 100%;
   max-width: 1020px;
+  background: var(--glass-bg);
+  /* Dark glass */
+  border-radius: 24px;
+  padding: 16px 32px 32px;
+  /* Reduced padding */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+  /* Reduced gap */
   margin: 0 auto;
-  padding: 0 12px;
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-backdrop);
+  overflow: hidden;
 }
 
 .strategy-page-title {
@@ -35,7 +44,8 @@
   font-weight: bold;
   font-size: 16px;
   line-height: normal;
-  color: #949595;
+  color: rgba(255, 255, 255, 0.9);
+  /* White text */
   text-align: center;
   letter-spacing: 0.32px;
   margin: 0 0 20px 0;
@@ -73,7 +83,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 32px;
+  padding: 0;
+  /* Remove padding */
 }
 
 /* 单头寸策略评价页面样式 */
@@ -125,11 +136,15 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 24px;
-  padding: 20px 24px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 24px 46px rgba(27, 44, 88, 0.15);
+  gap: 20px;
+  /* Reduced gap */
+  padding: 0;
+  /* Remove padding */
+  background: transparent;
+  /* Remove glass */
+  box-shadow: none;
+  border: none;
+  backdrop-filter: none;
 }
 
 .strategy-cards-container-wide {
@@ -283,15 +298,18 @@
 .strategy-metric-card {
   position: relative;
   border-radius: 16px;
-  padding: 18px 20px;
-  background: linear-gradient(180deg, rgba(243, 246, 253, 0.92) 0%, rgba(224, 233, 255, 0.82) 100%);
-  box-shadow:
-    0 14px 28px rgba(46, 86, 163, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  padding: 16px 20px;
+  /* Reduced padding */
+  background: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  /* Reduced gap */
   align-items: flex-start;
+  backdrop-filter: blur(8px);
 }
 
 .strategy-metric-card::after {
@@ -299,7 +317,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   pointer-events: none;
 }
 
@@ -308,7 +326,8 @@
   font-family: 'DengXian', sans-serif;
   font-weight: 600;
   font-size: 12px;
-  color: rgba(28, 55, 106, 0.68);
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   letter-spacing: 0.04em;
 }
 
@@ -316,8 +335,10 @@
   margin: 0;
   font-family: 'DengXian', sans-serif;
   font-weight: 700;
-  font-size: 22px;
-  color: rgba(34, 64, 132, 0.95);
+  font-size: 20px;
+  /* Reduced size */
+  color: #ffffff;
+  /* White text */
   line-height: 1.2;
 }
 
@@ -331,19 +352,21 @@
 .dual-metric-card {
   border-radius: 18px;
   padding: 18px 20px;
-  background: linear-gradient(180deg, rgba(243, 246, 253, 0.9) 0%, rgba(223, 232, 255, 0.82) 100%);
-  box-shadow:
-    0 18px 32px rgba(33, 54, 109, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  background: rgba(255, 255, 255, 0.03);
+  /* Dark glass */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  backdrop-filter: blur(8px);
 }
 
 .dual-metric-label {
   font-family: 'DengXian', sans-serif;
   font-size: 12px;
-  color: rgba(28, 55, 106, 0.62);
+  color: rgba(255, 255, 255, 0.6);
+  /* Light text */
   letter-spacing: 0.03em;
 }
 
@@ -351,7 +374,8 @@
   font-family: 'DengXian', sans-serif;
   font-weight: 700;
   font-size: 18px;
-  color: rgba(33, 52, 103, 0.92);
+  color: #ffffff;
+  /* White text */
 }
 
 .dual-outcome-section {
@@ -390,19 +414,20 @@
 .dual-outcome-card {
   border-radius: 20px;
   padding: 20px 24px;
-  background: linear-gradient(180deg, rgba(234, 243, 255, 0.86) 0%, rgba(220, 231, 255, 0.72) 100%);
-  box-shadow:
-    0 18px 34px rgba(33, 54, 109, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  background: rgba(46, 86, 163, 0.1);
+  /* Dark blue tint */
+  border: 1px solid rgba(46, 86, 163, 0.2);
+  box-shadow: var(--glass-shadow);
   display: grid;
   gap: 16px;
+  backdrop-filter: blur(8px);
 }
 
 .negative .dual-outcome-card {
-  background: linear-gradient(180deg, rgba(255, 237, 237, 0.82) 0%, rgba(255, 231, 231, 0.72) 100%);
-  box-shadow:
-    0 14px 30px rgba(180, 32, 32, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  background: rgba(180, 32, 32, 0.1);
+  /* Dark red tint */
+  border: 1px solid rgba(180, 32, 32, 0.2);
+  box-shadow: var(--glass-shadow);
 }
 
 .dual-outcome-card-item {
@@ -415,14 +440,16 @@
 .dual-outcome-label {
   font-family: 'DengXian', sans-serif;
   font-size: 14px;
-  color: rgba(28, 55, 106, 0.7);
+  color: rgba(255, 255, 255, 0.7);
+  /* Light text */
 }
 
 .dual-outcome-value {
   font-family: 'DengXian', sans-serif;
   font-weight: 700;
   font-size: 20px;
-  color: rgba(33, 52, 103, 0.92);
+  color: #ffffff;
+  /* White text */
 }
 
 /* 单头寸策略展示页面样式 - 严格按照 Figma */
@@ -436,8 +463,11 @@
   width: 100%;
   border-radius: 26px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(214, 224, 255, 0.72));
-  box-shadow: 0 28px 48px rgba(26, 44, 92, 0.18);
+  background: var(--glass-bg);
+  /* Dark glass */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-backdrop);
 }
 
 .chart-shell-background {
@@ -457,7 +487,7 @@
 .chart-shell-mask {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.78) 38%, rgba(255, 255, 255, 0.68) 100%);
+  background: linear-gradient(180deg, rgba(5, 11, 20, 0.8) 0%, rgba(5, 11, 20, 0.6) 38%, rgba(5, 11, 20, 0.4) 100%);
 }
 
 .chart-shell-content {
@@ -496,10 +526,13 @@
 .chart-shell-body {
   display: flex;
   align-items: flex-start;
-  gap: 28px;
+  gap: 24px;
+  /* Reduced gap */
   border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 233, 255, 0.46) 100%);
+  background: rgba(255, 255, 255, 0.02);
+  /* Dark glass */
   padding: 20px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .chart-control-column {
@@ -587,9 +620,11 @@
   flex: 1;
   padding: 24px 28px 48px 64px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(0, 0, 0, 0.2);
+  /* Darker glass */
   backdrop-filter: blur(18px);
-  box-shadow: 0 22px 40px rgba(27, 44, 88, 0.16);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .chart-legend {
@@ -671,7 +706,8 @@
   display: flex;
   font-family: 'Source Han Sans CN', sans-serif;
   font-size: 11px;
-  color: rgba(33, 48, 82, 0.6);
+  color: rgba(255, 255, 255, 0.5);
+  /* Light text */
 }
 
 .chart-axis-y {

@@ -5,10 +5,7 @@ import strategyCarouselBg from '../../assets/images/strategy-carousel-bg.png'
 const SinglePositionEvaluation: React.FC = () => {
   return (
     <div className="strategy-page single-position-evaluation-page">
-      <div className="strategy-page-bg">
-        <img src={strategyCarouselBg} alt="背景" />
-        <div className="strategy-page-bg-mask" />
-      </div>
+
 
       <div className="strategy-page-content-wrapper">
         <p className="strategy-page-title">单头寸策略评价</p>

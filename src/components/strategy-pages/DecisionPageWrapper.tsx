@@ -10,6 +10,7 @@ import P6_42dDecisionPage from './P6_42dDecisionPage'
 import P6_14dDecisionPage from './P6_14dDecisionPage'
 import C3_42dDecisionPage from './C3_42dDecisionPage'
 import C5_42dDecisionPage from './C5_42dDecisionPage'
+import strategyBackground from '../../assets/images/strategy-background.jpeg'
 import './DecisionPageWrapper.css'
 
 type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6' | 'c3' | 'c5'
@@ -46,6 +47,10 @@ const DecisionPageWrapper: React.FC = () => {
 
   return (
     <div className="decision-page-wrapper">
+      <div className="decision-page-bg">
+        <img alt="背景" src={strategyBackground} />
+        <div className="decision-page-bg-mask" />
+      </div>
       <SideMenu currentPage="strategy" />
 
       <div className="decision-page-container">
