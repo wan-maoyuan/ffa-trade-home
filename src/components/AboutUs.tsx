@@ -4,10 +4,10 @@ import backgroundImage from '../assets/images/about-us-background.jpeg'
 import guanDaYu from '../assets/images/guan-da-yu.png'
 import zhaoKaiYuan from '../assets/images/zhao-kai-yuan.png'
 import liSheng from '../assets/images/li-sheng.png'
-import chooseUsBackground from '../assets/images/choose-us-background.jpeg'
 import logoFont from '../assets/images/logo-font.png'
 import servicesDiagram from '../assets/images/services-diagram.png'
 import derivativesDiagram from '../assets/images/derivatives-diagram.png'
+import strategyBackground from '../assets/images/strategy-background.jpeg'
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState('company-intro')
@@ -34,6 +34,12 @@ const AboutUs = () => {
         'contact-us'
       ]
 
+      // If at the top of the page, set active section to company-intro
+      if (window.scrollY < 100) {
+        setActiveSection('company-intro')
+        return
+      }
+
       const scrollPosition = window.scrollY + window.innerHeight / 2
 
       for (const sectionId of sections) {
@@ -53,6 +59,10 @@ const AboutUs = () => {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
+    if (sectionId === 'company-intro') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -143,6 +153,10 @@ const AboutUs = () => {
 
   return (
     <div className="about-us">
+      <div className="about-us-bg">
+        <img alt="背景" src={strategyBackground} />
+        <div className="about-us-bg-mask" />
+      </div>
       {/* 顶部背景图和标题 */}
       <section className="hero-section">
         <img
@@ -415,14 +429,6 @@ const AboutUs = () => {
 
       {/* 为什么选择我们 */}
       <section id="choose-us" className="why-choose">
-        <div className="why-choose-background">
-          <img
-            src={chooseUsBackground}
-            alt="背景"
-            className="why-choose-bg-image"
-          />
-        </div>
-        <div className="why-choose-overlay" />
         <div className="why-choose-content">
           <div className="section-header">
             <h2 className="section-title">为什么选择我们</h2>
@@ -508,6 +514,9 @@ const AboutUs = () => {
               )}
             </form>
           </div>
+        </div>
+        <div className="footer-copyright">
+          © 2025 AquaBridge. All rights reserved.
         </div>
       </footer>
     </div>
