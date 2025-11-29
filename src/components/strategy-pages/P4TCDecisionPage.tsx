@@ -350,7 +350,7 @@ const P4TCDecisionPage: React.FC = () => {
 
   return (
     <div className="strategy-page">
-      <div className="strategy-container">
+      <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
         <p className="strategy-page-title">P4TC现货应用决策</p>
 
         {loading ? (
@@ -363,12 +363,14 @@ const P4TCDecisionPage: React.FC = () => {
             <p>{error}</p>
           </div>
         ) : analysis ? (
-          <>
+          <div className="strategy-page-content">
             {/* 头部统计 */}
-            <div className="strategy-chips">
-              <div className="strategy-chip">做多胜率统计</div>
-              <div className="strategy-chip">
-                盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1
+            <div className="strategy-tags">
+              <div className="strategy-tag">
+                <p>做多胜率统计</p>
+              </div>
+              <div className="strategy-tag">
+                <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
               </div>
             </div>
 
@@ -416,202 +418,203 @@ const P4TCDecisionPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* 历史预测表格 */}
-            {forecastDates.length > 0 && (
-              <div className="strategy-content-card" style={{ marginTop: '20px', overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff' }}>
-                  <thead>
-                    <tr>
-                      {forecastDates.map((item, index) => (
-                        <th key={index} style={{
-                          padding: '12px',
-                          textAlign: 'center',
-                          borderBottom: '1px solid rgba(255,255,255,0.1)',
-                          color: 'rgba(255,255,255,0.6)',
-                          fontSize: '12px'
-                        }}>
-                          {item.date}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      {forecastDates.map((item, index) => (
-                        <td key={index} style={{
-                          padding: '12px',
-                          textAlign: 'center',
-                          fontSize: '14px',
-                          fontWeight: 'bold'
-                        }}>
-                          {item.value.toLocaleString()}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            )}
 
-            {/* 正收益和负收益部分 - 使用新的网格布局 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
-              {/* 正收益 */}
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: '16px',
-                padding: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <h3 style={{
-                  color: '#4ade80',
-                  fontSize: '16px',
-                  marginBottom: '16px',
-                  fontFamily: 'DengXian',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
+              {/* 历史预测表格 */}
+              {forecastDates.length > 0 && (
+                <div className="strategy-content-card" style={{ marginTop: '20px', overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff' }}>
+                    <thead>
+                      <tr>
+                        {forecastDates.map((item, index) => (
+                          <th key={index} style={{
+                            padding: '12px',
+                            textAlign: 'center',
+                            borderBottom: '1px solid rgba(255,255,255,0.1)',
+                            color: 'rgba(255,255,255,0.6)',
+                            fontSize: '12px'
+                          }}>
+                            {item.date}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {forecastDates.map((item, index) => (
+                          <td key={index} style={{
+                            padding: '12px',
+                            textAlign: 'center',
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                          }}>
+                            {item.value.toLocaleString()}
+                          </td>
+                        ))}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* 正收益和负收益部分 - 使用新的网格布局 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
+                {/* 正收益 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
-                  正收益
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                  <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
-                    <p className="strategy-metric-label">最终正收益占比</p>
-                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                  <h3 style={{
+                    color: '#4ade80',
+                    fontSize: '16px',
+                    marginBottom: '16px',
+                    fontFamily: 'DengXian',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
+                    正收益
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                      <p className="strategy-metric-label">最终正收益占比</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                    </div>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                      <p className="strategy-metric-label">最终正收益平均值</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average}%</p>
+                    </div>
                   </div>
-                  <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
-                    <p className="strategy-metric-label">最终正收益平均值</p>
-                    <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average}%</p>
-                  </div>
-                </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {/* 分布情况 */}
-                  <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
-                        <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* 分布情况 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
+                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
+                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 收益统计 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 收益统计 */}
-                  <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
-                        </span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* 时间分布 */}
-                  <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
-                        </span>
+                    {/* 时间分布 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* 负收益 */}
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: '16px',
-                padding: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <h3 style={{
-                  color: '#f87171',
-                  fontSize: '16px',
-                  marginBottom: '16px',
-                  fontFamily: 'DengXian',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
+                {/* 负收益 */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171' }}></span>
-                  负收益
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                  <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
-                    <p className="strategy-metric-label">最终负收益占比</p>
-                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
-                  </div>
-                  <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
-                    <p className="strategy-metric-label">最终负收益平均值</p>
-                    <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average}%</p>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {/* 分布情况 */}
-                  <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {Object.entries(analysis.negative_returns.distribution).map(([range, value]) => (
-                        <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
-                        </div>
-                      ))}
+                  <h3 style={{
+                    color: '#f87171',
+                    fontSize: '16px',
+                    marginBottom: '16px',
+                    fontFamily: 'DengXian',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171' }}></span>
+                    负收益
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                      <p className="strategy-metric-label">最终负收益占比</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                    </div>
+                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                      <p className="strategy-metric-label">最终负收益平均值</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average}%</p>
                     </div>
                   </div>
 
-                  {/* 收益统计 */}
-                  <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益平均值</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.min_negative_returns_average || analysis.negative_returns.statistics.min_negative_returns_average}%
-                        </span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* 分布情况 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {Object.entries(analysis.negative_returns.distribution).map(([range, value]) => (
+                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
+                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          </div>
+                        ))}
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益最小值</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                          {correctedStats?.min_negative_returns_minimum || analysis.negative_returns.statistics.min_negative_returns_minimum}%
-                        </span>
+                    </div>
+
+                    {/* 收益统计 */}
+                    <div>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益平均值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.min_negative_returns_average || analysis.negative_returns.statistics.min_negative_returns_average}%
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益最小值</span>
+                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                            {correctedStats?.min_negative_returns_minimum || analysis.negative_returns.statistics.min_negative_returns_minimum}%
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -646,30 +649,40 @@ const P4TCDecisionPage: React.FC = () => {
               </div>
 
               {/* 评价表格 */}
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff' }}>
-                  <thead>
-                    <tr>
-                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>区间</th>
-                      <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>历史判断正确率</th>
-                      <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>历史预测实际值/元每吨</th>
-                      <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>历史预测拟合值/元每吨</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
-                      <tr key={index} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                        <td style={{ padding: '12px', fontSize: '14px' }}>{range.range}</td>
-                        <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px' }}>{range.historical_accuracy_rate.toFixed(2)}%</td>
-                        <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px' }}>{range.historical_actual_value.toLocaleString()}</td>
-                        <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px' }}>{range.historical_fit_value.toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                border: '1px solid rgba(255, 255, 255, 0.05)'
+              }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                  padding: '12px 16px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                }}>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+                </div>
+                {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
+                  <div key={index} style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                    padding: '12px 16px',
+                    borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
+                  }}>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
+                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                  </div>
+                ))}
               </div>
             </div>
-          </>
+          </div>
         ) : (
           <div className="strategy-error">
             <p>暂无数据</p>
