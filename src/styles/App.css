@@ -6,6 +6,25 @@
   overflow-x: hidden;
 }
 
+:root {
+  --strategy-long-color: #00E676;
+  --strategy-short-color: #FF5252;
+  --strategy-long-bg: rgba(0, 230, 118, 0.1);
+  --strategy-short-bg: rgba(255, 82, 82, 0.1);
+}
 
+.text-long {
+  color: var(--strategy-long-color) !important;
+}
 
+.text-short {
+  color: var(--strategy-short-color) !important;
+}
 
+.bg-long {
+  background-color: var(--strategy-long-bg) !important;
+}
+
+.bg-short {
+  background-color: var(--strategy-short-bg) !important;
+}

@@ -13,10 +13,12 @@ import SinglePositionEvaluation from './strategy-pages/SinglePositionEvaluation'
 import SinglePositionChart from './strategy-pages/SinglePositionChart'
 import DoublePositionEvaluation from './strategy-pages/DoublePositionEvaluation'
 import DoublePositionChart from './strategy-pages/DoublePositionChart'
+import LoginModal from './LoginModal'
 
 const StrategyPanel: React.FC = () => {
   const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState(0)
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -31,11 +33,26 @@ const StrategyPanel: React.FC = () => {
   }
 
   const handleStrategyDecisionClick = () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      setShowLoginModal(true)
+      return
+    }
     navigate('/product-service/strategy/decision')
+  }
+
+  const handleLoginConfirm = () => {
+    setShowLoginModal(false)
+    navigate('/login')
   }
 
   return (
     <div className="strategy-panel" data-node-id="1:1966">
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onConfirm={handleLoginConfirm}
+      />
       {/* 背景与渐变遮罩 */}
       <div className="strategy-bg">
         <img alt="策略背景" src={strategyBackground} />

@@ -12,10 +12,12 @@ import SideMenu from './SideMenu'
 import FFASignalPage from './signal-pages/FFASignalPage'
 import SinglePositionSignalPage from './signal-pages/SinglePositionSignalPage'
 import DoublePositionSignalPage from './signal-pages/DoublePositionSignalPage'
+import LoginModal from './LoginModal'
 
 const SignalPanel: React.FC = () => {
   const navigate = useNavigate()
   const [activeIndex, setActiveIndex] = useState(0)
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const swiperRef = useRef<SwiperType | null>(null)
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -30,11 +32,26 @@ const SignalPanel: React.FC = () => {
   }
 
   const handleRealtimeSignalClick = () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      setShowLoginModal(true)
+      return
+    }
     navigate('/product-service/signal/realtime')
+  }
+
+  const handleLoginConfirm = () => {
+    setShowLoginModal(false)
+    navigate('/login')
   }
 
   return (
     <div className="signal-panel">
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onConfirm={handleLoginConfirm}
+      />
       {/* 背景与渐变遮罩 */}
       <div className="signal-bg">
         <img alt="信号背景" src={strategyBackground} />

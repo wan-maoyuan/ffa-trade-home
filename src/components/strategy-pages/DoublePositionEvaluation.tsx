@@ -94,8 +94,7 @@ const DoublePositionEvaluation: React.FC = () => {
         <div className="strategy-content-card">
           <div className="strategy-layout-grid">
             <div className="strategy-direction-card">
-              <div className="strategy-direction-badge">Pair Strategy</div>
-              <div className="strategy-direction-title" style={{ fontSize: '24px' }}>基差缩小</div>
+              <div className="strategy-direction-title" style={{ fontSize: '24px', color: 'white' }}>基差缩小</div>
               <div className="strategy-direction-subtitle">建议双头寸策略方向</div>
             </div>
 

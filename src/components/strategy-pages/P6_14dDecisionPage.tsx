@@ -417,8 +417,7 @@ const P6_14dDecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-badge">多头策略</div>
-                  <div className="strategy-direction-title">
+                  <div className="strategy-direction-title" style={{ color: 'white' }}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

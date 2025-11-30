@@ -13,21 +13,9 @@ const ProductsServices: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'none' | 'signal' | 'strategy' | 'realtime' | 'decision'>('none')
 
   const handleSignalClick = () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      alert('请先登录')
-      navigate('/login')
-      return
-    }
     navigate('/product-service/signal')
   }
   const handleStrategyClick = () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      alert('请先登录')
-      navigate('/login')
-      return
-    }
     navigate('/product-service/strategy')
   }
 

@@ -627,8 +627,7 @@ const P6_42dDecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-badge">多头策略</div>
-                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction.includes('多') ? 'text-long' : 'text-short'}`}>
+                  <div className="strategy-direction-title" style={{ color: 'white' }}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>
@@ -678,7 +677,7 @@ const P6_42dDecisionPage: React.FC = () => {
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                   <h3 style={{
-                    color: '#4ade80',
+                    color: 'var(--strategy-long-color)',
                     fontSize: '16px',
                     marginBottom: '16px',
                     fontFamily: 'DengXian',
@@ -686,17 +685,17 @@ const P6_42dDecisionPage: React.FC = () => {
                     alignItems: 'center',
                     gap: '8px'
                   }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--strategy-long-color)' }}></span>
                     正收益
                   </h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-long-bg)' }}>
                       <p className="strategy-metric-label">最终正收益占比</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-long-color)' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
                     </div>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-long-bg)' }}>
                       <p className="strategy-metric-label">最终正收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-long-color)' }}>{analysis.positive_returns.final_positive_returns_average}%</p>
                     </div>
                   </div>
 
@@ -774,7 +773,7 @@ const P6_42dDecisionPage: React.FC = () => {
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                   <h3 style={{
-                    color: '#f87171',
+                    color: 'var(--strategy-short-color)',
                     fontSize: '16px',
                     marginBottom: '16px',
                     fontFamily: 'DengXian',
@@ -782,17 +781,17 @@ const P6_42dDecisionPage: React.FC = () => {
                     alignItems: 'center',
                     gap: '8px'
                   }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--strategy-short-color)' }}></span>
                     负收益
                   </h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-short-bg)' }}>
                       <p className="strategy-metric-label">最终负收益占比</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-short-color)' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
                     </div>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-short-bg)' }}>
                       <p className="strategy-metric-label">最终负收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-short-color)' }}>{analysis.negative_returns.final_negative_returns_average}%</p>
                     </div>
                   </div>
 
