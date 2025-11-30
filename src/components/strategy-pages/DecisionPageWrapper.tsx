@@ -11,6 +11,8 @@ import P6_42dDecisionPage from './P6_42dDecisionPage'
 import P6_14dDecisionPage from './P6_14dDecisionPage'
 import C3_42dDecisionPage from './C3_42dDecisionPage'
 import C5_42dDecisionPage from './C5_42dDecisionPage'
+import C3_14dDecisionPage from './C3_14dDecisionPage'
+import C5_14dDecisionPage from './C5_14dDecisionPage'
 import P3AHistoricalForecastPage from './P3AHistoricalForecastPage'
 import P6HistoricalForecastPage from './P6HistoricalForecastPage'
 import C3HistoricalForecastPage from './C3HistoricalForecastPage'
@@ -23,8 +25,8 @@ type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6' | 'c3' | 'c5'
 type P5SubStrategyType = '42d' | '14d' | 'historical'
 type P3ASubStrategyType = '42d' | '14d' | 'historical'
 type P6SubStrategyType = '42d' | '14d' | 'historical'
-type C3SubStrategyType = '42d' | 'historical'
-type C5SubStrategyType = '42d' | 'historical'
+type C3SubStrategyType = '42d' | '14d' | 'historical'
+type C5SubStrategyType = '42d' | '14d' | 'historical'
 
 const DecisionPageWrapper: React.FC = () => {
   const navigate = useNavigate()
@@ -269,6 +271,13 @@ const DecisionPageWrapper: React.FC = () => {
             </button>
             <button
               type="button"
+              className={`decision-page-sub-tab ${activeC3SubStrategy === '14d' ? 'active' : ''}`}
+              onClick={() => setActiveC3SubStrategy('14d')}
+            >
+              14天后
+            </button>
+            <button
+              type="button"
               className={`decision-page-sub-tab ${activeC3SubStrategy === 'historical' ? 'active' : ''}`}
               onClick={() => setActiveC3SubStrategy('historical')}
             >
@@ -286,6 +295,13 @@ const DecisionPageWrapper: React.FC = () => {
               onClick={() => setActiveC5SubStrategy('42d')}
             >
               42天后
+            </button>
+            <button
+              type="button"
+              className={`decision-page-sub-tab ${activeC5SubStrategy === '14d' ? 'active' : ''}`}
+              onClick={() => setActiveC5SubStrategy('14d')}
+            >
+              14天后
             </button>
             <button
               type="button"
@@ -336,6 +352,8 @@ const DecisionPageWrapper: React.FC = () => {
               <LockOverlay />
             ) : activeC3SubStrategy === '42d' ? (
               <C3_42dDecisionPage />
+            ) : activeC3SubStrategy === '14d' ? (
+              <C3_14dDecisionPage />
             ) : (
               <C3HistoricalForecastPage />
             )
@@ -344,6 +362,8 @@ const DecisionPageWrapper: React.FC = () => {
               <LockOverlay />
             ) : activeC5SubStrategy === '42d' ? (
               <C5_42dDecisionPage />
+            ) : activeC5SubStrategy === '14d' ? (
+              <C5_14dDecisionPage />
             ) : (
               <C5HistoricalForecastPage />
             )
@@ -355,4 +375,3 @@ const DecisionPageWrapper: React.FC = () => {
 }
 
 export default DecisionPageWrapper
-

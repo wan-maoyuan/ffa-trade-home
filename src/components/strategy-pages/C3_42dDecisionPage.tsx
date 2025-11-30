@@ -164,7 +164,7 @@ const C3_42dDecisionPage: React.FC = () => {
       try {
         setLoading(true)
         setError(null)
-        const response = await fetch('https://aqua.navgreen.cn/api/strategy/c3/decision')
+        const response = await fetch('https://aqua.navgreen.cn/api/strategy/c3_42d/decision')
 
         if (!response.ok) {
           throw new Error('网络请求失败')
@@ -175,7 +175,14 @@ const C3_42dDecisionPage: React.FC = () => {
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
-          const c3Analysis = record.raw_data?.contracts?.c3_analysis
+          const c3Analysis = record.contracts?.c3_analysis || record.raw_data?.contracts?.c3_analysis
+          
+          console.log('API 响应数据:', {
+            hasRawTableData: !!rawTableData,
+            rawTableDataLength: rawTableData?.length,
+            hasC3Analysis: !!c3Analysis,
+            recordKeys: Object.keys(record)
+          })
 
           let parsedData: C3Analysis | null = null
 
@@ -224,11 +231,18 @@ const C3_42dDecisionPage: React.FC = () => {
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
+                // 查找"正收益"行，下一行应该是数据行
                 if (row[0] === '正收益' && i + 1 < rawTableData.length) {
                   const nextRow = rawTableData[i + 1]
                   if (Array.isArray(nextRow) && nextRow.length >= 2) {
-                    finalPositiveReturnsPercentage = parseFloat(String(nextRow[0] || '0').replace('%', '')) || 0
-                    finalPositiveReturnsAverage = parseFloat(String(nextRow[1] || '0').replace('%', '')) || 0
+                    // 检查下一行是否是数据行（包含%符号）
+                    const firstVal = String(nextRow[0] || '')
+                    const secondVal = String(nextRow[1] || '')
+                    if (firstVal.includes('%') && secondVal.includes('%')) {
+                      finalPositiveReturnsPercentage = parseFloat(firstVal.replace('%', '')) || 0
+                      finalPositiveReturnsAverage = parseFloat(secondVal.replace('%', '')) || 0
+                      console.log('解析正收益数据:', { finalPositiveReturnsPercentage, finalPositiveReturnsAverage })
+                    }
                   }
                 }
                 if (row[0] === '正收益比例0～15%' || (row[0] && String(row[0]).includes('正收益比例') && row.length >= 4)) {
@@ -270,11 +284,18 @@ const C3_42dDecisionPage: React.FC = () => {
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
+                // 查找"负收益"行，下一行应该是数据行
                 if (row[0] === '负收益' && i + 1 < rawTableData.length) {
                   const nextRow = rawTableData[i + 1]
                   if (Array.isArray(nextRow) && nextRow.length >= 2) {
-                    finalNegativeReturnsPercentage = parseFloat(String(nextRow[0] || '0').replace('%', '')) || 0
-                    finalNegativeReturnsAverage = parseFloat(String(nextRow[1] || '0').replace('%', '')) || 0
+                    // 检查下一行是否是数据行（包含%符号或负数）
+                    const firstVal = String(nextRow[0] || '')
+                    const secondVal = String(nextRow[1] || '')
+                    if (firstVal.includes('%') || firstVal.includes('-') || secondVal.includes('%') || secondVal.includes('-')) {
+                      finalNegativeReturnsPercentage = parseFloat(firstVal.replace('%', '')) || 0
+                      finalNegativeReturnsAverage = parseFloat(secondVal.replace('%', '')) || 0
+                      console.log('解析负收益数据:', { finalNegativeReturnsPercentage, finalNegativeReturnsAverage })
+                    }
                   }
                 }
                 if (row[0] === '负收益比例0～15%' && i + 1 < rawTableData.length) {
@@ -322,6 +343,28 @@ const C3_42dDecisionPage: React.FC = () => {
                     for (let j = i + 2; j < rawTableData.length && j < i + 20; j++) {
                       const checkRow = rawTableData[j]
                       if (Array.isArray(checkRow) && checkRow.length > 0) {
+                        // 查找包含"42天后盈利比例"的标题行，然后取上一行的数据
+                        if (checkRow.length >= 4 && 
+                            String(checkRow[0] || '').includes('42天后盈利比例')) {
+                          // 标题行，取上一行的数据
+                          if (j > 0) {
+                            const dataRow = rawTableData[j - 1]
+                            if (Array.isArray(dataRow) && dataRow.length >= 4) {
+                              // 检查是否是数据行（包含%符号）
+                              const hasPercent = String(dataRow[0] || '').includes('%') || 
+                                               String(dataRow[1] || '').includes('%') ||
+                                               String(dataRow[2] || '').includes('%') ||
+                                               String(dataRow[3] || '').includes('%')
+                              if (hasPercent) {
+                                profitabilityRatio = parseFloat(String(dataRow[0] || '0').replace('%', '')) || 0
+                                averageReturns = parseFloat(String(dataRow[1] || '0').replace('%', '')) || 0
+                                lossRatio = parseFloat(String(dataRow[2] || '0').replace('%', '')) || 0
+                                averageLoss = parseFloat(String(dataRow[3] || '0').replace('%', '')) || 0
+                              }
+                            }
+                          }
+                        }
+                        // 兼容旧格式：数据行在标题行之前
                         if (checkRow.length === 4 &&
                           String(checkRow[0] || '').includes('%') &&
                           String(checkRow[1] || '').includes('%') &&
@@ -337,13 +380,27 @@ const C3_42dDecisionPage: React.FC = () => {
                             averageLoss = parseFloat(String(checkRow[3] || '0').replace('%', '')) || 0
                           }
                         }
-                        if (checkRow[0] === '最大收益时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
-                          const timingDataRow = rawTableData[j + 2]
-                          if (Array.isArray(timingDataRow) && timingDataRow.length >= 3 &&
-                            String(timingDataRow[0] || '').includes('%')) {
-                            maxReturnsTiming['0-14_days'] = parseFloat(String(timingDataRow[0] || '0').replace('%', '')) || 0
-                            maxReturnsTiming['15-28_days'] = parseFloat(String(timingDataRow[1] || '0').replace('%', '')) || 0
-                            maxReturnsTiming['29-42_days'] = parseFloat(String(timingDataRow[2] || '0').replace('%', '')) || 0
+                        if (checkRow[0] === '最大收益时间在各时间段的出现概率' && j + 1 < rawTableData.length) {
+                          // 查找时间标签行（0～14天、15天～28天等）
+                          for (let k = j + 1; k < rawTableData.length && k < j + 5; k++) {
+                            const timingLabelRow = rawTableData[k]
+                            if (Array.isArray(timingLabelRow) && timingLabelRow.length >= 3) {
+                              const firstLabel = String(timingLabelRow[0] || '')
+                              // 检查是否是时间标签行
+                              if (firstLabel.includes('0') && (firstLabel.includes('14') || firstLabel.includes('天'))) {
+                                // 下一行应该是数据行
+                                if (k + 1 < rawTableData.length) {
+                                  const timingDataRow = rawTableData[k + 1]
+                                  if (Array.isArray(timingDataRow) && timingDataRow.length >= 3 &&
+                                    String(timingDataRow[0] || '').includes('%')) {
+                                    maxReturnsTiming['0-14_days'] = parseFloat(String(timingDataRow[0] || '0').replace('%', '')) || 0
+                                    maxReturnsTiming['15-28_days'] = parseFloat(String(timingDataRow[1] || '0').replace('%', '')) || 0
+                                    maxReturnsTiming['29-42_days'] = parseFloat(String(timingDataRow[2] || '0').replace('%', '')) || 0
+                                    break
+                                  }
+                                }
+                              }
+                            }
                           }
                         }
                         if (checkRow.length === 2 &&
@@ -357,13 +414,27 @@ const C3_42dDecisionPage: React.FC = () => {
                             maxRiskExtreme = parseFloat(String(checkRow[1] || '0').replace('%', '')) || 0
                           }
                         }
-                        if (checkRow[0] === '最大风险时间在各时间段的出现概率' && j + 2 < rawTableData.length) {
-                          const riskTimingDataRow = rawTableData[j + 2]
-                          if (Array.isArray(riskTimingDataRow) && riskTimingDataRow.length >= 3 &&
-                            String(riskTimingDataRow[0] || '').includes('%')) {
-                            maxRiskTiming['0-14_days'] = parseFloat(String(riskTimingDataRow[0] || '0').replace('%', '')) || 0
-                            maxRiskTiming['15-28_days'] = parseFloat(String(riskTimingDataRow[1] || '0').replace('%', '')) || 0
-                            maxRiskTiming['29-42_days'] = parseFloat(String(riskTimingDataRow[2] || '0').replace('%', '')) || 0
+                        if (checkRow[0] === '最大风险时间在各时间段的出现概率' && j + 1 < rawTableData.length) {
+                          // 查找时间标签行（0～14天、15天～28天等）
+                          for (let k = j + 1; k < rawTableData.length && k < j + 5; k++) {
+                            const timingLabelRow = rawTableData[k]
+                            if (Array.isArray(timingLabelRow) && timingLabelRow.length >= 3) {
+                              const firstLabel = String(timingLabelRow[0] || '')
+                              // 检查是否是时间标签行
+                              if (firstLabel.includes('0') && (firstLabel.includes('14') || firstLabel.includes('天'))) {
+                                // 下一行应该是数据行
+                                if (k + 1 < rawTableData.length) {
+                                  const riskTimingDataRow = rawTableData[k + 1]
+                                  if (Array.isArray(riskTimingDataRow) && riskTimingDataRow.length >= 3 &&
+                                    String(riskTimingDataRow[0] || '').includes('%')) {
+                                    maxRiskTiming['0-14_days'] = parseFloat(String(riskTimingDataRow[0] || '0').replace('%', '')) || 0
+                                    maxRiskTiming['15-28_days'] = parseFloat(String(riskTimingDataRow[1] || '0').replace('%', '')) || 0
+                                    maxRiskTiming['29-42_days'] = parseFloat(String(riskTimingDataRow[2] || '0').replace('%', '')) || 0
+                                    break
+                                  }
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -399,7 +470,7 @@ const C3_42dDecisionPage: React.FC = () => {
             for (let i = 0; i < rawTableData.length; i++) {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
-                if (row[0] === 'P5TC六周后预测模型评价' && i + 1 < rawTableData.length) {
+                if ((row[0] === 'C3六周后预测模型评价' || row[0] === 'P5TC六周后预测模型评价' || String(row[0] || '').includes('六周后预测模型评价')) && i + 1 < rawTableData.length) {
                   const dataRow = rawTableData[i + 1]
                   if (Array.isArray(dataRow) && dataRow.length >= 6) {
                     modelEvalDate = String(dataRow[0] || '')
@@ -521,12 +592,80 @@ const C3_42dDecisionPage: React.FC = () => {
               min_negative_returns_average: minNegativeReturnsAverage,
               min_negative_returns_minimum: minNegativeReturnsMinimum
             })
+            
+            console.log('parsedData 解析完成:', parsedData)
+          } else {
+            console.warn('rawTableData 不存在或不是数组:', rawTableData)
           }
 
-          if (c3Analysis) {
-            setAnalysis(c3Analysis)
-          } else if (parsedData) {
+          // 优先使用从 raw_table_data 解析的完整数据
+          if (parsedData) {
+            console.log('使用 parsedData:', parsedData)
             setAnalysis(parsedData)
+          } else if (c3Analysis) {
+            // 如果 c3Analysis 存在，检查数据完整性
+            // 注意：c3Analysis 中的字段名可能不同（如 c3tc_model_evaluation vs model_evaluation）
+            console.log('使用 c3Analysis:', c3Analysis)
+            
+            // 转换 c3Analysis 的数据结构以匹配 C3Analysis 接口
+            const convertedAnalysis: C3Analysis = {
+              trading_recommendation: c3Analysis.trading_recommendation || {
+                profit_loss_ratio: 3.43,
+                recommended_direction: '做多',
+                direction_confidence: ''
+              },
+              current_forecast: {
+                date: c3Analysis.current_forecast?.date || result.data.date,
+                current_value: c3Analysis.current_forecast?.current_value || 0,
+                overall_price_difference_ratio: c3Analysis.current_forecast?.comprehensive_spread_ratio || '',
+                overall_price_difference_range: c3Analysis.current_forecast?.comprehensive_spread_ratio_range || '',
+                forecast_value: c3Analysis.current_forecast?.forecast_value || 0,
+                probability: c3Analysis.current_forecast?.probability || 0
+              },
+              positive_returns: {
+                final_positive_returns_percentage: c3Analysis.positive_returns?.final_positive_returns_percentage || 0,
+                final_positive_returns_average: c3Analysis.positive_returns?.final_positive_returns_average || 0,
+                distribution: c3Analysis.positive_returns?.distribution || { '0-15%': 0, '15.01-30%': 0, '30-60%': 0, '>60%': 0 },
+                statistics: c3Analysis.positive_returns?.statistics || {
+                  max_positive_returns_average: 0,
+                  max_positive_returns_maximum: 0,
+                  max_positive_returns_avg_time: 0
+                },
+                timing_distribution: c3Analysis.positive_returns?.timing_distribution || { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 }
+              },
+              negative_returns: {
+                final_negative_returns_percentage: c3Analysis.negative_returns?.final_negative_returns_percentage || 0,
+                final_negative_returns_average: c3Analysis.negative_returns?.final_negative_returns_average || 0,
+                distribution: c3Analysis.negative_returns?.distribution || { '0-15%': 0, '15.01-30%': 0, '30-60%': 0, '<60%': 0 },
+                statistics: c3Analysis.negative_returns?.statistics || {
+                  min_negative_returns_average: 0,
+                  min_negative_returns_minimum: 0
+                }
+              },
+              c3_profit_loss_ratio: {
+                date: result.data.date,
+                current_price: c3Analysis.c3_profit_loss_ratio?.current_price || 0,
+                evaluated_price: c3Analysis.c3_profit_loss_ratio?.evaluated_price || 0,
+                price_difference_ratio: c3Analysis.c3_profit_loss_ratio?.price_difference_ratio || '',
+                profitability_ratio_after_42days: c3Analysis.c3_profit_loss_ratio?.profit_ratio_42d || 0,
+                average_returns: c3Analysis.c3_profit_loss_ratio?.profit_average_42d || 0,
+                loss_ratio_after_42days: c3Analysis.c3_profit_loss_ratio?.loss_ratio_42d || 0,
+                average_loss: c3Analysis.c3_profit_loss_ratio?.loss_average_42d || 0,
+                max_returns_timing_distribution: c3Analysis.c3_profit_loss_ratio?.max_profit_timing_distribution || { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 },
+                max_risk_average: c3Analysis.c3_profit_loss_ratio?.max_risk_average || 0,
+                max_risk_extreme: c3Analysis.c3_profit_loss_ratio?.max_risk_extreme || 0,
+                max_risk_timing_distribution: c3Analysis.c3_profit_loss_ratio?.max_risk_timing_distribution || { '0-14_days': 0, '15-28_days': 0, '29-42_days': 0 }
+              },
+              model_evaluation: {
+                date: c3Analysis.c3tc_model_evaluation?.date || result.data.date,
+                current_price: c3Analysis.c3tc_model_evaluation?.current_price || 0,
+                forecast_42day_price_difference: c3Analysis.c3tc_model_evaluation?.forecast_42day_price_difference || 0,
+                forecast_42day_price: c3Analysis.c3tc_model_evaluation?.forecast_42day_price || 0,
+                price_difference_ratio: c3Analysis.c3tc_model_evaluation?.price_difference_ratio || '',
+                evaluation_ranges: c3Analysis.c3tc_model_evaluation?.evaluation_ranges || []
+              }
+            }
+            setAnalysis(convertedAnalysis)
           } else if (record.core_data) {
             const constructed: C3Analysis = {
               trading_recommendation: record.core_data.trading_recommendation,
@@ -576,12 +715,14 @@ const C3_42dDecisionPage: React.FC = () => {
             }
             setAnalysis(constructed)
           } else {
-            throw new Error('数据格式错误')
+            console.error('无法解析数据:', { record, rawTableData, c3Analysis, parsedData })
+            throw new Error('数据格式错误：无法从 raw_table_data 或 c3_analysis 中解析数据')
           }
 
 
         } else {
-          throw new Error('数据格式错误')
+          console.error('API 响应格式错误:', result)
+          throw new Error('数据格式错误：API 响应中没有 records 数据')
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : '加载数据失败')
@@ -936,9 +1077,9 @@ const C3_42dDecisionPage: React.FC = () => {
               </div>
             </div>
 
-            {/* P5TC六周后预测模型评价 */}
+            {/* C3六周后预测模型评价 */}
             <div className="strategy-content-card" style={{ marginTop: '20px' }}>
-              <p className="strategy-page-title" style={{ fontSize: '18px', textAlign: 'left', marginBottom: '16px' }}>P5TC六周后预测模型评价</p>
+              <p className="strategy-page-title" style={{ fontSize: '18px', textAlign: 'left', marginBottom: '16px' }}>C3六周后预测模型评价</p>
               <div className="strategy-metrics-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '20px' }}>
                 <div className="strategy-metric-item">
                   <p className="strategy-metric-label">日期</p>
