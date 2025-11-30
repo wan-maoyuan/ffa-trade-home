@@ -684,7 +684,7 @@ const P5DecisionPage: React.FC = () => {
     <div className="strategy-page">
 
       <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
-        <p className="strategy-page-title">P5现货应用决策（42天后）</p>
+
 
         {loading ? (
           <div className="p5-decision-loading">

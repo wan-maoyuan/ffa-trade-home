@@ -4,7 +4,7 @@ import './StrategyPageOptimization.css'
 const SinglePositionEvaluation: React.FC = () => {
   return (
     <div className="strategy-page single-position-evaluation-page">
-      <p className="strategy-page-title">单头寸策略评价</p>
+
 
       <div className="strategy-page-content">
         {/* 策略标签 */}

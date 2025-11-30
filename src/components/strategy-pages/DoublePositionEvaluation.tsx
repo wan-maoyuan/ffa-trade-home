@@ -79,7 +79,7 @@ const DualPositionIcon: React.FC = () => (
 const DoublePositionEvaluation: React.FC = () => {
   return (
     <div className="strategy-page double-position-evaluation-page">
-      <p className="strategy-page-title">双头寸策略评价</p>
+
 
       <div className="strategy-page-content">
         <div className="strategy-tags">

@@ -82,7 +82,7 @@ const C5HistoricalForecastPage: React.FC = () => {
     return (
         <div className="strategy-page p5-historical-page">
             <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
-                <p className="strategy-page-title">C5历史预测回测分析</p>
+
 
                 {loading ? (
                     <div className="strategy-loading">

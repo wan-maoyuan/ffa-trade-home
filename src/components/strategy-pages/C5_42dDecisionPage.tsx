@@ -599,7 +599,7 @@ const C5_42dDecisionPage: React.FC = () => {
   return (
     <div className="strategy-page">
       <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
-        <p className="strategy-page-title">C5现货应用决策（42天后）</p>
+
 
         {loading ? (
           <div className="strategy-loading">

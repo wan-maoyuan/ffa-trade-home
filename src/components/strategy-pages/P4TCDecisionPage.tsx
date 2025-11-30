@@ -351,7 +351,6 @@ const P4TCDecisionPage: React.FC = () => {
   return (
     <div className="strategy-page">
       <div className="strategy-page-content-wrapper" style={{ width: '100%' }}>
-        <p className="strategy-page-title">P4TC现货应用决策</p>
 
         {loading ? (
           <div className="strategy-loading">

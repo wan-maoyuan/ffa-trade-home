@@ -7,8 +7,8 @@ interface User {
     email: string
     username: string
     permission: number
-    company?: string
-    remark?: string
+    company_name?: string
+    remarks?: string
     signal?: string[]
     strategy?: string[]
     created_at: string
@@ -26,8 +26,8 @@ const UserManagementPage: React.FC = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        company: '',
-        remark: '',
+        company_name: '',
+        remarks: '',
         permission: 1,
         signal: [] as string[],
         strategy: [] as string[]
@@ -69,8 +69,8 @@ const UserManagementPage: React.FC = () => {
         setFormData({
             username: '',
             email: '',
-            company: '',
-            remark: '',
+            company_name: '',
+            remarks: '',
             permission: 1,
             signal: [],
             strategy: []
@@ -83,8 +83,8 @@ const UserManagementPage: React.FC = () => {
         setFormData({
             username: user.username,
             email: user.email,
-            company: user.company || '',
-            remark: user.remark || '',
+            company_name: user.company_name || '',
+            remarks: user.remarks || '',
             permission: user.permission,
             signal: user.signal || [],
             strategy: user.strategy || []
@@ -107,8 +107,8 @@ const UserManagementPage: React.FC = () => {
                     email: formData.email,
                     password: '123456', // Default password for new users
                     username: formData.username,
-                    company: formData.company,
-                    remark: formData.remark,
+                    company_name: formData.company_name,
+                    remarks: formData.remarks,
                     permission: formData.permission,
                     signal: formData.signal,
                     strategy: formData.strategy
@@ -120,14 +120,13 @@ const UserManagementPage: React.FC = () => {
                     user_id: editingUser.user_id,
                     username: formData.username,
                     email: formData.email,
-                    company: formData.company,
-                    remark: formData.remark,
+                    password: '123456', // Include password as per user request example, though usually not needed for update unless changing
+                    company_name: formData.company_name,
+                    remarks: formData.remarks,
                     permission: formData.permission,
                     signal: formData.signal,
                     strategy: formData.strategy
                 }
-                // Password update is no longer supported via UI
-
             } else {
                 return
             }
@@ -311,8 +310,8 @@ const UserManagementPage: React.FC = () => {
                                 <label>公司名</label>
                                 <input
                                     type="text"
-                                    value={formData.company}
-                                    onChange={e => setFormData({ ...formData, company: e.target.value })}
+                                    value={formData.company_name}
+                                    onChange={e => setFormData({ ...formData, company_name: e.target.value })}
                                     placeholder="请输入公司名称"
                                 />
                             </div>
@@ -320,8 +319,8 @@ const UserManagementPage: React.FC = () => {
                                 <label>备注</label>
                                 <input
                                     type="text"
-                                    value={formData.remark}
-                                    onChange={e => setFormData({ ...formData, remark: e.target.value })}
+                                    value={formData.remarks}
+                                    onChange={e => setFormData({ ...formData, remarks: e.target.value })}
                                     placeholder="请输入备注信息"
                                 />
                             </div>
