@@ -216,6 +216,23 @@ const UserManagementPage: React.FC = () => {
         })
     }
 
+    const formatDate = (dateString: string) => {
+        if (!dateString) return '-'
+        try {
+            const date = new Date(dateString)
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).replace(/\//g, '-')
+        } catch (e) {
+            return dateString
+        }
+    }
+
     return (
         <div className="user-management-page">
             <DigitalOceanBackground />
@@ -239,39 +256,61 @@ const UserManagementPage: React.FC = () => {
                         <table className="users-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>用户名</th>
-                                    <th>邮箱</th>
-                                    <th>权限等级</th>
-                                    <th>注册时间</th>
-                                    <th>操作</th>
+                                    <th style={{ width: '80px' }}>ID</th>
+                                    <th style={{ width: '100px' }}>用户名</th>
+                                    <th style={{ width: '180px' }}>邮箱</th>
+                                    <th style={{ width: '120px' }}>公司</th>
+                                    <th>信号权限</th>
+                                    <th>策略权限</th>
+                                    <th style={{ width: '160px' }}>最后更新时间</th>
+                                    <th style={{ width: '140px' }}>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map(user => (
                                     <tr key={user.user_id}>
-                                        <td>{user.user_id}</td>
-                                        <td>{user.username}</td>
-                                        <td>{user.email}</td>
+                                        <td className="id-cell" title={user.user_id}>{user.user_id.substring(0, 8)}...</td>
+                                        <td className="font-medium">{user.username}</td>
+                                        <td className="text-gray">{user.email}</td>
+                                        <td>{user.company_name || '-'}</td>
                                         <td>
-                                            <span className={`permission-badge permission-${user.permission}`}>
-                                                {user.permission === 99 ? '管理员' : '普通用户'} ({user.permission})
-                                            </span>
+                                            <div className="tags-container">
+                                                {user.signal && user.signal.length > 0 ? (
+                                                    user.signal.map((sig, index) => (
+                                                        <span key={index} className="tag-badge tag-signal">{sig}</span>
+                                                    ))
+                                                ) : (
+                                                    <span className="text-muted">-</span>
+                                                )}
+                                            </div>
                                         </td>
-                                        <td>{user.created_at}</td>
                                         <td>
-                                            <button
-                                                className="action-btn edit-btn"
-                                                onClick={() => handleEditClick(user)}
-                                            >
-                                                编辑
-                                            </button>
-                                            <button
-                                                className="action-btn delete-btn"
-                                                onClick={() => handleDeleteClick(user.user_id)}
-                                            >
-                                                删除
-                                            </button>
+                                            <div className="tags-container">
+                                                {user.strategy && user.strategy.length > 0 ? (
+                                                    user.strategy.map((strat, index) => (
+                                                        <span key={index} className="tag-badge tag-strategy">{strat}</span>
+                                                    ))
+                                                ) : (
+                                                    <span className="text-muted">-</span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="date-cell">{formatDate(user.updated_at)}</td>
+                                        <td>
+                                            <div className="action-buttons">
+                                                <button
+                                                    className="action-btn edit-btn"
+                                                    onClick={() => handleEditClick(user)}
+                                                >
+                                                    编辑
+                                                </button>
+                                                <button
+                                                    className="action-btn delete-btn"
+                                                    onClick={() => handleDeleteClick(user.user_id)}
+                                                >
+                                                    删除
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
