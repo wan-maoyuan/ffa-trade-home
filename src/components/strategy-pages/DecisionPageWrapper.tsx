@@ -4,6 +4,7 @@ import SideMenu from '../SideMenu'
 import P4TCDecisionPage from './P4TCDecisionPage'
 import P5DecisionPage from './P5DecisionPage'
 import P5_14dDecisionPage from './P5_14dDecisionPage'
+import P5HistoricalForecastPage from './P5HistoricalForecastPage'
 import P3A_42dDecisionPage from './P3A_42dDecisionPage'
 import P3A_14dDecisionPage from './P3A_14dDecisionPage'
 import P6_42dDecisionPage from './P6_42dDecisionPage'
@@ -14,7 +15,7 @@ import strategyBackground from '../../assets/images/strategy-background.jpeg'
 import './DecisionPageWrapper.css'
 
 type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6' | 'c3' | 'c5'
-type P5SubStrategyType = '42d' | '14d'
+type P5SubStrategyType = '42d' | '14d' | 'historical'
 type P3ASubStrategyType = '42d' | '14d'
 type P6SubStrategyType = '42d' | '14d'
 
@@ -128,6 +129,13 @@ const DecisionPageWrapper: React.FC = () => {
             >
               14天后
             </button>
+            <button
+              type="button"
+              className={`decision-page-sub-tab ${activeP5SubStrategy === 'historical' ? 'active' : ''}`}
+              onClick={() => setActiveP5SubStrategy('historical')}
+            >
+              历史预测
+            </button>
           </div>
         )}
 
@@ -178,8 +186,10 @@ const DecisionPageWrapper: React.FC = () => {
           ) : activeMainStrategy === 'p5' ? (
             activeP5SubStrategy === '42d' ? (
               <P5DecisionPage />
-            ) : (
+            ) : activeP5SubStrategy === '14d' ? (
               <P5_14dDecisionPage />
+            ) : (
+              <P5HistoricalForecastPage />
             )
           ) : activeMainStrategy === 'p3a' ? (
             activeP3ASubStrategy === '42d' ? (
