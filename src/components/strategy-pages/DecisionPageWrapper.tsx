@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
 import P4TCDecisionPage from './P4TCDecisionPage'
@@ -16,6 +16,7 @@ import P6HistoricalForecastPage from './P6HistoricalForecastPage'
 import C3HistoricalForecastPage from './C3HistoricalForecastPage'
 import C5HistoricalForecastPage from './C5HistoricalForecastPage'
 import strategyBackground from '../../assets/images/strategy-background.jpeg'
+import LockOverlay from '../LockOverlay'
 import './DecisionPageWrapper.css'
 
 type MainStrategyType = 'p4tc' | 'p5' | 'p3a' | 'p6' | 'c3' | 'c5'
@@ -32,7 +33,55 @@ const DecisionPageWrapper: React.FC = () => {
   const [activeP3ASubStrategy, setActiveP3ASubStrategy] = useState<P3ASubStrategyType>('42d')
   const [activeP6SubStrategy, setActiveP6SubStrategy] = useState<P6SubStrategyType>('42d')
   const [activeC3SubStrategy, setActiveC3SubStrategy] = useState<C3SubStrategyType>('42d')
+
   const [activeC5SubStrategy, setActiveC5SubStrategy] = useState<C5SubStrategyType>('42d')
+
+  const [permissions, setPermissions] = useState<string[]>([])
+  const [permissionLevel, setPermissionLevel] = useState<number>(0)
+  const [loadingPermissions, setLoadingPermissions] = useState(true)
+
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        alert('请先登录')
+        navigate('/login')
+        return
+      }
+
+      try {
+        const response = await fetch('https://aqua.navgreen.cn/api/user/permissions', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'accept': 'application/json'
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.code === 200) {
+            setPermissions(data.data.strategy || [])
+            // Get permission level from localStorage as it's not in this API response
+            const userStr = localStorage.getItem('user')
+            if (userStr) {
+              try {
+                const user = JSON.parse(userStr)
+                setPermissionLevel(user.permission || 0)
+              } catch (e) {
+                console.error('Failed to parse user data', e)
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch permissions:', error)
+      } finally {
+        setLoadingPermissions(false)
+      }
+    }
+
+    fetchPermissions()
+  }, [navigate])
 
   const handleBackClick = () => {
     navigate('/product-service/strategy')
@@ -249,11 +298,13 @@ const DecisionPageWrapper: React.FC = () => {
         )}
 
         {/* 根据选中的策略显示对应页面 */}
-        <div className="decision-page-content">
+        <div className="decision-page-content" style={{ position: 'relative', minHeight: '400px' }}>
           {activeMainStrategy === 'p4tc' ? (
             <P4TCDecisionPage />
           ) : activeMainStrategy === 'p5' ? (
-            activeP5SubStrategy === '42d' ? (
+            permissionLevel !== 99 && !permissions.includes('P5') ? (
+              <LockOverlay />
+            ) : activeP5SubStrategy === '42d' ? (
               <P5DecisionPage />
             ) : activeP5SubStrategy === '14d' ? (
               <P5_14dDecisionPage />
@@ -261,7 +312,9 @@ const DecisionPageWrapper: React.FC = () => {
               <P5HistoricalForecastPage />
             )
           ) : activeMainStrategy === 'p3a' ? (
-            activeP3ASubStrategy === '42d' ? (
+            permissionLevel !== 99 && !permissions.includes('P3A') ? (
+              <LockOverlay />
+            ) : activeP3ASubStrategy === '42d' ? (
               <P3A_42dDecisionPage />
             ) : activeP3ASubStrategy === '14d' ? (
               <P3A_14dDecisionPage />
@@ -269,7 +322,9 @@ const DecisionPageWrapper: React.FC = () => {
               <P3AHistoricalForecastPage />
             )
           ) : activeMainStrategy === 'p6' ? (
-            activeP6SubStrategy === '42d' ? (
+            permissionLevel !== 99 && !permissions.includes('P6') ? (
+              <LockOverlay />
+            ) : activeP6SubStrategy === '42d' ? (
               <P6_42dDecisionPage />
             ) : activeP6SubStrategy === '14d' ? (
               <P6_14dDecisionPage />
@@ -277,13 +332,17 @@ const DecisionPageWrapper: React.FC = () => {
               <P6HistoricalForecastPage />
             )
           ) : activeMainStrategy === 'c3' ? (
-            activeC3SubStrategy === '42d' ? (
+            permissionLevel !== 99 && !permissions.includes('C3') ? (
+              <LockOverlay />
+            ) : activeC3SubStrategy === '42d' ? (
               <C3_42dDecisionPage />
             ) : (
               <C3HistoricalForecastPage />
             )
           ) : (
-            activeC5SubStrategy === '42d' ? (
+            permissionLevel !== 99 && !permissions.includes('C5') ? (
+              <LockOverlay />
+            ) : activeC5SubStrategy === '42d' ? (
               <C5_42dDecisionPage />
             ) : (
               <C5HistoricalForecastPage />

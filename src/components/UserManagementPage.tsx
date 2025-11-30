@@ -7,9 +7,16 @@ interface User {
     email: string
     username: string
     permission: number
+    company?: string
+    remark?: string
+    signal?: string[]
+    strategy?: string[]
     created_at: string
     updated_at: string
 }
+
+const AVAILABLE_SIGNALS = ['ffa', '欧线', '单边价格-14天后交易机会', '单边价格-42天后交易机会', '双边价格-基差交易机会']
+const AVAILABLE_STRATEGIES = ['P5', 'P3A', 'P6', 'C3', 'C5']
 
 const UserManagementPage: React.FC = () => {
     const [users, setUsers] = useState<User[]>([])
@@ -19,8 +26,11 @@ const UserManagementPage: React.FC = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: '',
-        permission: 1
+        company: '',
+        remark: '',
+        permission: 1,
+        signal: [] as string[],
+        strategy: [] as string[]
     })
 
     const fetchUsers = async () => {
@@ -59,8 +69,11 @@ const UserManagementPage: React.FC = () => {
         setFormData({
             username: '',
             email: '',
-            password: '',
-            permission: 1
+            company: '',
+            remark: '',
+            permission: 1,
+            signal: [],
+            strategy: []
         })
     }
 
@@ -70,8 +83,11 @@ const UserManagementPage: React.FC = () => {
         setFormData({
             username: user.username,
             email: user.email,
-            password: '', // Password is optional/blank by default
-            permission: user.permission
+            company: user.company || '',
+            remark: user.remark || '',
+            permission: user.permission,
+            signal: user.signal || [],
+            strategy: user.strategy || []
         })
     }
 
@@ -89,9 +105,13 @@ const UserManagementPage: React.FC = () => {
                 method = 'POST'
                 payload = {
                     email: formData.email,
-                    password: formData.password,
+                    password: '123456', // Default password for new users
                     username: formData.username,
-                    permission: formData.permission
+                    company: formData.company,
+                    remark: formData.remark,
+                    permission: formData.permission,
+                    signal: formData.signal,
+                    strategy: formData.strategy
                 }
             } else if (editingUser) {
                 url = 'https://aqua.navgreen.cn/api/user/update'
@@ -100,11 +120,14 @@ const UserManagementPage: React.FC = () => {
                     user_id: editingUser.user_id,
                     username: formData.username,
                     email: formData.email,
-                    permission: formData.permission
+                    company: formData.company,
+                    remark: formData.remark,
+                    permission: formData.permission,
+                    signal: formData.signal,
+                    strategy: formData.strategy
                 }
-                if (formData.password) {
-                    payload.password = formData.password
-                }
+                // Password update is no longer supported via UI
+
             } else {
                 return
             }
@@ -147,9 +170,51 @@ const UserManagementPage: React.FC = () => {
         }
     }
 
+    const handleDeleteClick = async (userId: string) => {
+        if (!window.confirm('确定要删除该用户吗？此操作无法撤销。')) {
+            return
+        }
+
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch('https://aqua.navgreen.cn/api/user/delete', {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ user_id: userId })
+            })
+
+            const data = await response.json()
+
+            if (response.ok && data.code === 200) {
+                alert('删除成功')
+                fetchUsers()
+            } else {
+                alert(data.msg || '删除失败')
+            }
+        } catch (error) {
+            console.error('Delete operation failed:', error)
+            alert('操作失败，请重试')
+        }
+    }
+
     const closeModal = () => {
         setEditingUser(null)
         setIsCreating(false)
+    }
+
+    const handleCheckboxChange = (type: 'signal' | 'strategy', value: string, checked: boolean) => {
+        setFormData(prev => {
+            const list = prev[type]
+            if (checked) {
+                return { ...prev, [type]: [...list, value] }
+            } else {
+                return { ...prev, [type]: list.filter(item => item !== value) }
+            }
+        })
     }
 
     return (
@@ -202,7 +267,12 @@ const UserManagementPage: React.FC = () => {
                                             >
                                                 编辑
                                             </button>
-                                            <button className="action-btn delete-btn">删除</button>
+                                            <button
+                                                className="action-btn delete-btn"
+                                                onClick={() => handleDeleteClick(user.user_id)}
+                                            >
+                                                删除
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -234,27 +304,57 @@ const UserManagementPage: React.FC = () => {
                                     value={formData.email}
                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                                     required
+                                    disabled={!isCreating}
                                 />
                             </div>
                             <div className="form-group">
-                                <label>密码 {isCreating ? '(必填)' : '(留空则不修改)'}</label>
+                                <label>公司名</label>
                                 <input
-                                    type="password"
-                                    value={formData.password}
-                                    onChange={e => setFormData({ ...formData, password: e.target.value })}
-                                    placeholder="********"
-                                    required={isCreating}
+                                    type="text"
+                                    value={formData.company}
+                                    onChange={e => setFormData({ ...formData, company: e.target.value })}
+                                    placeholder="请输入公司名称"
                                 />
                             </div>
                             <div className="form-group">
-                                <label>权限等级</label>
-                                <select
-                                    value={formData.permission}
-                                    onChange={e => setFormData({ ...formData, permission: Number(e.target.value) })}
-                                >
-                                    <option value={1}>普通用户 (1)</option>
-                                    <option value={99}>管理员 (99)</option>
-                                </select>
+                                <label>备注</label>
+                                <input
+                                    type="text"
+                                    value={formData.remark}
+                                    onChange={e => setFormData({ ...formData, remark: e.target.value })}
+                                    placeholder="请输入备注信息"
+                                />
+                            </div>
+                            {/* Password and Permission fields removed as per request */}
+                            <div className="form-group">
+                                <label>信号权限</label>
+                                <div className="checkbox-group">
+                                    {AVAILABLE_SIGNALS.map(sig => (
+                                        <label key={sig} className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.signal.includes(sig)}
+                                                onChange={e => handleCheckboxChange('signal', sig, e.target.checked)}
+                                            />
+                                            {sig}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>策略权限</label>
+                                <div className="checkbox-group">
+                                    {AVAILABLE_STRATEGIES.map(strat => (
+                                        <label key={strat} className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.strategy.includes(strat)}
+                                                onChange={e => handleCheckboxChange('strategy', strat, e.target.checked)}
+                                            />
+                                            {strat}
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
                             <div className="modal-actions">
                                 <button type="button" className="cancel-btn" onClick={closeModal}>取消</button>

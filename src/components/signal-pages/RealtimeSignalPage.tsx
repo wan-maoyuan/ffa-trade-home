@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu'
 import strategyBackground from '../../assets/images/strategy-background.jpeg'
+import LockOverlay from '../LockOverlay'
 import './RealtimeSignalPage.css'
 
 // FFA信号数据结构
@@ -112,9 +113,56 @@ const RealtimeSignalPage: React.FC = () => {
   const [loadingBilateral, setLoadingBilateral] = useState(true)
   const [errorBilateral, setErrorBilateral] = useState<string | null>(null)
 
+  const [permissions, setPermissions] = useState<string[]>([])
+  const [permissionLevel, setPermissionLevel] = useState<number>(0)
+  const [loadingPermissions, setLoadingPermissions] = useState(true)
+
   const handleBackClick = () => {
     navigate('/product-service/signal')
   }
+
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        alert('请先登录')
+        navigate('/login')
+        return
+      }
+
+      try {
+        const response = await fetch('https://aqua.navgreen.cn/api/user/permissions', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'accept': 'application/json'
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.code === 200) {
+            setPermissions(data.data.signal || [])
+            // Get permission level from localStorage as it's not in this API response
+            const userStr = localStorage.getItem('user')
+            if (userStr) {
+              try {
+                const user = JSON.parse(userStr)
+                setPermissionLevel(user.permission || 0)
+              } catch (e) {
+                console.error('Failed to parse user data', e)
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch permissions:', error)
+      } finally {
+        setLoadingPermissions(false)
+      }
+    }
+
+    fetchPermissions()
+  }, [navigate])
 
   useEffect(() => {
     const fetchSignalData = async () => {
@@ -659,455 +707,484 @@ const RealtimeSignalPage: React.FC = () => {
               {/* FFA 和 欧线 内容 */}
               {(unilateralTab === 'ffa' || unilateralTab === 'european') && (
                 <>
-                  {/* 合约选择区域 */}
-                  {!loading && !error && contractNames.length > 0 && (
-                    <div className="realtime-signal-contract-selector">
-                      <div className="realtime-signal-contract-tags">
-                        {contractNames.map((name) => {
-                          const contract = contracts[name]
-                          return (
-                            <button
-                              key={name}
-                              type="button"
-                              className={`realtime-signal-contract-tag ${selectedContract === name ? 'active' : ''
-                                }`}
-                              onClick={() => setSelectedContract(name)}
-                            >
-                              <span className="realtime-signal-contract-name">{name}</span>
-                              {selectedContract === name && contract?.month && (
-                                <span className="realtime-signal-contract-month">{contract.month}</span>
-                              )}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      {swapDate && (
-                        <div className="realtime-signal-date">
-                          <span className="realtime-signal-date-label">
-                            {signalType === 'ffa' ? '掉期日期：' : '收盘价日期：'}
-                          </span>
-                          <span className="realtime-signal-date-value">{swapDate}</span>
+                  {/* 权限检查 */}
+                  {permissionLevel !== 99 && ((unilateralTab === 'ffa' && !permissions.includes('ffa')) ||
+                    (unilateralTab === 'european' && !permissions.includes('欧线'))) ? (
+                    <div className="realtime-signal-lock-container" style={{ position: 'relative', minHeight: '400px' }}>
+                      <LockOverlay />
+                    </div>
+                  ) : (
+                    <>
+                      {/* 合约选择区域 */}
+                      {/* 合约选择区域 */}
+                      {!loading && !error && contractNames.length > 0 && (
+                        <div className="realtime-signal-contract-selector">
+                          <div className="realtime-signal-contract-tags">
+                            {contractNames.map((name) => {
+                              const contract = contracts[name]
+                              return (
+                                <button
+                                  key={name}
+                                  type="button"
+                                  className={`realtime-signal-contract-tag ${selectedContract === name ? 'active' : ''
+                                    }`}
+                                  onClick={() => setSelectedContract(name)}
+                                >
+                                  <span className="realtime-signal-contract-name">{name}</span>
+                                  {selectedContract === name && contract?.month && (
+                                    <span className="realtime-signal-contract-month">{contract.month}</span>
+                                  )}
+                                </button>
+                              )
+                            })}
+                          </div>
+                          {swapDate && (
+                            <div className="realtime-signal-date">
+                              <span className="realtime-signal-date-label">
+                                {signalType === 'ffa' ? '掉期日期：' : '收盘价日期：'}
+                              </span>
+                              <span className="realtime-signal-date-value">{swapDate}</span>
+                            </div>
+                          )}
                         </div>
                       )}
-                    </div>
+
+                      {/* 主要内容区域 */}
+                      <div className="realtime-signal-page-content">
+                        {loading ? (
+                          <div className="realtime-signal-loading">
+                            <div className="realtime-signal-loading-spinner"></div>
+                            <p>加载中...</p>
+                          </div>
+                        ) : error ? (
+                          <div className="realtime-signal-error">
+                            <p>{error}</p>
+                          </div>
+                        ) : selectedData ? (
+                          <>
+                            {/* 预测值和当前值卡片 */}
+                            <div className="realtime-signal-value-cards">
+                              <div className="realtime-signal-value-card">
+                                <div className="realtime-signal-value-header">
+                                  <span className="realtime-signal-value-icon">¥</span>
+                                  <p className="realtime-signal-value-label">预测值</p>
+                                </div>
+                                <p className="realtime-signal-value-number">
+                                  {Number(selectedData.predicted_value).toLocaleString()}
+                                </p>
+                              </div>
+                              <div className="realtime-signal-value-card">
+                                <div className="realtime-signal-value-header">
+                                  <span className="realtime-signal-value-icon">▶</span>
+                                  <p className="realtime-signal-value-label">当前值</p>
+                                </div>
+                                <p className="realtime-signal-value-number">
+                                  {Number(selectedData.current_value).toLocaleString()}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* 交易信息表格 */}
+                            <div className="realtime-signal-trade-info-table">
+                              {/* 表头行 */}
+                              <div className="realtime-signal-trade-info-table-header">
+                                <div className="realtime-signal-trade-info-table-header-cell">
+                                  偏离度
+                                  <span className="realtime-signal-info-icon" title="价格偏离预测值的百分比">i</span>
+                                </div>
+                                <div className="realtime-signal-trade-info-table-header-cell">
+                                  {tradeDirection.entryLabel}
+                                </div>
+                                <div className="realtime-signal-trade-info-table-header-cell">
+                                  {tradeDirection.exitLabel}
+                                </div>
+                                <div className="realtime-signal-trade-info-table-header-cell">
+                                  操作建议
+                                </div>
+                              </div>
+                              {/* 数据行 */}
+                              <div className="realtime-signal-trade-info-table-row">
+                                <div className="realtime-signal-trade-info-table-cell">
+                                  {selectedData.deviation}
+                                </div>
+                                <div className="realtime-signal-trade-info-table-cell">
+                                  {tradeDirection.entryValue || selectedData.entry_range}
+                                </div>
+                                <div className="realtime-signal-trade-info-table-cell">
+                                  {tradeDirection.exitValue || selectedData.exit_range}
+                                </div>
+                                <div className={`realtime-signal-trade-info-table-cell realtime-signal-trade-info-table-cell-action ${actionColorClass}`}>
+                                  {selectedData.operation_suggestion}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="realtime-signal-error">
+                            <p>暂无数据</p>
+                          </div>
+                        )}
+                      </div>
+                    </>
                   )}
-
-                  {/* 主要内容区域 */}
-                  <div className="realtime-signal-page-content">
-                    {loading ? (
-                      <div className="realtime-signal-loading">
-                        <div className="realtime-signal-loading-spinner"></div>
-                        <p>加载中...</p>
-                      </div>
-                    ) : error ? (
-                      <div className="realtime-signal-error">
-                        <p>{error}</p>
-                      </div>
-                    ) : selectedData ? (
-                      <>
-                        {/* 预测值和当前值卡片 */}
-                        <div className="realtime-signal-value-cards">
-                          <div className="realtime-signal-value-card">
-                            <div className="realtime-signal-value-header">
-                              <span className="realtime-signal-value-icon">¥</span>
-                              <p className="realtime-signal-value-label">预测值</p>
-                            </div>
-                            <p className="realtime-signal-value-number">
-                              {Number(selectedData.predicted_value).toLocaleString()}
-                            </p>
-                          </div>
-                          <div className="realtime-signal-value-card">
-                            <div className="realtime-signal-value-header">
-                              <span className="realtime-signal-value-icon">▶</span>
-                              <p className="realtime-signal-value-label">当前值</p>
-                            </div>
-                            <p className="realtime-signal-value-number">
-                              {Number(selectedData.current_value).toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* 交易信息表格 */}
-                        <div className="realtime-signal-trade-info-table">
-                          {/* 表头行 */}
-                          <div className="realtime-signal-trade-info-table-header">
-                            <div className="realtime-signal-trade-info-table-header-cell">
-                              偏离度
-                              <span className="realtime-signal-info-icon" title="价格偏离预测值的百分比">i</span>
-                            </div>
-                            <div className="realtime-signal-trade-info-table-header-cell">
-                              {tradeDirection.entryLabel}
-                            </div>
-                            <div className="realtime-signal-trade-info-table-header-cell">
-                              {tradeDirection.exitLabel}
-                            </div>
-                            <div className="realtime-signal-trade-info-table-header-cell">
-                              操作建议
-                            </div>
-                          </div>
-                          {/* 数据行 */}
-                          <div className="realtime-signal-trade-info-table-row">
-                            <div className="realtime-signal-trade-info-table-cell">
-                              {selectedData.deviation}
-                            </div>
-                            <div className="realtime-signal-trade-info-table-cell">
-                              {tradeDirection.entryValue || selectedData.entry_range}
-                            </div>
-                            <div className="realtime-signal-trade-info-table-cell">
-                              {tradeDirection.exitValue || selectedData.exit_range}
-                            </div>
-                            <div className={`realtime-signal-trade-info-table-cell realtime-signal-trade-info-table-cell-action ${actionColorClass}`}>
-                              {selectedData.operation_suggestion}
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="realtime-signal-error">
-                        <p>暂无数据</p>
-                      </div>
-                    )}
-                  </div>
                 </>
               )}
 
               {/* 14天后交易机会 */}
               {unilateralTab === '14d' && (
-                <div className="realtime-signal-opportunity-summary">
-                  <div className="realtime-signal-opportunity-header">
-                    <div className="realtime-signal-opportunity-title-wrapper">
-                      <h3 className="realtime-signal-opportunity-title">
-                        14天后单边交易机会汇总
-                      </h3>
-                      {tradingOpportunity14d?.date && (
-                        <span className="realtime-signal-opportunity-date">
-                          {tradingOpportunity14d.date}
-                        </span>
-                      )}
-                    </div>
+                permissionLevel !== 99 && !permissions.includes('单边价格-14天后交易机会') ? (
+                  <div className="realtime-signal-lock-container" style={{ position: 'relative', minHeight: '400px' }}>
+                    <LockOverlay />
                   </div>
-
-                  {loading14d ? (
-                    <div className="realtime-signal-opportunity-loading">
-                      <div className="realtime-signal-loading-spinner"></div>
-                      <p>加载中...</p>
-                    </div>
-                  ) : error14d ? (
-                    <div className="realtime-signal-opportunity-error">
-                      <p>{error14d}</p>
-                    </div>
-                  ) : tradingOpportunity14d && tradingOpportunity14d.trading_opportunities.length > 0 ? (
-                    <div className="realtime-signal-opportunity-table-container">
-                      <div className="realtime-signal-opportunity-table">
-                        <div className="realtime-signal-opportunity-table-header">
-                          <div className="realtime-signal-opportunity-table-header-cell">现货</div>
-                          <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
-                          <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
-                        </div>
-                        {tradingOpportunity14d.trading_opportunities.map((item, index) => {
-                          const isLong = item.trading_direction === '做多'
-                          const isShort = item.trading_direction === '做空'
-
-                          return (
-                            <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
-                              <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
-                                {item.project_id}
-                              </div>
-                              <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                                }`}>
-                                {item.trading_direction || '-'}
-                              </div>
-                              <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
-                                {formatProfitLossRatio(item.profit_loss_ratio)}
-                              </div>
-                            </div>
-                          )
-                        })}
+                ) : (
+                  <div className="realtime-signal-opportunity-summary">
+                    <div className="realtime-signal-opportunity-header">
+                      <div className="realtime-signal-opportunity-title-wrapper">
+                        <h3 className="realtime-signal-opportunity-title">
+                          14天后单边交易机会汇总
+                        </h3>
+                        {tradingOpportunity14d?.date && (
+                          <span className="realtime-signal-opportunity-date">
+                            {tradingOpportunity14d.date}
+                          </span>
+                        )}
                       </div>
                     </div>
-                  ) : (
-                    <div className="realtime-signal-opportunity-empty">
-                      <p>暂无数据</p>
-                    </div>
-                  )}
-                </div>
+
+                    {loading14d ? (
+                      <div className="realtime-signal-opportunity-loading">
+                        <div className="realtime-signal-loading-spinner"></div>
+                        <p>加载中...</p>
+                      </div>
+                    ) : error14d ? (
+                      <div className="realtime-signal-opportunity-error">
+                        <p>{error14d}</p>
+                      </div>
+                    ) : tradingOpportunity14d && tradingOpportunity14d.trading_opportunities.length > 0 ? (
+                      <div className="realtime-signal-opportunity-table-container">
+                        <div className="realtime-signal-opportunity-table">
+                          <div className="realtime-signal-opportunity-table-header">
+                            <div className="realtime-signal-opportunity-table-header-cell">现货</div>
+                            <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                            <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                          </div>
+                          {tradingOpportunity14d.trading_opportunities.map((item, index) => {
+                            const isLong = item.trading_direction === '做多'
+                            const isShort = item.trading_direction === '做空'
+
+                            return (
+                              <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                                <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                  {item.project_id}
+                                </div>
+                                <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                  }`}>
+                                  {item.trading_direction || '-'}
+                                </div>
+                                <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                  {formatProfitLossRatio(item.profit_loss_ratio)}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="realtime-signal-opportunity-empty">
+                        <p>暂无数据</p>
+                      </div>
+                    )}
+                  </div>
+                )
               )}
 
               {/* 42天后交易机会 */}
               {unilateralTab === '42d' && (
-                <div className="realtime-signal-opportunity-summary">
-                  <div className="realtime-signal-opportunity-header">
-                    <div className="realtime-signal-opportunity-title-wrapper">
-                      <h3 className="realtime-signal-opportunity-title">
-                        42天后单边交易机会汇总
-                      </h3>
-                      {tradingOpportunity42d?.date && (
-                        <span className="realtime-signal-opportunity-date">
-                          {tradingOpportunity42d.date}
-                        </span>
-                      )}
-                    </div>
+                permissionLevel !== 99 && !permissions.includes('单边价格-42天后交易机会') ? (
+                  <div className="realtime-signal-lock-container" style={{ position: 'relative', minHeight: '400px' }}>
+                    <LockOverlay />
                   </div>
+                ) : (
+                  <div className="realtime-signal-opportunity-summary">
+                    <div className="realtime-signal-opportunity-header">
+                      <div className="realtime-signal-opportunity-title-wrapper">
+                        <h3 className="realtime-signal-opportunity-title">
+                          42天后单边交易机会汇总
+                        </h3>
+                        {tradingOpportunity42d?.date && (
+                          <span className="realtime-signal-opportunity-date">
+                            {tradingOpportunity42d.date}
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
-                  {loading42d ? (
-                    <div className="realtime-signal-opportunity-loading">
-                      <div className="realtime-signal-loading-spinner"></div>
-                      <p>加载中...</p>
-                    </div>
-                  ) : error42d ? (
-                    <div className="realtime-signal-opportunity-error">
-                      <p>{error42d}</p>
-                    </div>
-                  ) : tradingOpportunity42d && (
-                    tradingOpportunity42d.spot_opportunities.length > 0 || tradingOpportunity42d.futures_opportunities.length > 0
-                  ) ? (
-                    <div className="realtime-signal-opportunity-42d-content">
-                      {/* 现货部分 */}
-                      {tradingOpportunity42d.spot_opportunities.length > 0 && (
-                        <div className="realtime-signal-opportunity-section">
-                          <div className="realtime-signal-opportunity-section-header">
-                            <h4 className="realtime-signal-opportunity-section-title">现货</h4>
-                          </div>
-                          <div className="realtime-signal-opportunity-table-container">
-                            <div className="realtime-signal-opportunity-table">
-                              <div className="realtime-signal-opportunity-table-header">
-                                <div className="realtime-signal-opportunity-table-header-cell">现货</div>
-                                <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
-                                <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                    {loading42d ? (
+                      <div className="realtime-signal-opportunity-loading">
+                        <div className="realtime-signal-loading-spinner"></div>
+                        <p>加载中...</p>
+                      </div>
+                    ) : error42d ? (
+                      <div className="realtime-signal-opportunity-error">
+                        <p>{error42d}</p>
+                      </div>
+                    ) : tradingOpportunity42d && (
+                      tradingOpportunity42d.spot_opportunities.length > 0 || tradingOpportunity42d.futures_opportunities.length > 0
+                    ) ? (
+                      <div className="realtime-signal-opportunity-42d-content">
+                        {/* 现货部分 */}
+                        {tradingOpportunity42d.spot_opportunities.length > 0 && (
+                          <div className="realtime-signal-opportunity-section">
+                            <div className="realtime-signal-opportunity-section-header">
+                              <h4 className="realtime-signal-opportunity-section-title">现货</h4>
+                            </div>
+                            <div className="realtime-signal-opportunity-table-container">
+                              <div className="realtime-signal-opportunity-table">
+                                <div className="realtime-signal-opportunity-table-header">
+                                  <div className="realtime-signal-opportunity-table-header-cell">现货</div>
+                                  <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                                  <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                                </div>
+                                {tradingOpportunity42d.spot_opportunities.map((item, index) => {
+                                  const isLong = item.trading_direction === '做多'
+                                  const isShort = item.trading_direction === '做空'
+
+                                  return (
+                                    <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                                      <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                        {item.project_id}
+                                      </div>
+                                      <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                        }`}>
+                                        {item.trading_direction || '-'}
+                                      </div>
+                                      <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                        {formatProfitLossRatio(item.profit_loss_ratio)}
+                                      </div>
+                                    </div>
+                                  )
+                                })}
                               </div>
-                              {tradingOpportunity42d.spot_opportunities.map((item, index) => {
-                                const isLong = item.trading_direction === '做多'
-                                const isShort = item.trading_direction === '做空'
-
-                                return (
-                                  <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
-                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
-                                      {item.project_id}
-                                    </div>
-                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                                      }`}>
-                                      {item.trading_direction || '-'}
-                                    </div>
-                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
-                                      {formatProfitLossRatio(item.profit_loss_ratio)}
-                                    </div>
-                                  </div>
-                                )
-                              })}
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* 期货部分 */}
-                      {tradingOpportunity42d.futures_opportunities.length > 0 && (
-                        <div className="realtime-signal-opportunity-section">
-                          <div className="realtime-signal-opportunity-section-header">
-                            <h4 className="realtime-signal-opportunity-section-title">期货</h4>
-                          </div>
-                          <div className="realtime-signal-opportunity-table-container">
-                            <div className="realtime-signal-opportunity-table">
-                              <div className="realtime-signal-opportunity-table-header">
-                                <div className="realtime-signal-opportunity-table-header-cell">期货</div>
-                                <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
-                                <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                        {/* 期货部分 */}
+                        {tradingOpportunity42d.futures_opportunities.length > 0 && (
+                          <div className="realtime-signal-opportunity-section">
+                            <div className="realtime-signal-opportunity-section-header">
+                              <h4 className="realtime-signal-opportunity-section-title">期货</h4>
+                            </div>
+                            <div className="realtime-signal-opportunity-table-container">
+                              <div className="realtime-signal-opportunity-table">
+                                <div className="realtime-signal-opportunity-table-header">
+                                  <div className="realtime-signal-opportunity-table-header-cell">期货</div>
+                                  <div className="realtime-signal-opportunity-table-header-cell">建议交易方向</div>
+                                  <div className="realtime-signal-opportunity-table-header-cell">盈亏比</div>
+                                </div>
+                                {tradingOpportunity42d.futures_opportunities.map((item, index) => {
+                                  const isLong = item.trading_direction === '做多'
+                                  const isShort = item.trading_direction === '做空'
+
+                                  return (
+                                    <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
+                                      <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
+                                        {item.project_id}
+                                      </div>
+                                      <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
+                                        }`}>
+                                        {item.trading_direction || '-'}
+                                      </div>
+                                      <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
+                                        {formatProfitLossRatio(item.profit_loss_ratio)}
+                                      </div>
+                                    </div>
+                                  )
+                                })}
                               </div>
-                              {tradingOpportunity42d.futures_opportunities.map((item, index) => {
-                                const isLong = item.trading_direction === '做多'
-                                const isShort = item.trading_direction === '做空'
-
-                                return (
-                                  <div key={item.project_id || index} className="realtime-signal-opportunity-table-row">
-                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-code">
-                                      {item.project_id}
-                                    </div>
-                                    <div className={`realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-direction ${isLong ? 'direction-long' : isShort ? 'direction-short' : ''
-                                      }`}>
-                                      {item.trading_direction || '-'}
-                                    </div>
-                                    <div className="realtime-signal-opportunity-table-cell realtime-signal-opportunity-table-cell-ratio">
-                                      {formatProfitLossRatio(item.profit_loss_ratio)}
-                                    </div>
-                                  </div>
-                                )
-                              })}
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="realtime-signal-opportunity-empty">
-                      <p>暂无数据</p>
-                    </div>
-                  )}
-                </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="realtime-signal-opportunity-empty">
+                        <p>暂无数据</p>
+                      </div>
+                    )}
+                  </div>
+                )
               )}
             </>
           )}
 
           {/* 双边价格信号内容 */}
           {mainTab === 'bilateral' && (
-            <div className="realtime-signal-bilateral-summary">
-              <div className="realtime-signal-bilateral-header">
-                <div className="realtime-signal-bilateral-title-wrapper">
-                  <h3 className="realtime-signal-bilateral-title">基差交易机会汇总</h3>
-                  {bilateralOpportunity?.date && (
-                    <span className="realtime-signal-bilateral-date">{bilateralOpportunity.date}</span>
-                  )}
-                </div>
+            permissionLevel !== 99 && !permissions.includes('双边价格-基差交易机会') ? (
+              <div className="realtime-signal-lock-container" style={{ position: 'relative', minHeight: '400px' }}>
+                <LockOverlay />
               </div>
+            ) : (
+              <div className="realtime-signal-bilateral-summary">
+                <div className="realtime-signal-bilateral-header">
+                  <div className="realtime-signal-bilateral-title-wrapper">
+                    <h3 className="realtime-signal-bilateral-title">基差交易机会汇总</h3>
+                    {bilateralOpportunity?.date && (
+                      <span className="realtime-signal-bilateral-date">{bilateralOpportunity.date}</span>
+                    )}
+                  </div>
+                </div>
 
-              {loadingBilateral ? (
-                <div className="realtime-signal-bilateral-loading">
-                  <div className="realtime-signal-loading-spinner"></div>
-                  <p>加载中...</p>
-                </div>
-              ) : errorBilateral ? (
-                <div className="realtime-signal-bilateral-error">
-                  <p>{errorBilateral}</p>
-                </div>
-              ) : bilateralOpportunity && (
-                bilateralOpportunity.spot_vs_futures.length > 0 ||
-                bilateralOpportunity.spot_vs_spot.length > 0 ||
-                bilateralOpportunity.futures_vs_futures.length > 0
-              ) ? (
-                <div className="realtime-signal-bilateral-content">
-                  {/* 现货VS期货 */}
-                  {bilateralOpportunity.spot_vs_futures.length > 0 && (
-                    <div className="realtime-signal-bilateral-section">
-                      <div className="realtime-signal-bilateral-section-header">
-                        <h4 className="realtime-signal-bilateral-section-title">现货VS期货</h4>
-                      </div>
-                      <div className="realtime-signal-bilateral-table-container">
-                        <div className="realtime-signal-bilateral-table">
-                          <div className="realtime-signal-bilateral-table-header">
-                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                {loadingBilateral ? (
+                  <div className="realtime-signal-bilateral-loading">
+                    <div className="realtime-signal-loading-spinner"></div>
+                    <p>加载中...</p>
+                  </div>
+                ) : errorBilateral ? (
+                  <div className="realtime-signal-bilateral-error">
+                    <p>{errorBilateral}</p>
+                  </div>
+                ) : bilateralOpportunity && (
+                  bilateralOpportunity.spot_vs_futures.length > 0 ||
+                  bilateralOpportunity.spot_vs_spot.length > 0 ||
+                  bilateralOpportunity.futures_vs_futures.length > 0
+                ) ? (
+                  <div className="realtime-signal-bilateral-content">
+                    {/* 现货VS期货 */}
+                    {bilateralOpportunity.spot_vs_futures.length > 0 && (
+                      <div className="realtime-signal-bilateral-section">
+                        <div className="realtime-signal-bilateral-section-header">
+                          <h4 className="realtime-signal-bilateral-section-title">现货VS期货</h4>
+                        </div>
+                        <div className="realtime-signal-bilateral-table-container">
+                          <div className="realtime-signal-bilateral-table">
+                            <div className="realtime-signal-bilateral-table-header">
+                              <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                            </div>
+                            {bilateralOpportunity.spot_vs_futures.map((item, index) => {
+                              const { parts } = parseTradingDirection(item.combined_direction)
+                              return (
+                                <div key={index} className="realtime-signal-bilateral-table-row">
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                    {item.asset_pair}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                    {parts.map((part, partIndex) => (
+                                      <span
+                                        key={partIndex}
+                                        className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                          }`}
+                                      >
+                                        {part.text}
+                                        {partIndex < parts.length - 1 && ' '}
+                                      </span>
+                                    ))}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                    {formatProfitLossRatio(item.profit_loss_ratio)}
+                                  </div>
+                                </div>
+                              )
+                            })}
                           </div>
-                          {bilateralOpportunity.spot_vs_futures.map((item, index) => {
-                            const { parts } = parseTradingDirection(item.combined_direction)
-                            return (
-                              <div key={index} className="realtime-signal-bilateral-table-row">
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
-                                  {item.asset_pair}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
-                                  {parts.map((part, partIndex) => (
-                                    <span
-                                      key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                        }`}
-                                    >
-                                      {part.text}
-                                      {partIndex < parts.length - 1 && ' '}
-                                    </span>
-                                  ))}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
-                                  {formatProfitLossRatio(item.profit_loss_ratio)}
-                                </div>
-                              </div>
-                            )
-                          })}
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* 现货VS现货 */}
-                  {bilateralOpportunity.spot_vs_spot.length > 0 && (
-                    <div className="realtime-signal-bilateral-section">
-                      <div className="realtime-signal-bilateral-section-header">
-                        <h4 className="realtime-signal-bilateral-section-title">现货VS现货</h4>
-                      </div>
-                      <div className="realtime-signal-bilateral-table-container">
-                        <div className="realtime-signal-bilateral-table">
-                          <div className="realtime-signal-bilateral-table-header">
-                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                    {/* 现货VS现货 */}
+                    {bilateralOpportunity.spot_vs_spot.length > 0 && (
+                      <div className="realtime-signal-bilateral-section">
+                        <div className="realtime-signal-bilateral-section-header">
+                          <h4 className="realtime-signal-bilateral-section-title">现货VS现货</h4>
+                        </div>
+                        <div className="realtime-signal-bilateral-table-container">
+                          <div className="realtime-signal-bilateral-table">
+                            <div className="realtime-signal-bilateral-table-header">
+                              <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                            </div>
+                            {bilateralOpportunity.spot_vs_spot.map((item, index) => {
+                              const { parts } = parseTradingDirection(item.combined_direction)
+                              return (
+                                <div key={index} className="realtime-signal-bilateral-table-row">
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                    {item.asset_pair}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                    {parts.map((part, partIndex) => (
+                                      <span
+                                        key={partIndex}
+                                        className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                          }`}
+                                      >
+                                        {part.text}
+                                        {partIndex < parts.length - 1 && ' '}
+                                      </span>
+                                    ))}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                    {formatProfitLossRatio(item.profit_loss_ratio)}
+                                  </div>
+                                </div>
+                              )
+                            })}
                           </div>
-                          {bilateralOpportunity.spot_vs_spot.map((item, index) => {
-                            const { parts } = parseTradingDirection(item.combined_direction)
-                            return (
-                              <div key={index} className="realtime-signal-bilateral-table-row">
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
-                                  {item.asset_pair}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
-                                  {parts.map((part, partIndex) => (
-                                    <span
-                                      key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                        }`}
-                                    >
-                                      {part.text}
-                                      {partIndex < parts.length - 1 && ' '}
-                                    </span>
-                                  ))}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
-                                  {formatProfitLossRatio(item.profit_loss_ratio)}
-                                </div>
-                              </div>
-                            )
-                          })}
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* 期货VS期货 */}
-                  {bilateralOpportunity.futures_vs_futures.length > 0 && (
-                    <div className="realtime-signal-bilateral-section">
-                      <div className="realtime-signal-bilateral-section-header">
-                        <h4 className="realtime-signal-bilateral-section-title">期货VS期货</h4>
-                      </div>
-                      <div className="realtime-signal-bilateral-table-container">
-                        <div className="realtime-signal-bilateral-table">
-                          <div className="realtime-signal-bilateral-table-header">
-                            <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
-                            <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                    {/* 期货VS期货 */}
+                    {bilateralOpportunity.futures_vs_futures.length > 0 && (
+                      <div className="realtime-signal-bilateral-section">
+                        <div className="realtime-signal-bilateral-section-header">
+                          <h4 className="realtime-signal-bilateral-section-title">期货</h4>
+                        </div>
+                        <div className="realtime-signal-bilateral-table-container">
+                          <div className="realtime-signal-bilateral-table">
+                            <div className="realtime-signal-bilateral-table-header">
+                              <div className="realtime-signal-bilateral-table-header-cell">交易对</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">建议交易方向</div>
+                              <div className="realtime-signal-bilateral-table-header-cell">盈亏比</div>
+                            </div>
+                            {bilateralOpportunity.futures_vs_futures.map((item, index) => {
+                              const { parts } = parseTradingDirection(item.combined_direction)
+                              return (
+                                <div key={index} className="realtime-signal-bilateral-table-row">
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
+                                    {item.asset_pair}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
+                                    {parts.map((part, partIndex) => (
+                                      <span
+                                        key={partIndex}
+                                        className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
+                                          }`}
+                                      >
+                                        {part.text}
+                                        {partIndex < parts.length - 1 && ' '}
+                                      </span>
+                                    ))}
+                                  </div>
+                                  <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
+                                    {formatProfitLossRatio(item.profit_loss_ratio)}
+                                  </div>
+                                </div>
+                              )
+                            })}
                           </div>
-                          {bilateralOpportunity.futures_vs_futures.map((item, index) => {
-                            const { parts } = parseTradingDirection(item.combined_direction)
-                            return (
-                              <div key={index} className="realtime-signal-bilateral-table-row">
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-pair">
-                                  {item.asset_pair}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-direction">
-                                  {parts.map((part, partIndex) => (
-                                    <span
-                                      key={partIndex}
-                                      className={`realtime-signal-bilateral-direction-part ${part.isLong ? 'direction-long' : part.isShort ? 'direction-short' : ''
-                                        }`}
-                                    >
-                                      {part.text}
-                                      {partIndex < parts.length - 1 && ' '}
-                                    </span>
-                                  ))}
-                                </div>
-                                <div className="realtime-signal-bilateral-table-cell realtime-signal-bilateral-table-cell-ratio">
-                                  {formatProfitLossRatio(item.profit_loss_ratio)}
-                                </div>
-                              </div>
-                            )
-                          })}
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="realtime-signal-bilateral-empty">
-                  <p>暂无数据</p>
-                </div>
-              )}
-            </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="realtime-signal-bilateral-empty">
+                    <p>暂无数据</p>
+                  </div>
+                )}
+              </div>
+            )
           )}
         </div>
       </div>
