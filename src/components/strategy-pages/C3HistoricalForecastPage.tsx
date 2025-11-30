@@ -14,6 +14,7 @@ interface ForecastData {
     date: string
     actual_price: number | null
     forecast_42d: number | null
+    forecast_14d: number | null
 }
 
 interface ApiResponse {
@@ -106,6 +107,10 @@ const C3HistoricalForecastPage: React.FC = () => {
                                     <span className="dot forecast-42"></span>
                                     <span>42天前预测价</span>
                                 </div>
+                                <div className="legend-item">
+                                    <span className="dot forecast-14"></span>
+                                    <span>14天前预测价</span>
+                                </div>
                             </div>
                         </div>
 
@@ -155,6 +160,16 @@ const C3HistoricalForecastPage: React.FC = () => {
                                         strokeWidth={2}
                                         dot={false}
                                         activeDot={{ r: 6, fill: '#3b82f6' }}
+                                        connectNulls
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="forecast_14d"
+                                        name="14天前预测价"
+                                        stroke="#10b981"
+                                        strokeWidth={2}
+                                        dot={false}
+                                        activeDot={{ r: 6, fill: '#10b981' }}
                                         connectNulls
                                     />
                                 </LineChart>
