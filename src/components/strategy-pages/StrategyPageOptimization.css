@@ -271,3 +271,11 @@
         transform: rotate(360deg);
     }
 }
+
+.text-long {
+    color: #4ade80 !important;
+}
+
+.text-short {
+    color: #ff4d4f !important;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import SideMenu from '../SideMenu'
+
+
 import './StrategyPageOptimization.css'
 import './P5DecisionPage.css'
 
@@ -17,6 +17,9 @@ interface CurrentForecast {
   overall_price_difference_range: string
   forecast_value: number
   probability: number
+  high_expected_value?: number
+  price_difference_ratio?: string
+  price_difference_range?: string
 }
 
 interface CoreData {
@@ -143,11 +146,9 @@ interface ApiResponse {
 }
 
 const P5DecisionPage: React.FC = () => {
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<P5Analysis | null>(null)
-  const [swapDate, setSwapDate] = useState<string>('')
   const [correctedStats, setCorrectedStats] = useState<{
     max_positive_returns_average: number
     max_positive_returns_maximum: number
@@ -161,9 +162,7 @@ const P5DecisionPage: React.FC = () => {
     min_negative_returns_minimum: number
   } | null>(null)
 
-  const handleBackClick = () => {
-    navigate('/product-service/strategy')
-  }
+
 
   useEffect(() => {
     const fetchDecisionData = async () => {
@@ -614,9 +613,9 @@ const P5DecisionPage: React.FC = () => {
               trading_recommendation: record.core_data.trading_recommendation,
               current_forecast: {
                 date: record.core_data.current_forecast.date,
-                current_value: record.core_data.current_forecast.high_expected_value,
-                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
-                overall_price_difference_range: record.core_data.current_forecast.price_difference_range,
+                current_value: record.core_data.current_forecast.high_expected_value || 0,
+                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
+                overall_price_difference_range: record.core_data.current_forecast.price_difference_range || '',
                 forecast_value: record.core_data.current_forecast.forecast_value,
                 probability: record.core_data.current_forecast.probability
               },
@@ -635,9 +634,9 @@ const P5DecisionPage: React.FC = () => {
               },
               p5_profit_loss_ratio: {
                 date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value,
+                current_price: record.core_data.current_forecast.high_expected_value || 0,
                 evaluated_price: 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
+                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
                 profitability_ratio_after_42days: 0,
                 average_returns: 0,
                 loss_ratio_after_42days: 0,
@@ -649,10 +648,10 @@ const P5DecisionPage: React.FC = () => {
               },
               model_evaluation: {
                 date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value,
+                current_price: record.core_data.current_forecast.high_expected_value || 0,
                 forecast_42day_price_difference: 0,
                 forecast_42day_price: record.core_data.current_forecast.forecast_value,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
+                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
                 evaluation_ranges: []
               }
             }
@@ -661,7 +660,7 @@ const P5DecisionPage: React.FC = () => {
             throw new Error('数据格式错误')
           }
 
-          setSwapDate(record.metadata?.swap_date || record.swap_date || result.data.date || '')
+
         } else {
           throw new Error('数据格式错误')
         }
@@ -714,7 +713,7 @@ const P5DecisionPage: React.FC = () => {
                 {/* 左侧策略卡片 */}
                 <div className="strategy-direction-card">
                   <div className="strategy-direction-badge">空头策略</div>
-                  <div className="strategy-direction-title">
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction.includes('多') ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

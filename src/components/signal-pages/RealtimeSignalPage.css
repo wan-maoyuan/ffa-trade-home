@@ -490,15 +490,17 @@
 }
 
 .realtime-signal-trade-info-table-cell-action.action-orange {
-  color: #ff8a65;
-  /* Brighter orange */
-  background: rgba(255, 107, 53, 0.15);
+  color: #ff8a80;
+  /* Red for Short */
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
 }
 
 .realtime-signal-trade-info-table-cell-action.action-green {
-  color: #66bb6a;
-  /* Brighter green */
-  background: rgba(76, 175, 80, 0.15);
+  color: #b9f6ca;
+  /* Green for Long */
+  background: rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(0, 230, 118, 0.4);
 }
 
 .realtime-signal-loading,
@@ -1022,20 +1024,6 @@
 }
 
 .realtime-signal-opportunity-table-cell-direction.direction-long {
-  color: #ff8a80;
-  background: rgba(255, 82, 82, 0.15);
-  border: 1px solid rgba(255, 82, 82, 0.4);
-  font-weight: 700;
-  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
-}
-
-.realtime-signal-opportunity-table-cell-direction.direction-long:hover {
-  background: rgba(255, 82, 82, 0.25);
-  border-color: rgba(255, 82, 82, 0.6);
-  transform: scale(1.05);
-}
-
-.realtime-signal-opportunity-table-cell-direction.direction-short {
   color: #b9f6ca;
   background: rgba(0, 230, 118, 0.15);
   border: 1px solid rgba(0, 230, 118, 0.4);
@@ -1043,9 +1031,23 @@
   text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
 }
 
-.realtime-signal-opportunity-table-cell-direction.direction-short:hover {
+.realtime-signal-opportunity-table-cell-direction.direction-long:hover {
   background: rgba(0, 230, 118, 0.25);
   border-color: rgba(0, 230, 118, 0.6);
+  transform: scale(1.05);
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-short {
+  color: #ff8a80;
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
+}
+
+.realtime-signal-opportunity-table-cell-direction.direction-short:hover {
+  background: rgba(255, 82, 82, 0.25);
+  border-color: rgba(255, 82, 82, 0.6);
   transform: scale(1.05);
 }
 
@@ -1576,19 +1578,19 @@
 }
 
 .realtime-signal-bilateral-direction-part.direction-long {
-  color: #ff8a80;
-  background: rgba(255, 82, 82, 0.15);
-  border: 1px solid rgba(255, 82, 82, 0.4);
-  font-weight: 700;
-  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
-}
-
-.realtime-signal-bilateral-direction-part.direction-short {
   color: #b9f6ca;
   background: rgba(0, 230, 118, 0.15);
   border: 1px solid rgba(0, 230, 118, 0.4);
   font-weight: 700;
   text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+}
+
+.realtime-signal-bilateral-direction-part.direction-short {
+  color: #ff8a80;
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
 }
 
 .realtime-signal-bilateral-table-cell-ratio {

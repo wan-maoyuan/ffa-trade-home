@@ -45,7 +45,7 @@ const FFASignalPage: React.FC = () => {
             <div className="signal-trade-info-table-cell">-6%</div>
             <div className="signal-trade-info-table-cell">&lt;11050</div>
             <div className="signal-trade-info-table-cell">&gt;17100</div>
-            <div className="signal-trade-info-table-cell signal-trade-info-table-cell-action">平多</div>
+            <div className="signal-trade-info-table-cell signal-trade-info-table-cell-action action-short">平多</div>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: 
+  background:
     radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
     radial-gradient(circle at 85% 90%, rgba(174, 196, 243, 0.15) 0%, transparent 50%);
   pointer-events: none;
@@ -84,7 +84,7 @@
   background: rgba(255, 255, 255, 0.94);
   border-radius: 26px;
   padding: clamp(28px, 3.5vw, 40px) clamp(28px, 3.8vw, 44px) clamp(32px, 4vw, 48px);
-  box-shadow: 
+  box-shadow:
     0 22px 44px rgba(27, 46, 89, 0.16),
     0 0 0 1px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -149,7 +149,7 @@
   padding: 30px 32px;
   border-radius: 24px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(243, 246, 253, 0.88) 100%);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(27, 44, 88, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -159,7 +159,7 @@
 }
 
 .p5-decision-cards-container:hover {
-  box-shadow: 
+  box-shadow:
     0 24px 48px rgba(27, 44, 88, 0.14),
     0 0 0 1px rgba(255, 255, 255, 0.8),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
@@ -375,7 +375,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  box-shadow: 
+  box-shadow:
     0 6px 16px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -384,17 +384,17 @@
 
 .p5-decision-returns-bar:hover {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .p5-decision-returns-bar.positive-bar {
-  background: linear-gradient(135deg, rgba(255, 182, 193, 0.9) 0%, rgba(255, 192, 203, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(144, 238, 144, 0.9) 0%, rgba(152, 251, 152, 0.8) 100%);
 }
 
 .p5-decision-returns-bar.negative-bar {
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.9) 0%, rgba(152, 251, 152, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 182, 193, 0.9) 0%, rgba(255, 192, 203, 0.8) 100%);
 }
 
 .p5-decision-returns-bar.average-bar {
@@ -423,7 +423,7 @@
   border-radius: 18px;
   padding: 20px 24px;
   background: linear-gradient(180deg, rgba(248, 250, 255, 0.95) 0%, rgba(235, 242, 255, 0.85) 100%);
-  box-shadow: 
+  box-shadow:
     0 10px 24px rgba(27, 44, 88, 0.12),
     0 2px 6px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -435,7 +435,7 @@
 }
 
 .p5-decision-returns-card:hover {
-  box-shadow: 
+  box-shadow:
     0 14px 30px rgba(27, 44, 88, 0.14),
     0 4px 10px rgba(46, 86, 163, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -543,7 +543,7 @@
   padding: 18px 20px;
   border-radius: 14px;
   background: linear-gradient(180deg, rgba(248, 250, 255, 0.95) 0%, rgba(235, 242, 255, 0.85) 100%);
-  box-shadow: 
+  box-shadow:
     0 8px 20px rgba(46, 86, 163, 0.14),
     0 2px 6px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -556,7 +556,7 @@
 
 .p5-decision-model-summary-card:hover {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 12px 28px rgba(46, 86, 163, 0.18),
     0 4px 10px rgba(46, 86, 163, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -584,7 +584,7 @@
   width: 100%;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 10px 28px rgba(27, 44, 88, 0.14),
     0 0 0 1px rgba(255, 255, 255, 0.6);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.95) 100%);
@@ -682,7 +682,7 @@
   width: 100%;
   overflow-x: auto;
   border-radius: 18px;
-  box-shadow: 
+  box-shadow:
     0 8px 24px rgba(27, 44, 88, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.6);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.95) 100%);
@@ -836,7 +836,7 @@
   padding: 18px 20px;
   border-radius: 14px;
   background: linear-gradient(180deg, rgba(248, 250, 255, 0.95) 0%, rgba(235, 242, 255, 0.85) 100%);
-  box-shadow: 
+  box-shadow:
     0 8px 20px rgba(46, 86, 163, 0.14),
     0 2px 6px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -849,7 +849,7 @@
 
 .p5-decision-profit-loss-card:hover {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 12px 28px rgba(46, 86, 163, 0.18),
     0 4px 10px rgba(46, 86, 163, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -883,7 +883,7 @@
   border-radius: 18px;
   padding: 20px 24px;
   background: linear-gradient(180deg, rgba(248, 250, 255, 0.95) 0%, rgba(235, 242, 255, 0.85) 100%);
-  box-shadow: 
+  box-shadow:
     0 10px 24px rgba(27, 44, 88, 0.12),
     0 2px 6px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -895,7 +895,7 @@
 }
 
 .p5-decision-profit-loss-timing-card:hover {
-  box-shadow: 
+  box-shadow:
     0 14px 30px rgba(27, 44, 88, 0.14),
     0 4px 10px rgba(46, 86, 163, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -983,7 +983,7 @@
   border-radius: 18px;
   padding: 20px 24px;
   background: linear-gradient(180deg, rgba(248, 250, 255, 0.95) 0%, rgba(235, 242, 255, 0.85) 100%);
-  box-shadow: 
+  box-shadow:
     0 10px 24px rgba(27, 44, 88, 0.12),
     0 2px 6px rgba(46, 86, 163, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -995,7 +995,7 @@
 }
 
 .p5-decision-profit-loss-risk-card:hover {
-  box-shadow: 
+  box-shadow:
     0 14px 30px rgba(27, 44, 88, 0.14),
     0 4px 10px rgba(46, 86, 163, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -1039,4 +1039,3 @@
     grid-template-columns: 1fr;
   }
 }
-

@@ -561,7 +561,13 @@ const RealtimeSignalPage: React.FC = () => {
 
   // 根据操作建议判断颜色
   const getActionColorClass = (suggestion: string) => {
-    if (suggestion.includes('平空') || suggestion.includes('空仓')) {
+    // International Standard: Green for Long/Buy/Up, Red for Short/Sell/Down
+    // 开多 (Open Long) -> Green
+    // 平空 (Close Short/Buy Back) -> Green
+    // 空仓 (Empty/Safe) -> Green
+    // 开空 (Open Short) -> Red
+    // 平多 (Close Long/Sell) -> Red
+    if (suggestion.includes('开多') || suggestion.includes('平空') || suggestion.includes('空仓')) {
       return 'action-green'
     }
     return 'action-orange'

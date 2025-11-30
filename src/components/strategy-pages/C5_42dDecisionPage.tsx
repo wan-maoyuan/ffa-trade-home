@@ -532,9 +532,9 @@ const C5_42dDecisionPage: React.FC = () => {
               trading_recommendation: record.core_data.trading_recommendation,
               current_forecast: {
                 date: record.core_data.current_forecast.date,
-                current_value: record.core_data.current_forecast.high_expected_value,
-                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
-                overall_price_difference_range: record.core_data.current_forecast.price_difference_range,
+                current_value: record.core_data.current_forecast.high_expected_value || 0,
+                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
+                overall_price_difference_range: record.core_data.current_forecast.price_difference_range || '',
                 forecast_value: record.core_data.current_forecast.forecast_value,
                 probability: record.core_data.current_forecast.probability
               },
@@ -553,9 +553,9 @@ const C5_42dDecisionPage: React.FC = () => {
               },
               c5_profit_loss_ratio: {
                 date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value,
+                current_price: record.core_data.current_forecast.high_expected_value || 0,
                 evaluated_price: 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
+                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
                 profitability_ratio_after_42days: 0,
                 average_returns: 0,
                 loss_ratio_after_42days: 0,
@@ -567,10 +567,10 @@ const C5_42dDecisionPage: React.FC = () => {
               },
               model_evaluation: {
                 date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value,
+                current_price: record.core_data.current_forecast.high_expected_value || 0,
                 forecast_42day_price_difference: 0,
                 forecast_42day_price: record.core_data.current_forecast.forecast_value,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio,
+                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
                 evaluation_ranges: []
               }
             }
@@ -628,7 +628,7 @@ const C5_42dDecisionPage: React.FC = () => {
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
                   <div className="strategy-direction-badge">多头策略</div>
-                  <div className="strategy-direction-title">
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction.includes('多') ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

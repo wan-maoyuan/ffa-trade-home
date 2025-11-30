@@ -63,6 +63,16 @@
   /* White text */
 }
 
+.signal-trade-item-long {
+  color: #4ade80;
+  /* Brighter green for dark theme */
+}
+
+.signal-trade-item-short {
+  color: #ff4d4f;
+  /* Brighter red for dark theme */
+}
+
 .signal-eyebrow {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;

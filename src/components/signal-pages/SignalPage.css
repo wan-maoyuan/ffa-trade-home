@@ -223,8 +223,17 @@
 }
 
 .signal-trade-info-table-cell-action {
-  color: #ef4444;
   font-weight: 700;
+}
+
+.signal-trade-info-table-cell-action.action-long {
+  color: #4ade80;
+  /* Green for Long/Buy */
+}
+
+.signal-trade-info-table-cell-action.action-short {
+  color: #ff4d4f;
+  /* Red for Short/Sell */
 }
 
 /* 单头寸交易信号汇总页面样式 */
@@ -335,13 +344,13 @@
 }
 
 .signal-trade-item-long {
-  color: #ff4d4f;
-  /* Brighter red for dark theme */
+  color: #4ade80;
+  /* Brighter green for dark theme */
 }
 
 .signal-trade-item-short {
-  color: #4ade80;
-  /* Brighter green for dark theme */
+  color: #ff4d4f;
+  /* Brighter red for dark theme */
 }
 
 .signal-trade-item-ratio {

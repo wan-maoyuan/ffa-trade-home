@@ -23,7 +23,7 @@ const SinglePositionEvaluation: React.FC = () => {
             {/* 左侧策略方向卡片 */}
             <div className="strategy-direction-card">
               <div className="strategy-direction-badge">多头策略</div>
-              <div className="strategy-direction-title">做 多</div>
+              <div className="strategy-direction-title text-long">做 多</div>
               <div className="strategy-direction-subtitle">建议交易方向</div>
             </div>
 
