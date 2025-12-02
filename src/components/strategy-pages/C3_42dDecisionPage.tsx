@@ -13,6 +13,7 @@ interface CurrentForecast {
   overall_price_difference_ratio: string
   overall_price_difference_range: string
   forecast_value: number
+  forecast_date?: string
   probability: number
   high_expected_value?: number
   price_difference_ratio?: string
@@ -206,8 +207,9 @@ const C3_42dDecisionPage: React.FC = () => {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
                 }
-                if (row[0] === '做多' && row.length >= 4) {
-                  recommendedDirection = '做多'
+                // 支持"做多"和"做空"两种方向
+                if ((row[0] === '做多' || row[0] === '做空') && row.length >= 4) {
+                  recommendedDirection = String(row[0] || '做多')
                   date = String(row[1] || '')
                   currentValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
                   overallPriceDiffRatio = String(row[3] || '')
@@ -756,7 +758,7 @@ const C3_42dDecisionPage: React.FC = () => {
             {/* 头部统计 */}
             <div className="strategy-tags">
               <div className="strategy-tag">
-                <p>做多胜率统计</p>
+                <p>{analysis.trading_recommendation.recommended_direction === '做空' ? '做空胜率统计' : '做多胜率统计'}</p>
               </div>
               <div className="strategy-tag">
                 <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
