@@ -173,36 +173,7 @@ const UserManagementPage: React.FC = () => {
         }
     }
 
-    const handleDeleteClick = async (userId: string) => {
-        if (!window.confirm('确定要删除该用户吗？此操作无法撤销。')) {
-            return
-        }
 
-        try {
-            const token = localStorage.getItem('token')
-            const response = await fetch('https://aqua.navgreen.cn/api/user/delete', {
-                method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ user_id: userId })
-            })
-
-            const data = await response.json()
-
-            if (response.ok && data.code === 200) {
-                alert('删除成功')
-                fetchUsers()
-            } else {
-                alert(data.msg || '删除失败')
-            }
-        } catch (error) {
-            console.error('Delete operation failed:', error)
-            alert('操作失败，请重试')
-        }
-    }
 
     const closeModal = () => {
         setEditingUser(null)
@@ -325,12 +296,7 @@ const UserManagementPage: React.FC = () => {
                                                 >
                                                     编辑
                                                 </button>
-                                                <button
-                                                    className="action-btn delete-btn"
-                                                    onClick={() => handleDeleteClick(user.user_id)}
-                                                >
-                                                    删除
-                                                </button>
+
                                             </div>
                                         </td>
                                     </tr>
