@@ -48,7 +48,10 @@ const UserManagementPage: React.FC = () => {
             const data = await response.json()
 
             if (data.code === 200 && data.data && data.data.users) {
-                setUsers(data.data.users)
+                const sortedUsers = data.data.users.sort((a: User, b: User) =>
+                    new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+                )
+                setUsers(sortedUsers)
             } else {
                 console.error('Failed to fetch users:', data.msg)
             }
@@ -242,7 +245,7 @@ const UserManagementPage: React.FC = () => {
                 <div className="page-header">
                     <div>
                         <h1 className="page-title">用户管理</h1>
-                        <p className="page-subtitle">管理系统用户及其权限</p>
+                        <p className="page-subtitle">管理系统用户及其权限 <span style={{ marginLeft: '10px', fontSize: '0.9em', opacity: 0.8 }}>(共 {users.length} 人)</span></p>
                     </div>
                     <button className="action-btn create-btn" onClick={handleCreateClick}>
                         新增用户
@@ -365,7 +368,14 @@ const UserManagementPage: React.FC = () => {
                             </div>
                             {/* Password and Permission fields removed as per request */}
                             <div className="form-group">
-                                <label>信号权限</label>
+                                <div className="label-row">
+                                    <label>信号权限</label>
+                                    <div className="selection-controls">
+                                        <button type="button" className="text-btn" onClick={() => setFormData(prev => ({ ...prev, signal: [...AVAILABLE_SIGNALS] }))}>全选</button>
+                                        <span className="divider">|</span>
+                                        <button type="button" className="text-btn" onClick={() => setFormData(prev => ({ ...prev, signal: [] }))}>取消全选</button>
+                                    </div>
+                                </div>
                                 <div className="checkbox-group">
                                     {AVAILABLE_SIGNALS.map(sig => (
                                         <label key={sig} className="checkbox-label">
@@ -380,7 +390,14 @@ const UserManagementPage: React.FC = () => {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label>策略权限</label>
+                                <div className="label-row">
+                                    <label>策略权限</label>
+                                    <div className="selection-controls">
+                                        <button type="button" className="text-btn" onClick={() => setFormData(prev => ({ ...prev, strategy: [...AVAILABLE_STRATEGIES] }))}>全选</button>
+                                        <span className="divider">|</span>
+                                        <button type="button" className="text-btn" onClick={() => setFormData(prev => ({ ...prev, strategy: [] }))}>取消全选</button>
+                                    </div>
+                                </div>
                                 <div className="checkbox-group">
                                     {AVAILABLE_STRATEGIES.map(strat => (
                                         <label key={strat} className="checkbox-label">
