@@ -23,6 +23,7 @@ const UserManagementPage: React.FC = () => {
     const [loading, setLoading] = useState(true)
     const [editingUser, setEditingUser] = useState<User | null>(null)
     const [isCreating, setIsCreating] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -247,9 +248,24 @@ const UserManagementPage: React.FC = () => {
                         <h1 className="page-title">用户管理</h1>
                         <p className="page-subtitle">管理系统用户及其权限 <span style={{ marginLeft: '10px', fontSize: '0.9em', opacity: 0.8 }}>(共 {users.length} 人)</span></p>
                     </div>
-                    <button className="action-btn create-btn" onClick={handleCreateClick}>
-                        新增用户
-                    </button>
+                    <div className="header-actions">
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="搜索用户名 / 邮箱 / 公司..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                        <button className="action-btn create-btn" onClick={handleCreateClick}>
+                            新增用户
+                        </button>
+                    </div>
                 </div>
 
                 <div className="users-table-container">
@@ -270,7 +286,11 @@ const UserManagementPage: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(user => (
+                                {users.filter(user =>
+                                    user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    (user.company_name && user.company_name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                ).map(user => (
                                     <tr key={user.user_id}>
                                         <td className="id-cell" title={user.user_id}>{user.user_id.substring(0, 8)}...</td>
                                         <td className="font-medium">{user.username}</td>
