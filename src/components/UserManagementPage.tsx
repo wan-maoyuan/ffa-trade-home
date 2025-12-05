@@ -275,7 +275,6 @@ const UserManagementPage: React.FC = () => {
                         <table className="users-table">
                             <thead>
                                 <tr>
-                                    <th style={{ width: '80px' }}>ID</th>
                                     <th style={{ width: '100px' }}>用户名</th>
                                     <th style={{ width: '180px' }}>邮箱</th>
                                     <th style={{ width: '120px' }}>公司</th>
@@ -292,7 +291,6 @@ const UserManagementPage: React.FC = () => {
                                     (user.company_name && user.company_name.toLowerCase().includes(searchQuery.toLowerCase()))
                                 ).map(user => (
                                     <tr key={user.user_id}>
-                                        <td className="id-cell" title={user.user_id}>{user.user_id.substring(0, 8)}...</td>
                                         <td className="font-medium">{user.username}</td>
                                         <td className="text-gray">{user.email}</td>
                                         <td>{user.company_name || '-'}</td>

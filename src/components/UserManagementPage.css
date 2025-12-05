@@ -158,12 +158,6 @@
 }
 
 /* Utility Classes for Table Cells */
-.id-cell {
-    font-family: 'JetBrains Mono', monospace;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
-}
-
 .font-medium {
     font-weight: 500;
 }
