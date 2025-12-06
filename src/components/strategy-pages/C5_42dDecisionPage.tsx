@@ -208,8 +208,9 @@ const C5_42dDecisionPage: React.FC = () => {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
                 }
-                if (row[0] === '做多' && row.length >= 4) {
-                  recommendedDirection = '做多'
+                // 支持解析"做多"和"做空"
+                if ((row[0] === '做多' || row[0] === '做空') && row.length >= 4) {
+                  recommendedDirection = String(row[0] || '做多')
                   date = String(row[1] || '')
                   currentValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
                   overallPriceDiffRatio = String(row[3] || '')
@@ -753,7 +754,7 @@ const C5_42dDecisionPage: React.FC = () => {
             {/* 头部统计 */}
             <div className="strategy-tags">
               <div className="strategy-tag">
-                <p>做多胜率统计</p>
+                <p>{analysis.trading_recommendation.recommended_direction === '做空' ? '做空胜率统计' : '做多胜率统计'}</p>
               </div>
               <div className="strategy-tag">
                 <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
@@ -792,7 +793,21 @@ const C5_42dDecisionPage: React.FC = () => {
                     <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_range}</p>
                   </div>
                   <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">2026-01-07预测值</p>
+                    <p className="strategy-metric-label">
+                      {(() => {
+                        // 计算42天后的日期
+                        const currentDate = analysis.current_forecast.date ? new Date(analysis.current_forecast.date) : new Date()
+                        if (!isNaN(currentDate.getTime())) {
+                          const forecastDate = new Date(currentDate)
+                          forecastDate.setDate(forecastDate.getDate() + 42)
+                          const year = forecastDate.getFullYear()
+                          const month = String(forecastDate.getMonth() + 1).padStart(2, '0')
+                          const day = String(forecastDate.getDate()).padStart(2, '0')
+                          return `${year}-${month}-${day}预测值`
+                        }
+                        return '42天后预测值'
+                      })()}
+                    </p>
                     <p className="strategy-metric-value">
                       {analysis.current_forecast.forecast_value.toLocaleString()}
                     </p>
