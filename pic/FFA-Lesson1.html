@@ -1,0 +1,703 @@
+<!-- Chosen Palette: Marine Professional - Deep Ocean Blue (#0f172a), Slate Grey (#64748b) for text, Warm Sand/Beige (#f8fafc) for background, and Amber/Gold (#d97706) for highlights/actions. -->
+
+<!-- Application Structure Plan: 
+    The application follows a vertical narrative flow ("Scrollytelling") designed to guide the user from high-level concepts to practical application and finally to the ecosystem solution.
+    
+    1. Hero Section: Immediate value proposition focusing on "Anti-fragility" and "Asymmetric Returns".
+    2. Mechanism (Concept): Explains WHAT FFA is (Cash Settlement, Asian Pricing) and the Key Products (C5TC/P5TC). Includes a dynamic chart to visualize the smoothing effect of Asian Pricing.
+    3. Strategy (Application): An interactive "Hedging Simulator". This is the core "Aha!" moment where users see how FFA locks in revenue despite market volatility.
+    4. Execution (Process): 
+       - Visual Process Flow: CSS-based diagram showing the chain from Broker -> Clearing Member -> Exchange to explain safety.
+       - Calculator: Practical tool to estimate costs (Margin/Commission), making the barrier to entry feel lower.
+    5. Ecosystem (Solution): Cards for Aquabridge and FFATrade with specific service offerings and external links.
+
+    This structure is chosen to build mental models step-by-step: Definition -> Value -> How-to -> Who can help.
+-->
+
+<!-- Visualization & Content Choices:
+    1. Asian Pricing Chart (Chart.js): Line chart comparing a volatile daily index vs. the stable monthly average. Interaction: None (Auto-play/Static view), but shows the "Smoothing" concept clearly.
+    2. Hedging Simulator (Chart.js): Stacked/Grouped Bar Chart. Goal: Contrast "Unhedged" volatility vs "Hedged" stability. Interaction: Slider to change market price.
+    3. Process Flow (CSS Grid/Flex): Custom styled boxes connected by arrows to represent the 3-step clearing process (Broker -> Member -> Exchange) focusing on Broker, Clearing Member, and Exchange roles.
+    4. Cost Calculator (Vanilla JS): Inputs for Ship Type/Price/Days. Logic based on provided percentages (30% Cape, 20% PMX, 0.1% Comm).
+    5. No SVG/Mermaid: Used CSS shapes and Unicode for icons.
+-->
+
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFA - 航运世界的反脆弱工具 | Aquabridge & FFATrade</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        /* Chart container styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Hover effects */
+        .hover-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Process Flow Styling */
+        .flow-step {
+            position: relative;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        .flow-step:hover {
+            border-color: #d97706;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            padding: 0 1rem;
+        }
+        @media (max-width: 768px) {
+            .flow-arrow { transform: rotate(90deg); padding: 1rem 0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-slate-900 tracking-tighter">Aquabridge.<span class="text-amber-600">AI</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#mechanism" class="hover:text-amber-600 transition">机制原理</a>
+                    <a href="#strategy" class="hover:text-amber-600 transition">对冲模拟</a>
+                    <a href="#execution" class="hover:text-amber-600 transition">交易流程</a>
+                    <a href="#ecosystem" class="hover:text-amber-600 transition">生态系统</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-24 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-600 via-slate-900 to-slate-900"></div>
+        
+        <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-8 tracking-tight leading-tight">
+                FFA - 航运世界的<span class="text-amber-500">反脆弱</span>工具
+            </h1>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#mechanism" class="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg font-bold transition shadow-lg shadow-amber-600/20 flex items-center justify-center">
+                    探索 FFA 机制
+                </a>
+                <a href="#ecosystem" class="bg-transparent border border-slate-600 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold transition flex items-center justify-center">
+                    了解 Aquabridge 体系
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section I: Mechanism (What is FFA) -->
+    <section id="mechanism" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">I. 什么是 FFA？</h2>
+                <p class="lg:text-lg text-slate-600 max-w-2xl mx-auto">
+                    FFA (Forward Freight Agreement 远期运费协议) 是针对运费波动的现金结算工具。它通过“亚式定价”机制，将剧烈的市场波动转化为平稳的财务预期。
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12">
+                <!-- Left: Concepts & Contracts -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Concept 1 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 hover-card">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-lg text-blue-600 mr-4 text-xl">💰</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 mb-1">现金差价结算</h3>
+                                <p class="text-slate-600 text-sm">
+                                    不涉及实物交割。仅结算合约价格与市场价格的差额，极大提高了资金效率。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Concept 2 -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 hover-card">
+                        <div class="flex items-start">
+                            <div class="bg-amber-100 p-2 rounded-lg text-amber-600 mr-4 text-xl">📈</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 mb-1">亚式定价 (Asian Pricing)</h3>
+                                <p class="text-slate-600 text-sm">
+                                    结算价为到期月整月的<strong>平均价格</strong>。平滑单日极端波动，提供稳定的对冲基准。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Contracts Data -->
+                    <div class="bg-slate-900 text-white p-6 rounded-xl shadow-xl mt-8">
+                        <h3 class="text-lg font-bold text-amber-500 mb-4 border-b border-slate-700 pb-2">🚢 活跃合约构成 (占总成交约 80%)</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-xl font-bold">C5TC</span>
+                                    <span class="text-xs text-slate-400 block">好望角型 (Capesize)</span>
+                                </div>
+                                <div class="text-right text-sm text-slate-300 max-w-[180px]">
+                                    由 <span class="text-amber-400 font-bold">5</span> 条 Capesize 船型的平均期租租金构成
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-xl font-bold">P5TC</span>
+                                    <span class="text-xs text-slate-400 block">巴拿马型 (Panamax)</span>
+                                </div>
+                                <div class="text-right text-sm text-slate-300 max-w-[180px]">
+                                    由 <span class="text-amber-400 font-bold">5</span> 条 Panamax 船型的平均期租租金构成
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Visualization -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex flex-col justify-center">
+                    <h4 class="text-sm font-bold text-slate-500 mb-6 text-center tracking-wide uppercase">亚式定价平滑效应演示</h4>
+                    <div class="chart-container">
+                        <canvas id="mechanismChart"></canvas>
+                    </div>
+                    <div class="flex justify-center gap-6 mt-4 text-xs">
+                        <div class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span> 每日市场波动 (高风险)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 bg-amber-500 rounded-full mr-2"></span> 月度结算均价 (平稳)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section II: Strategy (Hedging Simulator) -->
+    <section id="strategy" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">II. 对冲策略：构建“反脆弱”护城河</h2>
+                <p class="lg:text-lg text-slate-600 max-w-3xl mx-auto">
+                    通过 FFA，无论市场暴涨还是暴跌，企业都能锁定预期的经营利润。这就叫“确定性”。
+                </p>
+            </div>
+
+            <!-- Simulator UI -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+                <!-- Simulator Header -->
+                <div class="bg-slate-900 text-white p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="2xl font-bold flex items-center gap-2">
+                            <span>🎮</span> 船东对冲模拟器
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-1">场景：您拥有一艘船，并在 FFA 市场做空 (卖出) 以锁定运费。</p>
+                    </div>
+                    <div class="bg-amber-600 px-6 py-3 rounded-lg shadow-lg">
+                        <span class="block text-xs text-amber-200 uppercase font-bold tracking-wider">锁定目标收益</span>
+                        <span class="text-2xl font-mono font-bold">$20,000 / 天</span>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                    <!-- Controls Panel -->
+                    <div class="lg:col-span-4 p-8 bg-slate-50">
+                        <div class="mb-8">
+                            <label class="block text-sm font-bold text-slate-700 mb-4 flex justify-between">
+                                <span>模拟：到期时实际市场运费</span>
+                                <span id="marketPriceDisplay" class="text-blue-600 font-mono text-lg">$15,000</span>
+                            </label>
+                            <input type="range" id="marketPriceSlider" min="5000" max="35000" step="500" value="15000" 
+                                   class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mt-2">
+                                <span>$5,000 (暴跌)</span>
+                                <span>$35,000 (暴涨)</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
+                                <span class="text-sm text-slate-600">实物市场收入</span>
+                                <span class="font-mono font-bold text-slate-900" id="phyRevenue">$15,000</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-white rounded-lg border border-slate-200 shadow-sm relative overflow-hidden">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300" id="pnlIndicator"></div>
+                                <span class="text-sm text-slate-600">FFA 盈亏对冲</span>
+                                <span class="font-mono font-bold" id="ffaPnL">+$5,000</span>
+                            </div>
+                            <div class="flex justify-between p-4 bg-slate-900 rounded-lg shadow-md mt-4">
+                                <span class="text-sm text-amber-400 font-bold uppercase tracking-wide">最终净收入</span>
+                                <span class="font-mono text-xl font-bold text-white" id="netRevenue">$20,000</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-xs text-slate-500 mt-6 leading-relaxed italic border-t border-slate-200 pt-4">
+                            * 观察右图：无论蓝色柱子（市场价）如何剧烈波动，橙色柱子（最终收入）始终稳如磐石。这就是护城河。
+                        </p>
+                    </div>
+
+                    <!-- Visualization Panel -->
+                    <div class="lg:col-span-8 p-8 flex flex-col justify-center bg-white">
+                        <div class="chart-container">
+                            <canvas id="hedgingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section III: Execution (Process & Costs) -->
+    <section id="execution" class="py-24 bg-white border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">III. 交易流程与模式</h2>
+                <p class="lg:text-lg text-slate-600 max-w-2xl mx-auto">
+                    理解从场外撮合到中央清算的完整链路，是保障资金安全的前提。
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                
+                <!-- Process Diagram Column -->
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold text-slate-800 border-l-4 border-blue-600 pl-4">安全交易闭环</h3>
+                    
+                    <!-- CSS Process Flow -->
+                    <div class="flex flex-col md:flex-row gap-4 w-full justify-between items-center">
+                        <!-- Step 1: Broker -->
+                        <div class="flow-step group w-full md:w-1/3">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🗣️</div>
+                            <h4 class="font-bold text-slate-900 mb-1">Broker 场外撮合</h4>
+                            <p class="text-sm text-slate-500">买卖双方通过经纪人达成价格与数量</p>
+                        </div>
+                        
+                        <!-- Arrow 1 (Broker -> Clearing Member) -->
+                        <div class="flow-arrow hidden md:flex">➜</div>
+                        <div class="flow-arrow flex md:hidden">⬇</div>
+
+                        <!-- Step 2: Clearing Member (Updated Content) -->
+                        <div class="flow-step group w-full md:w-1/3 border-2 border-green-400 bg-green-50">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🏦</div>
+                            <h4 class="font-bold text-green-800 mb-1">清算商介入清算</h4>
+                            <p class="text-sm text-green-700 font-medium">负责客户结账单</p>
+                            <p class="text-sm font-bold text-green-900 mt-1">逐日盯市（M-t-M）确保履约安全</p>
+                        </div>
+                        
+                        <!-- Arrow 2 (Clearing Member -> Exchange) -->
+                        <div class="flow-arrow hidden md:flex">➜</div>
+                        <div class="flow-arrow flex md:hidden">⬇</div>
+                        
+                        <!-- Step 3: Exchange (Updated Content) -->
+                        <div class="flow-step group w-full md:w-1/3 border-2 border-blue-400 bg-blue-50">
+                            <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">⚖️</div>
+                            <h4 class="font-bold text-blue-800 mb-1">交易所中央清算</h4>
+                            <p class="text-sm text-blue-700 font-medium">作为所有交易的最终对手方（CCP）</p>
+                            <p class="text-sm font-bold text-blue-900 mt-1">彻底消除对手方信用风险</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-5 flex gap-4">
+                        <div class="text-2xl text-blue-600">💡</div>
+                        <p class="text-sm text-blue-800 leading-relaxed">
+                            <strong>中央清算机制 (CCP)</strong> 是 FFA 区别于普通远期合同的关键。它通过保证金制度，几乎消除了交易对手违约的风险。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Calculator Column -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-100 rounded-bl-full -mr-12 -mt-12 z-0"></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 relative z-10 border-l-4 border-amber-500 pl-4">保证金与成本计算器</h3>
+                    
+                    <div class="space-y-5 relative z-10">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">船型 (Ship Type)</label>
+                            <select id="shipType" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 text-sm focus:ring-2 focus:ring-amber-500 outline-none transition">
+                                <option value="cape">Cape Size (好望角型) - 保证金 ~30%</option>
+                                <option value="pmx">Panamax (巴拿马型) - 保证金 ~20%</option>
+                            </select>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">合约价格 ($)</label>
+                                <input type="number" id="contractPrice" value="20000" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 text-sm font-mono focus:ring-2 focus:ring-amber-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">天数 (Days)</label>
+                                <input type="number" id="days" value="30" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 text-sm font-mono focus:ring-2 focus:ring-amber-500 outline-none transition">
+                            </div>
+                        </div>
+
+                        <button id="calcBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-lg font-bold transition shadow-md active:transform active:scale-95">
+                            计算资金要求
+                        </button>
+
+                        <!-- Results Area -->
+                        <div id="calcResults" class="hidden mt-6 bg-slate-50 rounded-lg p-5 border border-slate-200 animate-fade-in">
+                            <div class="grid grid-cols-2 gap-y-4 gap-x-2 text-center">
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-slate-500">合约总价值</p>
+                                    <p class="text-lg font-mono font-bold text-slate-900" id="totalValue">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-slate-500">预估初始保证金</p>
+                                    <p class="text-lg font-mono font-bold text-amber-600" id="initialMargin">-</p>
+                                </div>
+                                <div class="col-span-2 border-t border-slate-200 pt-3 mt-1">
+                                    <p class="text-[10px] uppercase tracking-wider text-slate-500">预估佣金 (0.1%)</p>
+                                    <p class="text-base font-mono font-bold text-slate-700" id="commission">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section IV: Ecosystem -->
+    <section id="ecosystem" class="py-24 bg-slate-900 text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">IV. 认知套利与高效执行</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    从建立认知体系到高效落地执行，我们为您提供完整的解决方案。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Aquabridge Card -->
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-2xl relative overflow-hidden group hover:border-blue-500 transition duration-300 flex flex-col h-full">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 text-8xl group-hover:opacity-10 transition pointer-events-none">🧠</div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-3xl font-bold text-white mb-2">Aquabridge</h3>
+                        <p class="text-blue-400 font-medium">以科技和金融赋能航运</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 text-slate-300 text-sm flex-grow">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">教育和培训</strong><br>建立长期正EV和反脆弱的认知体系。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">信号和策略</strong><br>基于大数据与 AI 的量化价格锚点。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">体系赋能</strong><br>提供跨界融合的策略服务。</span>
+                        </li>
+                    </ul>
+
+                    <a href="http://www.aquabridge.ai" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-bold transition shadow-lg shadow-blue-900/50 block">
+                        www.aquabridge.ai
+                    </a>
+                </div>
+
+                <!-- FFATrade Card -->
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-2xl relative overflow-hidden group hover:border-amber-500 transition duration-300 flex flex-col h-full">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 text-8xl group-hover:opacity-10 transition pointer-events-none">⚡</div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-3xl font-bold text-white mb-2">FFATrade</h3>
+                        <p class="text-amber-400 font-medium">最好的航运衍生品服务平台</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8 text-slate-300 text-sm flex-grow">
+                        <li class="flex items-start">
+                            <span class="text-amber-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">实时报价和成交信息</strong><br>掌握市场动态，让场外交易场内化。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-amber-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">一站式数据服务</strong><br>提供高效的数据分析和 K 线图指标服务。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-amber-500 mr-3 mt-0.5 text-lg">•</span> 
+                            <span><strong class="text-white">模拟交易</strong><br>低成本试错，感受真实市场脉搏。</span>
+                        </li>
+                    </ul>
+
+                    <a href="http://www.ffatrade.com" target="_blank" class="w-full text-center bg-amber-600 hover:bg-amber-700 text-white py-4 rounded-lg font-bold transition shadow-lg shadow-amber-900/50 block">
+                        www.ffatrade.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 py-12 text-slate-500 text-sm border-t border-slate-900">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="font-bold text-slate-400">&copy; 2025 Aquabridge & FFATrade.</p>
+            <p class="mt-4 max-w-2xl mx-auto text-xs leading-relaxed">
+                Risk Disclaimer: Trading Forward Freight Agreements (FFAs) involves a significant risk of loss and is not suitable for all investors. The content provided here is for educational purposes only and does not constitute financial advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Mechanism Chart (Volatility vs Average) ---
+            const ctxMech = document.getElementById('mechanismChart').getContext('2d');
+            
+            // Generate mock data for a longer period (60 days) to show smoothing
+            const days = Array.from({length: 60}, (_, i) => `D${i+1}`);
+            const volatileData = [];
+            const averageData = [];
+            let currentPrice = 20000;
+            let sum = 0;
+
+            // Seedable random-ish walk
+            for(let i=0; i<60; i++) {
+                // Higher volatility
+                let change = (Math.sin(i * 0.2) * 2000) + ((Math.random() - 0.5) * 1500); 
+                currentPrice += change;
+                // Keep within reasonable bounds
+                if(currentPrice < 10000) currentPrice = 10000;
+                if(currentPrice > 35000) currentPrice = 35000;
+                
+                volatileData.push(currentPrice);
+                sum += currentPrice;
+                averageData.push(sum / (i + 1));
+            }
+
+            new Chart(ctxMech, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [{
+                        label: '每日指数 (Daily Index)',
+                        data: volatileData,
+                        borderColor: '#3b82f6', // blue-500
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: '结算均价 (Asian Average)',
+                        data: averageData,
+                        borderColor: '#d97706', // amber-600
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        borderWidth: 4,
+                        pointRadius: 0,
+                        borderDash: [],
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutQuart'
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + Math.round(context.raw).toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            display: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { 
+                                callback: function(value) { return '$' + value/1000 + 'k'; },
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: { display: false }
+                    }
+                }
+            });
+
+            // --- 2. Hedging Simulator Logic ---
+            const slider = document.getElementById('marketPriceSlider');
+            const display = document.getElementById('marketPriceDisplay');
+            const elPhyRev = document.getElementById('phyRevenue');
+            const elFfaPnL = document.getElementById('ffaPnL');
+            const elNetRev = document.getElementById('netRevenue');
+            const pnlIndicator = document.getElementById('pnlIndicator');
+            const ctxHedge = document.getElementById('hedgingChart').getContext('2d');
+
+            const LOCKED_PRICE = 20000; // Fixed sell price
+
+            // Initialize Hedge Chart
+            const hedgeChart = new Chart(ctxHedge, {
+                type: 'bar',
+                data: {
+                    labels: ['未对冲 (Unhedged)', 'FFA 对冲后 (Hedged)'],
+                    datasets: [
+                        {
+                            label: '最终净收入 (Net Revenue)',
+                            data: [15000, LOCKED_PRICE], 
+                            backgroundColor: [
+                                '#ef4444', // Dynamic color
+                                '#d97706'  // Fixed Amber
+                            ],
+                            borderRadius: 6,
+                            barPercentage: 0.6,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return '净收入: $' + Math.round(context.raw).toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 40000,
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                callback: function(value) { return '$' + value/1000 + 'k'; },
+                                color: '#64748b'
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold' }, color: '#334155' }
+                        }
+                    }
+                }
+            });
+
+            function updateSimulation() {
+                const marketPrice = parseInt(slider.value);
+                display.innerText = '$' + marketPrice.toLocaleString();
+                
+                // Logic: Short FFA @ 20000. 
+                // If market drops to 15000, FFA Profit = 20000 - 15000 = +5000.
+                // If market rises to 25000, FFA Loss = 20000 - 25000 = -5000.
+                const ffaResult = LOCKED_PRICE - marketPrice; 
+                const netResult = marketPrice + ffaResult; // Should always be LOCKED_PRICE
+
+                // Update DOM text
+                elPhyRev.innerText = '$' + marketPrice.toLocaleString();
+                
+                if (ffaResult >= 0) {
+                    elFfaPnL.innerText = '+$' + ffaResult.toLocaleString();
+                    elFfaPnL.className = 'font-mono font-bold text-green-600';
+                    pnlIndicator.className = 'absolute left-0 top-0 bottom-0 w-1 bg-green-500';
+                } else {
+                    elFfaPnL.innerText = '-$' + Math.abs(ffaResult).toLocaleString();
+                    elFfaPnL.className = 'font-mono font-bold text-red-600';
+                    pnlIndicator.className = 'absolute left-0 top-0 bottom-0 w-1 bg-red-500';
+                }
+                
+                elNetRev.innerText = '$' + netResult.toLocaleString(); 
+
+                // Update Chart
+                // Unhedged bar height = Market Price
+                hedgeChart.data.datasets[0].data[0] = marketPrice;
+                // Hedged bar height = Net Result (Constant)
+                hedgeChart.data.datasets[0].data[1] = netResult;
+                
+                // Update Unhedged color based on comparison with target
+                let unhedgedColor = '#94a3b8'; // neutral
+                if (marketPrice < LOCKED_PRICE) unhedgedColor = '#ef4444'; // Red (Loss vs Target)
+                if (marketPrice > LOCKED_PRICE) unhedgedColor = '#22c55e'; // Green (Gain vs Target)
+                
+                hedgeChart.data.datasets[0].backgroundColor[0] = unhedgedColor;
+                hedgeChart.update('none'); // 'none' for performance
+            }
+
+            slider.addEventListener('input', updateSimulation);
+            updateSimulation(); // Run on load
+
+            // --- 3. Calculator Logic ---
+            const btnCalc = document.getElementById('calcBtn');
+            const resDiv = document.getElementById('calcResults');
+
+            btnCalc.addEventListener('click', () => {
+                const type = document.getElementById('shipType').value;
+                const price = parseFloat(document.getElementById('contractPrice').value);
+                const days = parseFloat(document.getElementById('days').value);
+
+                if(isNaN(price) || isNaN(days) || price <= 0 || days <= 0) {
+                    alert("请输入有效的价格和天数");
+                    return;
+                }
+
+                const totalVal = price * days;
+                const marginRate = type === 'cape' ? 0.30 : 0.20;
+                const margin = totalVal * marginRate;
+                const comm = totalVal * 0.001; // 0.1%
+
+                document.getElementById('totalValue').innerText = '$' + totalVal.toLocaleString();
+                document.getElementById('initialMargin').innerText = '$' + margin.toLocaleString();
+                document.getElementById('commission').innerText = '$' + comm.toLocaleString();
+
+                resDiv.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
