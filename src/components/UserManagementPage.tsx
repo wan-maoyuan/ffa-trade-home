@@ -48,6 +48,18 @@ const UserManagementPage: React.FC = () => {
 
             const data = await response.json()
 
+            // 处理 token 过期的情况
+            if (data.code === 4002) {
+                // 清除本地存储的认证信息
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                // 显示提示信息
+                alert(data.msg || '登录已过期，请重新登录')
+                // 跳转到登录页面
+                window.location.href = '/login'
+                return
+            }
+
             if (data.code === 200 && data.data && data.data.users) {
                 const sortedUsers = data.data.users.sort((a: User, b: User) =>
                     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -146,6 +158,18 @@ const UserManagementPage: React.FC = () => {
             })
 
             const data = await response.json()
+
+            // 处理 token 过期的情况
+            if (data.code === 4002) {
+                // 清除本地存储的认证信息
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                // 显示提示信息
+                alert(data.msg || '登录已过期，请重新登录')
+                // 跳转到登录页面
+                window.location.href = '/login'
+                return
+            }
 
             if (response.ok && data.code === 200) {
                 // Success

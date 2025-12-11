@@ -138,19 +138,30 @@ const RealtimeSignalPage: React.FC = () => {
           }
         })
 
-        if (response.ok) {
-          const data = await response.json()
-          if (data.code === 200) {
-            setPermissions(data.data.signal || [])
-            // Get permission level from localStorage as it's not in this API response
-            const userStr = localStorage.getItem('user')
-            if (userStr) {
-              try {
-                const user = JSON.parse(userStr)
-                setPermissionLevel(user.permission || 0)
-              } catch (e) {
-                console.error('Failed to parse user data', e)
-              }
+        const data = await response.json()
+        
+        // 处理 token 过期的情况
+        if (data.code === 4002) {
+          // 清除本地存储的认证信息
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          // 显示提示信息
+          alert(data.msg || '登录已过期，请重新登录')
+          // 跳转到登录页面
+          navigate('/login')
+          return
+        }
+
+        if (response.ok && data.code === 200) {
+          setPermissions(data.data.signal || [])
+          // Get permission level from localStorage as it's not in this API response
+          const userStr = localStorage.getItem('user')
+          if (userStr) {
+            try {
+              const user = JSON.parse(userStr)
+              setPermissionLevel(user.permission || 0)
+            } catch (e) {
+              console.error('Failed to parse user data', e)
             }
           }
         }
