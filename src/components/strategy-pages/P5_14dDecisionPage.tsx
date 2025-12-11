@@ -147,16 +147,20 @@ const P5_14dDecisionPage: React.FC = () => {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
                 }
-                if (row[0] === '做空' && row.length >= 4) {
-                  recommendedDirection = '做空'
-                  date = String(row[1] || '')
-                  currentValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  overallPriceDiffRatio = String(row[3] || '')
+                // 支持"做多"和"做空"两种方向
+                if ((row[0] === '做空' || row[0] === '做多') && row.length >= 4) {
+                  recommendedDirection = String(row[0] || '做空')
+                  date = String(row[1] || '').trim()
+                  const currentValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  currentValue = currentValueStr ? parseFloat(currentValueStr) : 0
+                  overallPriceDiffRatio = String(row[3] || '').trim()
                 }
                 if (row[0] === '建议交易方向' && row.length >= 4) {
-                  gearInterval = String(row[1] || '')
-                  forecastValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  probability = parseFloat(String(row[3] || '0').replace('%', '')) || 0
+                  gearInterval = String(row[1] || '').trim()
+                  const forecastValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  forecastValue = forecastValueStr ? parseFloat(forecastValueStr) : 0
+                  const probabilityStr = String(row[3] || '0').replace('%', '').trim()
+                  probability = probabilityStr ? parseFloat(probabilityStr) : 0
                 }
                 if (row[0] === '档位区间' && row.length >= 2) {
                   const forecastDateMatch = String(row[1] || '').match(/(\d{4}-\d{2}-\d{2})/)
@@ -192,8 +196,22 @@ const P5_14dDecisionPage: React.FC = () => {
                 if (row[0] === '负收益' && i + 1 < rawTableData.length) {
                   const nextRow = rawTableData[i + 1]
                   if (Array.isArray(nextRow) && nextRow.length >= 2) {
-                    finalNegativeReturnsPercentage = parseFloat(String(nextRow[0] || '0').replace('%', '')) || 0
-                    finalNegativeReturnsAverage = parseFloat(String(nextRow[1] || '0').replace(/,/g, '')) || 0
+                    const firstVal = String(nextRow[0] || '').trim()
+                    const secondVal = String(nextRow[1] || '').trim()
+                    // 检查是否是数据行（包含%符号、负数或数字）
+                    if (firstVal.includes('%') || firstVal.includes('-') || !isNaN(parseFloat(firstVal))) {
+                      // 解析百分比，移除%符号
+                      finalNegativeReturnsPercentage = parseFloat(firstVal.replace('%', '')) || 0
+                      // 解析平均值，移除逗号和%符号，保留负号
+                      const avgStr = secondVal.replace(/,/g, '').replace('%', '').trim()
+                      finalNegativeReturnsAverage = avgStr ? parseFloat(avgStr) : 0
+                      console.log('P5 14d 解析负收益数据:', { 
+                        firstVal, 
+                        secondVal, 
+                        finalNegativeReturnsPercentage, 
+                        finalNegativeReturnsAverage 
+                      })
+                    }
                   }
                 }
               }
@@ -325,21 +343,66 @@ const P5_14dDecisionPage: React.FC = () => {
             }
           }
 
+          // 优先使用p5_14dAnalysis，然后使用parsedData，最后使用core_data
           if (p5_14dAnalysis) {
-            setAnalysis(p5_14dAnalysis)
+            // 确保所有字段都有值，使用parsedData作为fallback
+            const mergedAnalysis: P5_14dAnalysis = {
+              trading_recommendation: p5_14dAnalysis.trading_recommendation || parsedData?.trading_recommendation || {
+                profit_loss_ratio: 0,
+                recommended_direction: '做空',
+                direction_confidence: ''
+              },
+              current_forecast: {
+                date: p5_14dAnalysis.current_forecast?.date || parsedData?.current_forecast?.date || result.data.date || '',
+                current_value: p5_14dAnalysis.current_forecast?.current_value || parsedData?.current_forecast?.current_value || 0,
+                overall_price_difference_ratio: p5_14dAnalysis.current_forecast?.overall_price_difference_ratio || parsedData?.current_forecast?.overall_price_difference_ratio || '',
+                gear_interval: p5_14dAnalysis.current_forecast?.gear_interval || parsedData?.current_forecast?.gear_interval || '',
+                forecast_date: p5_14dAnalysis.current_forecast?.forecast_date || parsedData?.current_forecast?.forecast_date || '',
+                forecast_value: p5_14dAnalysis.current_forecast?.forecast_value || parsedData?.current_forecast?.forecast_value || 0,
+                probability: p5_14dAnalysis.current_forecast?.probability || parsedData?.current_forecast?.probability || 0
+              },
+              positive_returns: p5_14dAnalysis.positive_returns || parsedData?.positive_returns || {
+                final_positive_returns_percentage: 0,
+                final_positive_returns_average: 0
+              },
+              // 优先使用parsedData中的负收益数据，因为它来自raw_table_data解析，通常更准确
+              negative_returns: parsedData?.negative_returns || p5_14dAnalysis?.negative_returns || {
+                final_negative_returns_percentage: 0,
+                final_negative_returns_average: 0
+              },
+              p5_current_evaluation: p5_14dAnalysis.p5_current_evaluation || parsedData?.p5_current_evaluation || {
+                date: result.data.date || '',
+                current_price: 0,
+                evaluated_price: 0,
+                price_difference_ratio: ''
+              },
+              model_evaluation: p5_14dAnalysis.model_evaluation || parsedData?.model_evaluation || {
+                date: result.data.date || '',
+                current_price: 0,
+                forecast_14day_price_difference: 0,
+                forecast_14day_price: 0,
+                price_difference_ratio: '',
+                evaluation_ranges: []
+              }
+            }
+            setAnalysis(mergedAnalysis)
           } else if (parsedData) {
             setAnalysis(parsedData)
           } else if (record.core_data) {
             const constructed: P5_14dAnalysis = {
-              trading_recommendation: record.core_data.trading_recommendation,
+              trading_recommendation: record.core_data.trading_recommendation || {
+                profit_loss_ratio: 0,
+                recommended_direction: '做空',
+                direction_confidence: ''
+              },
               current_forecast: {
-                date: record.core_data.current_forecast.date,
-                current_value: record.core_data.current_forecast.high_expected_value || 0,
-                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
-                gear_interval: record.core_data.current_forecast.price_difference_range || '',
-                forecast_date: '',
-                forecast_value: record.core_data.current_forecast.forecast_value || 0,
-                probability: record.core_data.current_forecast.probability || 0
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                current_value: record.core_data.current_forecast?.high_expected_value || record.core_data.current_forecast?.current_value || 0,
+                overall_price_difference_ratio: record.core_data.current_forecast?.price_difference_ratio || record.core_data.current_forecast?.overall_price_difference_ratio || '',
+                gear_interval: record.core_data.current_forecast?.price_difference_range || record.core_data.current_forecast?.gear_interval || '',
+                forecast_date: record.core_data.current_forecast?.forecast_date || '',
+                forecast_value: record.core_data.current_forecast?.forecast_value || 0,
+                probability: record.core_data.current_forecast?.probability || 0
               },
               positive_returns: {
                 final_positive_returns_percentage: 0,
@@ -350,17 +413,17 @@ const P5_14dDecisionPage: React.FC = () => {
                 final_negative_returns_average: 0
               },
               p5_current_evaluation: {
-                date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value || 0,
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                current_price: record.core_data.current_forecast?.high_expected_value || record.core_data.current_forecast?.current_value || 0,
                 evaluated_price: 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || ''
+                price_difference_ratio: record.core_data.current_forecast?.price_difference_ratio || ''
               },
               model_evaluation: {
-                date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value || 0,
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                current_price: record.core_data.current_forecast?.high_expected_value || record.core_data.current_forecast?.current_value || 0,
                 forecast_14day_price_difference: 0,
-                forecast_14day_price: record.core_data.current_forecast.forecast_value || 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
+                forecast_14day_price: record.core_data.current_forecast?.forecast_value || 0,
+                price_difference_ratio: record.core_data.current_forecast?.price_difference_ratio || '',
                 evaluation_ranges: []
               }
             }
@@ -403,10 +466,9 @@ const P5_14dDecisionPage: React.FC = () => {
         ) : analysis ? (
           <div className="strategy-page-content">
             {/* 头部统计 */}
-            {/* 头部统计 */}
             <div className="strategy-tags">
               <div className="strategy-tag">
-                <p>做空胜率统计</p>
+                <p>{analysis.trading_recommendation.recommended_direction === '做多' ? '做多胜率统计' : '做空胜率统计'}</p>
               </div>
               <div className="strategy-tag">
                 <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
@@ -433,28 +495,40 @@ const P5_14dDecisionPage: React.FC = () => {
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">当期值</p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.current_value.toLocaleString()}
+                      {analysis.current_forecast.current_value > 0 
+                        ? analysis.current_forecast.current_value.toLocaleString() 
+                        : '-'}
                     </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">综合价差比</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_ratio}</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.overall_price_difference_ratio || '-'}
+                    </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">档位区间</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.gear_interval}</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.gear_interval || '-'}
+                    </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">
                       {analysis.current_forecast.forecast_date ? `${analysis.current_forecast.forecast_date}预测值` : '预测值'}
                     </p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.forecast_value.toLocaleString()}
+                      {analysis.current_forecast.forecast_value > 0 
+                        ? analysis.current_forecast.forecast_value.toLocaleString() 
+                        : '-'}
                     </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">在全部交易日期中出现概率</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.probability}%</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.probability > 0 
+                        ? `${analysis.current_forecast.probability}%` 
+                        : '-'}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -484,11 +558,19 @@ const P5_14dDecisionPage: React.FC = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益占比</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
+                        {analysis.positive_returns.final_positive_returns_percentage > 0 
+                          ? `${analysis.positive_returns.final_positive_returns_percentage}%` 
+                          : '-'}
+                      </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
+                        {analysis.positive_returns.final_positive_returns_average > 0 
+                          ? analysis.positive_returns.final_positive_returns_average.toLocaleString() 
+                          : '-'}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -515,11 +597,21 @@ const P5_14dDecisionPage: React.FC = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益比例</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>
+                        {analysis.negative_returns.final_negative_returns_percentage > 0 
+                          ? `${analysis.negative_returns.final_negative_returns_percentage}%` 
+                          : '-'}
+                      </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>
+                        {analysis.negative_returns.final_negative_returns_average !== 0 && 
+                         analysis.negative_returns.final_negative_returns_average !== null && 
+                         !isNaN(analysis.negative_returns.final_negative_returns_average)
+                          ? analysis.negative_returns.final_negative_returns_average.toLocaleString() 
+                          : '-'}
+                      </p>
                     </div>
                   </div>
                 </div>

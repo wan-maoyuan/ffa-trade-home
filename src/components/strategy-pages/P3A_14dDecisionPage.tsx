@@ -122,7 +122,7 @@ const P3A_14dDecisionPage: React.FC = () => {
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
           const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
-          const p5_14dAnalysis = record.raw_data?.contracts?.p3a_14d_analysis
+          const p3a_14dAnalysis = record.raw_data?.contracts?.p3a_14d_analysis
 
           let parsedData: P3A_14dAnalysis | null = null
 
@@ -147,16 +147,41 @@ const P3A_14dDecisionPage: React.FC = () => {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
                 }
-                if (row[0] === '做空' && row.length >= 4) {
-                  recommendedDirection = '做空'
-                  date = String(row[1] || '')
-                  currentValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  overallPriceDiffRatio = String(row[3] || '')
+                // 支持"做多"和"做空"两种方向
+                if ((row[0] === '做空' || row[0] === '做多') && row.length >= 4) {
+                  recommendedDirection = String(row[0] || '做空')
+                  date = String(row[1] || '').trim()
+                  const currentValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  // 只有当值有效时才赋值，避免0覆盖有效值
+                  if (currentValueStr && !isNaN(parseFloat(currentValueStr)) && parseFloat(currentValueStr) > 0) {
+                    currentValue = parseFloat(currentValueStr)
+                  }
+                  // 综合价差比可能在row[3]，需要检查是否有效
+                  const priceDiffRatioStr = String(row[3] || '').trim()
+                  if (priceDiffRatioStr && priceDiffRatioStr !== '0' && priceDiffRatioStr !== '' && priceDiffRatioStr !== 'null' && priceDiffRatioStr !== 'undefined') {
+                    overallPriceDiffRatio = priceDiffRatioStr
+                  }
+                }
+                // 如果综合价差比还没有找到，尝试从其他行查找
+                if (!overallPriceDiffRatio && row.length > 0) {
+                  const rowStr = String(row.join('')).toLowerCase()
+                  if (rowStr.includes('综合价差比') || rowStr.includes('价差比')) {
+                    // 尝试从当前行或下一行获取价差比
+                    for (let j = 1; j < row.length; j++) {
+                      const cell = String(row[j] || '').trim()
+                      if (cell && cell !== '0' && (cell.includes('%') || /^-?\d+\.?\d*%?$/.test(cell))) {
+                        overallPriceDiffRatio = cell
+                        break
+                      }
+                    }
+                  }
                 }
                 if (row[0] === '建议交易方向' && row.length >= 4) {
-                  gearInterval = String(row[1] || '')
-                  forecastValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  probability = parseFloat(String(row[3] || '0').replace('%', '')) || 0
+                  gearInterval = String(row[1] || '').trim()
+                  const forecastValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  forecastValue = forecastValueStr ? parseFloat(forecastValueStr) : 0
+                  const probabilityStr = String(row[3] || '0').replace('%', '').trim()
+                  probability = probabilityStr ? parseFloat(probabilityStr) : 0
                 }
                 if (row[0] === '档位区间' && row.length >= 2) {
                   const forecastDateMatch = String(row[1] || '').match(/(\d{4}-\d{2}-\d{2})/)
@@ -192,8 +217,22 @@ const P3A_14dDecisionPage: React.FC = () => {
                 if (row[0] === '负收益' && i + 1 < rawTableData.length) {
                   const nextRow = rawTableData[i + 1]
                   if (Array.isArray(nextRow) && nextRow.length >= 2) {
-                    finalNegativeReturnsPercentage = parseFloat(String(nextRow[0] || '0').replace('%', '')) || 0
-                    finalNegativeReturnsAverage = parseFloat(String(nextRow[1] || '0').replace(/,/g, '')) || 0
+                    const firstVal = String(nextRow[0] || '').trim()
+                    const secondVal = String(nextRow[1] || '').trim()
+                    // 检查是否是数据行（包含%符号、负数或数字）
+                    if (firstVal.includes('%') || firstVal.includes('-') || !isNaN(parseFloat(firstVal))) {
+                      // 解析百分比，移除%符号
+                      finalNegativeReturnsPercentage = parseFloat(firstVal.replace('%', '')) || 0
+                      // 解析平均值，移除逗号和%符号，保留负号
+                      const avgStr = secondVal.replace(/,/g, '').replace('%', '').trim()
+                      finalNegativeReturnsAverage = avgStr ? parseFloat(avgStr) : 0
+                      console.log('P3A 14d 解析负收益数据:', { 
+                        firstVal, 
+                        secondVal, 
+                        finalNegativeReturnsPercentage, 
+                        finalNegativeReturnsAverage 
+                      })
+                    }
                   }
                 }
               }
@@ -325,21 +364,100 @@ const P3A_14dDecisionPage: React.FC = () => {
             }
           }
 
-          if (p5_14dAnalysis) {
-            setAnalysis(p5_14dAnalysis)
-          } else if (parsedData) {
-            setAnalysis(parsedData)
-          } else if (record.core_data) {
-            const constructed: P3A_14dAnalysis = {
-              trading_recommendation: record.core_data.trading_recommendation,
+          // 优先使用p3a_14dAnalysis，然后使用parsedData，最后使用core_data
+          // 但需要确保parsedData中的数据优先，因为它来自raw_table_data，通常更准确
+          if (p3a_14dAnalysis || parsedData) {
+            // 优先使用parsedData，因为它来自raw_table_data解析，通常更准确
+            // 如果parsedData中有值，优先使用；否则使用p3a_14dAnalysis
+            const mergedAnalysis: P3A_14dAnalysis = {
+              trading_recommendation: parsedData?.trading_recommendation || p3a_14dAnalysis?.trading_recommendation || {
+                profit_loss_ratio: 0,
+                recommended_direction: '做空',
+                direction_confidence: ''
+              },
               current_forecast: {
-                date: record.core_data.current_forecast.date,
-                current_value: record.core_data.current_forecast.high_expected_value || 0,
-                overall_price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
-                gear_interval: record.core_data.current_forecast.price_difference_range || '',
-                forecast_date: '',
-                forecast_value: record.core_data.current_forecast.forecast_value || 0,
-                probability: record.core_data.current_forecast.probability || 0
+                date: parsedData?.current_forecast?.date || p3a_14dAnalysis?.current_forecast?.date || result.data.date || '',
+                // 优先使用parsedData中的值，如果为0或空，再尝试p3a_14dAnalysis
+                current_value: (parsedData?.current_forecast?.current_value && parsedData.current_forecast.current_value > 0) 
+                  ? parsedData.current_forecast.current_value 
+                  : (p3a_14dAnalysis?.current_forecast?.current_value && p3a_14dAnalysis.current_forecast.current_value > 0)
+                    ? p3a_14dAnalysis.current_forecast.current_value
+                    : 0,
+                // 综合价差比优先使用parsedData，如果为空，再尝试p3a_14dAnalysis
+                overall_price_difference_ratio: (parsedData?.current_forecast?.overall_price_difference_ratio && parsedData.current_forecast.overall_price_difference_ratio.trim() !== '')
+                  ? parsedData.current_forecast.overall_price_difference_ratio
+                  : (p3a_14dAnalysis?.current_forecast?.overall_price_difference_ratio && p3a_14dAnalysis.current_forecast.overall_price_difference_ratio.trim() !== '')
+                    ? p3a_14dAnalysis.current_forecast.overall_price_difference_ratio
+                    : '',
+                gear_interval: parsedData?.current_forecast?.gear_interval || p3a_14dAnalysis?.current_forecast?.gear_interval || '',
+                forecast_date: parsedData?.current_forecast?.forecast_date || p3a_14dAnalysis?.current_forecast?.forecast_date || '',
+                forecast_value: parsedData?.current_forecast?.forecast_value || p3a_14dAnalysis?.current_forecast?.forecast_value || 0,
+                probability: parsedData?.current_forecast?.probability || p3a_14dAnalysis?.current_forecast?.probability || 0
+              },
+              positive_returns: parsedData?.positive_returns || p3a_14dAnalysis?.positive_returns || {
+                final_positive_returns_percentage: 0,
+                final_positive_returns_average: 0
+              },
+              negative_returns: parsedData?.negative_returns || p3a_14dAnalysis?.negative_returns || {
+                final_negative_returns_percentage: 0,
+                final_negative_returns_average: 0
+              },
+              p3a_current_evaluation: parsedData?.p3a_current_evaluation || p3a_14dAnalysis?.p3a_current_evaluation || {
+                date: result.data.date || '',
+                current_price: 0,
+                evaluated_price: 0,
+                price_difference_ratio: ''
+              },
+              model_evaluation: parsedData?.model_evaluation || p3a_14dAnalysis?.model_evaluation || {
+                date: result.data.date || '',
+                current_price: 0,
+                forecast_14day_price_difference: 0,
+                forecast_14day_price: 0,
+                price_difference_ratio: '',
+                evaluation_ranges: []
+              }
+            }
+            setAnalysis(mergedAnalysis)
+          } else if (parsedData) {
+            // 确保parsedData中所有字段都有合理的值
+            const enhancedParsedData: P3A_14dAnalysis = {
+              ...parsedData,
+              current_forecast: {
+                ...parsedData.current_forecast,
+                // 如果综合价差比还是空的，尝试从其他字段获取
+                overall_price_difference_ratio: parsedData.current_forecast.overall_price_difference_ratio || 
+                  parsedData.p3a_current_evaluation?.price_difference_ratio || 
+                  parsedData.model_evaluation?.price_difference_ratio || 
+                  ''
+              }
+            }
+            setAnalysis(enhancedParsedData)
+          } else if (record.core_data) {
+            // 从core_data构建数据，确保所有字段都有值
+            const constructed: P3A_14dAnalysis = {
+              trading_recommendation: record.core_data.trading_recommendation || {
+                profit_loss_ratio: 0,
+                recommended_direction: '做空',
+                direction_confidence: ''
+              },
+              current_forecast: {
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                // 优先使用current_value，如果没有则使用high_expected_value
+                current_value: (record.core_data.current_forecast?.current_value && record.core_data.current_forecast.current_value > 0)
+                  ? record.core_data.current_forecast.current_value
+                  : (record.core_data.current_forecast?.high_expected_value && record.core_data.current_forecast.high_expected_value > 0)
+                    ? record.core_data.current_forecast.high_expected_value
+                    : 0,
+                // 优先使用overall_price_difference_ratio，如果没有则使用price_difference_ratio
+                overall_price_difference_ratio: (record.core_data.current_forecast?.overall_price_difference_ratio && record.core_data.current_forecast.overall_price_difference_ratio.trim() !== '')
+                  ? record.core_data.current_forecast.overall_price_difference_ratio
+                  : (record.core_data.current_forecast?.price_difference_ratio && record.core_data.current_forecast.price_difference_ratio.trim() !== '')
+                    ? record.core_data.current_forecast.price_difference_ratio
+                    : '',
+                gear_interval: record.core_data.current_forecast?.price_difference_range || record.core_data.current_forecast?.gear_interval || '',
+                forecast_date: record.core_data.current_forecast?.forecast_date || '',
+                forecast_value: record.core_data.current_forecast?.forecast_value || 0,
+                probability: record.core_data.current_forecast?.probability || 0
               },
               positive_returns: {
                 final_positive_returns_percentage: 0,
@@ -350,23 +468,33 @@ const P3A_14dDecisionPage: React.FC = () => {
                 final_negative_returns_average: 0
               },
               p3a_current_evaluation: {
-                date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value || 0,
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                current_price: (record.core_data.current_forecast?.current_value && record.core_data.current_forecast.current_value > 0)
+                  ? record.core_data.current_forecast.current_value
+                  : (record.core_data.current_forecast?.high_expected_value && record.core_data.current_forecast.high_expected_value > 0)
+                    ? record.core_data.current_forecast.high_expected_value
+                    : 0,
                 evaluated_price: 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || ''
+                price_difference_ratio: record.core_data.current_forecast?.price_difference_ratio || record.core_data.current_forecast?.overall_price_difference_ratio || ''
               },
               model_evaluation: {
-                date: record.core_data.current_forecast.date,
-                current_price: record.core_data.current_forecast.high_expected_value || 0,
+                date: record.core_data.current_forecast?.date || result.data.date || '',
+                current_price: (record.core_data.current_forecast?.current_value && record.core_data.current_forecast.current_value > 0)
+                  ? record.core_data.current_forecast.current_value
+                  : (record.core_data.current_forecast?.high_expected_value && record.core_data.current_forecast.high_expected_value > 0)
+                    ? record.core_data.current_forecast.high_expected_value
+                    : 0,
                 forecast_14day_price_difference: 0,
-                forecast_14day_price: record.core_data.current_forecast.forecast_value || 0,
-                price_difference_ratio: record.core_data.current_forecast.price_difference_ratio || '',
+                forecast_14day_price: record.core_data.current_forecast?.forecast_value || 0,
+                price_difference_ratio: record.core_data.current_forecast?.price_difference_ratio || record.core_data.current_forecast?.overall_price_difference_ratio || '',
                 evaluation_ranges: []
               }
             }
             setAnalysis(constructed)
           } else {
-            throw new Error('数据格式错误')
+            // 如果所有数据源都失败，记录警告并抛出错误
+            console.warn('P3A 14d: 无法从任何数据源解析数据', { record, rawTableData, p3a_14dAnalysis })
+            throw new Error('数据格式错误：无法解析数据')
           }
 
 
@@ -405,7 +533,7 @@ const P3A_14dDecisionPage: React.FC = () => {
             {/* 头部统计 */}
             <div className="strategy-tags">
               <div className="strategy-tag">
-                <p>做空胜率统计</p>
+                <p>{analysis.trading_recommendation.recommended_direction === '做多' ? '做多胜率统计' : '做空胜率统计'}</p>
               </div>
               <div className="strategy-tag">
                 <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
@@ -432,28 +560,40 @@ const P3A_14dDecisionPage: React.FC = () => {
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">当期值</p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.current_value.toLocaleString()}
+                      {analysis.current_forecast.current_value > 0 
+                        ? analysis.current_forecast.current_value.toLocaleString() 
+                        : '-'}
                     </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">综合价差比</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_ratio}</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.overall_price_difference_ratio || '-'}
+                    </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">档位区间</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.gear_interval}</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.gear_interval || '-'}
+                    </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">
                       {analysis.current_forecast.forecast_date ? `${analysis.current_forecast.forecast_date}预测值` : '预测值'}
                     </p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.forecast_value.toLocaleString()}
+                      {analysis.current_forecast.forecast_value > 0 
+                        ? analysis.current_forecast.forecast_value.toLocaleString() 
+                        : '-'}
                     </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">在全部交易日期中出现概率</p>
-                    <p className="strategy-metric-value">{analysis.current_forecast.probability}%</p>
+                    <p className="strategy-metric-value">
+                      {analysis.current_forecast.probability > 0 
+                        ? `${analysis.current_forecast.probability}%` 
+                        : '-'}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -483,11 +623,19 @@ const P3A_14dDecisionPage: React.FC = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益占比</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
+                        {analysis.positive_returns.final_positive_returns_percentage > 0 
+                          ? `${analysis.positive_returns.final_positive_returns_percentage}%` 
+                          : '-'}
+                      </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
+                        {analysis.positive_returns.final_positive_returns_average > 0 
+                          ? analysis.positive_returns.final_positive_returns_average.toLocaleString() 
+                          : '-'}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -514,11 +662,21 @@ const P3A_14dDecisionPage: React.FC = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益比例</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>
+                        {analysis.negative_returns.final_negative_returns_percentage > 0 
+                          ? `${analysis.negative_returns.final_negative_returns_percentage}%` 
+                          : '-'}
+                      </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>
+                        {analysis.negative_returns.final_negative_returns_average !== 0 && 
+                         analysis.negative_returns.final_negative_returns_average !== null && 
+                         !isNaN(analysis.negative_returns.final_negative_returns_average)
+                          ? analysis.negative_returns.final_negative_returns_average.toLocaleString() 
+                          : '-'}
+                      </p>
                     </div>
                   </div>
                 </div>
