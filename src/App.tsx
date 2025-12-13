@@ -6,6 +6,7 @@ import AboutUs from './components/AboutUs'
 import LoginPage from './components/LoginPage'
 import UserManagementPage from './components/UserManagementPage'
 import FFALesson1Page from './components/FFALesson1Page'
+import PredictionPage from './pages/PredictionPage'
 import './styles/App.css'
 
 function AppContent() {
@@ -26,6 +27,7 @@ function AppContent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/user-management" element={<UserManagementPage />} />
         <Route path="/lesson/ffa-lesson-1" element={<FFALesson1Page />} />
+        <Route path="/prediction" element={<PredictionPage />} />
       </Routes>
     </div>
   )
