@@ -296,6 +296,12 @@ const PredictionPage: React.FC = () => {
             {/* Winners Hierarchical Section */}
             {topWinners.length > 0 && (
                 <div className="winners-section">
+                    {/* Date Condition Label */}
+                    <div className="winners-date-label">
+                        <span style={{ marginRight: '6px', opacity: 0.8 }}>📅</span>
+                        {lang === 'zh' ? '截止日期' : 'As of'}: {marketReferences.length > 0 ? marketReferences[marketReferences.length - 1].date : '-'}
+                    </div>
+
                     {/* 1. Champion Row */}
                     {topWinners[0] && (
                         <div className="champion-row">
@@ -306,17 +312,6 @@ const PredictionPage: React.FC = () => {
                                 <div className="winner-content">
                                     <div className="winner-rank">{lang === 'zh' ? '冠军' : 'Champion'}</div>
                                     <div className="winner-name">{topWinners[0].user}</div>
-                                    <div className="winner-price-row">
-                                        <div className="winner-price">${topWinners[0].price.toLocaleString()}</div>
-                                        <div className="winner-prize">¥3888</div>
-                                    </div>
-                                    <div className="winner-diff">
-                                        {topWinners[0].price >= latestMarketPrice ? '+' : ''}
-                                        {Math.round(topWinners[0].price - latestMarketPrice).toLocaleString()}
-                                        <span className="diff-percent">
-                                            ({((topWinners[0].price - latestMarketPrice) / latestMarketPrice * 100).toFixed(1)}%)
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -332,17 +327,6 @@ const PredictionPage: React.FC = () => {
                                 <div className="winner-content">
                                     <div className="winner-rank">{lang === 'zh' ? '亚军' : 'Runner-up'}</div>
                                     <div className="winner-name">{winner.user}</div>
-                                    <div className="winner-price-row">
-                                        <div className="winner-price">${winner.price.toLocaleString()}</div>
-                                        <div className="winner-prize">¥2888</div>
-                                    </div>
-                                    <div className="winner-diff">
-                                        {winner.price >= latestMarketPrice ? '+' : ''}
-                                        {Math.round(winner.price - latestMarketPrice).toLocaleString()}
-                                        <span className="diff-percent">
-                                            ({((winner.price - latestMarketPrice) / latestMarketPrice * 100).toFixed(1)}%)
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -358,14 +342,6 @@ const PredictionPage: React.FC = () => {
                                 <div className="winner-content">
                                     <div className="winner-rank">{lang === 'zh' ? '季军' : 'Third Place'}</div>
                                     <div className="winner-name">{winner.user}</div>
-                                    <div className="winner-price-row">
-                                        <div className="winner-price">${winner.price.toLocaleString()}</div>
-                                        <div className="winner-prize">¥888</div>
-                                    </div>
-                                    <div className="winner-diff">
-                                        {winner.price >= latestMarketPrice ? '+' : ''}
-                                        {Math.round(winner.price - latestMarketPrice).toLocaleString()}
-                                    </div>
                                 </div>
                             </div>
                         ))}
