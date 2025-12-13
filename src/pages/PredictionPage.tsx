@@ -7,116 +7,139 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    ResponsiveContainer,
+    AreaChart,
+    Area,
+    ReferenceDot
 } from 'recharts';
 import '../styles/PredictionPage.css';
 
 // Types
-interface ChartData {
-    index: number;
-    individualGuess: number;
-    marketPrice: number;
-    prediction: number;
+interface UserPrediction {
+    user: string;
+    price: number;
+    original: string;
+    line_num: number;
 }
 
-interface Participant {
-    rank: number;
-    id: string;
-    guess: number;
-    deviation: number;
-    winRate: number;
+interface MarketReference {
+    date: string;
+    price: number;
+}
+
+interface ApiResponse {
+    code: number;
+    msg: string;
+    data: {
+        user_predictions: {
+            count: number;
+            data: UserPrediction[];
+        };
+        market_references: {
+            count: number;
+            data: MarketReference[];
+        };
+    };
 }
 
 const PredictionPage: React.FC = () => {
-    const [chartData, setChartData] = useState<ChartData[]>([]);
-    const [finalPrice, setFinalPrice] = useState<number>(0);
+    const [userPredictions, setUserPredictions] = useState<UserPrediction[]>([]);
+    const [marketReferences, setMarketReferences] = useState<MarketReference[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     // Initialize data on mount
     useEffect(() => {
-        const guessCount = 400;
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://aqua.navgreen.cn/api/data/predict/data');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const result: ApiResponse = await response.json();
 
-        // 1. Generate Daily Settlement Prices (30 days)
-        // Simulating the array from the reference HTML
-        const dailySettlementPrices = [
-            32000, 31500, 33000, 32500, 34000, 33500, 35000, 34500, 36000, 35500,
-            37000, 36500, 38000, 37500, 37000, 36000, 35500, 34500, 33500, 32500,
-            31500, 30500, 29500, 28500, 27500, 26500, 28000, 29000, 30000, 31000
-        ];
+                if (result.code === 200) {
+                    setUserPredictions(result.data.user_predictions.data);
+                    setMarketReferences(result.data.market_references.data);
+                } else {
+                    setError(result.msg || 'Unknown error occurred');
+                }
+            } catch (err) {
+                console.error('Error fetching prediction data:', err);
+                setError('Failed to load prediction data. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        setFinalPrice(dailySettlementPrices[dailySettlementPrices.length - 1]);
-
-        // 2. Generate Data Points
-        const data: ChartData[] = [];
-        const step = Math.ceil(guessCount / dailySettlementPrices.length);
-
-        // Helper to generate individual guesses
-        let currentGuess = 30000;
-        const smoothness = 0.6;
-        const maxJump = 7000;
-        const targetMid = 30000;
-
-        // Helper for prediction
-        let currentPrediction = dailySettlementPrices[0] || 30000;
-        const predSmoothness = 0.9;
-        const followFactor = 0.5;
-
-        for (let i = 0; i < guessCount; i++) {
-            // Market Price (Step)
-            const dailyIndex = Math.floor(i / step);
-            const marketPrice = dailySettlementPrices[dailyIndex] || dailySettlementPrices[dailySettlementPrices.length - 1];
-
-            // Individual Guess
-            const randomChange = (Math.random() - 0.5) * maxJump * (1 - smoothness);
-            const drift = (targetMid - currentGuess) * (1 - smoothness) * 0.05;
-            currentGuess += randomChange + drift;
-            currentGuess = Math.max(20000, Math.min(40000, currentGuess));
-
-            // Aquabridge Prediction
-            const changeTowardsMarket = (marketPrice - currentPrediction) * (1 - predSmoothness);
-            const noise = (Math.random() - 0.5) * 500;
-            currentPrediction += changeTowardsMarket * followFactor + noise;
-            currentPrediction = Math.max(25000, Math.min(38000, currentPrediction));
-
-            data.push({
-                index: i + 1,
-                individualGuess: Math.round(currentGuess),
-                marketPrice: marketPrice,
-                prediction: Math.round(currentPrediction)
-            });
-        }
-
-        setChartData(data);
+        fetchData();
     }, []);
 
-    // Mock Top 10 Data
-    const topParticipants: Participant[] = [
-        { rank: 1, id: 'Alpha_Seeker', guess: 41500, deviation: 0.5, winRate: 82.1 },
-        { rank: 2, id: 'Cognito_A01', guess: 40250, deviation: 0.8, winRate: 79.5 },
-        { rank: 3, id: 'TZ_System_B', guess: 39800, deviation: 1.1, winRate: 75.0 },
-        { rank: 4, id: 'EV_Hunter', guess: 38900, deviation: 1.5, winRate: 70.8 },
-        { rank: 5, id: 'Arbiter_X', guess: 42100, deviation: 2.0, winRate: 68.4 },
-        { rank: 6, id: 'Profit_Maximizer', guess: 35500, deviation: 2.4, winRate: 63.0 },
-        { rank: 7, id: 'Navy_Trader', guess: 43500, deviation: 3.0, winRate: 59.9 },
-        { rank: 8, id: 'Future_Sailor', guess: 33000, deviation: 3.5, winRate: 55.2 },
-        { rank: 9, id: 'Risk_Taker_99', guess: 45000, deviation: 4.1, winRate: 51.1 },
-        { rank: 10, id: 'Value_Finder', guess: 30500, deviation: 4.6, winRate: 48.0 },
-    ];
+    // Calculate some stats
+    const averagePrediction = userPredictions.length > 0
+        ? userPredictions.reduce((acc, curr) => acc + curr.price, 0) / userPredictions.length
+        : 0;
+
+    const latestMarketPrice = marketReferences.length > 0
+        ? marketReferences[marketReferences.length - 1].price
+        : 0;
+
+    // Sort predictions by proximity to latest market price
+    const sortedPredictions = [...userPredictions].sort((a, b) => {
+        const diffA = Math.abs(a.price - latestMarketPrice);
+        const diffB = Math.abs(b.price - latestMarketPrice);
+        return diffA - diffB;
+    });
 
     const CustomTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
             return (
                 <div className="custom-tooltip">
-                    <p className="tooltip-label">Submission Order: {label}</p>
+                    <p className="tooltip-label">{label}</p>
                     {payload.map((entry: any, index: number) => (
-                        <p key={index} className="tooltip-item" style={{ color: entry.color }}>
-                            {entry.name}: <strong>${entry.value.toLocaleString()}</strong>
-                        </p>
+                        <div key={index}>
+                            <p className="tooltip-item" style={{ color: entry.color }}>
+                                {entry.name}: <strong>{typeof entry.value === 'number' ? entry.value.toLocaleString() : entry.value}</strong>
+                            </p>
+                            {/* Show extra info if available in payload */}
+                            {entry.payload.user && (
+                                <p className="tooltip-subitem" style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>
+                                    User: {entry.payload.user}
+                                </p>
+                            )}
+                        </div>
                     ))}
                 </div>
             );
         }
         return null;
     };
+
+    const UserTooltip = ({ active, payload }: any) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            return (
+                <div className="custom-tooltip">
+                    <p className="tooltip-label">Order #{data.line_num}</p>
+                    <p className="tooltip-item" style={{ color: '#e04f14' }}>
+                        Prediction: <strong>${data.price.toLocaleString()}</strong>
+                    </p>
+                    <p className="tooltip-subitem" style={{ color: 'var(--text-secondary)' }}>
+                        {data.user}
+                    </p>
+                </div>
+            );
+        }
+        return null;
+    };
+
+    if (loading) {
+        return <div className="prediction-page loading">Loading data...</div>;
+    }
+
+    if (error) {
+        return <div className="prediction-page error">{error}</div>;
+    }
 
     return (
         <div className="prediction-page">
@@ -127,32 +150,92 @@ const PredictionPage: React.FC = () => {
 
             <div className="kpi-grid">
                 <div className="kpi-card">
-                    <p className="kpi-label">Final C5TC Jan Settlement Price</p>
-                    <p className="kpi-value">${finalPrice.toLocaleString()}</p>
-                    <p className="kpi-subtext">Settlement Date: 2026-01-09</p>
+                    <p className="kpi-label">Latest Market Reference</p>
+                    <p className="kpi-value">${latestMarketPrice.toLocaleString()}</p>
+                    <p className="kpi-subtext">Date: {marketReferences[marketReferences.length - 1]?.date}</p>
+                </div>
+                <div className="kpi-card">
+                    <p className="kpi-label">Average User Prediction</p>
+                    <p className="kpi-value" style={{ color: '#e04f14' }}>${Math.round(averagePrediction).toLocaleString()}</p>
+                    <p className="kpi-subtext">Across {userPredictions.length} participants</p>
                 </div>
                 <div className="kpi-card">
                     <p className="kpi-label">Total Participants</p>
-                    <p className="kpi-value" style={{ color: 'var(--text-primary)' }}>400</p>
-                    <p className="kpi-subtext">Based on submission order</p>
+                    <p className="kpi-value" style={{ color: 'var(--text-primary)' }}>{userPredictions.length}</p>
+                    <p className="kpi-subtext">Verified Submissions</p>
                 </div>
             </div>
 
             <section className="chart-section">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span>📈</span> Distribution vs. Market Reference
+                        <span>📊</span> Market Reference Trend
+                    </h2>
+                </div>
+                <div className="chart-container" style={{ height: '300px' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart
+                            data={marketReferences}
+                            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                        >
+                            <defs>
+                                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#4dabf7" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#4dabf7" stopOpacity={0} />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                            <XAxis
+                                dataKey="date"
+                                stroke="var(--text-tertiary)"
+                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                tickFormatter={(str) => str.slice(5)} // Show MM-DD
+                            />
+                            <YAxis
+                                domain={['auto', 'auto']}
+                                stroke="var(--text-tertiary)"
+                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                tickFormatter={(value) => `$${value}`}
+                            />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Area
+                                type="monotone"
+                                dataKey="price"
+                                stroke="#4dabf7"
+                                fillOpacity={1}
+                                fill="url(#colorPrice)"
+                                name="Market Price"
+                            />
+                            {/* Highlight the last data point */}
+                            {marketReferences.length > 0 && (
+                                <ReferenceDot
+                                    x={marketReferences[marketReferences.length - 1].date}
+                                    y={marketReferences[marketReferences.length - 1].price}
+                                    r={6}
+                                    fill="#4dabf7"
+                                    stroke="white"
+                                />
+                            )}
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </section>
+
+            <section className="chart-section">
+                <div className="section-header">
+                    <h2 className="section-title">
+                        <span>📈</span> User Predictions Distribution
                     </h2>
                 </div>
                 <div className="chart-container">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart
-                            data={chartData}
+                            data={userPredictions}
                             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                         >
                             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
                             <XAxis
-                                dataKey="index"
+                                dataKey="line_num"
                                 stroke="var(--text-tertiary)"
                                 tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
                                 tickLine={false}
@@ -160,42 +243,26 @@ const PredictionPage: React.FC = () => {
                                 label={{ value: 'Submission Order', position: 'insideBottom', offset: -5, fill: 'var(--text-tertiary)' }}
                             />
                             <YAxis
-                                domain={[10000, 40000]}
+                                domain={[0, 40000]}
                                 stroke="var(--text-tertiary)"
                                 tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
                                 tickLine={false}
                                 axisLine={false}
                                 tickFormatter={(value) => `$${value / 1000}k`}
                             />
-                            <Tooltip content={<CustomTooltip />} />
+                            <Tooltip content={<UserTooltip />} />
                             <Legend wrapperStyle={{ paddingTop: '20px' }} />
 
                             <Line
                                 type="monotone"
-                                dataKey="individualGuess"
-                                name="Individual Guess"
+                                dataKey="price"
+                                name="User Predicted Price"
                                 stroke="#e04f14"
                                 strokeWidth={2}
-                                dot={false}
+                                dot={{ r: 2, fill: '#e04f14' }}
                                 activeDot={{ r: 6 }}
                             />
-                            <Line
-                                type="step"
-                                dataKey="marketPrice"
-                                name="Market Reference"
-                                stroke="#4dabf7"
-                                strokeWidth={3}
-                                dot={false}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="prediction"
-                                name="Aquabridge Prediction"
-                                stroke="#10b981"
-                                strokeWidth={3}
-                                strokeDasharray="5 5"
-                                dot={false}
-                            />
+                            {/* Reference Line for Average could be added here if needed */}
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
@@ -204,35 +271,60 @@ const PredictionPage: React.FC = () => {
             <section className="table-section">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span>🏆</span> Top 10 Participants
+                        <span>🏆</span> Participants Ranking
                     </h2>
+                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+                        Sorted by proximity to Latest Market Price (${latestMarketPrice.toLocaleString()})
+                    </p>
                 </div>
                 <div className="prediction-table-container">
                     <table className="prediction-table">
                         <thead>
                             <tr>
                                 <th>Rank</th>
-                                <th>Participant ID</th>
-                                <th>Latest Guess</th>
-                                <th>Avg. Deviation</th>
-                                <th>Win Rate</th>
+                                <th>Participant</th>
+                                <th>Prediction</th>
+                                <th>Diff from Market</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {topParticipants.map((p) => (
-                                <tr key={p.rank}>
-                                    <td className={`rank-cell rank-${p.rank}`}>
-                                        {p.rank === 1 ? '🥇 ' : p.rank === 2 ? '🥈 ' : p.rank === 3 ? '🥉 ' : ''}
-                                        {p.rank}
-                                    </td>
-                                    <td>{p.id}</td>
-                                    <td>${p.guess.toLocaleString()}</td>
-                                    <td className={p.deviation < 1 ? 'text-green' : p.deviation < 3 ? 'text-yellow' : 'text-red'}>
-                                        {p.deviation}%
-                                    </td>
-                                    <td>{p.winRate}%</td>
-                                </tr>
-                            ))}
+                            {sortedPredictions.map((p, index) => {
+                                const rank = index + 1;
+                                const diff = p.price - latestMarketPrice;
+                                const diffPercent = (diff / latestMarketPrice) * 100;
+
+                                let rankClass = '';
+                                let rankIcon = '';
+
+                                if (rank === 1) {
+                                    rankClass = 'rank-champion';
+                                    rankIcon = '🥇 冠军';
+                                } else if (rank >= 2 && rank <= 3) {
+                                    rankClass = 'rank-runner-up';
+                                    rankIcon = '🥈 亚军';
+                                } else if (rank >= 4 && rank <= 6) {
+                                    rankClass = 'rank-third';
+                                    rankIcon = '🥉 季军';
+                                } else {
+                                    rankIcon = `#${rank}`;
+                                }
+
+                                return (
+                                    <tr key={p.line_num}>
+                                        <td className={`rank-cell ${rankClass}`}>
+                                            {rankIcon}
+                                        </td>
+                                        <td>{p.user}</td>
+                                        <td>${p.price.toLocaleString()}</td>
+                                        <td className={Math.abs(diffPercent) < 5 ? 'text-green' : 'text-yellow'}>
+                                            {diff > 0 ? '+' : ''}{Math.round(diff).toLocaleString()}
+                                            <span style={{ fontSize: '0.8em', marginLeft: '4px', opacity: 0.8 }}>
+                                                ({diffPercent.toFixed(1)}%)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
