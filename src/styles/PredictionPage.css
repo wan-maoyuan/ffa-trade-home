@@ -377,12 +377,12 @@
     }
 }
 
-/* Winners Showcase - Refined Hierarchical Layout */
+/* Winners Showcase - Compact & Minimal */
 .winners-section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    margin-bottom: 48px;
+    gap: 12px;
+    margin-bottom: 32px;
     align-items: center;
 }
 
@@ -391,25 +391,25 @@
     background: var(--pp-card-bg);
     border: 1px solid var(--pp-card-border);
     backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.2s ease;
     position: relative;
     overflow: hidden;
 }
 
 .winner-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .winner-medal {
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
@@ -417,41 +417,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     width: 100%;
 }
 
 .winner-rank {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
     opacity: 0.8;
 }
 
 .winner-name {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--pp-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .winner-price-row {
     display: flex;
     align-items: baseline;
-    gap: 8px;
-    margin-bottom: 2px;
+    gap: 6px;
+    margin-bottom: 0;
 }
 
 .winner-price {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--pp-text-primary);
 }
 
@@ -459,19 +459,19 @@
     font-weight: 700;
     color: #F59E0B;
     /* Amber 500 */
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .winner-diff {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--pp-text-tertiary);
-    font-weight: 450;
+    font-weight: 400;
 }
 
 .diff-percent {
-    margin-left: 4px;
+    margin-left: 2px;
     opacity: 0.7;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
 }
 
 /* 1. Champion Row (Rank 1) */
@@ -483,32 +483,33 @@
 
 .champion-row .winner-card {
     width: 100%;
-    max-width: 320px;
-    padding: 32px;
+    max-width: 280px;
+    padding: 20px;
     border: 1px solid rgba(255, 215, 0, 0.3);
-    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(255, 215, 0, 0.08) 100%);
+    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(255, 215, 0, 0.06) 100%);
 }
 
 .champion-row .winner-medal {
-    transform: scale(1.6);
-    margin-bottom: 16px;
+    transform: scale(1.4);
+    margin-bottom: 10px;
 }
 
 .champion-row .winner-rank {
     color: #D97706;
-    /* Amber 600 */
+    font-size: 0.8rem;
 }
 
 .champion-row .winner-name {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    margin-bottom: 6px;
 }
 
 .champion-row .winner-price {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .champion-row .winner-prize {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: #D97706;
 }
 
@@ -517,24 +518,25 @@
 .runners-up-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 12px;
     width: 100%;
-    max-width: 500px;
+    max-width: 420px;
 }
 
 .runners-up-row .winner-card {
     border: 1px solid rgba(148, 163, 184, 0.3);
-    /* Slate 400 */
-    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(148, 163, 184, 0.08) 100%);
+    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(148, 163, 184, 0.05) 100%);
+    padding: 12px 16px;
 }
 
 .runners-up-row .winner-medal {
-    transform: scale(1.2);
+    transform: scale(1.0);
+    margin-bottom: 4px;
 }
 
 .runners-up-row .winner-rank {
     color: #64748B;
-    /* Slate 500 */
+    font-size: 0.65rem;
 }
 
 
@@ -542,40 +544,38 @@
 .third-place-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 10px;
     width: 100%;
-    max-width: 720px;
+    max-width: 600px;
 }
 
 .third-place-row .winner-card {
     border: 1px solid rgba(180, 83, 9, 0.2);
-    /* Amber 700 low opacity */
-    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(180, 83, 9, 0.04) 100%);
-    padding: 20px 16px;
+    background: linear-gradient(180deg, var(--pp-card-bg) 0%, rgba(180, 83, 9, 0.03) 100%);
+    padding: 10px 12px;
 }
 
 .third-place-row .winner-medal {
-    transform: scale(1.0);
-    margin-bottom: 8px;
+    transform: scale(0.8);
+    margin-bottom: 4px;
 }
 
 .third-place-row .winner-rank {
     color: #B45309;
-    /* Amber 700 */
-    font-size: 0.75rem;
+    font-size: 0.6rem;
 }
 
 .third-place-row .winner-name {
-    font-size: 1rem;
-    margin-bottom: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 2px;
 }
 
 .third-place-row .winner-price {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .third-place-row .winner-prize {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #B45309;
 }
 
@@ -583,21 +583,21 @@
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .winners-section {
-        gap: 16px;
-        margin-bottom: 32px;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .champion-row .winner-card {
+        padding: 16px;
     }
 
     .runners-up-row {
         grid-template-columns: 1fr;
-        max-width: 320px;
+        max-width: 280px;
     }
 
     .third-place-row {
         grid-template-columns: 1fr;
-        max-width: 320px;
-    }
-
-    .winner-card {
-        padding: 20px;
+        max-width: 280px;
     }
 }
