@@ -24,7 +24,8 @@
 
     /* Layout */
     padding: var(--container-padding);
-    padding-top: 120px;
+    padding-top: 140px;
+    /* Increased to prevent navbar overlap */
     min-height: 100vh;
     background-color: var(--pp-bg-color);
     background-image: var(--pp-bg-gradient);
@@ -45,12 +46,14 @@
     /* Slate 500 - Medium grey */
 
     --pp-card-bg: #ffffff;
-    --pp-card-border: 1px solid rgba(0, 0, 0, 0.1);
-    --pp-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --pp-card-border: 1px solid rgba(0, 0, 0, 0.08);
+    /* More subtle border */
+    --pp-card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+    /* Softer, more diffused shadow */
     --pp-card-backdrop: none;
 
-    --pp-table-header-bg: #f1f5f9;
-    /* Slate 100 - Distinct header background */
+    --pp-table-header-bg: #ffffff;
+    /* Pure white header for cleaner look */
     --pp-table-border: rgba(0, 0, 0, 0.12);
     --pp-table-row-hover: rgba(0, 0, 0, 0.04);
 
@@ -233,6 +236,8 @@
     color: var(--pp-text-secondary);
     border-bottom: 1px solid var(--pp-table-border);
     transition: background-color 0.2s;
+    font-weight: 450;
+    /* Slightly lighter weight for delicacy */
 }
 
 .prediction-table tr:hover td {
@@ -310,7 +315,7 @@
 @media (max-width: 768px) {
     .prediction-page {
         padding: 16px;
-        padding-top: 100px;
+        padding-top: 120px;
         /* Adjust based on mobile navbar height */
     }
 

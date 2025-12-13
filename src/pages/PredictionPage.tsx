@@ -303,7 +303,7 @@ const PredictionPage: React.FC = () => {
                 </div>
                 <div className="kpi-card">
                     <p className="kpi-label">{t[lang].participants}</p>
-                    <p className="kpi-value" style={{ color: 'var(--text-primary)' }}>{userPredictions.length}</p>
+                    <p className="kpi-value" style={{ color: 'var(--pp-text-primary)' }}>{userPredictions.length}</p>
                     <p className="kpi-subtext">{t[lang].verified}</p>
                 </div>
             </div>
@@ -434,7 +434,7 @@ const PredictionPage: React.FC = () => {
                         </svg>
                         {t[lang].ranking}
                     </h2>
-                    <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+                    <p style={{ color: 'var(--pp-text-tertiary)', fontSize: '0.9rem' }}>
                         {t[lang].sortedBy.replace('$PRICE', `$${latestMarketPrice.toLocaleString()}`)}
                     </p>
                 </div>
