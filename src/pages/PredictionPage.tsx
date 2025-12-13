@@ -14,6 +14,7 @@ import {
     ReferenceLine
 } from 'recharts';
 import '../styles/PredictionPage.css';
+import { fetchWithRetry } from '../utils/api';
 
 // Types
 interface UserPrediction {
@@ -53,9 +54,12 @@ const PredictionPage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://aqua.navgreen.cn/api/data/predict/data');
+                const response = await fetchWithRetry('https://aqua.navgreen.cn/api/data/predict/data', {
+                    timeout: 8000, // 8s timeout
+                    retries: 3
+                });
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
                 }
                 const result: ApiResponse = await response.json();
 
@@ -76,8 +80,34 @@ const PredictionPage: React.FC = () => {
         fetchData();
     }, []);
 
-    // Language State
+    // Language & Theme State
     const [lang, setLang] = useState<'zh' | 'en'>('zh');
+    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+    // Theme Colors
+    const themeColors = {
+        dark: {
+            textSecondary: 'var(--pp-text-secondary)',
+            textTertiary: 'var(--pp-text-tertiary)',
+            grid: 'rgba(255,255,255,0.1)',
+            marketLine: '#4dabf7',
+            marketFill: '#4dabf7',
+            userLine: '#e04f14',
+            tooltipBg: 'var(--pp-table-header-bg)',
+            referenceLine: '#4ADE80'
+        },
+        light: {
+            textSecondary: 'var(--pp-text-secondary)',
+            textTertiary: 'var(--pp-text-tertiary)',
+            grid: 'rgba(0,0,0,0.08)',
+            marketLine: '#2563EB', // Blue-600
+            marketFill: '#3B82F6', // Blue-500
+            userLine: '#EA580C', // Orange-600
+            tooltipBg: 'var(--pp-table-header-bg)',
+            referenceLine: '#16A34A' // Green-600
+        }
+    };
+    const colors = themeColors[theme];
 
     // Translations
     const t = {
@@ -127,7 +157,7 @@ const PredictionPage: React.FC = () => {
 
     // Icons
     const MedalIcon = ({ rank }: { rank: number }) => {
-        const color = rank === 1 ? '#FFD700' : rank <= 3 ? '#C0C0C0' : '#CD7F32';
+
         const stops = rank === 1
             ? <><stop offset="5%" stopColor="#FFD700" /><stop offset="95%" stopColor="#FDB931" /></>
             : rank <= 3
@@ -178,7 +208,7 @@ const PredictionPage: React.FC = () => {
                             </p>
                             {/* Show extra info if available in payload */}
                             {entry.payload.user && (
-                                <p className="tooltip-subitem" style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>
+                                <p className="tooltip-subitem" style={{ color: colors.textTertiary, fontSize: '0.8rem' }}>
                                     {t[lang].user}: {entry.payload.user}
                                 </p>
                             )}
@@ -199,7 +229,7 @@ const PredictionPage: React.FC = () => {
                     <p className="tooltip-item" style={{ color: '#e04f14' }}>
                         {t[lang].pred}: <strong>${data.price.toLocaleString()}</strong>
                     </p>
-                    <p className="tooltip-subitem" style={{ color: 'var(--text-secondary)' }}>
+                    <p className="tooltip-subitem" style={{ color: colors.textSecondary }}>
                         {data.user}
                     </p>
                 </div>
@@ -217,18 +247,43 @@ const PredictionPage: React.FC = () => {
     }
 
     return (
-        <div className="prediction-page">
+        <div className={`prediction-page ${theme === 'light' ? 'light-mode' : ''}`}>
             <div className="prediction-header-content">
                 <div>
                     <h1 className="prediction-title">{t[lang].title}</h1>
                     <p className="prediction-subtitle">{t[lang].subtitle}</p>
                 </div>
-                <button
-                    className="lang-toggle"
-                    onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}
-                >
-                    {lang === 'zh' ? 'EN' : ' 中'}
-                </button>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <button
+                        className="lang-toggle"
+                        onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+                        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                    >
+                        {theme === 'dark' ? (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px' }}>
+                                <circle cx="12" cy="12" r="5" />
+                                <line x1="12" y1="1" x2="12" y2="3" />
+                                <line x1="12" y1="21" x2="12" y2="23" />
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                <line x1="1" y1="12" x2="3" y2="12" />
+                                <line x1="21" y1="12" x2="23" y2="12" />
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                            </svg>
+                        ) : (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px' }}>
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                        )}
+                    </button>
+                    <button
+                        className="lang-toggle"
+                        onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}
+                    >
+                        {lang === 'zh' ? 'EN' : ' 中'}
+                    </button>
+                </div>
             </div>
 
             <div className="kpi-grid">
@@ -266,28 +321,28 @@ const PredictionPage: React.FC = () => {
                         >
                             <defs>
                                 <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#4dabf7" stopOpacity={0.3} />
-                                    <stop offset="95%" stopColor="#4dabf7" stopOpacity={0} />
+                                    <stop offset="5%" stopColor={colors.marketFill} stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor={colors.marketFill} stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                            <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} vertical={false} />
                             <XAxis
                                 dataKey="date"
-                                stroke="var(--text-tertiary)"
-                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                stroke={colors.textTertiary}
+                                tick={{ fill: colors.textTertiary, fontSize: 12 }}
                                 tickFormatter={(str) => str.slice(5)} // Show MM-DD
                             />
                             <YAxis
                                 domain={['auto', 'auto']}
-                                stroke="var(--text-tertiary)"
-                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                stroke={colors.textTertiary}
+                                tick={{ fill: colors.textTertiary, fontSize: 12 }}
                                 tickFormatter={(value) => `$${value}`}
                             />
                             <Tooltip content={<CustomTooltip />} />
                             <Area
                                 type="monotone"
                                 dataKey="price"
-                                stroke="#4dabf7"
+                                stroke={colors.marketLine}
                                 fillOpacity={1}
                                 fill="url(#colorPrice)"
                                 name={lang === 'zh' ? '市场价格' : 'Market Price'}
@@ -298,7 +353,7 @@ const PredictionPage: React.FC = () => {
                                     x={marketReferences[marketReferences.length - 1].date}
                                     y={marketReferences[marketReferences.length - 1].price}
                                     r={6}
-                                    fill="#4dabf7"
+                                    fill={colors.marketLine}
                                     stroke="white"
                                 />
                             )}
@@ -322,19 +377,19 @@ const PredictionPage: React.FC = () => {
                             data={userPredictions}
                             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                         >
-                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                            <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} vertical={false} />
                             <XAxis
                                 dataKey="line_num"
-                                stroke="var(--text-tertiary)"
-                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                stroke={colors.textTertiary}
+                                tick={{ fill: colors.textTertiary, fontSize: 12 }}
                                 tickLine={false}
-                                axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                                label={{ value: t[lang].order, position: 'insideBottom', offset: -5, fill: 'var(--text-tertiary)' }}
+                                axisLine={{ stroke: colors.grid }}
+                                label={{ value: t[lang].order, position: 'insideBottom', offset: -5, fill: colors.textTertiary }}
                             />
                             <YAxis
                                 domain={[0, 40000]}
-                                stroke="var(--text-tertiary)"
-                                tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
+                                stroke={colors.textTertiary}
+                                tick={{ fill: colors.textTertiary, fontSize: 12 }}
                                 tickLine={false}
                                 axisLine={false}
                                 tickFormatter={(value) => `$${value / 1000}k`}
@@ -346,19 +401,19 @@ const PredictionPage: React.FC = () => {
                                 type="monotone"
                                 dataKey="price"
                                 name={lang === 'zh' ? '用户预测价格' : 'User Predicted Price'}
-                                stroke="#e04f14"
+                                stroke={colors.userLine}
                                 strokeWidth={2}
-                                dot={{ r: 2, fill: '#e04f14' }}
+                                dot={{ r: 2, fill: colors.userLine }}
                                 activeDot={{ r: 6 }}
                             />
                             <ReferenceLine
                                 y={latestMarketPrice}
-                                stroke="#4ADE80"
+                                stroke={colors.referenceLine}
                                 strokeDasharray="3 3"
                                 label={{
                                     value: `${t[lang].latestRef}: $${latestMarketPrice.toLocaleString()}`,
                                     position: 'insideTopRight',
-                                    fill: '#4ADE80',
+                                    fill: colors.referenceLine,
                                     fontSize: 12
                                 }}
                             />

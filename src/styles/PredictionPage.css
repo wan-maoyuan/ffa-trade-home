@@ -1,8 +1,59 @@
+/* Theme Variables - Scoped to Prediction Page */
 .prediction-page {
+    /* Dark Mode (Default) */
+    --pp-bg-color: #050B14;
+    --pp-bg-gradient: radial-gradient(circle at 50% 0%, rgba(0, 46, 109, 0.15), transparent 70%);
+    --pp-text-primary: #ffffff;
+    --pp-text-secondary: rgba(255, 255, 255, 0.9);
+    --pp-text-tertiary: rgba(255, 255, 255, 0.65);
+
+    --pp-card-bg: rgba(255, 255, 255, 0.03);
+    --pp-card-border: 1px solid rgba(255, 255, 255, 0.08);
+    --pp-card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+    --pp-card-backdrop: blur(12px);
+
+    --pp-table-header-bg: rgba(10, 25, 41, 0.95);
+    --pp-table-border: rgba(255, 255, 255, 0.05);
+    --pp-table-row-hover: rgba(255, 255, 255, 0.02);
+
+    --pp-button-bg: rgba(255, 255, 255, 0.1);
+    --pp-button-border: rgba(255, 255, 255, 0.2);
+    --pp-button-hover: rgba(255, 255, 255, 0.2);
+
+    --pp-title-gradient: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+
+    /* Layout */
     padding: var(--container-padding);
     padding-top: 120px;
     min-height: 100vh;
-    background: radial-gradient(circle at 50% 0%, rgba(0, 46, 109, 0.15), transparent 70%);
+    background-color: var(--pp-bg-color);
+    background-image: var(--pp-bg-gradient);
+    color: var(--pp-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.prediction-page.light-mode {
+    /* Light Mode Overrides */
+    --pp-bg-color: #f5f7fa;
+    --pp-bg-gradient: radial-gradient(circle at 50% 0%, rgba(77, 171, 247, 0.1), transparent 70%);
+    --pp-text-primary: #1a1a1a;
+    --pp-text-secondary: #4a4a4a;
+    --pp-text-tertiary: #718096;
+
+    --pp-card-bg: #ffffff;
+    --pp-card-border: 1px solid rgba(0, 0, 0, 0.06);
+    --pp-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --pp-card-backdrop: none;
+
+    --pp-table-header-bg: #ffffff;
+    --pp-table-border: rgba(0, 0, 0, 0.08);
+    --pp-table-row-hover: rgba(0, 0, 0, 0.02);
+
+    --pp-button-bg: rgba(0, 0, 0, 0.05);
+    --pp-button-border: rgba(0, 0, 0, 0.1);
+    --pp-button-hover: rgba(0, 0, 0, 0.08);
+
+    --pp-title-gradient: linear-gradient(135deg, #1a202c 0%, #4a5568 100%);
 }
 
 .prediction-page.loading,
@@ -11,12 +62,8 @@
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
-    color: var(--text-secondary);
+    color: var(--pp-text-secondary);
     min-height: 100vh;
-}
-
-.prediction-page.error {
-    color: #F87171;
 }
 
 .prediction-header-content {
@@ -30,7 +77,7 @@
 .prediction-title {
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    background: var(--pp-title-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -38,15 +85,15 @@
 }
 
 .prediction-subtitle {
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
     font-size: 0.9rem;
 }
 
 /* Language Toggle */
 .lang-toggle {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-primary);
+    background: var(--pp-button-bg);
+    border: 1px solid var(--pp-button-border);
+    color: var(--pp-text-primary);
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -56,7 +103,7 @@
 }
 
 .lang-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--pp-button-hover);
     transform: translateY(-1px);
 }
 
@@ -69,24 +116,25 @@
 }
 
 .kpi-card {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    backdrop-filter: var(--glass-backdrop);
+    background: var(--pp-card-bg);
+    border: var(--pp-card-border);
+    backdrop-filter: var(--pp-card-backdrop);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--pp-card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .kpi-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
-    background: var(--bg-card-hover);
+    background: var(--pp-button-hover);
+    /* Assuming card hover is similar to button hover opacity change, or define new var */
 }
 
 .kpi-label {
     font-size: 0.9rem;
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
     margin-bottom: 8px;
 }
 
@@ -94,24 +142,25 @@
     font-size: 2rem;
     font-weight: 700;
     color: var(--primary-color);
+    /* Keep primary color for now, assuming it works on light */
     margin-bottom: 8px;
     font-family: 'Inter', sans-serif;
 }
 
 .kpi-subtext {
     font-size: 0.8rem;
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
 }
 
 /* Chart Section */
 .chart-section {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    backdrop-filter: var(--glass-backdrop);
+    background: var(--pp-card-bg);
+    border: var(--pp-card-border);
+    backdrop-filter: var(--pp-card-backdrop);
     border-radius: 20px;
     padding: 32px;
     margin-bottom: 32px;
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--pp-card-shadow);
 }
 
 .section-header {
@@ -120,13 +169,13 @@
     align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--pp-table-border);
 }
 
 .section-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--pp-text-secondary);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -139,12 +188,12 @@
 
 /* Table Section */
 .table-section {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    backdrop-filter: var(--glass-backdrop);
+    background: var(--pp-card-bg);
+    border: var(--pp-card-border);
+    backdrop-filter: var(--pp-card-backdrop);
     border-radius: 20px;
     padding: 32px;
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--pp-card-shadow);
 }
 
 .prediction-table-container {
@@ -163,31 +212,31 @@
 .prediction-table th {
     text-align: left;
     padding: 16px;
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
     font-weight: 500;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--pp-table-border);
     white-space: nowrap;
     position: sticky;
     top: 0;
-    background: rgba(10, 25, 41, 0.95);
+    background: var(--pp-table-header-bg);
     /* Ensure header stays visible */
     z-index: 1;
 }
 
 .prediction-table td {
     padding: 16px;
-    color: var(--text-secondary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    color: var(--pp-text-secondary);
+    border-bottom: 1px solid var(--pp-table-border);
     transition: background-color 0.2s;
 }
 
 .prediction-table tr:hover td {
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: var(--pp-table-row-hover);
 }
 
 .rank-cell {
     font-weight: 600;
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
 }
 
 .medal-icon {
@@ -229,24 +278,25 @@
 .footer-info {
     margin-top: 40px;
     text-align: center;
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
     font-size: 0.8rem;
     padding: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--pp-table-border);
 }
 
 /* Custom Tooltip */
 .custom-tooltip {
-    background: rgba(5, 11, 20, 0.8);
+    background: var(--pp-table-header-bg);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--pp-card-border);
     padding: 12px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: var(--pp-text-secondary);
 }
 
 .tooltip-label {
-    color: var(--text-tertiary);
+    color: var(--pp-text-tertiary);
     font-size: 0.8rem;
     margin-bottom: 4px;
 }
