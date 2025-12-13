@@ -34,26 +34,31 @@
 
 .prediction-page.light-mode {
     /* Light Mode Overrides */
-    --pp-bg-color: #f5f7fa;
-    --pp-bg-gradient: radial-gradient(circle at 50% 0%, rgba(77, 171, 247, 0.1), transparent 70%);
-    --pp-text-primary: #1a1a1a;
-    --pp-text-secondary: #4a4a4a;
-    --pp-text-tertiary: #718096;
+    --pp-bg-color: #f8fafc;
+    /* Slightly brighter background for better contrast */
+    --pp-bg-gradient: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08), transparent 70%);
+    --pp-text-primary: #0f172a;
+    /* Slate 900 - Almost black */
+    --pp-text-secondary: #334155;
+    /* Slate 700 - Dark grey */
+    --pp-text-tertiary: #64748b;
+    /* Slate 500 - Medium grey */
 
     --pp-card-bg: #ffffff;
-    --pp-card-border: 1px solid rgba(0, 0, 0, 0.06);
-    --pp-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --pp-card-border: 1px solid rgba(0, 0, 0, 0.1);
+    --pp-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --pp-card-backdrop: none;
 
-    --pp-table-header-bg: #ffffff;
-    --pp-table-border: rgba(0, 0, 0, 0.08);
-    --pp-table-row-hover: rgba(0, 0, 0, 0.02);
+    --pp-table-header-bg: #f1f5f9;
+    /* Slate 100 - Distinct header background */
+    --pp-table-border: rgba(0, 0, 0, 0.12);
+    --pp-table-row-hover: rgba(0, 0, 0, 0.04);
 
     --pp-button-bg: rgba(0, 0, 0, 0.05);
-    --pp-button-border: rgba(0, 0, 0, 0.1);
+    --pp-button-border: rgba(0, 0, 0, 0.12);
     --pp-button-hover: rgba(0, 0, 0, 0.08);
 
-    --pp-title-gradient: linear-gradient(135deg, #1a202c 0%, #4a5568 100%);
+    --pp-title-gradient: linear-gradient(135deg, #0f172a 0%, #334155 100%);
 }
 
 .prediction-page.loading,

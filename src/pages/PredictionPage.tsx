@@ -82,7 +82,7 @@ const PredictionPage: React.FC = () => {
 
     // Language & Theme State
     const [lang, setLang] = useState<'zh' | 'en'>('zh');
-    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+    const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
     // Theme Colors
     const themeColors = {
@@ -193,6 +193,10 @@ const PredictionPage: React.FC = () => {
     const sortedPredictions = [...userPredictions].sort((a, b) => {
         const diffA = Math.abs(a.price - latestMarketPrice);
         const diffB = Math.abs(b.price - latestMarketPrice);
+        if (diffA === diffB) {
+            // If diff is same, sort by line_num (earlier submission first)
+            return a.line_num - b.line_num;
+        }
         return diffA - diffB;
     });
 
