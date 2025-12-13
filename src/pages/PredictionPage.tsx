@@ -293,59 +293,82 @@ const PredictionPage: React.FC = () => {
                 </div>
             </div>
 
-            {/* Winners Podium Section */}
+            {/* Winners Hierarchical Section */}
             {topWinners.length > 0 && (
                 <div className="winners-section">
-                    {/* Top 3 Podium */}
-                    <div className="podium-container">
-                        {[1, 0, 2].map((index) => {
-                            const winner = topWinners[index];
-                            if (!winner) return null;
-                            const rank = index + 1;
-                            return (
-                                <div key={winner.line_num} className={`winner-card rank-${rank}`}>
-                                    <div className="winner-medal">
-                                        <MedalIcon rank={rank} />
+                    {/* 1. Champion Row */}
+                    {topWinners[0] && (
+                        <div className="champion-row">
+                            <div className="winner-card rank-1">
+                                <div className="winner-medal">
+                                    <MedalIcon rank={1} />
+                                </div>
+                                <div className="winner-content">
+                                    <div className="winner-rank">{lang === 'zh' ? '冠军' : 'Champion'}</div>
+                                    <div className="winner-name">{topWinners[0].user}</div>
+                                    <div className="winner-price-row">
+                                        <div className="winner-price">${topWinners[0].price.toLocaleString()}</div>
+                                        <div className="winner-prize">¥3888</div>
                                     </div>
-                                    <div className="winner-info">
-                                        <div className="winner-rank">
-                                            {rank === 1 ? (lang === 'zh' ? '冠军' : 'Champion') :
-                                                rank === 2 ? (lang === 'zh' ? '亚军' : 'Runner-up') :
-                                                    (lang === 'zh' ? '季军' : 'Third Place')}
-                                        </div>
-                                        <div className="winner-name">{winner.user}</div>
-                                        <div className="winner-price">${winner.price.toLocaleString()}</div>
-                                        <div className="winner-diff">
-                                            {winner.price >= latestMarketPrice ? '+' : ''}
-                                            {Math.round(winner.price - latestMarketPrice).toLocaleString()}
-                                            <span className="diff-percent">
-                                                ({((winner.price - latestMarketPrice) / latestMarketPrice * 100).toFixed(1)}%)
-                                            </span>
-                                        </div>
+                                    <div className="winner-diff">
+                                        {topWinners[0].price >= latestMarketPrice ? '+' : ''}
+                                        {Math.round(topWinners[0].price - latestMarketPrice).toLocaleString()}
+                                        <span className="diff-percent">
+                                            ({((topWinners[0].price - latestMarketPrice) / latestMarketPrice * 100).toFixed(1)}%)
+                                        </span>
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 2. Runners-up Row (2 people) */}
+                    <div className="runners-up-row">
+                        {topWinners.slice(1, 3).map((winner) => (
+                            <div key={winner.line_num} className="winner-card rank-2">
+                                <div className="winner-medal">
+                                    <MedalIcon rank={2} />
+                                </div>
+                                <div className="winner-content">
+                                    <div className="winner-rank">{lang === 'zh' ? '亚军' : 'Runner-up'}</div>
+                                    <div className="winner-name">{winner.user}</div>
+                                    <div className="winner-price-row">
+                                        <div className="winner-price">${winner.price.toLocaleString()}</div>
+                                        <div className="winner-prize">¥2888</div>
+                                    </div>
+                                    <div className="winner-diff">
+                                        {winner.price >= latestMarketPrice ? '+' : ''}
+                                        {Math.round(winner.price - latestMarketPrice).toLocaleString()}
+                                        <span className="diff-percent">
+                                            ({((winner.price - latestMarketPrice) / latestMarketPrice * 100).toFixed(1)}%)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Ranks 4-6 Grid */}
-                    <div className="runners-up-grid">
-                        {topWinners.slice(3, 6).map((winner, index) => {
-                            const rank = index + 4;
-                            return (
-                                <div key={winner.line_num} className="runner-up-card">
-                                    <div className="runner-up-rank">#{rank}</div>
-                                    <div className="runner-up-info">
-                                        <div className="runner-up-name">{winner.user}</div>
-                                        <div className="runner-up-price">${winner.price.toLocaleString()}</div>
+                    {/* 3. Third Place Row (3 people) */}
+                    <div className="third-place-row">
+                        {topWinners.slice(3, 6).map((winner) => (
+                            <div key={winner.line_num} className="winner-card rank-3">
+                                <div className="winner-medal">
+                                    <MedalIcon rank={3} />
+                                </div>
+                                <div className="winner-content">
+                                    <div className="winner-rank">{lang === 'zh' ? '季军' : 'Third Place'}</div>
+                                    <div className="winner-name">{winner.user}</div>
+                                    <div className="winner-price-row">
+                                        <div className="winner-price">${winner.price.toLocaleString()}</div>
+                                        <div className="winner-prize">¥888</div>
                                     </div>
-                                    <div className="runner-up-diff">
+                                    <div className="winner-diff">
                                         {winner.price >= latestMarketPrice ? '+' : ''}
                                         {Math.round(winner.price - latestMarketPrice).toLocaleString()}
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        ))}
                     </div>
                 </div>
             )}
