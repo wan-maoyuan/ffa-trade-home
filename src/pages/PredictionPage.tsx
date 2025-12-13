@@ -10,7 +10,8 @@ import {
     ResponsiveContainer,
     AreaChart,
     Area,
-    ReferenceDot
+    ReferenceDot,
+    ReferenceLine
 } from 'recharts';
 import '../styles/PredictionPage.css';
 
@@ -82,7 +83,7 @@ const PredictionPage: React.FC = () => {
     const t = {
         zh: {
             title: 'Aquabridge*吾爱首届FFA竞猜',
-            subtitle: '数据分析 & 市场预测',
+            subtitle: '数据分析 & 市场预测(from AquaBridge.ai)',
             latestRef: '最新市场参考价',
             date: '日期',
             avgPred: '用户平均预测',
@@ -350,7 +351,17 @@ const PredictionPage: React.FC = () => {
                                 dot={{ r: 2, fill: '#e04f14' }}
                                 activeDot={{ r: 6 }}
                             />
-                            {/* Reference Line for Average could be added here if needed */}
+                            <ReferenceLine
+                                y={latestMarketPrice}
+                                stroke="#4ADE80"
+                                strokeDasharray="3 3"
+                                label={{
+                                    value: `${t[lang].latestRef}: $${latestMarketPrice.toLocaleString()}`,
+                                    position: 'insideTopRight',
+                                    fill: '#4ADE80',
+                                    fontSize: 12
+                                }}
+                            />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

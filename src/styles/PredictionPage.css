@@ -251,10 +251,57 @@
     margin-bottom: 4px;
 }
 
-.tooltip-item {
-    font-size: 0.9rem;
-    margin: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .prediction-page {
+        padding: 16px;
+        padding-top: 100px;
+        /* Adjust based on mobile navbar height */
+    }
+
+    .prediction-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .prediction-title {
+        font-size: 1.5rem;
+    }
+
+    .lang-toggle {
+        align-self: flex-end;
+        /* Move toggle to right */
+        margin-top: -40px;
+        /* Pull it up next to title if desired, or keep separate */
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+        /* Stack cards */
+        gap: 16px;
+    }
+
+    .kpi-card {
+        padding: 20px;
+    }
+
+    .kpi-value {
+        font-size: 1.75rem;
+    }
+
+    .chart-section,
+    .table-section {
+        padding: 20px;
+    }
+
+    .chart-container {
+        height: 300px;
+        /* Reduce height for mobile */
+    }
+
+    /* Make table scroll hint visible if needed */
+    .prediction-table-container {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
 }
