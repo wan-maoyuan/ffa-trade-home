@@ -84,7 +84,7 @@ const PredictionPage: React.FC = () => {
         zh: {
             title: 'Aquabridge*吾爱首届FFA竞猜',
             subtitle: '数据分析 & 市场预测(from AquaBridge.ai)',
-            latestRef: '最新市场参考价',
+            latestRef: '最新市场 5TC_C+1MON JAN 26 参考价',
             date: '日期',
             avgPred: '用户平均预测',
             participants: '参与人数',
