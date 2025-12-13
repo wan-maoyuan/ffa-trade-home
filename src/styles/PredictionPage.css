@@ -1,6 +1,6 @@
 .prediction-page {
     padding: var(--container-padding);
-    padding-top: 40px;
+    padding-top: 120px;
     min-height: 100vh;
     background: radial-gradient(circle at 50% 0%, rgba(0, 46, 109, 0.15), transparent 70%);
 }
@@ -12,13 +12,17 @@
     align-items: center;
     font-size: 1.5rem;
     color: var(--text-secondary);
+    min-height: 100vh;
 }
 
 .prediction-page.error {
     color: #F87171;
 }
 
-.prediction-header {
+.prediction-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 40px;
 }
 
@@ -36,6 +40,24 @@
 .prediction-subtitle {
     color: var(--text-tertiary);
     font-size: 0.9rem;
+}
+
+/* Language Toggle */
+.lang-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.lang-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 /* KPI Cards */
@@ -168,11 +190,16 @@
     color: var(--text-tertiary);
 }
 
+.medal-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
 .rank-champion {
     color: #FFD700;
     /* Gold */
     font-size: 1.1rem;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    font-weight: 700;
 }
 
 .rank-runner-up {
@@ -210,7 +237,8 @@
 
 /* Custom Tooltip */
 .custom-tooltip {
-    background: rgba(5, 11, 20, 0.9);
+    background: rgba(5, 11, 20, 0.8);
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 12px;
     border-radius: 8px;

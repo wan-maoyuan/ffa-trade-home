@@ -75,6 +75,80 @@ const PredictionPage: React.FC = () => {
         fetchData();
     }, []);
 
+    // Language State
+    const [lang, setLang] = useState<'zh' | 'en'>('zh');
+
+    // Translations
+    const t = {
+        zh: {
+            title: 'Aquabridge*吾爱首届FFA竞猜',
+            subtitle: '数据分析 & 市场预测',
+            latestRef: '最新市场参考价',
+            date: '日期',
+            avgPred: '用户平均预测',
+            participants: '参与人数',
+            across: '共计',
+            verified: '有效提交',
+            marketTrend: '市场参考价趋势',
+            dist: '用户预测分布',
+            ranking: '参与者排名',
+            sortedBy: '按与最新市场价 ($PRICE) 的接近程度排序',
+            rank: '排名',
+            user: '参与者',
+            pred: '预测价格',
+            diff: '偏差',
+            order: '提交顺序',
+            loading: '正在加载数据...',
+            error: '加载失败，请稍后重试。'
+        },
+        en: {
+            title: 'Aquabridge * WuAi 1st FFA Prediction',
+            subtitle: 'Data Analysis & Market Predictions',
+            latestRef: 'Latest Market Reference',
+            date: 'Date',
+            avgPred: 'Average User Prediction',
+            participants: 'Total Participants',
+            across: 'Across',
+            verified: 'Verified Submissions',
+            marketTrend: 'Market Reference Trend',
+            dist: 'User Predictions Distribution',
+            ranking: 'Participants Ranking',
+            sortedBy: 'Sorted by proximity to Latest Market Price ($PRICE)',
+            rank: 'Rank',
+            user: 'Participant',
+            pred: 'Prediction',
+            diff: 'Diff from Market',
+            order: 'Submission Order',
+            loading: 'Loading data...',
+            error: 'Failed to load data. Please try again later.'
+        }
+    };
+
+    // Icons
+    const MedalIcon = ({ rank }: { rank: number }) => {
+        const color = rank === 1 ? '#FFD700' : rank <= 3 ? '#C0C0C0' : '#CD7F32';
+        const stops = rank === 1
+            ? <><stop offset="5%" stopColor="#FFD700" /><stop offset="95%" stopColor="#FDB931" /></>
+            : rank <= 3
+                ? <><stop offset="5%" stopColor="#E0E0E0" /><stop offset="95%" stopColor="#A0A0A0" /></>
+                : <><stop offset="5%" stopColor="#CD7F32" /><stop offset="95%" stopColor="#8B4513" /></>;
+
+        return (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="medal-icon">
+                <defs>
+                    <linearGradient id={`medal-grad-${rank}`} x1="0" y1="0" x2="1" y2="1">
+                        {stops}
+                    </linearGradient>
+                </defs>
+                <path d="M12 15C15.866 15 19 11.866 19 8V2H5V8C5 11.866 8.13401 15 12 15Z" fill={`url(#medal-grad-${rank})`} stroke="none" />
+                <path d="M5 2L12 15L19 2" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                <circle cx="12" cy="8" r="3" fill="rgba(255,255,255,0.2)" />
+                <path d="M12 15V22" stroke={`url(#medal-grad-${rank})`} strokeWidth="2" />
+                <circle cx="12" cy="22" r="2" fill={`url(#medal-grad-${rank})`} />
+            </svg>
+        );
+    };
+
     // Calculate some stats
     const averagePrediction = userPredictions.length > 0
         ? userPredictions.reduce((acc, curr) => acc + curr.price, 0) / userPredictions.length
@@ -104,7 +178,7 @@ const PredictionPage: React.FC = () => {
                             {/* Show extra info if available in payload */}
                             {entry.payload.user && (
                                 <p className="tooltip-subitem" style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>
-                                    User: {entry.payload.user}
+                                    {t[lang].user}: {entry.payload.user}
                                 </p>
                             )}
                         </div>
@@ -120,9 +194,9 @@ const PredictionPage: React.FC = () => {
             const data = payload[0].payload;
             return (
                 <div className="custom-tooltip">
-                    <p className="tooltip-label">Order #{data.line_num}</p>
+                    <p className="tooltip-label">{t[lang].order} #{data.line_num}</p>
                     <p className="tooltip-item" style={{ color: '#e04f14' }}>
-                        Prediction: <strong>${data.price.toLocaleString()}</strong>
+                        {t[lang].pred}: <strong>${data.price.toLocaleString()}</strong>
                     </p>
                     <p className="tooltip-subitem" style={{ color: 'var(--text-secondary)' }}>
                         {data.user}
@@ -134,42 +208,53 @@ const PredictionPage: React.FC = () => {
     };
 
     if (loading) {
-        return <div className="prediction-page loading">Loading data...</div>;
+        return <div className="prediction-page loading">{t[lang].loading}</div>;
     }
 
     if (error) {
-        return <div className="prediction-page error">{error}</div>;
+        return <div className="prediction-page error">{t[lang].error}</div>;
     }
 
     return (
         <div className="prediction-page">
-            <div className="prediction-header">
-                <h1 className="prediction-title">Aquabridge*吾爱首届FFA竞猜</h1>
-                <p className="prediction-subtitle">Data Analysis & Market Predictions</p>
+            <div className="prediction-header-content">
+                <div>
+                    <h1 className="prediction-title">{t[lang].title}</h1>
+                    <p className="prediction-subtitle">{t[lang].subtitle}</p>
+                </div>
+                <button
+                    className="lang-toggle"
+                    onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}
+                >
+                    {lang === 'zh' ? 'EN' : ' 中'}
+                </button>
             </div>
 
             <div className="kpi-grid">
                 <div className="kpi-card">
-                    <p className="kpi-label">Latest Market Reference</p>
+                    <p className="kpi-label">{t[lang].latestRef}</p>
                     <p className="kpi-value">${latestMarketPrice.toLocaleString()}</p>
-                    <p className="kpi-subtext">Date: {marketReferences[marketReferences.length - 1]?.date}</p>
+                    <p className="kpi-subtext">{t[lang].date}: {marketReferences[marketReferences.length - 1]?.date}</p>
                 </div>
                 <div className="kpi-card">
-                    <p className="kpi-label">Average User Prediction</p>
+                    <p className="kpi-label">{t[lang].avgPred}</p>
                     <p className="kpi-value" style={{ color: '#e04f14' }}>${Math.round(averagePrediction).toLocaleString()}</p>
-                    <p className="kpi-subtext">Across {userPredictions.length} participants</p>
+                    <p className="kpi-subtext">{t[lang].across} {userPredictions.length} {lang === 'zh' ? '位参与者' : 'participants'}</p>
                 </div>
                 <div className="kpi-card">
-                    <p className="kpi-label">Total Participants</p>
+                    <p className="kpi-label">{t[lang].participants}</p>
                     <p className="kpi-value" style={{ color: 'var(--text-primary)' }}>{userPredictions.length}</p>
-                    <p className="kpi-subtext">Verified Submissions</p>
+                    <p className="kpi-subtext">{t[lang].verified}</p>
                 </div>
             </div>
 
             <section className="chart-section">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span>📊</span> Market Reference Trend
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', color: '#4dabf7' }}>
+                            <path d="M3 3v18h18" /><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                        </svg>
+                        {t[lang].marketTrend}
                     </h2>
                 </div>
                 <div className="chart-container" style={{ height: '300px' }}>
@@ -204,7 +289,7 @@ const PredictionPage: React.FC = () => {
                                 stroke="#4dabf7"
                                 fillOpacity={1}
                                 fill="url(#colorPrice)"
-                                name="Market Price"
+                                name={lang === 'zh' ? '市场价格' : 'Market Price'}
                             />
                             {/* Highlight the last data point */}
                             {marketReferences.length > 0 && (
@@ -224,7 +309,10 @@ const PredictionPage: React.FC = () => {
             <section className="chart-section">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span>📈</span> User Predictions Distribution
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', color: '#e04f14' }}>
+                            <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                        {t[lang].dist}
                     </h2>
                 </div>
                 <div className="chart-container">
@@ -240,7 +328,7 @@ const PredictionPage: React.FC = () => {
                                 tick={{ fill: 'var(--text-tertiary)', fontSize: 12 }}
                                 tickLine={false}
                                 axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                                label={{ value: 'Submission Order', position: 'insideBottom', offset: -5, fill: 'var(--text-tertiary)' }}
+                                label={{ value: t[lang].order, position: 'insideBottom', offset: -5, fill: 'var(--text-tertiary)' }}
                             />
                             <YAxis
                                 domain={[0, 40000]}
@@ -256,7 +344,7 @@ const PredictionPage: React.FC = () => {
                             <Line
                                 type="monotone"
                                 dataKey="price"
-                                name="User Predicted Price"
+                                name={lang === 'zh' ? '用户预测价格' : 'User Predicted Price'}
                                 stroke="#e04f14"
                                 strokeWidth={2}
                                 dot={{ r: 2, fill: '#e04f14' }}
@@ -271,20 +359,23 @@ const PredictionPage: React.FC = () => {
             <section className="table-section">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span>🏆</span> Participants Ranking
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', color: '#FFD700' }}>
+                            <circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+                        </svg>
+                        {t[lang].ranking}
                     </h2>
                     <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
-                        Sorted by proximity to Latest Market Price (${latestMarketPrice.toLocaleString()})
+                        {t[lang].sortedBy.replace('$PRICE', `$${latestMarketPrice.toLocaleString()}`)}
                     </p>
                 </div>
                 <div className="prediction-table-container">
                     <table className="prediction-table">
                         <thead>
                             <tr>
-                                <th>Rank</th>
-                                <th>Participant</th>
-                                <th>Prediction</th>
-                                <th>Diff from Market</th>
+                                <th>{t[lang].rank}</th>
+                                <th>{t[lang].user}</th>
+                                <th>{t[lang].pred}</th>
+                                <th>{t[lang].diff}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -294,25 +385,25 @@ const PredictionPage: React.FC = () => {
                                 const diffPercent = (diff / latestMarketPrice) * 100;
 
                                 let rankClass = '';
-                                let rankIcon = '';
+                                let rankContent: React.ReactNode = `#${rank}`;
 
                                 if (rank === 1) {
                                     rankClass = 'rank-champion';
-                                    rankIcon = '🥇 冠军';
+                                    rankContent = <><MedalIcon rank={1} /> {lang === 'zh' ? '冠军' : '1st'}</>;
                                 } else if (rank >= 2 && rank <= 3) {
                                     rankClass = 'rank-runner-up';
-                                    rankIcon = '🥈 亚军';
+                                    rankContent = <><MedalIcon rank={2} /> {lang === 'zh' ? '亚军' : '2nd'}</>;
                                 } else if (rank >= 4 && rank <= 6) {
                                     rankClass = 'rank-third';
-                                    rankIcon = '🥉 季军';
-                                } else {
-                                    rankIcon = `#${rank}`;
+                                    rankContent = <><MedalIcon rank={4} /> {lang === 'zh' ? '季军' : '3rd'}</>;
                                 }
 
                                 return (
                                     <tr key={p.line_num}>
                                         <td className={`rank-cell ${rankClass}`}>
-                                            {rankIcon}
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                {rankContent}
+                                            </div>
                                         </td>
                                         <td>{p.user}</td>
                                         <td>${p.price.toLocaleString()}</td>
