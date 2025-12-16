@@ -190,6 +190,7 @@ const P3A_42dDecisionPage: React.FC = () => {
             let overallPriceDiffRatio = ''
             let overallPriceDiffRange = ''
             let forecastValue = 0
+            let forecastDate = ''
             let probability = 0
 
             for (let i = 0; i < rawTableData.length; i++) {
@@ -202,16 +203,81 @@ const P3A_42dDecisionPage: React.FC = () => {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
                 }
-                if (row[0] === '做空' && row.length >= 4) {
-                  recommendedDirection = '做空'
-                  date = String(row[1] || '')
-                  currentValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  overallPriceDiffRatio = String(row[3] || '')
+                // 支持解析"做多"和"做空"两种方向
+                if ((row[0] === '做多' || row[0] === '做空') && row.length >= 4) {
+                  recommendedDirection = String(row[0] || '做空')
+                  date = String(row[1] || '').trim()
+                  const currentValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  // 只有当值有效时才赋值，避免0覆盖有效值
+                  if (currentValueStr && !isNaN(parseFloat(currentValueStr)) && parseFloat(currentValueStr) > 0) {
+                    currentValue = parseFloat(currentValueStr)
+                  }
+                  // 综合价差比可能在row[3]，需要检查是否有效
+                  const priceDiffRatioStr = String(row[3] || '').trim()
+                  if (priceDiffRatioStr && priceDiffRatioStr !== '0' && priceDiffRatioStr !== '' && priceDiffRatioStr !== 'null' && priceDiffRatioStr !== 'undefined') {
+                    overallPriceDiffRatio = priceDiffRatioStr
+                  }
                 }
                 if (row[0] === '建议交易方向' && row.length >= 4) {
-                  overallPriceDiffRange = String(row[1] || '')
-                  forecastValue = parseFloat(String(row[2] || '0').replace(/,/g, '')) || 0
-                  probability = parseFloat(String(row[3] || '0').replace('%', '')) || 0
+                  overallPriceDiffRange = String(row[1] || '').trim()
+                  const forecastValueStr = String(row[2] || '0').replace(/,/g, '').trim()
+                  if (forecastValueStr && !isNaN(parseFloat(forecastValueStr)) && parseFloat(forecastValueStr) > 0) {
+                    forecastValue = parseFloat(forecastValueStr)
+                  }
+                  const probabilityStr = String(row[3] || '0').replace('%', '').trim()
+                  if (probabilityStr && !isNaN(parseFloat(probabilityStr))) {
+                    probability = parseFloat(probabilityStr)
+                  }
+                }
+                // 解析预测日期（从Row 6中查找包含"预测值"的列）
+                if (Array.isArray(row) && row.length > 0) {
+                  for (let j = 0; j < row.length; j++) {
+                    const cell = String(row[j] || '')
+                    // 查找格式如"2026-01-06预测值"的单元格
+                    const dateMatch = cell.match(/(\d{4}-\d{2}-\d{2})预测值/)
+                    if (dateMatch) {
+                      forecastDate = dateMatch[1]
+                      break
+                    }
+                  }
+                }
+              }
+            }
+            
+            // 如果预测日期还没有找到，尝试从其他行查找
+            if (!forecastDate || forecastDate === '') {
+              for (let i = 0; i < rawTableData.length; i++) {
+                const row = rawTableData[i]
+                if (Array.isArray(row) && row.length > 0) {
+                  for (let j = 0; j < row.length; j++) {
+                    const cell = String(row[j] || '')
+                    const dateMatch = cell.match(/(\d{4}-\d{2}-\d{2})预测值/)
+                    if (dateMatch) {
+                      forecastDate = dateMatch[1]
+                      break
+                    }
+                  }
+                  if (forecastDate) break
+                }
+              }
+            }
+            
+            // 如果综合价差比还没有找到，尝试从其他行查找
+            if (!overallPriceDiffRatio || overallPriceDiffRatio === '') {
+              for (let i = 0; i < rawTableData.length; i++) {
+                const row = rawTableData[i]
+                if (Array.isArray(row) && row.length > 0) {
+                  // 查找包含"综合价差比"的标题行，下一行可能是数据
+                  if (row[0] === '综合价差比' && i + 1 < rawTableData.length) {
+                    const nextRow = rawTableData[i + 1]
+                    if (Array.isArray(nextRow) && nextRow.length > 0) {
+                      const ratioStr = String(nextRow[0] || '').trim()
+                      if (ratioStr && ratioStr !== '0' && ratioStr !== '' && !ratioStr.includes('日期')) {
+                        overallPriceDiffRatio = ratioStr
+                        break
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -470,8 +536,9 @@ const P3A_42dDecisionPage: React.FC = () => {
                 overall_price_difference_ratio: overallPriceDiffRatio,
                 overall_price_difference_range: overallPriceDiffRange,
                 forecast_value: forecastValue,
-                probability: probability
-              },
+                probability: probability,
+                forecast_date: forecastDate
+              } as CurrentForecast & { forecast_date?: string },
               positive_returns: {
                 final_positive_returns_percentage: finalPositiveReturnsPercentage,
                 final_positive_returns_average: finalPositiveReturnsAverage,
@@ -526,8 +593,28 @@ const P3A_42dDecisionPage: React.FC = () => {
             })
           }
 
+          // 优先使用p3aAnalysis，但合并parsedData中的关键字段以确保数据完整
           if (p3aAnalysis) {
-            setAnalysis(p3aAnalysis)
+            // 合并parsedData中的关键字段（如果p3aAnalysis中缺失）
+            const mergedAnalysis: P3AAnalysis = {
+              ...p3aAnalysis,
+              trading_recommendation: {
+                ...p3aAnalysis.trading_recommendation,
+                profit_loss_ratio: p3aAnalysis.trading_recommendation.profit_loss_ratio || parsedData?.trading_recommendation.profit_loss_ratio || 0,
+                recommended_direction: p3aAnalysis.trading_recommendation.recommended_direction || parsedData?.trading_recommendation.recommended_direction || '做空'
+              },
+              current_forecast: {
+                ...p3aAnalysis.current_forecast,
+                date: p3aAnalysis.current_forecast.date || parsedData?.current_forecast.date || result.data.date || '',
+                current_value: p3aAnalysis.current_forecast.current_value || parsedData?.current_forecast.current_value || 0,
+                overall_price_difference_ratio: p3aAnalysis.current_forecast.overall_price_difference_ratio || parsedData?.current_forecast.overall_price_difference_ratio || '',
+                overall_price_difference_range: p3aAnalysis.current_forecast.overall_price_difference_range || parsedData?.current_forecast.overall_price_difference_range || '',
+                forecast_value: p3aAnalysis.current_forecast.forecast_value || parsedData?.current_forecast.forecast_value || 0,
+                probability: p3aAnalysis.current_forecast.probability || parsedData?.current_forecast.probability || 0,
+                forecast_date: (p3aAnalysis.current_forecast as any).forecast_date || (parsedData?.current_forecast as any)?.forecast_date || ''
+              } as CurrentForecast & { forecast_date?: string }
+            }
+            setAnalysis(mergedAnalysis)
           } else if (parsedData) {
             setAnalysis(parsedData)
           } else if (record.core_data) {
@@ -618,7 +705,7 @@ const P3A_42dDecisionPage: React.FC = () => {
             {/* 头部统计 */}
             <div className="strategy-tags">
               <div className="strategy-tag">
-                <p>做空胜率统计</p>
+                <p>{analysis.trading_recommendation.recommended_direction === '做多' ? '做多胜率统计' : '做空胜率统计'}</p>
               </div>
               <div className="strategy-tag">
                 <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
@@ -657,7 +744,10 @@ const P3A_42dDecisionPage: React.FC = () => {
                     <p className="strategy-metric-value">{analysis.current_forecast.overall_price_difference_range}</p>
                   </div>
                   <div className="strategy-metric-item">
-                    <p className="strategy-metric-label">2026-01-06预测值</p>
+                    <p className="strategy-metric-label">
+                      {(analysis.current_forecast as any).forecast_date || '预测值'}
+                      {(analysis.current_forecast as any).forecast_date ? '预测值' : ''}
+                    </p>
                     <p className="strategy-metric-value">
                       {analysis.current_forecast.forecast_value.toLocaleString()}
                     </p>
