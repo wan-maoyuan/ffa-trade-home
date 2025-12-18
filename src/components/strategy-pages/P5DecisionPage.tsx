@@ -1138,19 +1138,19 @@ const P5DecisionPage: React.FC = () => {
               </div>
 
               {/* 评价表格 */}
-              <div className="p5-model-evaluation-table">
-                <div className="p5-model-evaluation-table-header">
-                  <div className="p5-model-evaluation-table-header-cell">区间</div>
-                  <div className="p5-model-evaluation-table-header-cell">历史判断正确率</div>
-                  <div className="p5-model-evaluation-table-header-cell">历史预测实际值/元每吨</div>
-                  <div className="p5-model-evaluation-table-header-cell">历史预测拟合值/元每吨</div>
+              <div className="model-evaluation-table">
+                <div className="model-evaluation-table-header">
+                  <div className="model-evaluation-table-header-cell">区间</div>
+                  <div className="model-evaluation-table-header-cell">历史判断正确率</div>
+                  <div className="model-evaluation-table-header-cell">历史预测实际值/元每吨</div>
+                  <div className="model-evaluation-table-header-cell">历史预测拟合值/元每吨</div>
                 </div>
                 {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
-                  <div key={index} className="p5-model-evaluation-table-row">
-                    <div className="p5-model-evaluation-table-cell">{range.range}</div>
-                    <div className="p5-model-evaluation-table-cell">{range.historical_accuracy_rate.toFixed(2)}%</div>
-                    <div className="p5-model-evaluation-table-cell">{range.historical_actual_value.toLocaleString()}</div>
-                    <div className="p5-model-evaluation-table-cell">{range.historical_fit_value.toLocaleString()}</div>
+                  <div key={index} className="model-evaluation-table-row">
+                    <div className="model-evaluation-table-cell">{range.range}</div>
+                    <div className="model-evaluation-table-cell">{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div className="model-evaluation-table-cell">{range.historical_actual_value.toLocaleString()}</div>
+                    <div className="model-evaluation-table-cell">{range.historical_fit_value.toLocaleString()}</div>
                   </div>
                 ))}
               </div>

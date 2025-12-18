@@ -620,35 +620,19 @@ const C5_14dDecisionPage: React.FC = () => {
                             </div>
 
                             {/* 评价表格 */}
-                            <div style={{
-                                background: 'rgba(0, 0, 0, 0.2)',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                border: '1px solid rgba(255, 255, 255, 0.05)'
-                            }}>
-                                <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                                    padding: '12px 16px',
-                                    background: 'rgba(255, 255, 255, 0.05)',
-                                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
-                                }}>
-                                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
-                                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
-                                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
-                                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+                            <div className="model-evaluation-table">
+                                <div className="model-evaluation-table-header">
+                                    <div className="model-evaluation-table-header-cell">区间</div>
+                                    <div className="model-evaluation-table-header-cell">历史判断正确率</div>
+                                    <div className="model-evaluation-table-header-cell">历史预测实际值/元每吨</div>
+                                    <div className="model-evaluation-table-header-cell">历史预测拟合值/元每吨</div>
                                 </div>
                                 {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
-                                    <div key={index} style={{
-                                        display: 'grid',
-                                        gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                                        padding: '12px 16px',
-                                        borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
-                                    }}>
-                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.range}</div>
-                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
-                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_actual_value.toLocaleString()}</div>
-                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_fit_value.toLocaleString()}</div>
+                                    <div key={index} className="model-evaluation-table-row">
+                                        <div className="model-evaluation-table-cell">{range.range}</div>
+                                        <div className="model-evaluation-table-cell">{range.historical_accuracy_rate.toFixed(2)}%</div>
+                                        <div className="model-evaluation-table-cell">{range.historical_actual_value.toLocaleString()}</div>
+                                        <div className="model-evaluation-table-cell">{range.historical_fit_value.toLocaleString()}</div>
                                     </div>
                                 ))}
                             </div>
