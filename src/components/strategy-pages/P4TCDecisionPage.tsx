@@ -490,12 +490,12 @@ const P4TCDecisionPage: React.FC = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {/* 分布情况 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <p className="strategy-section-title">分布情况</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
-                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          <div key={range} className="strategy-text-row">
+                            <span className="strategy-text-label">{range}</span>
+                            <span className="strategy-text-value">{value}%</span>
                           </div>
                         ))}
                       </div>
@@ -503,23 +503,23 @@ const P4TCDecisionPage: React.FC = () => {
 
                     {/* 收益统计 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <p className="strategy-section-title">收益统计</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益最大值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益出现时间平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
                           </span>
                         </div>
@@ -528,23 +528,23 @@ const P4TCDecisionPage: React.FC = () => {
 
                     {/* 时间分布 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
+                      <p className="strategy-section-title">最大正收益平均出现天数</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">0~14天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">15~28天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">29~42天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
                           </span>
                         </div>
@@ -586,12 +586,12 @@ const P4TCDecisionPage: React.FC = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {/* 分布情况 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <p className="strategy-section-title">分布情况</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {Object.entries(analysis.negative_returns.distribution).map(([range, value]) => (
-                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          <div key={range} className="strategy-text-row">
+                            <span className="strategy-text-label">{range}</span>
+                            <span className="strategy-text-value">{value}%</span>
                           </div>
                         ))}
                       </div>
@@ -599,17 +599,17 @@ const P4TCDecisionPage: React.FC = () => {
 
                     {/* 收益统计 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <p className="strategy-section-title">收益统计</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最小负收益平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.min_negative_returns_average || analysis.negative_returns.statistics.min_negative_returns_average}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益最小值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最小负收益最小值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.min_negative_returns_minimum || analysis.negative_returns.statistics.min_negative_returns_minimum}%
                           </span>
                         </div>

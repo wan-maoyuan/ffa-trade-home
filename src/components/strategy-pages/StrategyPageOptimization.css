@@ -343,6 +343,25 @@
     color: #ff4d4f !important;
 }
 
-[data-theme='light'] .text-short {
-    color: #dc2626 !important;
+
+/* Utility classes for text contrast in Strategy Pages */
+.strategy-text-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.strategy-text-label {
+    color: var(--text-muted);
+}
+
+.strategy-text-value {
+    color: var(--text-main);
+    font-weight: bold;
+}
+
+.strategy-section-title {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
 }

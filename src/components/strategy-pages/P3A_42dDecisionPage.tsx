@@ -795,12 +795,12 @@ const P3A_42dDecisionPage: React.FC = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {/* 分布情况 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <p className="strategy-section-title">分布情况</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
-                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          <div key={range} className="strategy-text-row">
+                            <span className="strategy-text-label">{range}</span>
+                            <span className="strategy-text-value">{value}%</span>
                           </div>
                         ))}
                       </div>
@@ -808,23 +808,23 @@ const P3A_42dDecisionPage: React.FC = () => {
 
                     {/* 收益统计 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <p className="strategy-section-title">收益统计</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益最大值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最大正收益出现时间平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
                           </span>
                         </div>
@@ -833,23 +833,23 @@ const P3A_42dDecisionPage: React.FC = () => {
 
                     {/* 时间分布 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
+                      <p className="strategy-section-title">最大正收益平均出现天数</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">0~14天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">15~28天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">29~42天内</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
                           </span>
                         </div>
@@ -891,12 +891,12 @@ const P3A_42dDecisionPage: React.FC = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {/* 分布情况 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <p className="strategy-section-title">分布情况</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {Object.entries(analysis.negative_returns.distribution).map(([range, value]) => (
-                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          <div key={range} className="strategy-text-row">
+                            <span className="strategy-text-label">{range}</span>
+                            <span className="strategy-text-value">{value}%</span>
                           </div>
                         ))}
                       </div>
@@ -904,17 +904,17 @@ const P3A_42dDecisionPage: React.FC = () => {
 
                     {/* 收益统计 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <p className="strategy-section-title">收益统计</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最小负收益平均值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.min_negative_returns_average || analysis.negative_returns.statistics.min_negative_returns_average}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最小负收益最小值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="strategy-text-row">
+                          <span className="strategy-text-label">最小负收益最小值</span>
+                          <span className="strategy-text-value">
                             {correctedStats?.min_negative_returns_minimum || analysis.negative_returns.statistics.min_negative_returns_minimum}%
                           </span>
                         </div>
@@ -950,22 +950,22 @@ const P3A_42dDecisionPage: React.FC = () => {
               {/* 盈亏比例统计 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                 <div style={{ background: 'rgba(74, 222, 128, 0.05)', borderRadius: '12px', padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>42天后盈利比例</span>
+                  <div className="strategy-text-row" style={{ marginBottom: '8px' }}>
+                    <span className="strategy-text-label">42天后盈利比例</span>
                     <span style={{ color: '#4ade80', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.profitability_ratio_after_42days}%</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>收益均值</span>
+                  <div className="strategy-text-row">
+                    <span className="strategy-text-label">收益均值</span>
                     <span style={{ color: '#4ade80', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.average_returns}%</span>
                   </div>
                 </div>
                 <div style={{ background: 'rgba(248, 113, 113, 0.05)', borderRadius: '12px', padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>42天后亏损比例</span>
+                  <div className="strategy-text-row" style={{ marginBottom: '8px' }}>
+                    <span className="strategy-text-label">42天后亏损比例</span>
                     <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.loss_ratio_after_42days}%</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>亏损均值</span>
+                  <div className="strategy-text-row">
+                    <span className="strategy-text-label">亏损均值</span>
                     <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.average_loss}%</span>
                   </div>
                 </div>
@@ -975,19 +975,19 @@ const P3A_42dDecisionPage: React.FC = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 {/* 最大收益时间分布 */}
                 <div>
-                  <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大收益时间在各时间段的出现概率</p>
+                  <p className="strategy-section-title">最大收益时间在各时间段的出现概率</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                      <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天</span>
-                      <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</span>
+                    <div className="strategy-text-row">
+                      <span className="strategy-text-label">0~14天</span>
+                      <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['0-14_days']}%</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                      <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天</span>
-                      <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</span>
+                    <div className="strategy-text-row">
+                      <span className="strategy-text-label">15~28天</span>
+                      <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['15-28_days']}%</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                      <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天</span>
-                      <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</span>
+                    <div className="strategy-text-row">
+                      <span className="strategy-text-label">29~42天</span>
+                      <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_returns_timing_distribution['29-42_days']}%</span>
                     </div>
                   </div>
                 </div>
@@ -995,33 +995,33 @@ const P3A_42dDecisionPage: React.FC = () => {
                 {/* 风险统计 */}
                 <div>
                   <div style={{ marginBottom: '16px' }}>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>风险统计</p>
+                    <p className="strategy-section-title">风险统计</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大风险均值</span>
+                      <div className="strategy-text-row">
+                        <span className="strategy-text-label">最大风险均值</span>
                         <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_risk_average}%</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大风险极值</span>
+                      <div className="strategy-text-row">
+                        <span className="strategy-text-label">最大风险极值</span>
                         <span style={{ color: '#f87171', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_risk_extreme}%</span>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大风险时间在各时间段的出现概率</p>
+                    <p className="strategy-section-title">最大风险时间在各时间段的出现概率</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</span>
+                      <div className="strategy-text-row">
+                        <span className="strategy-text-label">0~14天</span>
+                        <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['0-14_days']}%</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</span>
+                      <div className="strategy-text-row">
+                        <span className="strategy-text-label">15~28天</span>
+                        <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['15-28_days']}%</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天</span>
-                        <span style={{ color: '#fff', fontWeight: 'bold' }}>{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</span>
+                      <div className="strategy-text-row">
+                        <span className="strategy-text-label">29~42天</span>
+                        <span className="strategy-text-value">{analysis.p3a_profit_loss_ratio.max_risk_timing_distribution['29-42_days']}%</span>
                       </div>
                     </div>
                   </div>
@@ -1069,10 +1069,10 @@ const P3A_42dDecisionPage: React.FC = () => {
                   background: 'rgba(255, 255, 255, 0.05)',
                   borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
                 }}>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+                  <div className="strategy-text-label">区间</div>
+                  <div className="strategy-text-label">历史判断正确率</div>
+                  <div className="strategy-text-label">历史预测实际值/元每吨</div>
+                  <div className="strategy-text-label">历史预测拟合值/元每吨</div>
                 </div>
                 {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
                   <div key={index} style={{
@@ -1081,10 +1081,10 @@ const P3A_42dDecisionPage: React.FC = () => {
                     padding: '12px 16px',
                     borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
                   }}>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                    <div className="strategy-text-value">{range.range}</div>
+                    <div className="strategy-text-value">{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div className="strategy-text-value">{range.historical_actual_value.toLocaleString()}</div>
+                    <div className="strategy-text-value">{range.historical_fit_value.toLocaleString()}</div>
                   </div>
                 ))}
               </div>

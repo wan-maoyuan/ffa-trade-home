@@ -645,10 +645,10 @@ const C5_14dDecisionPage: React.FC = () => {
                                         padding: '12px 16px',
                                         borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
                                     }}>
-                                        <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
-                                        <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
-                                        <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
-                                        <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.range}</div>
+                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
+                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_actual_value.toLocaleString()}</div>
+                                        <div className="strategy-text-value" style={{ fontSize: '13px', fontWeight: 'normal' }}>{range.historical_fit_value.toLocaleString()}</div>
                                     </div>
                                 ))}
                             </div>

@@ -460,6 +460,7 @@ const P6_14dDecisionPage: React.FC = () => {
 
 
               {/* 正收益和负收益部分 */}
+              {/* 正收益和负收益部分 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
                 {/* 正收益 */}
                 <div style={{
@@ -469,7 +470,7 @@ const P6_14dDecisionPage: React.FC = () => {
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                   <h3 style={{
-                    color: '#4ade80',
+                    color: 'var(--strategy-long-color)',
                     fontSize: '16px',
                     marginBottom: '16px',
                     fontFamily: 'DengXian',
@@ -477,17 +478,17 @@ const P6_14dDecisionPage: React.FC = () => {
                     alignItems: 'center',
                     gap: '8px'
                   }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--strategy-long-color)' }}></span>
                     正收益
                   </h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-long-bg)' }}>
                       <p className="strategy-metric-label">最终正收益占比</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-long-color)' }}>{analysis.positive_returns.final_positive_returns_percentage}%</p>
                     </div>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-long-bg)' }}>
                       <p className="strategy-metric-label">最终正收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#4ade80' }}>{analysis.positive_returns.final_positive_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-long-color)' }}>{analysis.positive_returns.final_positive_returns_average.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -500,7 +501,7 @@ const P6_14dDecisionPage: React.FC = () => {
                   border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                   <h3 style={{
-                    color: '#f87171',
+                    color: 'var(--strategy-short-color)',
                     fontSize: '16px',
                     marginBottom: '16px',
                     fontFamily: 'DengXian',
@@ -508,17 +509,17 @@ const P6_14dDecisionPage: React.FC = () => {
                     alignItems: 'center',
                     gap: '8px'
                   }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171' }}></span>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--strategy-short-color)' }}></span>
                     负收益
                   </h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-short-bg)' }}>
                       <p className="strategy-metric-label">最终负收益比例</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-short-color)' }}>{analysis.negative_returns.final_negative_returns_percentage}%</p>
                     </div>
-                    <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
+                    <div className="strategy-metric-item" style={{ background: 'var(--strategy-short-bg)' }}>
                       <p className="strategy-metric-label">最终负收益平均值</p>
-                      <p className="strategy-metric-value" style={{ color: '#f87171' }}>{analysis.negative_returns.final_negative_returns_average.toLocaleString()}</p>
+                      <p className="strategy-metric-value" style={{ color: 'var(--strategy-short-color)' }}>{analysis.negative_returns.final_negative_returns_average.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -590,10 +591,10 @@ const P6_14dDecisionPage: React.FC = () => {
                   background: 'rgba(255, 255, 255, 0.05)',
                   borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
                 }}>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+                  <div className="strategy-text-label">区间</div>
+                  <div className="strategy-text-label">历史判断正确率</div>
+                  <div className="strategy-text-label">历史预测实际值/元每吨</div>
+                  <div className="strategy-text-label">历史预测拟合值/元每吨</div>
                 </div>
                 {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
                   <div key={index} style={{
@@ -602,10 +603,10 @@ const P6_14dDecisionPage: React.FC = () => {
                     padding: '12px 16px',
                     borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
                   }}>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                    <div className="strategy-text-value">{range.range}</div>
+                    <div className="strategy-text-value">{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div className="strategy-text-value">{range.historical_actual_value.toLocaleString()}</div>
+                    <div className="strategy-text-value">{range.historical_fit_value.toLocaleString()}</div>
                   </div>
                 ))}
               </div>
