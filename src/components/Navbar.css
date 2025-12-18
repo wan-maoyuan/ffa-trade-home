@@ -10,9 +10,14 @@
   transition: all 0.3s ease;
   padding: 0 var(--container-padding);
   background: rgba(5, 11, 20, 0.6);
+  /* TODO: var(--glass-bg) causes sticky issues sometimes? keeping rgba but adding light mode override */
   backdrop-filter: var(--glass-backdrop);
   -webkit-backdrop-filter: var(--glass-backdrop);
   border-bottom: var(--glass-border);
+}
+
+[data-theme='light'] .navbar {
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .navbar.scrolled {
@@ -21,6 +26,12 @@
   /* Reduced from 72px */
   box-shadow: var(--glass-shadow);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  /* var(--glass-border)? */
+}
+
+[data-theme='light'] .navbar.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .navbar-container {
@@ -48,7 +59,11 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  filter: none !important;
+  filter: none;
+}
+
+[data-theme='light'] .logo-image {
+  filter: brightness(0);
 }
 
 .icon-image {
@@ -56,6 +71,11 @@
   height: 100%;
   object-fit: contain;
   filter: brightness(0) invert(1);
+}
+
+[data-theme='light'] .icon-image {
+  filter: brightness(0);
+  /* Black logo */
 }
 
 /* User Profile */
@@ -77,15 +97,29 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+[data-theme='light'] .navbar-user-icon {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
 .navbar-user-icon img {
   width: 20px;
   height: 20px;
   filter: brightness(0) invert(1);
 }
 
+[data-theme='light'] .navbar-user-icon img {
+  filter: brightness(0);
+}
+
 .navbar-user-profile:hover .navbar-user-icon {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme='light'] .navbar-user-profile:hover .navbar-user-icon {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 .navbar-user-menu {
@@ -103,6 +137,10 @@
   box-shadow: var(--glass-shadow);
   animation: fadeIn 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-origin: top right;
+}
+
+[data-theme='light'] .navbar-user-menu {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 /* Transparent bridge to fix hover issue */
@@ -131,6 +169,11 @@
   -webkit-backdrop-filter: blur(20px);
 }
 
+[data-theme='light'] .navbar-user-menu::after {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
 .navbar-user-menu-item {
   padding: 10px 16px;
   color: rgba(255, 255, 255, 0.8);
@@ -146,10 +189,19 @@
   gap: 8px;
 }
 
+[data-theme='light'] .navbar-user-menu-item {
+  color: var(--text-secondary);
+}
+
 .navbar-user-menu-item:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   transform: translateX(2px);
+}
+
+[data-theme='light'] .navbar-user-menu-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
 }
 
 @keyframes fadeIn {
@@ -200,7 +252,7 @@
 }
 
 .nav-item:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .nav-item:hover::after {
@@ -208,7 +260,7 @@
 }
 
 .nav-item.active {
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -237,12 +289,53 @@
   backdrop-filter: blur(4px);
 }
 
+[data-theme='light'] .navbar-login-btn {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
 .navbar-login-btn:hover {
   background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
   border-color: rgba(46, 86, 163, 0.5);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(46, 86, 163, 0.3);
+  color: #ffffff;
 }
+
+.theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  /* Icon color */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 12px;
+}
+
+[data-theme='light'] .theme-toggle-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+[data-theme='light'] .theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Update color for light mode if global theme is active (optional, handled by SVG fill usually) */
+/* But since navbar is glass, it might need specific handling if navbar becomes light */
 
 /* Page Specific Overrides */
 /* Products Page & About Us - Light Theme handling if needed, but keeping dark for now as per design direction */
@@ -253,7 +346,7 @@
 
 .navbar.products-page:not(.products-sub-page) .nav-item:hover,
 .navbar.about-us-page .nav-item:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .navbar.products-page:not(.products-sub-page) .nav-item.active,
@@ -283,7 +376,7 @@
 .hamburger-line {
   width: 100%;
   height: 3px;
-  background-color: #fff;
+  background-color: var(--text-primary);
   border-radius: 3px;
   transition: all 0.3s ease-in-out;
 }
@@ -337,6 +430,10 @@
     transform: translateX(100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+  }
+
+  [data-theme='light'] .navbar-menu {
+    background: rgba(255, 255, 255, 0.95);
   }
 
   .navbar-menu.mobile-open {

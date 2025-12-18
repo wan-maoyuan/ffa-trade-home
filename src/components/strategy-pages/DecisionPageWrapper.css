@@ -1,12 +1,9 @@
 .decision-page-wrapper {
-  --bg-dark: #0f172a;
-  /* Explicitly define dark background */
-
   position: relative;
   min-height: 100vh;
   width: 100%;
   padding: 84px 16px 96px;
-  background: var(--bg-dark);
+  background: var(--bg-primary);
   /* Dark theme */
   display: flex;
   flex-direction: column;
@@ -36,6 +33,10 @@
   backdrop-filter: blur(8px);
 }
 
+[data-theme='light'] .decision-page-bg-mask {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.75) 100%);
+}
+
 .decision-page-container {
   position: relative;
   width: 100%;
@@ -53,21 +54,21 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card-hover);
   /* Glass style */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--glass-border);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'DengXian', sans-serif;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-secondary);
   backdrop-filter: blur(4px);
   align-self: flex-start;
 }
 
 .decision-page-back-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-card);
   transform: translateX(-2px);
 }
 
@@ -85,10 +86,10 @@
 .decision-page-tabs {
   display: flex;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card);
   padding: 6px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--glass-border);
   backdrop-filter: blur(8px);
 }
 
@@ -98,7 +99,7 @@
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-family: 'DengXian', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -109,8 +110,8 @@
 }
 
 .decision-page-tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--bg-card-hover);
+  color: var(--text-secondary);
 }
 
 .decision-page-tab.active {
@@ -128,10 +129,10 @@
 .decision-page-sub-tabs {
   display: flex;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card);
   padding: 6px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--glass-border);
   backdrop-filter: blur(8px);
   align-self: flex-start;
   /* Align left */
@@ -142,7 +143,7 @@
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-family: 'DengXian', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -153,8 +154,8 @@
 }
 
 .decision-page-sub-tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .decision-page-sub-tab.active {

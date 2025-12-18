@@ -1,7 +1,7 @@
 .login-page {
     width: 100%;
     height: 100vh;
-    background: var(--bg-dark);
+    background: var(--bg-primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,12 +19,19 @@
     z-index: 1;
 }
 
+[data-theme='light'] .login-overlay {
+    background: linear-gradient(105deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(240, 245, 255, 0.8) 45%,
+            rgba(220, 230, 255, 0.3) 100%);
+}
+
 .login-gradient {
     position: absolute;
     inset: 0;
     background:
         radial-gradient(circle at 80% 20%, rgba(246, 211, 101, 0.08), transparent 40%),
-        linear-gradient(to top, var(--bg-dark) 0%, transparent 30%);
+        linear-gradient(to top, var(--bg-primary) 0%, transparent 30%);
     z-index: 1;
     pointer-events: none;
 }
@@ -69,14 +76,14 @@
     font-family: 'Microsoft YaHei', sans-serif;
     font-size: 24px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
 }
 
 .login-subtitle {
     font-family: 'DengXian', sans-serif;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary);
     margin: 0;
 }
 
@@ -95,16 +102,17 @@
 .form-group label {
     font-family: 'DengXian', sans-serif;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
 }
 
 .form-group input {
     padding: 10px 14px;
     /* Reduced padding */
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-card);
+    /* or bg-card-hover */
+    border: var(--glass-border);
     border-radius: 8px;
-    color: #ffffff;
+    color: var(--text-primary);
     font-size: 14px;
     /* Reduced size */
     transition: all 0.3s ease;
@@ -112,13 +120,61 @@
 }
 
 .form-group input:focus {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: var(--bg-card-hover);
+    border-color: var(--text-secondary);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
+[data-theme='light'] .form-group input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
 .form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-tertiary);
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    padding-right: 36px;
+    width: 100%;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    outline: none;
+    width: 24px;
+    height: 24px;
+}
+
+.password-toggle-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-secondary);
+}
+
+.password-toggle-btn:focus {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.password-toggle-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .password-hint {
@@ -159,7 +215,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary);
     cursor: pointer;
 }
 
@@ -168,13 +224,13 @@
 }
 
 .forgot-password {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-    color: #ffffff;
+    color: var(--text-primary);
     text-decoration: underline;
 }
 
@@ -200,11 +256,11 @@
 .login-footer {
     text-align: center;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-tertiary);
 }
 
 .login-footer a {
-    color: #ffffff;
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 600;
     margin-left: 4px;
@@ -231,19 +287,21 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
 }
 
 .forgot-password-modal-content {
-    background: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-card);
+    /* or bg-secondary */
+    border: var(--glass-border);
     border-radius: 16px;
     padding: 0;
     width: 100%;
     max-width: 480px;
-    box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--glass-shadow);
     animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     overflow: hidden;
 }
@@ -253,6 +311,7 @@
         transform: translateY(20px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -264,21 +323,21 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .forgot-password-modal-title {
     font-family: 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
 }
 
 .forgot-password-modal-close {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-tertiary);
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
@@ -293,8 +352,8 @@
 }
 
 .forgot-password-modal-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
 }
 
 .forgot-password-modal-body {
@@ -304,7 +363,7 @@
 .forgot-password-modal-text {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary);
     margin: 0 0 20px 0;
     line-height: 1.6;
 }
@@ -324,7 +383,7 @@
 .contact-label {
     font-family: 'Inter', sans-serif;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-tertiary);
     font-weight: 500;
 }
 
@@ -332,6 +391,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 15px;
     color: #60a5fa;
+    /* Keep blue for links */
     text-decoration: none;
     transition: color 0.2s ease;
     word-break: break-all;
@@ -350,13 +410,13 @@
 }
 
 .contact-separator {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-tertiary);
     font-size: 14px;
 }
 
 .forgot-password-modal-footer {
     padding: 16px 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--glass-border);
     display: flex;
     justify-content: flex-end;
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import {
     LineChart,
     Line,
@@ -80,30 +81,31 @@ const PredictionPage: React.FC = () => {
         fetchData();
     }, []);
 
-    // Language & Theme State
+    // Language State
     const [lang, setLang] = useState<'zh' | 'en'>('zh');
-    const [theme, setTheme] = useState<'dark' | 'light'>('light');
+    // Global Theme
+    const { theme } = useTheme();
 
     // Theme Colors
     const themeColors = {
         dark: {
-            textSecondary: 'var(--pp-text-secondary)',
-            textTertiary: 'var(--pp-text-tertiary)',
+            textSecondary: 'var(--text-secondary)',
+            textTertiary: 'var(--text-tertiary)',
             grid: 'rgba(255,255,255,0.1)',
             marketLine: '#4dabf7',
             marketFill: '#4dabf7',
             userLine: '#e04f14',
-            tooltipBg: 'var(--pp-table-header-bg)',
+            tooltipBg: 'var(--bg-card)',
             referenceLine: '#4ADE80'
         },
         light: {
-            textSecondary: 'var(--pp-text-secondary)',
-            textTertiary: 'var(--pp-text-tertiary)',
+            textSecondary: 'var(--text-secondary)',
+            textTertiary: 'var(--text-tertiary)',
             grid: 'rgba(0,0,0,0.08)',
             marketLine: '#2563EB', // Blue-600
             marketFill: '#3B82F6', // Blue-500
             userLine: '#EA580C', // Orange-600
-            tooltipBg: 'var(--pp-table-header-bg)',
+            tooltipBg: 'var(--bg-card)',
             referenceLine: '#16A34A' // Green-600
         }
     };
@@ -254,36 +256,13 @@ const PredictionPage: React.FC = () => {
     const topWinners = sortedPredictions.slice(0, 6);
 
     return (
-        <div className={`prediction-page ${theme === 'light' ? 'light-mode' : ''}`}>
+        <div className="prediction-page">
             <div className="prediction-header-content">
                 <div>
                     <h1 className="prediction-title">{t[lang].title}</h1>
                     <p className="prediction-subtitle">{t[lang].subtitle}</p>
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
-                    <button
-                        className="lang-toggle"
-                        onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
-                        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                    >
-                        {theme === 'dark' ? (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px' }}>
-                                <circle cx="12" cy="12" r="5" />
-                                <line x1="12" y1="1" x2="12" y2="3" />
-                                <line x1="12" y1="21" x2="12" y2="23" />
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                                <line x1="1" y1="12" x2="3" y2="12" />
-                                <line x1="21" y1="12" x2="23" y2="12" />
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                            </svg>
-                        ) : (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px' }}>
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        )}
-                    </button>
                     <button
                         className="lang-toggle"
                         onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}

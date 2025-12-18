@@ -33,11 +33,15 @@ function AppContent() {
   )
 }
 
+import { ThemeProvider } from './context/ThemeContext'
+
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

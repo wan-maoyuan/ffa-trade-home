@@ -3,7 +3,7 @@
   min-height: 100vh;
   width: 100%;
   padding: 84px 16px 92px;
-  background: var(--bg-dark);
+  background: var(--bg-primary);
   /* Dark theme */
   display: grid;
   justify-items: center;
@@ -17,6 +17,11 @@
   inset: 0;
   overflow: hidden;
   z-index: 0;
+}
+
+[data-theme='light'] .signal-bg {
+  opacity: 0.1;
+  pointer-events: none;
 }
 
 .signal-bg>img {
@@ -34,6 +39,10 @@
   background: linear-gradient(180deg, rgba(5, 11, 20, 0.95) 0%, rgba(5, 11, 20, 0.85) 50%, rgba(5, 11, 20, 0.75) 100%);
   /* Dark mask */
   backdrop-filter: blur(8px);
+}
+
+[data-theme='light'] .signal-bg-mask {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.75) 100%);
 }
 
 .signal-hero {
@@ -59,7 +68,7 @@
   justify-items: center;
   gap: 12px;
   text-align: center;
-  color: #ffffff;
+  color: var(--text-primary);
   /* White text */
 }
 
@@ -80,6 +89,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(100, 243, 140, 0.9);
+  /* TODO: Theme aware green? */
   /* Accent color */
   margin-bottom: 4px;
 }
@@ -99,6 +109,12 @@
   padding-bottom: 4px;
 }
 
+[data-theme='light'] .signal-hero-title {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .signal-hero-detail {
   display: grid;
   gap: 10px;
@@ -108,7 +124,7 @@
   font-size: 14px;
   line-height: 1.7;
   letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   /* Light text */
 }
 
@@ -215,6 +231,11 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(8px);
+}
+
+[data-theme='light'] .signal-carousel-controls {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .signal-control-btn {

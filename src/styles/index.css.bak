@@ -2,64 +2,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Han+Sans+CN:wght@400;500;700&display=swap');
 
 /* CSS Variables */
-/* CSS Variables */
 :root {
-  /* Default Dark Mode (matches previous default) */
-  --bg-primary: #050B14;
-  --bg-secondary: #020408;
+  /* Colors */
+  --primary-color: #F6D365;
+  --primary-gradient: linear-gradient(135deg, #F6D365 0%, #FDA085 100%);
+  --accent-color: #64f38c;
+  --secondary-color: #ffffff;
 
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --bg-card-border: 1px solid rgba(255, 255, 255, 0.08);
-  /* Unified border variable */
-
+  /* Text Colors */
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.9);
   --text-tertiary: rgba(255, 255, 255, 0.65);
 
+  /* Backgrounds */
+  --bg-dark: #050B14;
+  --bg-darker: #020408;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+
+  /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: 1px solid rgba(255, 255, 255, 0.08);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
-  --glass-backdrop: blur(20px);
-
-  /* Shared accent colors */
-  --primary-color: #F6D365;
-  --primary-gradient: linear-gradient(135deg, #F6D365 0%, #FDA085 100%);
-  --accent-color: #64f38c;
-  --secondary-white: #ffffff;
+  --glass-backdrop: blur(12px);
 
   /* Spacing */
   --container-padding: clamp(20px, 5vw, 80px);
+  /* Slightly reduced */
 
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Light Mode Overrides */
-[data-theme='light'] {
-  --bg-primary: #f8fafc;
-  /* Slate 50 */
-  --bg-secondary: #f1f5f9;
-  /* Slate 100 */
-
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
-  --bg-card-border: 1px solid rgba(0, 0, 0, 0.08);
-
-  --text-primary: #0f172a;
-  /* Slate 900 */
-  --text-secondary: #334155;
-  /* Slate 700 */
-  --text-tertiary: #64748b;
-  /* Slate 500 */
-
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  /* More opaque for light mode */
-  --glass-border: 1px solid rgba(0, 0, 0, 0.06);
-  --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --glass-backdrop: blur(20px);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Reset & Base Styles */
@@ -75,6 +50,7 @@ html {
   height: 100%;
   scroll-behavior: smooth;
   font-size: 15px;
+  /* Base scale reduction */
 }
 
 body {
@@ -82,12 +58,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-dark);
   overflow-x: hidden;
   width: 100%;
   min-height: 100vh;
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -103,7 +78,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-darker);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -111,22 +86,14 @@ body {
   border-radius: 4px;
 }
 
-[data-theme='light'] ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-}
-
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
-}
-
-[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
 }
 
 /* Selection */
 ::selection {
   background: rgba(246, 211, 101, 0.3);
-  color: var(--text-primary);
+  color: #fff;
 }
 
 /* Responsive Typography */
