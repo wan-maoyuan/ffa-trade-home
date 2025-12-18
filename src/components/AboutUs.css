@@ -978,6 +978,13 @@
   position: absolute;
   top: -114.71%;
   left: -5.83%;
+  filter: none;
+  transition: filter 0.3s ease;
+}
+
+[data-theme='light'] .footer-logo-image {
+  filter: brightness(0);
+  /* 将白色logo转换为黑色，在白天主题下可见 */
 }
 
 .footer-cta {
