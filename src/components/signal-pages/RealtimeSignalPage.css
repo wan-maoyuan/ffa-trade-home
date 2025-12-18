@@ -798,6 +798,66 @@
   border-color: rgba(46, 86, 163, 0.18);
 }
 
+/* Beautification Enhancements (Step 2 Goal) */
+.realtime-signal-contract-tag.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(220, 230, 255, 1) 100%);
+  /* Brighter gradient */
+  color: #1a3c87;
+  /* Deep vivid blue */
+  border: 2px solid #ffffff;
+  box-shadow:
+    0 4px 15px rgba(46, 86, 163, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.4) inset;
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Fix blurry numbers - remove shadow and ensure solid text or clean gradient */
+/* Fix blurry numbers - remove shadow and ensure solid text or clean gradient */
+.realtime-signal-value-number {
+  font-size: 32px;
+  font-weight: 700;
+  /* Solid high contrast color */
+  color: #2e56a3;
+  /* Removed gradient text properties */
+  background: none;
+  -webkit-background-clip: border-box;
+  -webkit-text-fill-color: initial;
+  background-clip: border-box;
+
+  /* Clean shadow for depth, no blur */
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  filter: none;
+}
+
+.realtime-signal-trade-info-table-cell {
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.realtime-signal-trade-info-table-cell-action {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-width: 0;
+}
+
+/* Fix Low Contrast for Action Buttons - Darker Text on Light Background */
+.realtime-signal-trade-info-table-cell-action.action-green {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(0, 200, 83, 0.3));
+  color: #00e676;
+  /* Much brighter/solid green text */
+  text-shadow: none;
+  /* Remove shadow to prevent blur */
+  font-weight: 800;
+}
+
+.realtime-signal-trade-info-table-cell-action.action-orange {
+  background: linear-gradient(135deg, rgba(255, 82, 82, 0.2), rgba(213, 0, 0, 0.3));
+  color: #ff5252;
+  /* Much brighter/solid red text */
+  text-shadow: none;
+  font-weight: 800;
+}
+
 .realtime-signal-opportunity-header {
   display: flex;
   justify-content: space-between;
@@ -810,251 +870,16 @@
   gap: 16px;
 }
 
-.realtime-signal-opportunity-header::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, #2e56a3 0%, transparent 100%);
-}
+/* ... existing code ... */
 
-.realtime-signal-opportunity-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  min-width: 200px;
-}
-
-.realtime-signal-opportunity-title {
-  font-family: 'Microsoft YaHei', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  /* Reduced size */
-  color: var(--text-primary);
-  /* White */
-  margin: 0;
-  letter-spacing: 0.8px;
-  background: none;
-  -webkit-text-fill-color: var(--text-primary);
-  position: relative;
-  padding-left: 12px;
-}
-
-.realtime-signal-opportunity-title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 18px;
-  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
-  border-radius: 2px;
-}
-
-.realtime-signal-opportunity-date {
-  font-family: 'DengXian', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  color: #4a6fa5;
-  letter-spacing: 0.4px;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, rgba(46, 86, 163, 0.1) 0%, rgba(46, 86, 163, 0.08) 100%);
-  border-radius: 10px;
-  border: 1px solid rgba(46, 86, 163, 0.18);
-  box-shadow: 0 2px 6px rgba(46, 86, 163, 0.08);
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.realtime-signal-opportunity-date:hover {
-  background: linear-gradient(135deg, rgba(46, 86, 163, 0.15) 0%, rgba(46, 86, 163, 0.12) 100%);
-  border-color: rgba(46, 86, 163, 0.25);
-  transform: translateY(-1px);
-}
-
-/* 标签切换样式 */
-.realtime-signal-opportunity-tabs {
-  display: flex;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 4px;
-  border-radius: 12px;
-  border: 1px solid rgba(46, 86, 163, 0.15);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.realtime-signal-opportunity-tab {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: #4a6fa5;
-  font-family: 'DengXian', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.3px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  white-space: nowrap;
-}
-
-.realtime-signal-opportunity-tab:hover {
-  color: #2e56a3;
-  background: rgba(46, 86, 163, 0.08);
-}
-
-.realtime-signal-opportunity-tab.active {
-  background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
-  color: var(--text-primary);
-  box-shadow:
-    0 2px 8px rgba(46, 86, 163, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2);
-  transform: translateY(-1px);
-}
-
-.realtime-signal-opportunity-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  border-radius: 1px;
-}
-
-.realtime-signal-opportunity-table-container {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 12px;
-}
-
-.realtime-signal-opportunity-table {
-  width: 100%;
-  min-width: 400px;
-  background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: var(--glass-shadow);
-  border: var(--glass-border);
-  backdrop-filter: blur(8px);
-}
-
-.realtime-signal-opportunity-table-header {
-  display: flex;
-  background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: none;
-  position: relative;
-}
-
-.realtime-signal-opportunity-table-header::after {
-  display: none;
-}
-
-.realtime-signal-opportunity-table-header-cell {
-  font-family: 'DengXian', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--text-secondary);
-  text-align: center;
-  padding: 16px 18px;
-  flex: 1;
-  letter-spacing: 0.5px;
-  border-right: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-shadow: none;
-  position: relative;
-}
-
-.realtime-signal-opportunity-table-header-cell:last-child {
-  border-right: none;
-}
-
-.realtime-signal-opportunity-table-row {
-  display: flex;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.realtime-signal-opportunity-table-row:nth-child(even) {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.realtime-signal-opportunity-table-row:last-child {
-  border-bottom: none;
-}
-
-.realtime-signal-opportunity-table-row:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.realtime-signal-opportunity-table-cell {
-  font-family: 'DengXian', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  text-align: center;
-  padding: 16px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: none;
-  transition: all 0.2s ease;
-  position: relative;
-  color: var(--text-primary);
-}
-
-.realtime-signal-opportunity-table-cell:last-child {
-  border-right: none;
-}
-
-.realtime-signal-opportunity-table-cell-code {
-  font-weight: 700;
-  color: var(--text-primary);
-  font-size: 16px;
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-[data-theme='light'] .realtime-signal-opportunity-table-cell-code {
-  text-shadow: none;
-}
-
-.realtime-signal-opportunity-table-cell-direction {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  margin: 4px 8px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Same fix for Opportunity Table Direction Tags */
 .realtime-signal-opportunity-table-cell-direction.direction-long {
-  color: #b9f6ca;
+  color: #00e676;
+  /* Brighter Green */
   background: rgba(0, 230, 118, 0.15);
   border: 1px solid rgba(0, 230, 118, 0.4);
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+  text-shadow: none;
 }
 
 .realtime-signal-opportunity-table-cell-direction.direction-long:hover {
@@ -1064,11 +889,12 @@
 }
 
 .realtime-signal-opportunity-table-cell-direction.direction-short {
-  color: #ff8a80;
+  color: #ff5252;
+  /* Brighter Red */
   background: rgba(255, 82, 82, 0.15);
   border: 1px solid rgba(255, 82, 82, 0.4);
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
+  text-shadow: none;
 }
 
 .realtime-signal-opportunity-table-cell-direction.direction-short:hover {
@@ -1608,19 +1434,21 @@
 }
 
 .realtime-signal-bilateral-direction-part.direction-long {
-  color: #b9f6ca;
+  color: #00a152;
+  /* Darker Green for visibility on light bg */
   background: rgba(0, 230, 118, 0.15);
   border: 1px solid rgba(0, 230, 118, 0.4);
-  font-weight: 700;
-  text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+  font-weight: 800;
+  text-shadow: none;
 }
 
 .realtime-signal-bilateral-direction-part.direction-short {
-  color: #ff8a80;
+  color: #d50000;
+  /* Darker Red for visibility on light bg */
   background: rgba(255, 82, 82, 0.15);
   border: 1px solid rgba(255, 82, 82, 0.4);
-  font-weight: 700;
-  text-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
+  font-weight: 800;
+  text-shadow: none;
 }
 
 .realtime-signal-bilateral-table-cell-ratio {

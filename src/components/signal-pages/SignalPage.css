@@ -648,3 +648,63 @@
     gap: 6px;
   }
 }
+
+/* Enhanced Visibility for Carousel/Card Items (Step 1 Goal) */
+.signal-page-title {
+  font-size: 18px;
+  font-weight: 700;
+  /* Removed heavy shadow, keep subtle or none */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.signal-pair-trade-item-pair {
+  font-size: 14px;
+  font-weight: 700;
+  /* Removed shadow */
+}
+
+.signal-pair-trade-item-direction {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.signal-trade-item-long,
+.signal-trade-item-short {
+  font-weight: 700;
+  /* Removed shadow */
+  text-shadow: none;
+}
+
+/* High Contrast Colors for Long/Short */
+.signal-trade-item-long {
+  color: #00e676;
+  /* Bright Green */
+}
+
+.signal-trade-item-short {
+  color: #ff5252;
+  /* Bright Red */
+}
+
+.signal-pair-trade-list-tag {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signal-pair-trade-list-tag-active {
+  background-color: rgba(46, 86, 163, 0.8);
+  border-color: rgba(46, 86, 163, 1);
+  box-shadow: 0 0 10px rgba(46, 86, 163, 0.4);
+}
+
+.signal-pair-trade-list-tag p {
+  font-weight: 700;
+  /* Removed shadow */
+}
+
+.signal-trade-item-ratio-value {
+  font-size: 14px;
+  text-shadow: none;
+}
