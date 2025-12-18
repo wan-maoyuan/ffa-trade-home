@@ -177,7 +177,7 @@ const C3_42dDecisionPage: React.FC = () => {
           const record = result.data.records[0]
           const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
           const c3Analysis = record.contracts?.c3_analysis || record.raw_data?.contracts?.c3_analysis
-          
+
           console.log('API 响应数据:', {
             hasRawTableData: !!rawTableData,
             rawTableDataLength: rawTableData?.length,
@@ -346,17 +346,17 @@ const C3_42dDecisionPage: React.FC = () => {
                       const checkRow = rawTableData[j]
                       if (Array.isArray(checkRow) && checkRow.length > 0) {
                         // 查找包含"42天后盈利比例"的标题行，然后取上一行的数据
-                        if (checkRow.length >= 4 && 
-                            String(checkRow[0] || '').includes('42天后盈利比例')) {
+                        if (checkRow.length >= 4 &&
+                          String(checkRow[0] || '').includes('42天后盈利比例')) {
                           // 标题行，取上一行的数据
                           if (j > 0) {
                             const dataRow = rawTableData[j - 1]
                             if (Array.isArray(dataRow) && dataRow.length >= 4) {
                               // 检查是否是数据行（包含%符号）
-                              const hasPercent = String(dataRow[0] || '').includes('%') || 
-                                               String(dataRow[1] || '').includes('%') ||
-                                               String(dataRow[2] || '').includes('%') ||
-                                               String(dataRow[3] || '').includes('%')
+                              const hasPercent = String(dataRow[0] || '').includes('%') ||
+                                String(dataRow[1] || '').includes('%') ||
+                                String(dataRow[2] || '').includes('%') ||
+                                String(dataRow[3] || '').includes('%')
                               if (hasPercent) {
                                 profitabilityRatio = parseFloat(String(dataRow[0] || '0').replace('%', '')) || 0
                                 averageReturns = parseFloat(String(dataRow[1] || '0').replace('%', '')) || 0
@@ -594,7 +594,7 @@ const C3_42dDecisionPage: React.FC = () => {
               min_negative_returns_average: minNegativeReturnsAverage,
               min_negative_returns_minimum: minNegativeReturnsMinimum
             })
-            
+
             console.log('parsedData 解析完成:', parsedData)
           } else {
             console.warn('rawTableData 不存在或不是数组:', rawTableData)
@@ -608,7 +608,7 @@ const C3_42dDecisionPage: React.FC = () => {
             // 如果 c3Analysis 存在，检查数据完整性
             // 注意：c3Analysis 中的字段名可能不同（如 c3tc_model_evaluation vs model_evaluation）
             console.log('使用 c3Analysis:', c3Analysis)
-            
+
             // 转换 c3Analysis 的数据结构以匹配 C3Analysis 接口
             const convertedAnalysis: C3Analysis = {
               trading_recommendation: c3Analysis.trading_recommendation || {
@@ -770,7 +770,7 @@ const C3_42dDecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-title" style={{ color: 'white' }}>
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction === '做多' ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

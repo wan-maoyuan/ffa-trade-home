@@ -816,17 +816,23 @@
 .realtime-signal-value-number {
   font-size: 32px;
   font-weight: 700;
-  /* Solid high contrast color */
-  color: #2e56a3;
+  /* Light color for Dark Mode (Default) */
+  color: #e0e7ff;
   /* Removed gradient text properties */
   background: none;
   -webkit-background-clip: border-box;
   -webkit-text-fill-color: initial;
   background-clip: border-box;
 
-  /* Clean shadow for depth, no blur */
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  /* Subtle glow for Dark Mode */
+  text-shadow: 0 0 15px rgba(46, 86, 163, 0.6);
   filter: none;
+}
+
+[data-theme='light'] .realtime-signal-value-number {
+  /* Dark color for Light Mode */
+  color: #2e56a3;
+  text-shadow: none;
 }
 
 .realtime-signal-trade-info-table-cell {
@@ -936,6 +942,72 @@
   font-size: 14px;
   color: rgba(46, 86, 163, 0.7);
   text-align: center;
+}
+
+/* Missing Desktop Styles for Opportunity Table */
+.realtime-signal-opportunity-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.realtime-signal-opportunity-table {
+  width: 100%;
+  min-width: 500px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  backdrop-filter: blur(8px);
+}
+
+.realtime-signal-opportunity-table-header {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+}
+
+.realtime-signal-opportunity-table-header-cell {
+  font-family: 'DengXian', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.realtime-signal-opportunity-table-row {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+}
+
+.realtime-signal-opportunity-table-row:last-child {
+  border-bottom: none;
+}
+
+.realtime-signal-opportunity-table-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.realtime-signal-opportunity-table-cell {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .realtime-signal-opportunity-error {

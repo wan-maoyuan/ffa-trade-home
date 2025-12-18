@@ -205,11 +205,11 @@ const P5_14dDecisionPage: React.FC = () => {
                       // 解析平均值，移除逗号和%符号，保留负号
                       const avgStr = secondVal.replace(/,/g, '').replace('%', '').trim()
                       finalNegativeReturnsAverage = avgStr ? parseFloat(avgStr) : 0
-                      console.log('P5 14d 解析负收益数据:', { 
-                        firstVal, 
-                        secondVal, 
-                        finalNegativeReturnsPercentage, 
-                        finalNegativeReturnsAverage 
+                      console.log('P5 14d 解析负收益数据:', {
+                        firstVal,
+                        secondVal,
+                        finalNegativeReturnsPercentage,
+                        finalNegativeReturnsAverage
                       })
                     }
                   }
@@ -480,7 +480,7 @@ const P5_14dDecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-title" style={{ color: 'white' }}>
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction === '做多' ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>
@@ -495,8 +495,8 @@ const P5_14dDecisionPage: React.FC = () => {
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">当期值</p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.current_value > 0 
-                        ? analysis.current_forecast.current_value.toLocaleString() 
+                      {analysis.current_forecast.current_value > 0
+                        ? analysis.current_forecast.current_value.toLocaleString()
                         : '-'}
                     </p>
                   </div>
@@ -517,16 +517,16 @@ const P5_14dDecisionPage: React.FC = () => {
                       {analysis.current_forecast.forecast_date ? `${analysis.current_forecast.forecast_date}预测值` : '预测值'}
                     </p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.forecast_value > 0 
-                        ? analysis.current_forecast.forecast_value.toLocaleString() 
+                      {analysis.current_forecast.forecast_value > 0
+                        ? analysis.current_forecast.forecast_value.toLocaleString()
                         : '-'}
                     </p>
                   </div>
                   <div className="strategy-metric-item">
                     <p className="strategy-metric-label">在全部交易日期中出现概率</p>
                     <p className="strategy-metric-value">
-                      {analysis.current_forecast.probability > 0 
-                        ? `${analysis.current_forecast.probability}%` 
+                      {analysis.current_forecast.probability > 0
+                        ? `${analysis.current_forecast.probability}%`
                         : '-'}
                     </p>
                   </div>
@@ -559,16 +559,16 @@ const P5_14dDecisionPage: React.FC = () => {
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益占比</p>
                       <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
-                        {analysis.positive_returns.final_positive_returns_percentage > 0 
-                          ? `${analysis.positive_returns.final_positive_returns_percentage}%` 
+                        {analysis.positive_returns.final_positive_returns_percentage > 0
+                          ? `${analysis.positive_returns.final_positive_returns_percentage}%`
                           : '-'}
                       </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(74, 222, 128, 0.1)' }}>
                       <p className="strategy-metric-label">最终正收益平均值</p>
                       <p className="strategy-metric-value" style={{ color: '#4ade80' }}>
-                        {analysis.positive_returns.final_positive_returns_average > 0 
-                          ? analysis.positive_returns.final_positive_returns_average.toLocaleString() 
+                        {analysis.positive_returns.final_positive_returns_average > 0
+                          ? analysis.positive_returns.final_positive_returns_average.toLocaleString()
                           : '-'}
                       </p>
                     </div>
@@ -598,18 +598,18 @@ const P5_14dDecisionPage: React.FC = () => {
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益比例</p>
                       <p className="strategy-metric-value" style={{ color: '#f87171' }}>
-                        {analysis.negative_returns.final_negative_returns_percentage > 0 
-                          ? `${analysis.negative_returns.final_negative_returns_percentage}%` 
+                        {analysis.negative_returns.final_negative_returns_percentage > 0
+                          ? `${analysis.negative_returns.final_negative_returns_percentage}%`
                           : '-'}
                       </p>
                     </div>
                     <div className="strategy-metric-item" style={{ background: 'rgba(248, 113, 113, 0.1)' }}>
                       <p className="strategy-metric-label">最终负收益平均值</p>
                       <p className="strategy-metric-value" style={{ color: '#f87171' }}>
-                        {analysis.negative_returns.final_negative_returns_average !== 0 && 
-                         analysis.negative_returns.final_negative_returns_average !== null && 
-                         !isNaN(analysis.negative_returns.final_negative_returns_average)
-                          ? analysis.negative_returns.final_negative_returns_average.toLocaleString() 
+                        {analysis.negative_returns.final_negative_returns_average !== 0 &&
+                          analysis.negative_returns.final_negative_returns_average !== null &&
+                          !isNaN(analysis.negative_returns.final_negative_returns_average)
+                          ? analysis.negative_returns.final_negative_returns_average.toLocaleString()
                           : '-'}
                       </p>
                     </div>

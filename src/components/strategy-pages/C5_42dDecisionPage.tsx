@@ -176,7 +176,7 @@ const C5_42dDecisionPage: React.FC = () => {
           const record = result.data.records[0]
           const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
           const c5Analysis = record.contracts?.c5_analysis || record.raw_data?.contracts?.c5_analysis
-          
+
           console.log('API 响应数据:', {
             hasRawTableData: !!rawTableData,
             rawTableDataLength: rawTableData?.length,
@@ -189,7 +189,7 @@ const C5_42dDecisionPage: React.FC = () => {
           if (rawTableData && Array.isArray(rawTableData)) {
             let profitLossRatio = 2.85
             let recommendedDirection = '做多'
-            
+
             console.log('开始解析 rawTableData，行数:', rawTableData.length)
             let date = ''
             let currentValue = 0
@@ -345,17 +345,17 @@ const C5_42dDecisionPage: React.FC = () => {
                       const checkRow = rawTableData[j]
                       if (Array.isArray(checkRow) && checkRow.length > 0) {
                         // 查找包含"42天后盈利比例"的标题行，然后取上一行的数据
-                        if (checkRow.length >= 4 && 
-                            String(checkRow[0] || '').includes('42天后盈利比例')) {
+                        if (checkRow.length >= 4 &&
+                          String(checkRow[0] || '').includes('42天后盈利比例')) {
                           // 标题行，取上一行的数据
                           if (j > 0) {
                             const dataRow = rawTableData[j - 1]
                             if (Array.isArray(dataRow) && dataRow.length >= 4) {
                               // 检查是否是数据行（包含%符号）
-                              const hasPercent = String(dataRow[0] || '').includes('%') || 
-                                               String(dataRow[1] || '').includes('%') ||
-                                               String(dataRow[2] || '').includes('%') ||
-                                               String(dataRow[3] || '').includes('%')
+                              const hasPercent = String(dataRow[0] || '').includes('%') ||
+                                String(dataRow[1] || '').includes('%') ||
+                                String(dataRow[2] || '').includes('%') ||
+                                String(dataRow[3] || '').includes('%')
                               if (hasPercent) {
                                 profitabilityRatio = parseFloat(String(dataRow[0] || '0').replace('%', '')) || 0
                                 averageReturns = parseFloat(String(dataRow[1] || '0').replace('%', '')) || 0
@@ -593,7 +593,7 @@ const C5_42dDecisionPage: React.FC = () => {
               min_negative_returns_average: minNegativeReturnsAverage,
               min_negative_returns_minimum: minNegativeReturnsMinimum
             })
-            
+
             console.log('parsedData 解析完成:', parsedData)
           } else {
             console.warn('rawTableData 不存在或不是数组:', rawTableData)
@@ -766,7 +766,7 @@ const C5_42dDecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧：方向卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-title" style={{ color: 'white' }}>
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction === '做多' ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

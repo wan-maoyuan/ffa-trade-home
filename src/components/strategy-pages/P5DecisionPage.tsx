@@ -256,7 +256,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 如果预测日期还没有找到，尝试从其他行查找
             if (!forecastDate || forecastDate === '') {
               for (let i = 0; i < rawTableData.length; i++) {
@@ -274,7 +274,7 @@ const P5DecisionPage: React.FC = () => {
                 }
               }
             }
-            
+
             // 如果综合价差比还没有找到，尝试从其他行查找
             if (!overallPriceDiffRatio || overallPriceDiffRatio === '') {
               for (let i = 0; i < rawTableData.length; i++) {
@@ -798,7 +798,7 @@ const P5DecisionPage: React.FC = () => {
               <div className="strategy-layout-grid">
                 {/* 左侧策略卡片 */}
                 <div className="strategy-direction-card">
-                  <div className="strategy-direction-title" style={{ color: 'white' }}>
+                  <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction === '做多' ? 'text-long' : 'text-short'}`}>
                     {analysis.trading_recommendation.recommended_direction}
                   </div>
                   <div className="strategy-direction-subtitle">建议交易方向</div>

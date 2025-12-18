@@ -123,7 +123,7 @@ const C3_14dDecisionPage: React.FC = () => {
                     const record = result.data.records[0]
                     const rawTableData = record.contracts?.raw_table_data?.data || record.raw_data?.contracts?.raw_table_data?.data
                     const c3_14dAnalysis = record.contracts?.c3_14d_analysis || record.raw_data?.contracts?.c3_14d_analysis
-                    
+
                     console.log('API 响应数据:', {
                         hasRawTableData: !!rawTableData,
                         rawTableDataLength: rawTableData?.length,
@@ -259,9 +259,9 @@ const C3_14dDecisionPage: React.FC = () => {
                             const row = rawTableData[i]
                             if (Array.isArray(row) && row.length > 0) {
                                 // 支持多种标题格式
-                                if ((row[0] === 'C3二周后预测模型评价' || 
-                                     row[0] === 'C5TC二周后预测模型评价' || 
-                                     String(row[0] || '').includes('二周后预测模型评价')) && i + 1 < rawTableData.length) {
+                                if ((row[0] === 'C3二周后预测模型评价' ||
+                                    row[0] === 'C5TC二周后预测模型评价' ||
+                                    String(row[0] || '').includes('二周后预测模型评价')) && i + 1 < rawTableData.length) {
                                     const dataRow = rawTableData[i + 1]
                                     if (Array.isArray(dataRow) && dataRow.length >= 6) {
                                         modelEvalDate = String(dataRow[0] || '')
@@ -454,7 +454,7 @@ const C3_14dDecisionPage: React.FC = () => {
                             <div className="strategy-layout-grid">
                                 {/* 左侧：方向卡片 */}
                                 <div className="strategy-direction-card">
-                                    <div className="strategy-direction-title" style={{ color: 'white' }}>
+                                    <div className={`strategy-direction-title ${analysis.trading_recommendation.recommended_direction === '做多' ? 'text-long' : 'text-short'}`}>
                                         {analysis.trading_recommendation.recommended_direction}
                                     </div>
                                     <div className="strategy-direction-subtitle">建议交易方向</div>
