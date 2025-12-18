@@ -93,6 +93,13 @@
   backdrop-filter: blur(8px);
 }
 
+[data-theme='light'] .decision-page-tabs {
+  background: rgba(241, 245, 249, 0.8);
+  /* 浅灰色背景 */
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  /* 浅灰色边框 */
+}
+
 .decision-page-tab {
   flex: 1;
   padding: 10px 20px;
@@ -107,6 +114,9 @@
   transition: all 0.3s ease;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .decision-page-tab:hover {
@@ -118,6 +128,26 @@
   background: linear-gradient(135deg, #2e56a3, #234489);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 白天主题下的主标签样式 */
+[data-theme='light'] .decision-page-tab {
+  color: #64748b;
+  /* Slate 500 - 更深的文字颜色 */
+}
+
+[data-theme='light'] .decision-page-tab:hover {
+  background: rgba(241, 245, 249, 0.6);
+  color: #334155;
+  /* Slate 700 - 悬停时更深的颜色 */
+}
+
+[data-theme='light'] .decision-page-tab.active {
+  background: linear-gradient(135deg, #1e40af, #1e3a8a);
+  /* 深蓝色渐变 */
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
+  border: 1px solid rgba(30, 64, 175, 0.3);
 }
 
 .decision-page-content {
@@ -138,6 +168,13 @@
   /* Align left */
 }
 
+[data-theme='light'] .decision-page-sub-tabs {
+  background: rgba(241, 245, 249, 0.8);
+  /* 浅灰色背景 */
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  /* 浅灰色边框 */
+}
+
 .decision-page-sub-tab {
   padding: 8px 24px;
   border: none;
@@ -151,6 +188,9 @@
   transition: all 0.3s ease;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .decision-page-sub-tab:hover {
@@ -162,6 +202,26 @@
   background: linear-gradient(135deg, #3d6bc4, #2e56a3);
   color: #ffffff;
   box-shadow: 0 3px 10px rgba(46, 86, 163, 0.2);
+}
+
+/* 白天主题下的子标签样式 */
+[data-theme='light'] .decision-page-sub-tab {
+  color: #64748b;
+  /* Slate 500 - 更深的文字颜色 */
+}
+
+[data-theme='light'] .decision-page-sub-tab:hover {
+  background: rgba(241, 245, 249, 0.6);
+  color: #334155;
+  /* Slate 700 - 悬停时更深的颜色 */
+}
+
+[data-theme='light'] .decision-page-sub-tab.active {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  /* 深蓝色渐变 */
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+  border: 1px solid rgba(37, 99, 235, 0.3);
 }
 
 /* 隐藏子页面的返回按钮、标题和SideMenu */
@@ -283,6 +343,14 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+[data-theme='light'] .decision-page-tab.active {
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  border: 1px solid rgba(30, 64, 175, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
+  text-shadow: none;
+  /* 白天主题下移除文字阴影，保持清晰 */
+}
+
 .decision-page-sub-tab.active {
   background: linear-gradient(135deg, #3d6bc4 0%, #2e56a3 100%);
   box-shadow:
@@ -290,7 +358,27 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+[data-theme='light'] .decision-page-sub-tab.active {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  text-shadow: none;
+  /* 白天主题下移除文字阴影和内部高光，保持清晰 */
+}
+
 .decision-page-bg-mask {
   background: linear-gradient(180deg, rgba(5, 11, 20, 0.92) 0%, rgba(5, 11, 20, 0.88) 50%, rgba(5, 11, 20, 0.82) 100%);
   /* Slightly more opaque for better text contrast */
+}
+
+/* 白天主题下优化返回按钮 */
+[data-theme='light'] .decision-page-back-button {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #334155;
+}
+
+[data-theme='light'] .decision-page-back-button:hover {
+  background: rgba(241, 245, 249, 0.9);
+  border-color: rgba(148, 163, 184, 0.3);
 }

@@ -843,7 +843,7 @@ const P5DecisionPage: React.FC = () => {
               {/* 正收益和负收益部分 - 使用新的网格布局 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
                 {/* 正收益 */}
-                <div style={{
+                <div className="p5-returns-container p5-returns-positive" style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   borderRadius: '16px',
                   padding: '20px',
@@ -875,12 +875,12 @@ const P5DecisionPage: React.FC = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {/* 分布情况 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>分布情况</p>
+                      <p className="p5-returns-section-title">分布情况</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {Object.entries(analysis.positive_returns.distribution).map(([range, value]) => (
-                          <div key={range} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                            <span style={{ color: 'rgba(255,255,255,0.8)' }}>{range}</span>
-                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{value}%</span>
+                          <div key={range} className="p5-returns-row">
+                            <span className="p5-returns-label">{range}</span>
+                            <span className="p5-returns-value">{value}%</span>
                           </div>
                         ))}
                       </div>
@@ -888,23 +888,23 @@ const P5DecisionPage: React.FC = () => {
 
                     {/* 收益统计 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>收益统计</p>
+                      <p className="p5-returns-section-title">收益统计</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">最大正收益平均值</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.max_positive_returns_average || analysis.positive_returns.statistics.max_positive_returns_average}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益最大值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">最大正收益最大值</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.max_positive_returns_maximum || analysis.positive_returns.statistics.max_positive_returns_maximum}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>最大正收益出现时间平均值</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">最大正收益出现时间平均值</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.max_positive_returns_avg_time || analysis.positive_returns.statistics.max_positive_returns_avg_time}天
                           </span>
                         </div>
@@ -913,23 +913,23 @@ const P5DecisionPage: React.FC = () => {
 
                     {/* 时间分布 */}
                     <div>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>最大正收益平均出现天数</p>
+                      <p className="p5-returns-section-title">最大正收益平均出现天数</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>0~14天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">0~14天内</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.timing_distribution['0-14_days'] || analysis.positive_returns.timing_distribution['0-14_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>15~28天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">15~28天内</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.timing_distribution['15-28_days'] || analysis.positive_returns.timing_distribution['15-28_days']}%
                           </span>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                          <span style={{ color: 'rgba(255,255,255,0.8)' }}>29~42天内</span>
-                          <span style={{ color: '#fff', fontWeight: 'bold' }}>
+                        <div className="p5-returns-row">
+                          <span className="p5-returns-label">29~42天内</span>
+                          <span className="p5-returns-value">
                             {correctedStats?.timing_distribution['29-42_days'] || analysis.positive_returns.timing_distribution['29-42_days']}%
                           </span>
                         </div>
@@ -939,7 +939,7 @@ const P5DecisionPage: React.FC = () => {
                 </div>
 
                 {/* 负收益 */}
-                <div style={{
+                <div className="p5-returns-container p5-returns-negative" style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   borderRadius: '16px',
                   padding: '20px',
@@ -1138,35 +1138,19 @@ const P5DecisionPage: React.FC = () => {
               </div>
 
               {/* 评价表格 */}
-              <div style={{
-                background: 'rgba(0, 0, 0, 0.2)',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                border: '1px solid rgba(255, 255, 255, 0.05)'
-              }}>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                  padding: '12px 16px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
-                }}>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>区间</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史判断正确率</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测实际值/元每吨</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>历史预测拟合值/元每吨</div>
+              <div className="p5-model-evaluation-table">
+                <div className="p5-model-evaluation-table-header">
+                  <div className="p5-model-evaluation-table-header-cell">区间</div>
+                  <div className="p5-model-evaluation-table-header-cell">历史判断正确率</div>
+                  <div className="p5-model-evaluation-table-header-cell">历史预测实际值/元每吨</div>
+                  <div className="p5-model-evaluation-table-header-cell">历史预测拟合值/元每吨</div>
                 </div>
                 {analysis.model_evaluation.evaluation_ranges.map((range, index) => (
-                  <div key={index} style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                    padding: '12px 16px',
-                    borderBottom: index < analysis.model_evaluation.evaluation_ranges.length - 1 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
-                  }}>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.range}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_accuracy_rate.toFixed(2)}%</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_actual_value.toLocaleString()}</div>
-                    <div style={{ fontSize: '13px', color: '#fff' }}>{range.historical_fit_value.toLocaleString()}</div>
+                  <div key={index} className="p5-model-evaluation-table-row">
+                    <div className="p5-model-evaluation-table-cell">{range.range}</div>
+                    <div className="p5-model-evaluation-table-cell">{range.historical_accuracy_rate.toFixed(2)}%</div>
+                    <div className="p5-model-evaluation-table-cell">{range.historical_actual_value.toLocaleString()}</div>
+                    <div className="p5-model-evaluation-table-cell">{range.historical_fit_value.toLocaleString()}</div>
                   </div>
                 ))}
               </div>

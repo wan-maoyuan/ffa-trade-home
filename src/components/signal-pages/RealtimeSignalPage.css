@@ -169,6 +169,12 @@
   box-shadow: 0 0 10px rgba(100, 243, 140, 0.4);
 }
 
+[data-theme='light'] .realtime-signal-main-tab.active::after {
+  background: #10b981;
+  /* 使用更深的绿色在白天主题下更清晰 */
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
 /* 单边子标签切换 */
 .realtime-signal-sub-tabs {
   display: inline-flex;
@@ -214,6 +220,33 @@
   border: var(--glass-border);
 }
 
+/* 白天主题下的子标签样式优化 */
+[data-theme='light'] .realtime-signal-sub-tabs {
+  background: rgba(241, 245, 249, 0.8);
+  /* 浅灰色背景 */
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  /* 浅灰色边框 */
+}
+
+[data-theme='light'] .realtime-signal-sub-tab {
+  color: #64748b;
+  /* Slate 500 - 更深的文字颜色 */
+}
+
+[data-theme='light'] .realtime-signal-sub-tab:hover {
+  color: #334155;
+  /* Slate 700 - 悬停时更深的颜色 */
+}
+
+[data-theme='light'] .realtime-signal-sub-tab.active {
+  background: #ffffff;
+  /* 白色背景 */
+  color: #1e40af;
+  /* 深蓝色文字 */
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.15);
+  border: 1px solid rgba(30, 64, 175, 0.2);
+}
+
 .realtime-signal-page-content {
   position: relative;
   width: 100%;
@@ -231,6 +264,11 @@
   padding: 20px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 8px;
+}
+
+[data-theme='light'] .realtime-signal-contract-selector {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  /* 浅灰色分隔线 */
 }
 
 .realtime-signal-contract-tags {
@@ -433,6 +471,12 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+[data-theme='light'] .realtime-signal-trade-info-table-header {
+  background: #f8fafc;
+  /* 浅灰色背景 */
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
 .realtime-signal-trade-info-table-header-cell {
   font-family: 'DengXian', sans-serif;
   font-weight: bold;
@@ -480,6 +524,11 @@
   flex-direction: row;
   background-color: transparent;
   width: 100%;
+}
+
+[data-theme='light'] .realtime-signal-trade-info-table-row:hover {
+  background-color: rgba(241, 245, 249, 0.5);
+  /* 悬停时的浅灰色背景 */
 }
 
 .realtime-signal-trade-info-table-cell {
@@ -789,6 +838,21 @@
   opacity: 0.6;
 }
 
+[data-theme='light'] .realtime-signal-opportunity-summary {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+[data-theme='light'] .realtime-signal-opportunity-summary::before {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 50%, #3b82f6 100%);
+  opacity: 0.8;
+}
+
+[data-theme='light'] .realtime-signal-opportunity-summary:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0px 8px 24px rgba(59, 130, 246, 0.1), 0px 4px 12px rgba(0, 0, 0, 0.06);
+}
+
 .realtime-signal-opportunity-summary:hover {
   box-shadow:
     0px 12px 40px rgba(46, 86, 163, 0.15),
@@ -876,6 +940,10 @@
   gap: 16px;
 }
 
+[data-theme='light'] .realtime-signal-opportunity-header {
+  border-bottom: 2px solid rgba(148, 163, 184, 0.2);
+}
+
 /* ... existing code ... */
 
 /* Same fix for Opportunity Table Direction Tags */
@@ -920,6 +988,12 @@
   text-shadow: 0 0 12px rgba(79, 195, 247, 0.3);
 }
 
+[data-theme='light'] .realtime-signal-opportunity-table-cell-ratio {
+  color: #0284c7;
+  /* 更深的蓝色在白天主题下更清晰 */
+  text-shadow: none;
+}
+
 .realtime-signal-opportunity-table-cell-ratio::before {
   display: none;
 }
@@ -962,11 +1036,21 @@
   backdrop-filter: blur(8px);
 }
 
+[data-theme='light'] .realtime-signal-opportunity-table {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
 .realtime-signal-opportunity-table-header {
   display: flex;
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0;
+}
+
+[data-theme='light'] .realtime-signal-opportunity-table-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .realtime-signal-opportunity-table-header-cell {
@@ -995,6 +1079,14 @@
 .realtime-signal-opportunity-table-row:hover {
   background: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
+}
+
+[data-theme='light'] .realtime-signal-opportunity-table-row {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+[data-theme='light'] .realtime-signal-opportunity-table-row:hover {
+  background: rgba(241, 245, 249, 0.8);
 }
 
 .realtime-signal-opportunity-table-cell {
@@ -1072,6 +1164,17 @@
   border-radius: 8px;
   border: 1px solid rgba(46, 86, 163, 0.15);
   white-space: nowrap;
+}
+
+[data-theme='light'] .realtime-signal-opportunity-section-header {
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+[data-theme='light'] .realtime-signal-opportunity-section-date {
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 /* 响应式设计 - 交易机会汇总 */
@@ -1217,6 +1320,16 @@
   backdrop-filter: blur(8px);
 }
 
+[data-theme='light'] .realtime-signal-bilateral-summary {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+[data-theme='light'] .realtime-signal-bilateral-summary:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0px 8px 24px rgba(59, 130, 246, 0.1), 0px 4px 12px rgba(0, 0, 0, 0.06);
+}
+
 .realtime-signal-bilateral-summary::before {
   content: '';
   position: absolute;
@@ -1335,6 +1448,11 @@
   position: relative;
 }
 
+[data-theme='light'] .realtime-signal-bilateral-section-header {
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
 .realtime-signal-bilateral-section-header::before {
   content: '';
   position: absolute;
@@ -1370,6 +1488,12 @@
   white-space: nowrap;
 }
 
+[data-theme='light'] .realtime-signal-bilateral-section-date {
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
 .realtime-signal-bilateral-table-container {
   width: 100%;
   overflow-x: auto;
@@ -1388,12 +1512,22 @@
   backdrop-filter: blur(8px);
 }
 
+[data-theme='light'] .realtime-signal-bilateral-table {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
 .realtime-signal-bilateral-table-header {
   display: flex;
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: none;
   position: relative;
+}
+
+[data-theme='light'] .realtime-signal-bilateral-table-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .realtime-signal-bilateral-table-header::after {
@@ -1442,6 +1576,15 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1;
+}
+
+[data-theme='light'] .realtime-signal-bilateral-table-row {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+[data-theme='light'] .realtime-signal-bilateral-table-row:hover {
+  background: rgba(241, 245, 249, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .realtime-signal-bilateral-table-cell {
@@ -1532,6 +1675,12 @@
   font-family: 'Roboto', sans-serif;
   position: relative;
   text-shadow: 0 0 12px rgba(79, 195, 247, 0.3);
+}
+
+[data-theme='light'] .realtime-signal-bilateral-table-cell-ratio {
+  color: #0284c7;
+  /* 更深的蓝色在白天主题下更清晰 */
+  text-shadow: none;
 }
 
 .realtime-signal-bilateral-table-cell-ratio::before {

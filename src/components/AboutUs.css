@@ -599,8 +599,8 @@
 }
 
 [data-theme='light'] .derivatives-diagram-image {
-  filter: brightness(0.95) contrast(1.2);
-  /* Enhance contrast for better visibility of lines in light mode */
+  filter: brightness(0.75) contrast(1.5) saturate(1.1);
+  /* 增强对比度和降低亮度，使连线在白天主题下更清晰可见 */
 }
 
 .derivatives-flow-wrapper {
