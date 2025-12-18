@@ -23,9 +23,11 @@
 
 [data-theme='light'] .hero-overlay {
   background: linear-gradient(105deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(240, 245, 255, 0.8) 45%,
-      rgba(220, 230, 255, 0.3) 100%);
+      rgba(247, 247, 245, 0.88) 0%,
+      rgba(240, 240, 237, 0.72) 45%,
+      rgba(235, 235, 232, 0.35) 100%);
+  /* 更柔和、偏灰色的渐变，更有质感 */
+  transition: background 0.3s ease;
 }
 
 
@@ -37,6 +39,14 @@
     linear-gradient(to top, var(--bg-primary) 0%, transparent 30%);
   z-index: 1;
   pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+[data-theme='light'] .hero-gradient {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(180, 160, 140, 0.03), transparent 40%),
+    linear-gradient(to top, rgba(247, 247, 245, 0.75) 0%, transparent 30%);
+  /* 柔和的暖灰色调渐变，更有质感 */
 }
 
 /* Content */
@@ -66,6 +76,16 @@
   opacity: 0;
   animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
   text-shadow: 0 0 20px rgba(246, 211, 101, 0.3);
+  transition: all 0.3s ease;
+}
+
+[data-theme='light'] .hero-eyebrow {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%);
+  /* 橙色渐变 - 更醒目 */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
 }
 
 .hero-title {
@@ -85,7 +105,9 @@
 
 [data-theme='light'] .hero-title {
   text-shadow: none;
-  color: #0f172a;
+  color: #1e293b;
+  /* Slate 800 - 更深一点，更易读 */
+  transition: color 0.3s ease;
 }
 
 .hero-subtitle {
@@ -101,8 +123,10 @@
 }
 
 [data-theme='light'] .hero-subtitle {
-  color: #334155;
+  color: #475569;
+  /* Slate 600 - 更好的对比度 */
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .hero-description {
@@ -117,8 +141,11 @@
 }
 
 [data-theme='light'] .hero-description {
-  color: #475569;
-  font-weight: 500;
+  color: #64748b;
+  /* Slate 500 - 保持层次感 */
+  font-weight: 400;
+  line-height: 1.85;
+  transition: color 0.3s ease;
 }
 
 /* Actions */
@@ -155,6 +182,14 @@
   /* This is dark text on gold button, probably fine in light mode too */
   box-shadow: 0 8px 20px rgba(243, 185, 120, 0.25);
   border: none;
+  transition: all 0.3s ease;
+}
+
+[data-theme='light'] .hero-button-primary {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%);
+  /* 橙色渐变 - 更醒目 */
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(234, 88, 12, 0.25);
 }
 
 .hero-button-primary::before {
@@ -174,6 +209,12 @@
   box-shadow: 0 15px 35px rgba(243, 185, 120, 0.4);
 }
 
+[data-theme='light'] .hero-button-primary:hover {
+  box-shadow: 0 15px 35px rgba(234, 88, 12, 0.35);
+  background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f97316 100%);
+  /* 悬停时稍微更深的橙色 */
+}
+
 .hero-button-primary:hover::before {
   opacity: 1;
 }
@@ -184,6 +225,14 @@
   color: var(--text-primary);
   backdrop-filter: var(--glass-backdrop);
   -webkit-backdrop-filter: var(--glass-backdrop);
+  transition: all 0.3s ease;
+}
+
+[data-theme='light'] .hero-button-secondary {
+  background: #fcfcfb;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #1a1a18;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .hero-button-secondary:hover {
@@ -193,7 +242,9 @@
 }
 
 [data-theme='light'] .hero-button-secondary:hover {
-  border-color: rgba(0, 0, 0, 0.2);
+  background: #f7f7f5;
+  border-color: rgba(30, 41, 59, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* Animations */
@@ -210,6 +261,14 @@
 }
 
 
+
+/* DigitalOceanBackground白天主题优化 */
+[data-theme='light'] .digital-ocean-background {
+  background: radial-gradient(circle at 50% 30%, #f7f7f5 0%, #f0f0ed 60%, #ebebe8 100%) !important;
+  /* 浅色渐变背景，提供更好的对比度 */
+  opacity: 1;
+  /* 保持完全不透明，让粒子动画更清晰可见 */
+}
 
 /* Responsive */
 @media (max-width: 1024px) {

@@ -19,9 +19,9 @@
 }
 
 [data-theme='light'] .chart-container-card {
-    background: #ffffff;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: #fcfcfb;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .chart-header {
@@ -70,7 +70,7 @@
 }
 
 .legend-item .dot.actual {
-    background-color: #ffffff;
+    background-color: #fefefe;
     transition: background-color 0.3s ease;
 }
 
@@ -102,9 +102,9 @@
 }
 
 [data-theme='light'] .custom-tooltip {
-    background: #ffffff;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fcfcfb;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .tooltip-date {
