@@ -54,7 +54,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--bg-card-hover);
+  background: var(--glass-bg);
   /* Glass style */
   border: var(--glass-border);
   border-radius: 12px;
@@ -86,7 +86,7 @@
 .decision-page-tabs {
   display: flex;
   gap: 8px;
-  background: var(--bg-card);
+  background: var(--glass-bg);
   padding: 6px;
   border-radius: 12px;
   border: var(--glass-border);
@@ -129,7 +129,7 @@
 .decision-page-sub-tabs {
   display: flex;
   gap: 8px;
-  background: var(--bg-card);
+  background: var(--glass-bg);
   padding: 6px;
   border-radius: 10px;
   border: var(--glass-border);

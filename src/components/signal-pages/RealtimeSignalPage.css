@@ -355,8 +355,8 @@
 }
 
 .realtime-signal-value-card {
-  background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
+  background: var(--glass-bg);
+  /* Adaptive glass */
   border-radius: 12px;
   padding: 24px 32px;
   display: flex;
@@ -412,8 +412,8 @@
 }
 
 .realtime-signal-trade-info-table {
-  background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
+  background: var(--glass-bg);
+  /* Adaptive glass */
   border-radius: 12px;
   width: 100%;
   box-shadow: var(--glass-shadow);
@@ -427,8 +427,8 @@
 .realtime-signal-trade-info-table-header {
   display: flex;
   flex-direction: row;
-  background: rgba(46, 86, 163, 0.2);
-  /* Dark blue tint */
+  background: var(--bg-card-hover);
+  /* Adaptive tint */
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -765,8 +765,8 @@
   margin-top: 24px;
   /* Reduced margin */
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  /* Dark glass */
+  background: var(--glass-bg);
+  /* Adaptive glass */
   border-radius: 18px;
   padding: 24px 28px;
   /* Reduced padding */
