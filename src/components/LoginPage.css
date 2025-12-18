@@ -121,6 +121,33 @@
     color: rgba(255, 255, 255, 0.4);
 }
 
+.password-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: rgba(246, 211, 101, 0.1);
+    border: 1px solid rgba(246, 211, 101, 0.2);
+    border-radius: 6px;
+    font-size: 12px;
+    color: rgba(246, 211, 101, 0.9);
+}
+
+.hint-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.hint-text {
+    line-height: 1.4;
+}
+
+.hint-text strong {
+    color: #f6d365;
+    font-weight: 600;
+}
+
 .form-actions {
     display: flex;
     justify-content: space-between;
@@ -187,10 +214,188 @@
     text-decoration: underline;
 }
 
+/* 忘记密码模态框样式 */
+.forgot-password-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.forgot-password-modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 0;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.6);
+    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow: hidden;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.forgot-password-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.forgot-password-modal-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.forgot-password-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.forgot-password-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.forgot-password-modal-body {
+    padding: 24px;
+}
+
+.forgot-password-modal-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contact-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+.contact-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    word-break: break-all;
+}
+
+.contact-value:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+.contact-value-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.contact-separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+}
+
+.forgot-password-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgot-password-modal-button {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #2e56a3 0%, #4a6fa5 100%);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(46, 86, 163, 0.3);
+}
+
+.forgot-password-modal-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(46, 86, 163, 0.4);
+    background: linear-gradient(135deg, #3561b5 0%, #5b80b8 100%);
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .login-container {
         padding: 30px 20px;
         max-width: 90%;
+    }
+
+    .forgot-password-modal-content {
+        max-width: 90%;
+        margin: 20px;
+    }
+
+    .forgot-password-modal-header,
+    .forgot-password-modal-body,
+    .forgot-password-modal-footer {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }

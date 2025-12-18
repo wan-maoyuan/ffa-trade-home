@@ -13,6 +13,7 @@ const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -87,6 +88,15 @@ const LoginPage: React.FC = () => {
         setUsername('')
     }
 
+    const handleForgotPassword = (e: React.MouseEvent) => {
+        e.preventDefault()
+        setShowForgotPasswordModal(true)
+    }
+
+    const closeForgotPasswordModal = () => {
+        setShowForgotPasswordModal(false)
+    }
+
     return (
         <div className="login-page">
             <DigitalOceanBackground />
@@ -139,6 +149,12 @@ const LoginPage: React.FC = () => {
                             placeholder="请输入您的密码"
                             required
                         />
+                        {!isRegistering && (
+                            <div className="password-hint">
+                                <span className="hint-icon">💡</span>
+                                <span className="hint-text">提示：您可以尝试使用默认密码 <strong>123456</strong></span>
+                            </div>
+                        )}
                     </div>
 
                     {!isRegistering && (
@@ -147,7 +163,7 @@ const LoginPage: React.FC = () => {
                                 <input type="checkbox" id="remember" />
                                 <label htmlFor="remember">记住我</label>
                             </div>
-                            <a href="#" className="forgot-password">忘记密码？</a>
+                            <a href="#" className="forgot-password" onClick={handleForgotPassword}>忘记密码？</a>
                         </div>
                     )}
 
@@ -167,6 +183,42 @@ const LoginPage: React.FC = () => {
                     </p>
                 </div>
             </div>
+
+            {/* 忘记密码模态框 */}
+            {showForgotPasswordModal && (
+                <div className="forgot-password-modal-overlay" onClick={closeForgotPasswordModal}>
+                    <div className="forgot-password-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="forgot-password-modal-header">
+                            <h3 className="forgot-password-modal-title">重置密码</h3>
+                            <button className="forgot-password-modal-close" onClick={closeForgotPasswordModal}>×</button>
+                        </div>
+                        <div className="forgot-password-modal-body">
+                            <p className="forgot-password-modal-text">如需重置密码，请联系以下方式：</p>
+                            <div className="contact-info">
+                                <div className="contact-item">
+                                    <span className="contact-label">邮箱：</span>
+                                    <a href="mailto:service@aquabridge.ai" className="contact-value">service@aquabridge.ai</a>
+                                </div>
+                                <div className="contact-item">
+                                    <span className="contact-label">Shane Lee：</span>
+                                    <a href="tel:+8615152627161" className="contact-value">+86 15152627161</a>
+                                </div>
+                                <div className="contact-item">
+                                    <span className="contact-label">Terry Zhao：</span>
+                                    <div className="contact-value-group">
+                                        <a href="tel:+8613601055560" className="contact-value">+86 1360105560</a>
+                                        <span className="contact-separator">/</span>
+                                        <a href="tel:+6587312888" className="contact-value">+65 87312888</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="forgot-password-modal-footer">
+                            <button className="forgot-password-modal-button" onClick={closeForgotPasswordModal}>关闭</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
