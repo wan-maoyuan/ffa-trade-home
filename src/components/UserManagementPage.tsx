@@ -136,7 +136,7 @@ const UserManagementPage: React.FC = () => {
                     user_id: editingUser.user_id,
                     username: formData.username,
                     email: formData.email,
-                    password: '123456', // Include password as per user request example, though usually not needed for update unless changing
+                    // 不包含 password 字段，避免修改权限时自动更新密码
                     company_name: formData.company_name,
                     remarks: formData.remarks,
                     permission: formData.permission,
