@@ -8,6 +8,7 @@ import {
     Tooltip,
     ResponsiveContainer
 } from 'recharts'
+import { useTheme } from '../../context/ThemeContext'
 import './P5HistoricalForecastPage.css'
 
 interface ForecastData {
@@ -28,9 +29,36 @@ interface ApiResponse {
 }
 
 const P6HistoricalForecastPage: React.FC = () => {
+    const { theme } = useTheme()
     const [data, setData] = useState<ForecastData[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+
+    // 主题颜色配置
+    const chartColors = {
+        dark: {
+            grid: 'rgba(255, 255, 255, 0.1)',
+            axisStroke: 'rgba(255, 255, 255, 0.5)',
+            axisTick: 'rgba(255, 255, 255, 0.5)',
+            axisLine: 'rgba(255, 255, 255, 0.1)',
+            cursor: 'rgba(255, 255, 255, 0.2)',
+            actualPrice: '#ffffff',
+            forecast42d: '#3b82f6',
+            forecast14d: '#10b981',
+        },
+        light: {
+            grid: 'rgba(0, 0, 0, 0.08)',
+            axisStroke: 'rgba(71, 85, 105, 0.8)',
+            axisTick: 'rgba(71, 85, 105, 0.8)',
+            axisLine: 'rgba(148, 163, 184, 0.3)',
+            cursor: 'rgba(0, 0, 0, 0.1)',
+            actualPrice: '#1e293b',
+            forecast42d: '#2563eb',
+            forecast14d: '#16a34a',
+        }
+    }
+
+    const colors = chartColors[theme]
 
     useEffect(() => {
         const fetchData = async () => {
@@ -125,51 +153,51 @@ const P6HistoricalForecastPage: React.FC = () => {
                                         bottom: 10,
                                     }}
                                 >
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" vertical={false} />
+                                    <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} vertical={false} />
                                     <XAxis
                                         dataKey="date"
-                                        stroke="rgba(255, 255, 255, 0.5)"
-                                        tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
+                                        stroke={colors.axisStroke}
+                                        tick={{ fill: colors.axisTick, fontSize: 12 }}
                                         tickLine={false}
-                                        axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+                                        axisLine={{ stroke: colors.axisLine }}
                                         minTickGap={30}
                                     />
                                     <YAxis
-                                        stroke="rgba(255, 255, 255, 0.5)"
-                                        tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
+                                        stroke={colors.axisStroke}
+                                        tick={{ fill: colors.axisTick, fontSize: 12 }}
                                         tickLine={false}
                                         axisLine={false}
                                         domain={['auto', 'auto']}
                                     />
-                                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(255, 255, 255, 0.2)', strokeWidth: 1 }} />
+                                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: colors.cursor, strokeWidth: 1 }} />
                                     <Line
                                         type="monotone"
                                         dataKey="actual_price"
                                         name="现货价格"
-                                        stroke="#ffffff"
+                                        stroke={colors.actualPrice}
                                         strokeWidth={2}
                                         dot={false}
-                                        activeDot={{ r: 6, fill: '#ffffff' }}
+                                        activeDot={{ r: 6, fill: colors.actualPrice }}
                                         connectNulls
                                     />
                                     <Line
                                         type="monotone"
                                         dataKey="forecast_42d"
                                         name="42天前预测价"
-                                        stroke="#3b82f6"
+                                        stroke={colors.forecast42d}
                                         strokeWidth={2}
                                         dot={false}
-                                        activeDot={{ r: 6, fill: '#3b82f6' }}
+                                        activeDot={{ r: 6, fill: colors.forecast42d }}
                                         connectNulls
                                     />
                                     <Line
                                         type="monotone"
                                         dataKey="forecast_14d"
                                         name="14天前预测价"
-                                        stroke="#10b981"
+                                        stroke={colors.forecast14d}
                                         strokeWidth={2}
                                         dot={false}
-                                        activeDot={{ r: 6, fill: '#10b981' }}
+                                        activeDot={{ r: 6, fill: colors.forecast14d }}
                                         connectNulls
                                     />
                                 </LineChart>
