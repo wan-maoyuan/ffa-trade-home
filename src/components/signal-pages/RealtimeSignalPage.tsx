@@ -691,16 +691,6 @@ const RealtimeSignalPage: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  className={`realtime-signal-sub-tab ${unilateralTab === 'european' ? 'active' : ''}`}
-                  onClick={() => {
-                    setUnilateralTab('european')
-                    setSignalType('european_line')
-                  }}
-                >
-                  欧线
-                </button>
-                <button
-                  type="button"
                   className={`realtime-signal-sub-tab ${unilateralTab === '14d' ? 'active' : ''}`}
                   onClick={() => setUnilateralTab('14d')}
                 >
@@ -715,12 +705,11 @@ const RealtimeSignalPage: React.FC = () => {
                 </button>
               </div>
 
-              {/* FFA 和 欧线 内容 */}
-              {(unilateralTab === 'ffa' || unilateralTab === 'european') && (
+              {/* FFA 内容 */}
+              {unilateralTab === 'ffa' && (
                 <>
                   {/* 权限检查 */}
-                  {permissionLevel !== 99 && ((unilateralTab === 'ffa' && !permissions.includes('ffa')) ||
-                    (unilateralTab === 'european' && !permissions.includes('欧线'))) ? (
+                  {permissionLevel !== 99 && !permissions.includes('ffa') ? (
                     <div className="realtime-signal-lock-container" style={{ position: 'relative', minHeight: '400px' }}>
                       <LockOverlay />
                     </div>

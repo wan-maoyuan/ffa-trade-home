@@ -11,11 +11,27 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Check localStorage or system preference, default to light
+    // 默认使用夜晚主题，优先使用 HTML 中的 data-theme 属性（已在 index.html 中设置为 'dark'）
     const [theme, setThemeState] = useState<Theme>(() => {
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme) return savedTheme;
-        return 'light';
+        if (typeof window !== 'undefined') {
+            // 优先检查 HTML 元素的 data-theme 属性（这是页面加载时的默认值）
+            const htmlTheme = document.documentElement.getAttribute('data-theme') as Theme;
+            if (htmlTheme === 'dark' || htmlTheme === 'light') {
+                // 如果 HTML 中没有设置或者不是有效的主题值，强制设置为 'dark'
+                if (!htmlTheme) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.classList.add('dark');
+                    return 'dark';
+                }
+                return htmlTheme;
+            }
+            // 如果 HTML 中没有有效的主题值，强制使用 dark 作为默认值
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+            return 'dark';
+        }
+        // SSR 或非浏览器环境，返回 dark
+        return 'dark';
     });
 
     useEffect(() => {
