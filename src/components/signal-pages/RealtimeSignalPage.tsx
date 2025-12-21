@@ -4,6 +4,7 @@ import SideMenu from '../SideMenu'
 import strategyBackground from '../../assets/images/strategy-background.jpeg'
 import LockOverlay from '../LockOverlay'
 import './RealtimeSignalPage.css'
+import HistoricalForecastChart from './HistoricalForecastChart'
 
 // FFA信号数据结构
 interface FFAContractData {
@@ -139,7 +140,7 @@ const RealtimeSignalPage: React.FC = () => {
         })
 
         const data = await response.json()
-        
+
         // 处理 token 过期的情况
         if (data.code === 4002) {
           // 清除本地存储的认证信息
@@ -818,6 +819,9 @@ const RealtimeSignalPage: React.FC = () => {
                                 </div>
                               </div>
                             </div>
+
+                            {/* 历史预测数据对比图表 */}
+                            <HistoricalForecastChart contractName={selectedContract} />
                           </>
                         ) : (
                           <div className="realtime-signal-error">
