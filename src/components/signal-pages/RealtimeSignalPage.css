@@ -1914,3 +1914,111 @@
     padding: 5px 10px;
   }
 }
+
+/* Date Controls */
+.historical-chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.date-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .date-picker-group {
+  background: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.glass-date-input {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'DengXian', sans-serif;
+  font-size: 12px;
+  outline: none;
+  width: 105px;
+}
+
+[data-theme='light'] .glass-date-input {
+  color: var(--text-primary);
+}
+
+.date-separator {
+  color: var(--text-secondary);
+}
+
+.quick-ranges {
+  display: flex;
+  gap: 4px;
+}
+
+.range-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Roboto', sans-serif;
+}
+
+.range-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.range-btn.active {
+  background: rgba(46, 86, 163, 0.2);
+  border-color: rgba(46, 86, 163, 0.5);
+  color: #60a5fa;
+}
+
+[data-theme='light'] .range-btn {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: var(--text-secondary);
+}
+
+[data-theme='light'] .range-btn:hover {
+  background: #e2e8f0;
+  color: var(--text-primary);
+}
+
+[data-theme='light'] .range-btn.active {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Responsive adjustments for controls */
+@media (max-width: 768px) {
+  .historical-chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .historical-chart-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .date-picker-group {
+    flex: 1;
+  }
+
+  .historical-chart-legend {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

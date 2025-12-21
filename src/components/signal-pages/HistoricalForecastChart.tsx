@@ -83,6 +83,58 @@ const HistoricalForecastChart: React.FC<HistoricalForecastChartProps> = ({ contr
         fetchHistory()
     }, [contractName])
 
+    // Date filtering state
+    const [startDate, setStartDate] = useState<string>('')
+    const [endDate, setEndDate] = useState<string>('')
+    const [filteredData, setFilteredData] = useState<HistoricalData[]>([])
+
+    // Initialize dates when data loads
+    useEffect(() => {
+        if (data.length > 0) {
+            // Default to All
+            setFilteredData(data)
+            // Set inputs to data range for display
+            if (data.length > 0) {
+                // data is sorted ascending
+                setStartDate(data[0].date)
+                setEndDate(data[data.length - 1].date)
+            }
+        }
+    }, [data])
+
+    // Filter data when dates change
+    useEffect(() => {
+        if (data.length === 0 || !startDate || !endDate) return
+
+        const start = new Date(startDate).getTime()
+        const end = new Date(endDate).getTime()
+
+        const filtered = data.filter(item => {
+            const itemDate = new Date(item.date).getTime()
+            return itemDate >= start && itemDate <= end
+        })
+        setFilteredData(filtered)
+    }, [startDate, endDate, data])
+
+    const handleQuickSelect = (months: number | 'all') => {
+        if (data.length === 0) return
+
+        const lastDate = new Date(data[data.length - 1].date)
+        const newEndDate = data[data.length - 1].date
+
+        if (months === 'all') {
+            setStartDate(data[0].date)
+            setEndDate(newEndDate)
+            return
+        }
+
+        const newStartDate = new Date(lastDate)
+        newStartDate.setMonth(lastDate.getMonth() - months)
+
+        setStartDate(newStartDate.toISOString().split('T')[0])
+        setEndDate(newEndDate)
+    }
+
     if (!getApiUrl(contractName)) return null
 
     if (loading) {
@@ -93,7 +145,7 @@ const HistoricalForecastChart: React.FC<HistoricalForecastChartProps> = ({ contr
         )
     }
 
-    // Hide component if no data or error, to avoid ugly empty box
+    // Hide component if no data or error
     if (error || data.length === 0) {
         return null
     }
@@ -101,15 +153,44 @@ const HistoricalForecastChart: React.FC<HistoricalForecastChartProps> = ({ contr
     return (
         <div className="historical-chart-container">
             <div className="historical-chart-header">
-                <span className="historical-chart-title">历史预测数据对比 ({contractName})</span>
+                <div className="historical-chart-title-group">
+                    <span className="historical-chart-title">历史预测数据对比 ({contractName})</span>
+                </div>
+
+                <div className="historical-chart-controls">
+                    <div className="date-picker-group">
+                        <input
+                            type="date"
+                            className="glass-date-input"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            max={endDate}
+                        />
+                        <span className="date-separator">-</span>
+                        <input
+                            type="date"
+                            className="glass-date-input"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            min={startDate}
+                        />
+                    </div>
+                    <div className="quick-ranges">
+                        <button onClick={() => handleQuickSelect(1)} className="range-btn">1M</button>
+                        <button onClick={() => handleQuickSelect(3)} className="range-btn">3M</button>
+                        <button onClick={() => handleQuickSelect(6)} className="range-btn">6M</button>
+                        <button onClick={() => handleQuickSelect('all')} className="range-btn active">All</button>
+                    </div>
+                </div>
+
                 <div className="historical-chart-legend">
-                    <span className="legend-item"><span className="dot spot"></span>实际价格 (Spot)</span>
+                    <span className="legend-item"><span className="dot spot"></span>实际价格</span>
                     <span className="legend-item"><span className="dot forecast"></span>预测价格 (42d)</span>
                 </div>
             </div>
             <div className="historical-chart-content">
                 <ResponsiveContainer width="100%" height={300}>
-                    <ComposedChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                    <ComposedChart data={filteredData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
                         <defs>
                             <linearGradient id="colorDev" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
