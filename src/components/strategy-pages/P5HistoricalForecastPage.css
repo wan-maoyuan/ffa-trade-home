@@ -28,7 +28,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    /* Allow wrapping if absolutely necessary on very small screens, but gap helps */
+    gap: 16px;
 }
 
 .chart-header h3 {
@@ -37,6 +40,10 @@
     font-weight: 500;
     margin: 0;
     transition: color 0.3s ease;
+    white-space: nowrap;
+    /* Prevent title from wrapping awkwardly */
+    margin-right: auto;
+    /* Push everything else to the right */
 }
 
 [data-theme='light'] .chart-header h3 {
@@ -46,16 +53,20 @@
 
 .chart-legend-custom {
     display: flex;
-    gap: 20px;
+    gap: 16px;
+    margin-left: 20px;
+    /* Separation from controls */
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    gap: 6px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.8);
     transition: color 0.3s ease;
+    white-space: nowrap;
+    /* CRITICAL: Prevent legend text wrapping */
 }
 
 [data-theme='light'] .legend-item {
@@ -123,4 +134,90 @@
     margin: 4px 0;
     font-size: 14px;
     font-weight: 500;
+}
+
+/* Date Controls */
+.historical-chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.date-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .date-picker-group {
+    background: #f1f5f9;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.glass-date-input {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: 'DengXian', sans-serif;
+    font-size: 12px;
+    outline: none;
+    width: 105px;
+    cursor: pointer;
+}
+
+[data-theme='light'] .glass-date-input {
+    color: var(--text-primary);
+}
+
+.date-separator {
+    color: var(--text-secondary);
+}
+
+.quick-ranges {
+    display: flex;
+    gap: 4px;
+}
+
+.range-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Roboto', sans-serif;
+    white-space: nowrap;
+}
+
+.range-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.range-btn.active {
+    background: rgba(46, 86, 163, 0.2);
+    border-color: rgba(46, 86, 163, 0.5);
+    color: #60a5fa;
+}
+
+[data-theme='light'] .range-btn {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #64748b;
+}
+
+[data-theme='light'] .range-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+[data-theme='light'] .range-btn.active {
+    background: #eff6ff;
+    border-color: #2563eb;
+    color: #2563eb;
 }

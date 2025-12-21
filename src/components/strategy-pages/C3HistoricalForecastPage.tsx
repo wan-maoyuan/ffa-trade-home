@@ -34,7 +34,10 @@ const C3HistoricalForecastPage: React.FC = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
-    // 主题颜色配置
+    const [filteredData, setFilteredData] = useState<ForecastData[]>([])
+    const [startDate, setStartDate] = useState<string>('')
+    const [endDate, setEndDate] = useState<string>('')
+
     const chartColors = {
         dark: {
             grid: 'rgba(255, 255, 255, 0.1)',
@@ -78,6 +81,11 @@ const C3HistoricalForecastPage: React.FC = () => {
                         new Date(a.date).getTime() - new Date(b.date).getTime()
                     )
                     setData(sortedData)
+                    setFilteredData(sortedData)
+                    if (sortedData.length > 0) {
+                        setStartDate(sortedData[0].date)
+                        setEndDate(sortedData[sortedData.length - 1].date)
+                    }
                 } else {
                     throw new Error('数据格式错误')
                 }
@@ -91,6 +99,38 @@ const C3HistoricalForecastPage: React.FC = () => {
 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        if (data.length === 0 || !startDate || !endDate) return
+
+        const start = new Date(startDate).getTime()
+        const end = new Date(endDate).getTime()
+
+        const filtered = data.filter(item => {
+            const itemDate = new Date(item.date).getTime()
+            return itemDate >= start && itemDate <= end
+        })
+        setFilteredData(filtered)
+    }, [startDate, endDate, data])
+
+    const handleQuickSelect = (months: number | 'all') => {
+        if (data.length === 0) return
+
+        const lastDate = new Date(data[data.length - 1].date)
+        const newEndDate = data[data.length - 1].date
+
+        if (months === 'all') {
+            setStartDate(data[0].date)
+            setEndDate(newEndDate)
+            return
+        }
+
+        const newStartDate = new Date(lastDate)
+        newStartDate.setMonth(lastDate.getMonth() - months)
+
+        setStartDate(newStartDate.toISOString().split('T')[0])
+        setEndDate(newEndDate)
+    }
 
     const CustomTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
@@ -126,6 +166,33 @@ const C3HistoricalForecastPage: React.FC = () => {
                     <div className="strategy-content-card chart-container-card">
                         <div className="chart-header">
                             <h3>现货价格 vs 预测价格走势对比</h3>
+
+                            <div className="historical-chart-controls" style={{ marginLeft: 'auto', marginRight: '20px' }}>
+                                <div className="date-picker-group">
+                                    <input
+                                        type="date"
+                                        className="glass-date-input"
+                                        value={startDate}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                        max={endDate}
+                                    />
+                                    <span className="date-separator">-</span>
+                                    <input
+                                        type="date"
+                                        className="glass-date-input"
+                                        value={endDate}
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                        min={startDate}
+                                    />
+                                </div>
+                                <div className="quick-ranges">
+                                    <button onClick={() => handleQuickSelect(1)} className="range-btn">1M</button>
+                                    <button onClick={() => handleQuickSelect(3)} className="range-btn">3M</button>
+                                    <button onClick={() => handleQuickSelect(6)} className="range-btn">6M</button>
+                                    <button onClick={() => handleQuickSelect('all')} className="range-btn active">All</button>
+                                </div>
+                            </div>
+
                             <div className="chart-legend-custom">
                                 <div className="legend-item">
                                     <span className="dot actual"></span>
@@ -145,7 +212,7 @@ const C3HistoricalForecastPage: React.FC = () => {
                         <div className="chart-wrapper">
                             <ResponsiveContainer width="100%" height={500}>
                                 <LineChart
-                                    data={data}
+                                    data={filteredData}
                                     margin={{
                                         top: 20,
                                         right: 30,
