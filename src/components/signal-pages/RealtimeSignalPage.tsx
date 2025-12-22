@@ -295,27 +295,64 @@ const RealtimeSignalPage: React.FC = () => {
 
         if (result.code === 200 && result.data.records && result.data.records.length > 0) {
           const record = result.data.records[0]
-          const analysis = record.contracts?.trading_opportunity_14d_analysis
-
-          if (analysis && analysis.trading_opportunities) {
-            // 过滤掉trading_direction和profit_loss_ratio都为null的项
-            const validOpportunities = analysis.trading_opportunities.filter(
-              (item: TradingOpportunity14d) =>
-                item.trading_direction !== null || item.profit_loss_ratio !== null
-            )
-
-            setTradingOpportunity14d({
-              date: result.data.date || record.swap_date || '',
-              trading_opportunities: validOpportunities.length > 0
-                ? validOpportunities
-                : analysis.trading_opportunities // 如果都过滤掉了，使用原始数据
-            })
+          const contracts = record.contracts || {}
+          
+          let tradingOpportunities: TradingOpportunity14d[] = []
+          
+          // 优先从 raw_table_data 解析数据
+          const rawTableData = contracts.raw_table_data
+          if (rawTableData && rawTableData.data && Array.isArray(rawTableData.data)) {
+            // 解析 raw_table_data.data 二维数组
+            // 格式: [["P5", "做多", "1000"], ["P6", "做多", "1000"], ...]
+            console.log('从 raw_table_data 解析数据，共', rawTableData.data.length, '条记录')
+            tradingOpportunities = rawTableData.data.map((row: any[]) => {
+              if (Array.isArray(row) && row.length >= 3) {
+                return {
+                  project_id: String(row[0] || ''),
+                  trading_direction: String(row[1] || ''),
+                  profit_loss_ratio: String(row[2] || '')
+                }
+              }
+              return null
+            }).filter((item: TradingOpportunity14d | null) => item !== null && item.project_id !== '') as TradingOpportunity14d[]
+            console.log('解析后的交易机会数据:', tradingOpportunities)
           } else {
-            setTradingOpportunity14d({
-              date: result.data.date || record.swap_date || '',
-              trading_opportunities: []
-            })
+            // 回退到原来的逻辑：从 trading_opportunity_14d_analysis 获取
+            console.log('使用 trading_opportunity_14d_analysis 数据')
+            const analysis = contracts.trading_opportunity_14d_analysis
+            if (analysis && analysis.trading_opportunities) {
+              tradingOpportunities = analysis.trading_opportunities.filter(
+                (item: TradingOpportunity14d) => item.project_id != null && item.project_id !== ''
+              )
+            }
           }
+
+          // 按照盈亏比从高到低排序，如果盈亏比为null或无法解析，则排在最后
+          // 这样可以确保重要的数据（有盈亏比的）优先显示
+          const sortedOpportunities = [...tradingOpportunities].sort((a, b) => {
+            const ratioA = a.profit_loss_ratio ? parseFloat(a.profit_loss_ratio) : -1
+            const ratioB = b.profit_loss_ratio ? parseFloat(b.profit_loss_ratio) : -1
+            
+            // 如果两个都有盈亏比，按盈亏比从高到低排序
+            if (ratioA >= 0 && ratioB >= 0) {
+              return ratioB - ratioA
+            }
+            // 如果只有a有盈亏比，a排在前面
+            if (ratioA >= 0 && ratioB < 0) {
+              return -1
+            }
+            // 如果只有b有盈亏比，b排在前面
+            if (ratioA < 0 && ratioB >= 0) {
+              return 1
+            }
+            // 如果都没有盈亏比，保持原顺序
+            return 0
+          })
+
+          setTradingOpportunity14d({
+            date: result.data.date || record.swap_date || '',
+            trading_opportunities: sortedOpportunities
+          })
         } else {
           throw new Error('数据格式错误')
         }
