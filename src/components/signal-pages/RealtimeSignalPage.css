@@ -603,6 +603,14 @@
   }
 }
 
+/* Mobile specific overrides */
+@media (max-width: 768px) {
+  .realtime-signal-bg {
+    position: fixed;
+    /* Fix background on mobile */
+  }
+}
+
 .realtime-signal-error {
   color: rgba(179, 5, 5, 0.87);
 }
@@ -682,8 +690,10 @@
   }
 
   .realtime-signal-page {
-    padding: 22px 16px 28px;
+    padding: 16px 12px 24px;
     gap: 16px;
+    width: 100%;
+    margin: 0;
   }
 
   .realtime-signal-page-content {
@@ -726,7 +736,10 @@
   }
 
   .realtime-signal-trade-info-table {
+    display: block;
+    width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     border-radius: 12px;
   }
 
@@ -765,9 +778,12 @@
   }
 
   .realtime-signal-contract-tag {
-    padding: 7px 12px;
+    padding: 6px 10px;
     font-size: 11px;
-    gap: 6px;
+    gap: 4px;
+    flex: 1 1 auto;
+    /* Allow flexible width */
+    justify-content: center;
   }
 
   .realtime-signal-contract-month {
