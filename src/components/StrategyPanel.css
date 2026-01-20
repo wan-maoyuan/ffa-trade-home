@@ -12,7 +12,11 @@
   gap: 12px;
   /* Reduced gap */
   align-content: start;
-  overflow: hidden;
+  align-content: start;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+  /* Create stacking context */
 }
 
 .strategy-bg {
@@ -274,28 +278,79 @@
 
 @media (max-width: 768px) {
   .strategy-panel {
-    padding: 78px 18px 84px;
-    gap: 32px;
+    /* Switch to flex column for mobile to avoid grid collapse issues */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 16px 84px;
+    /* Ensure top padding clears header */
+    gap: 24px;
+    min-height: 100vh;
+    /* Force full height */
+    position: relative;
+  }
+
+  .strategy-bg {
+    position: fixed;
+    /* Fix background */
+    z-index: -1;
+    /* Ensure it stays behind */
+    height: 100vh;
+    width: 100vw;
   }
 
   .strategy-hero {
-    padding: 30px 22px;
+    /* Ensure hero is visible */
+    position: relative;
+    z-index: 10;
+    padding: 24px 20px;
     text-align: center;
+    background: rgba(16, 24, 39, 0.6);
+    /* Fallback bg if glass fails */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 100%;
+    margin-top: 10px;
   }
 
   .strategy-hero-content {
-    gap: 14px;
+    gap: 12px;
+    color: white;
+    /* Force white text */
+  }
+
+  .strategy-hero-title {
+    font-size: 26px;
+    color: white;
+    background: none;
+    /* Remove gradient text if it causes issues */
+    -webkit-text-fill-color: white;
   }
 
   .strategy-hero-text,
   .strategy-hero-detail {
     font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .strategy-carousel-container {
     max-width: 100%;
-    padding: 22px 18px 46px;
-    border-radius: 24px;
+    padding: 0 0 46px;
+    border-radius: 0;
+    z-index: 10;
+    position: relative;
+    flex: 1;
+    /* Allow to expand */
+    width: 100%;
+  }
+
+  .strategy-swiper {
+    padding-bottom: 20px;
+    padding-left: 10px;
+    /* Slight peek */
+    padding-right: 10px;
   }
 }
 
@@ -321,11 +376,26 @@
 }
 
 @media (max-width: 480px) {
+  .strategy-panel {
+    padding: 64px 12px 60px;
+    /* Tighter padding for mobile */
+  }
+
   .strategy-hero-title {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .strategy-hero-detail {
+    font-size: 12px;
+  }
+
+  .strategy-entry-button {
+    width: 100%;
+    /* Full width button on small screens */
+    padding: 12px 20px;
   }
 
   .strategy-carousel-container {
-    padding: 18px 16px 38px;
+    padding: 0 0 38px;
   }
 }
