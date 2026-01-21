@@ -203,8 +203,10 @@ const C5_42dDecisionPage: React.FC = () => {
               const row = rawTableData[i]
               if (Array.isArray(row) && row.length > 0) {
                 const rowStr = row.join('')
-                if (rowStr.includes('盈亏比') && rowStr.includes('：')) {
-                  const ratioMatch = rowStr.match(/(\d+\.?\d*)：1/)
+                if (rowStr.includes('∞') || rowStr.includes('Infinity') || rowStr.includes('无限')) {
+                  profitLossRatio = Infinity
+                } else {
+                  const ratioMatch = rowStr.match(/(\d+\.?\d*)[：:]1/)
                   if (ratioMatch) {
                     profitLossRatio = parseFloat(ratioMatch[1])
                   }
@@ -758,7 +760,7 @@ const C5_42dDecisionPage: React.FC = () => {
                 <p>{analysis.trading_recommendation.recommended_direction === '做空' ? '做空胜率统计' : '做多胜率统计'}</p>
               </div>
               <div className="strategy-tag">
-                <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1</p>
+                <p>盈亏比：{analysis.trading_recommendation.profit_loss_ratio === Infinity ? '∞' : `${analysis.trading_recommendation.profit_loss_ratio.toFixed(2)}：1`}</p>
               </div>
             </div>
 
